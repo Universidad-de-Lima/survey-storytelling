@@ -1,0 +1,28 @@
+name: Validate survey JSON
+
+on:
+  pull_request:
+    paths:
+      - 'zoho-survey/students/**'
+      - '.github/workflows/validate-survey-json.yml'
+  push:
+    branches:
+      - main
+    paths:
+      - 'zoho-survey/students/**'
+      - '.github/workflows/validate-survey-json.yml'
+
+jobs:
+  validate-json:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Validate undergraduate JSON and HTML contracts
+        run: python zoho-survey/students/scripts/validate_generated_json.py undergraduate
