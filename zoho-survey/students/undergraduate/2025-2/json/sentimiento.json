@@ -1,0 +1,12 @@
+{
+  "resumen": {
+    "total_con_comentario": 0,
+    "total_analizados": 0,
+    "pasivos": 0,
+    "detractores": 0,
+    "nota": "Solo se analizan comentarios de Pasivos (7-8) y Detractores (0-6). Los Promotores (9-10) no responden esta pregunta."
+  },
+  "topicos": [],
+  "por_carrera": [],
+  "por_ciclo": []
+}

@@ -1,0 +1,22 @@
+{
+  "encuestas": 3050,
+  "carreras": 14,
+  "facultades": 7,
+  "fecha_inicio": "2026-05-11",
+  "fecha_fin": "2026-05-19",
+  "dias": 9,
+  "dias_recoleccion": 8,
+  "año": 2026,
+  "nps": {
+    "score": 71.77,
+    "promotores": 2308,
+    "pasivos": 623,
+    "detractores": 119,
+    "total": 3050
+  },
+  "csat": {
+    "score": 97.57,
+    "t3b": 2976,
+    "total": 3050
+  }
+}

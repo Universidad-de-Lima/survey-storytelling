@@ -1,0 +1,72 @@
+{
+  "resumen": {
+    "encuestas": 3050,
+    "carreras": 14,
+    "facultades": 7,
+    "fecha_inicio": "2026-05-11",
+    "fecha_fin": "2026-05-19",
+    "dias": 9,
+    "dias_recoleccion": 8,
+    "año": 2026,
+    "nps": {
+      "score": 71.77,
+      "promotores": 2308,
+      "pasivos": 623,
+      "detractores": 119,
+      "total": 3050
+    },
+    "csat": {
+      "score": 97.57,
+      "t3b": 2976,
+      "total": 3050
+    }
+  },
+  "hallazgos": {
+    "csat_pct": 97,
+    "nps_score": 71,
+    "nps_tipo": "Excelente",
+    "nps_etapas": {
+      "Avanzado": 69.7,
+      "Inicial": 73.74,
+      "Intermedio": 72.66
+    },
+    "tendencia": "disminuye",
+    "delta": 4,
+    "top_dimensiones": [
+      {
+        "name": "Perfil del egreso de la carrera",
+        "score": 96.66
+      },
+      {
+        "name": "Calidad de la formación académica",
+        "score": 96.62
+      }
+    ],
+    "top_facultades": [
+      {
+        "name": "Facultad de Derecho",
+        "score": 98.63
+      },
+      {
+        "name": "Facultad de Ingeniería",
+        "score": 98.36
+      }
+    ]
+  },
+  "nps": {
+    "Promotores": 2308,
+    "Pasivos": 623,
+    "Detractores": 119,
+    "score": 71.77
+  },
+  "csat": {
+    "Totalmente satisfecho": 1314,
+    "Muy satisfecho": 898,
+    "Satisfecho": 764,
+    "Insatisfecho": 63,
+    "Totalmente insatisfecho": 11,
+    "No utilizo": 0,
+    "No conozco": 0,
+    "score": 97.57
+  }
+}

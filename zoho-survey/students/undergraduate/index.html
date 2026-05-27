@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Universidad de Lima - Encuesta de Satisfacción Estudiantil Pregrado</title>
+<link rel="icon" href="../../shared/img/favicon.png" type="image/x-icon">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="../../shared/css/loader.css">
+</head>
+<body>
+<div id="splash">
+  <img
+    src="../../shared/img/logo-vertical.png"
+    alt="Universidad de Lima">
+</div>
+
+<!-- Overlay de carga -->
+<div id="overlay">
+  <div class="overlay-inner">
+    <div class="spinner"></div>
+    <div class="overlay-text" id="overlay-msg">Cargando periodo…</div>
+  </div>
+</div>
+
+<!-- Barra superior -->
+<header id="topbar">
+  <div class="bar-left">
+    <img class="topbar-logo" src="../../shared/img/logo-horizontal.png" alt="Universidad de Lima">
+    <span class="bar-title">Encuesta de Satisfacción Estudiantil</span>
+  </div>
+
+  <!-- Pills (desktop) -->
+  <div class="period-wrapper">
+    <span class="period-label">Período</span>
+    <div class="pills" id="pills-container">
+      <!-- Se generan por JS -->
+    </div>
+  </div>
+
+  <!-- Select (mobile) -->
+  <div class="select-wrap">
+    <select class="period-select" id="period-select" onchange="loadPeriod(this.value)">
+      <!-- Se generan por JS -->
+    </select>
+    <span class="select-arrow">▾</span>
+  </div>
+</header>
+
+<!-- Dashboard iframe -->
+<div id="frame-wrap">
+  <iframe
+    id="dashboard-frame"
+    title="Dashboard de Satisfacción Estudiantil"
+    allowfullscreen
+  ></iframe>
+</div>
+<script src="../../shared/js/loader.js"></script>
+</body>
+</html>
