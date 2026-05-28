@@ -768,10 +768,10 @@
     "facultad": "Facultad de Ingeniería",
     "carrera": "Ingeniería Civil",
     "ciclo": "10° Ciclo",
-    "Promotores": 8,
-    "Pasivos": 2,
+    "Promotores": 13,
+    "Pasivos": 3,
     "Detractores": 0,
-    "score": 80.0
+    "score": 81.25
   },
   {
     "facultad": "Facultad de Ingeniería",
@@ -831,28 +831,28 @@
     "facultad": "Facultad de Ingeniería",
     "carrera": "Ingeniería Civil",
     "ciclo": "7° Ciclo",
-    "Promotores": 13,
+    "Promotores": 15,
     "Pasivos": 9,
     "Detractores": 0,
-    "score": 59.09
+    "score": 62.5
   },
   {
     "facultad": "Facultad de Ingeniería",
     "carrera": "Ingeniería Civil",
     "ciclo": "8° Ciclo",
-    "Promotores": 25,
-    "Pasivos": 11,
+    "Promotores": 31,
+    "Pasivos": 12,
     "Detractores": 1,
-    "score": 64.86
+    "score": 68.18
   },
   {
     "facultad": "Facultad de Ingeniería",
     "carrera": "Ingeniería Civil",
     "ciclo": "9° Ciclo",
-    "Promotores": 19,
+    "Promotores": 22,
     "Pasivos": 6,
     "Detractores": 0,
-    "score": 76.0
+    "score": 78.57
   },
   {
     "facultad": "Facultad de Ingeniería",

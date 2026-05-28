@@ -1,8 +1,8 @@
 {
   "resumen": {
-    "total_con_comentario": 768,
-    "total_analizados": 768,
-    "pasivos": 646,
+    "total_con_comentario": 770,
+    "total_analizados": 770,
+    "pasivos": 648,
     "detractores": 122,
     "nota": "Solo se analizan comentarios de Pasivos (7-8) y Detractores (0-6). Los Promotores (9-10) no responden esta pregunta."
   },
@@ -11,9 +11,9 @@
       "topico": "Calidad docente",
       "tipo": "mejora",
       "icono": "📚",
-      "total_comentarios": 160,
+      "total_comentarios": 161,
       "detractores": 29,
-      "pasivos": 131,
+      "pasivos": 132,
       "frases_representativas": [
         "depende de la carrera,a derecho le falta un área donde podamos imprimir gratuitamente los profesores envían lecturas,sería más acuerdo ya que es una carrera donde se lee bastante,que se nos de esa facilidad a los estudiantes,áreas para descansar sin acoso",
         "La universidad en sí es buena,pero en mi carrera la facultad se encuentra desactualizada y  los silábicos en sí, en otros aspectos como infraestructura la universidad es buena y un lugar para estudiar.Sin embargo,los sílabos y enseñanzas no están últimos.",
@@ -25,7 +25,7 @@
         "Economía": 16,
         "Psicología": 16,
         "Comunicación": 14,
-        "Ingeniería Civil": 13,
+        "Ingeniería Civil": 14,
         "Ingeniería Industrial": 13,
         "Arquitectura": 11,
         "Ingeniería de Sistemas": 11,
@@ -36,7 +36,7 @@
       },
       "por_facultad": {
         "Facultad de Ciencias Empresariales": 47,
-        "Facultad de Ingeniería": 39,
+        "Facultad de Ingeniería": 40,
         "Facultad de Derecho": 17,
         "Facultad de Economía": 16,
         "Facultad de Psicología": 16,
@@ -52,7 +52,7 @@
         "9° Ciclo": 14,
         "2° Ciclo": 11,
         "4° Ciclo": 10,
-        "10° Ciclo": 7,
+        "10° Ciclo": 8,
         "8° Ciclo": 7
       }
     },
@@ -416,18 +416,18 @@
       "detractores": 8
     },
     {
+      "carrera": "Ingeniería Civil",
+      "facultad": "Facultad de Ingeniería",
+      "total": 59,
+      "pasivos": 54,
+      "detractores": 5
+    },
+    {
       "carrera": "Ingeniería de Sistemas",
       "facultad": "Facultad de Ingeniería",
       "total": 59,
       "pasivos": 52,
       "detractores": 7
-    },
-    {
-      "carrera": "Ingeniería Civil",
-      "facultad": "Facultad de Ingeniería",
-      "total": 57,
-      "pasivos": 52,
-      "detractores": 5
     },
     {
       "carrera": "Negocios Internacionales",
@@ -517,8 +517,8 @@
     },
     {
       "ciclo": "8° Ciclo",
-      "total": 85,
-      "pasivos": 65,
+      "total": 86,
+      "pasivos": 66,
       "detractores": 20
     },
     {
@@ -529,8 +529,8 @@
     },
     {
       "ciclo": "10° Ciclo",
-      "total": 33,
-      "pasivos": 26,
+      "total": 34,
+      "pasivos": 27,
       "detractores": 7
     },
     {

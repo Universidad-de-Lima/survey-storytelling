@@ -1,5 +1,5 @@
 {
-  "encuestas": 3592,
+  "encuestas": 3610,
   "carreras": 14,
   "facultades": 7,
   "fecha_inicio": "2026-05-11",
@@ -8,15 +8,15 @@
   "dias_recoleccion": 13,
   "año": 2026,
   "nps": {
-    "score": 72.44,
-    "promotores": 2737,
-    "pasivos": 720,
+    "score": 72.52,
+    "promotores": 2753,
+    "pasivos": 722,
     "detractores": 135,
-    "total": 3592
+    "total": 3610
   },
   "csat": {
-    "score": 97.72,
-    "t3b": 3510,
-    "total": 3592
+    "score": 97.73,
+    "t3b": 3528,
+    "total": 3610
   }
 }

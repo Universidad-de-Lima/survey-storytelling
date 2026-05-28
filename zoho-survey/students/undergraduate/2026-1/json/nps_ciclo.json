@@ -1,10 +1,10 @@
 [
   {
     "ciclo": "10° Ciclo",
-    "Promotores": 136,
-    "Pasivos": 32,
+    "Promotores": 141,
+    "Pasivos": 33,
     "Detractores": 7,
-    "score": 73.71
+    "score": 74.03
   },
   {
     "ciclo": "11° Ciclo",
@@ -64,23 +64,23 @@
   },
   {
     "ciclo": "7° Ciclo",
-    "Promotores": 352,
+    "Promotores": 354,
     "Pasivos": 102,
     "Detractores": 19,
-    "score": 70.4
+    "score": 70.53
   },
   {
     "ciclo": "8° Ciclo",
-    "Promotores": 303,
-    "Pasivos": 77,
+    "Promotores": 309,
+    "Pasivos": 78,
     "Detractores": 22,
-    "score": 69.9
+    "score": 70.17
   },
   {
     "ciclo": "9° Ciclo",
-    "Promotores": 191,
+    "Promotores": 194,
     "Pasivos": 55,
     "Detractores": 12,
-    "score": 69.38
+    "score": 69.73
   }
 ]
