@@ -1,72 +1,72 @@
 {
   "resumen": {
-    "encuestas": 3050,
+    "encuestas": 3592,
     "carreras": 14,
     "facultades": 7,
     "fecha_inicio": "2026-05-11",
-    "fecha_fin": "2026-05-19",
-    "dias": 9,
-    "dias_recoleccion": 8,
+    "fecha_fin": "2026-05-27",
+    "dias": 17,
+    "dias_recoleccion": 13,
     "año": 2026,
     "nps": {
-      "score": 71.77,
-      "promotores": 2308,
-      "pasivos": 623,
-      "detractores": 119,
-      "total": 3050
+      "score": 72.44,
+      "promotores": 2737,
+      "pasivos": 720,
+      "detractores": 135,
+      "total": 3592
     },
     "csat": {
-      "score": 97.57,
-      "t3b": 2976,
-      "total": 3050
+      "score": 97.72,
+      "t3b": 3510,
+      "total": 3592
     }
   },
   "hallazgos": {
     "csat_pct": 97,
-    "nps_score": 71,
+    "nps_score": 72,
     "nps_tipo": "Excelente",
     "nps_etapas": {
-      "Avanzado": 69.7,
-      "Inicial": 73.74,
-      "Intermedio": 72.66
+      "Avanzado": 71.07,
+      "Inicial": 73.83,
+      "Intermedio": 73.11
     },
     "tendencia": "disminuye",
-    "delta": 4,
+    "delta": 2,
     "top_dimensiones": [
       {
         "name": "Perfil del egreso de la carrera",
-        "score": 96.66
+        "score": 96.73
       },
       {
         "name": "Calidad de la formación académica",
-        "score": 96.62
+        "score": 96.63
       }
     ],
     "top_facultades": [
       {
         "name": "Facultad de Derecho",
-        "score": 98.63
+        "score": 98.39
       },
       {
         "name": "Facultad de Ingeniería",
-        "score": 98.36
+        "score": 98.35
       }
     ]
   },
   "nps": {
-    "Promotores": 2308,
-    "Pasivos": 623,
-    "Detractores": 119,
-    "score": 71.77
+    "Promotores": 2737,
+    "Pasivos": 720,
+    "Detractores": 135,
+    "score": 72.44
   },
   "csat": {
-    "Totalmente satisfecho": 1314,
-    "Muy satisfecho": 898,
-    "Satisfecho": 764,
-    "Insatisfecho": 63,
-    "Totalmente insatisfecho": 11,
+    "Totalmente satisfecho": 1539,
+    "Muy satisfecho": 1079,
+    "Satisfecho": 892,
+    "Insatisfecho": 68,
+    "Totalmente insatisfecho": 14,
     "No utilizo": 0,
     "No conozco": 0,
-    "score": 97.57
+    "score": 97.72
   }
 }

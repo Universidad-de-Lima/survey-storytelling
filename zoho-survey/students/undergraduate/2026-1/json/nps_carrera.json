@@ -1,45 +1,45 @@
 [
   {
     "carrera": "Administración",
-    "Promotores": 229,
-    "Pasivos": 80,
-    "Detractores": 9,
-    "score": 69.18
+    "Promotores": 272,
+    "Pasivos": 87,
+    "Detractores": 12,
+    "score": 70.08
   },
   {
     "carrera": "Arquitectura",
-    "Promotores": 174,
-    "Pasivos": 50,
-    "Detractores": 7,
-    "score": 72.29
+    "Promotores": 228,
+    "Pasivos": 65,
+    "Detractores": 8,
+    "score": 73.09
   },
   {
     "carrera": "Comunicación",
-    "Promotores": 235,
-    "Pasivos": 66,
+    "Promotores": 261,
+    "Pasivos": 75,
     "Detractores": 14,
-    "score": 70.16
+    "score": 70.57
   },
   {
     "carrera": "Contabilidad y Finanzas",
-    "Promotores": 136,
-    "Pasivos": 29,
+    "Promotores": 158,
+    "Pasivos": 32,
     "Detractores": 6,
-    "score": 76.02
+    "score": 77.55
   },
   {
     "carrera": "Derecho",
-    "Promotores": 228,
-    "Pasivos": 56,
-    "Detractores": 9,
-    "score": 74.74
+    "Promotores": 293,
+    "Pasivos": 67,
+    "Detractores": 12,
+    "score": 75.54
   },
   {
     "carrera": "Economía",
-    "Promotores": 138,
+    "Promotores": 142,
     "Pasivos": 41,
-    "Detractores": 15,
-    "score": 63.4
+    "Detractores": 16,
+    "score": 63.32
   },
   {
     "carrera": "Ingeniería Ambiental",
@@ -50,17 +50,17 @@
   },
   {
     "carrera": "Ingeniería Civil",
-    "Promotores": 117,
-    "Pasivos": 36,
-    "Detractores": 3,
-    "score": 73.08
+    "Promotores": 201,
+    "Pasivos": 64,
+    "Detractores": 5,
+    "score": 72.59
   },
   {
     "carrera": "Ingeniería Industrial",
-    "Promotores": 278,
-    "Pasivos": 54,
-    "Detractores": 8,
-    "score": 79.41
+    "Promotores": 318,
+    "Pasivos": 55,
+    "Detractores": 10,
+    "score": 80.42
   },
   {
     "carrera": "Ingeniería Mecatrónica",
@@ -71,30 +71,30 @@
   },
   {
     "carrera": "Ingeniería de Sistemas",
-    "Promotores": 176,
-    "Pasivos": 57,
-    "Detractores": 6,
-    "score": 71.13
+    "Promotores": 190,
+    "Pasivos": 61,
+    "Detractores": 7,
+    "score": 70.93
   },
   {
     "carrera": "Marketing",
-    "Promotores": 166,
-    "Pasivos": 30,
-    "Detractores": 9,
-    "score": 76.59
+    "Promotores": 184,
+    "Pasivos": 34,
+    "Detractores": 10,
+    "score": 76.32
   },
   {
     "carrera": "Negocios Internacionales",
-    "Promotores": 203,
-    "Pasivos": 43,
-    "Detractores": 8,
-    "score": 76.77
+    "Promotores": 220,
+    "Pasivos": 45,
+    "Detractores": 9,
+    "score": 77.01
   },
   {
     "carrera": "Psicología",
-    "Promotores": 188,
-    "Pasivos": 64,
-    "Detractores": 22,
-    "score": 60.58
+    "Promotores": 230,
+    "Pasivos": 77,
+    "Detractores": 23,
+    "score": 62.73
   }
 ]

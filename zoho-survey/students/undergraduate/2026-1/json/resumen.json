@@ -1,22 +1,22 @@
 {
-  "encuestas": 3050,
+  "encuestas": 3592,
   "carreras": 14,
   "facultades": 7,
   "fecha_inicio": "2026-05-11",
-  "fecha_fin": "2026-05-19",
-  "dias": 9,
-  "dias_recoleccion": 8,
+  "fecha_fin": "2026-05-27",
+  "dias": 17,
+  "dias_recoleccion": 13,
   "año": 2026,
   "nps": {
-    "score": 71.77,
-    "promotores": 2308,
-    "pasivos": 623,
-    "detractores": 119,
-    "total": 3050
+    "score": 72.44,
+    "promotores": 2737,
+    "pasivos": 720,
+    "detractores": 135,
+    "total": 3592
   },
   "csat": {
-    "score": 97.57,
-    "t3b": 2976,
-    "total": 3050
+    "score": 97.72,
+    "t3b": 3510,
+    "total": 3592
   }
 }

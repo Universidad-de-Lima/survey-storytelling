@@ -21,43 +21,43 @@
     "facultad": "Facultad de Arquitectura",
     "carrera": "Arquitectura",
     "ciclo": "3° Ciclo",
-    "count": 35
+    "count": 36
   },
   {
     "facultad": "Facultad de Arquitectura",
     "carrera": "Arquitectura",
     "ciclo": "4° Ciclo",
-    "count": 2
+    "count": 13
   },
   {
     "facultad": "Facultad de Arquitectura",
     "carrera": "Arquitectura",
     "ciclo": "5° Ciclo",
-    "count": 22
+    "count": 61
   },
   {
     "facultad": "Facultad de Arquitectura",
     "carrera": "Arquitectura",
     "ciclo": "6° Ciclo",
-    "count": 6
+    "count": 14
   },
   {
     "facultad": "Facultad de Arquitectura",
     "carrera": "Arquitectura",
     "ciclo": "7° Ciclo",
-    "count": 35
+    "count": 42
   },
   {
     "facultad": "Facultad de Arquitectura",
     "carrera": "Arquitectura",
     "ciclo": "8° Ciclo",
-    "count": 28
+    "count": 30
   },
   {
     "facultad": "Facultad de Arquitectura",
     "carrera": "Arquitectura",
     "ciclo": "9° Ciclo",
-    "count": 28
+    "count": 30
   },
   {
     "facultad": "Facultad de Ciencias Empresariales",
@@ -81,31 +81,31 @@
     "facultad": "Facultad de Ciencias Empresariales",
     "carrera": "Administración",
     "ciclo": "3° Ciclo",
-    "count": 66
+    "count": 68
   },
   {
     "facultad": "Facultad de Ciencias Empresariales",
     "carrera": "Administración",
     "ciclo": "4° Ciclo",
-    "count": 17
+    "count": 31
   },
   {
     "facultad": "Facultad de Ciencias Empresariales",
     "carrera": "Administración",
     "ciclo": "5° Ciclo",
-    "count": 23
+    "count": 56
   },
   {
     "facultad": "Facultad de Ciencias Empresariales",
     "carrera": "Administración",
     "ciclo": "6° Ciclo",
-    "count": 28
+    "count": 31
   },
   {
     "facultad": "Facultad de Ciencias Empresariales",
     "carrera": "Administración",
     "ciclo": "7° Ciclo",
-    "count": 27
+    "count": 28
   },
   {
     "facultad": "Facultad de Ciencias Empresariales",
@@ -123,7 +123,7 @@
     "facultad": "Facultad de Ciencias Empresariales",
     "carrera": "Contabilidad y Finanzas",
     "ciclo": "10° Ciclo",
-    "count": 8
+    "count": 9
   },
   {
     "facultad": "Facultad de Ciencias Empresariales",
@@ -153,7 +153,7 @@
     "facultad": "Facultad de Ciencias Empresariales",
     "carrera": "Contabilidad y Finanzas",
     "ciclo": "5° Ciclo",
-    "count": 28
+    "count": 29
   },
   {
     "facultad": "Facultad de Ciencias Empresariales",
@@ -165,19 +165,19 @@
     "facultad": "Facultad de Ciencias Empresariales",
     "carrera": "Contabilidad y Finanzas",
     "ciclo": "7° Ciclo",
-    "count": 22
+    "count": 25
   },
   {
     "facultad": "Facultad de Ciencias Empresariales",
     "carrera": "Contabilidad y Finanzas",
     "ciclo": "8° Ciclo",
-    "count": 20
+    "count": 32
   },
   {
     "facultad": "Facultad de Ciencias Empresariales",
     "carrera": "Contabilidad y Finanzas",
     "ciclo": "9° Ciclo",
-    "count": 14
+    "count": 22
   },
   {
     "facultad": "Facultad de Ciencias Empresariales",
@@ -201,31 +201,31 @@
     "facultad": "Facultad de Ciencias Empresariales",
     "carrera": "Marketing",
     "ciclo": "3° Ciclo",
-    "count": 35
+    "count": 36
   },
   {
     "facultad": "Facultad de Ciencias Empresariales",
     "carrera": "Marketing",
     "ciclo": "4° Ciclo",
-    "count": 17
+    "count": 27
   },
   {
     "facultad": "Facultad de Ciencias Empresariales",
     "carrera": "Marketing",
     "ciclo": "5° Ciclo",
-    "count": 47
+    "count": 52
   },
   {
     "facultad": "Facultad de Ciencias Empresariales",
     "carrera": "Marketing",
     "ciclo": "6° Ciclo",
-    "count": 20
+    "count": 25
   },
   {
     "facultad": "Facultad de Ciencias Empresariales",
     "carrera": "Marketing",
     "ciclo": "7° Ciclo",
-    "count": 30
+    "count": 32
   },
   {
     "facultad": "Facultad de Ciencias Empresariales",
@@ -243,13 +243,13 @@
     "facultad": "Facultad de Ciencias Empresariales",
     "carrera": "Negocios Internacionales",
     "ciclo": "10° Ciclo",
-    "count": 20
+    "count": 23
   },
   {
     "facultad": "Facultad de Ciencias Empresariales",
     "carrera": "Negocios Internacionales",
     "ciclo": "1° Ciclo",
-    "count": 21
+    "count": 22
   },
   {
     "facultad": "Facultad de Ciencias Empresariales",
@@ -279,31 +279,31 @@
     "facultad": "Facultad de Ciencias Empresariales",
     "carrera": "Negocios Internacionales",
     "ciclo": "6° Ciclo",
-    "count": 23
+    "count": 24
   },
   {
     "facultad": "Facultad de Ciencias Empresariales",
     "carrera": "Negocios Internacionales",
     "ciclo": "7° Ciclo",
-    "count": 39
+    "count": 40
   },
   {
     "facultad": "Facultad de Ciencias Empresariales",
     "carrera": "Negocios Internacionales",
     "ciclo": "8° Ciclo",
-    "count": 17
+    "count": 23
   },
   {
     "facultad": "Facultad de Ciencias Empresariales",
     "carrera": "Negocios Internacionales",
     "ciclo": "9° Ciclo",
-    "count": 10
+    "count": 18
   },
   {
     "facultad": "Facultad de Comunicación",
     "carrera": "Comunicación",
     "ciclo": "10° Ciclo",
-    "count": 8
+    "count": 14
   },
   {
     "facultad": "Facultad de Comunicación",
@@ -321,19 +321,19 @@
     "facultad": "Facultad de Comunicación",
     "carrera": "Comunicación",
     "ciclo": "3° Ciclo",
-    "count": 46
+    "count": 48
   },
   {
     "facultad": "Facultad de Comunicación",
     "carrera": "Comunicación",
     "ciclo": "4° Ciclo",
-    "count": 19
+    "count": 29
   },
   {
     "facultad": "Facultad de Comunicación",
     "carrera": "Comunicación",
     "ciclo": "5° Ciclo",
-    "count": 47
+    "count": 49
   },
   {
     "facultad": "Facultad de Comunicación",
@@ -345,37 +345,37 @@
     "facultad": "Facultad de Comunicación",
     "carrera": "Comunicación",
     "ciclo": "7° Ciclo",
-    "count": 48
+    "count": 49
   },
   {
     "facultad": "Facultad de Comunicación",
     "carrera": "Comunicación",
     "ciclo": "8° Ciclo",
-    "count": 34
+    "count": 40
   },
   {
     "facultad": "Facultad de Comunicación",
     "carrera": "Comunicación",
     "ciclo": "9° Ciclo",
-    "count": 18
+    "count": 26
   },
   {
     "facultad": "Facultad de Derecho",
     "carrera": "Derecho",
     "ciclo": "10° Ciclo",
-    "count": 6
+    "count": 20
   },
   {
     "facultad": "Facultad de Derecho",
     "carrera": "Derecho",
     "ciclo": "11° Ciclo",
-    "count": 5
+    "count": 24
   },
   {
     "facultad": "Facultad de Derecho",
     "carrera": "Derecho",
     "ciclo": "12° Ciclo",
-    "count": 11
+    "count": 38
   },
   {
     "facultad": "Facultad de Derecho",
@@ -417,25 +417,25 @@
     "facultad": "Facultad de Derecho",
     "carrera": "Derecho",
     "ciclo": "7° Ciclo",
-    "count": 67
+    "count": 68
   },
   {
     "facultad": "Facultad de Derecho",
     "carrera": "Derecho",
     "ciclo": "8° Ciclo",
-    "count": 20
+    "count": 35
   },
   {
     "facultad": "Facultad de Derecho",
     "carrera": "Derecho",
     "ciclo": "9° Ciclo",
-    "count": 6
+    "count": 9
   },
   {
     "facultad": "Facultad de Economía",
     "carrera": "Economía",
     "ciclo": "10° Ciclo",
-    "count": 5
+    "count": 7
   },
   {
     "facultad": "Facultad de Economía",
@@ -477,7 +477,7 @@
     "facultad": "Facultad de Economía",
     "carrera": "Economía",
     "ciclo": "7° Ciclo",
-    "count": 25
+    "count": 26
   },
   {
     "facultad": "Facultad de Economía",
@@ -489,7 +489,7 @@
     "facultad": "Facultad de Economía",
     "carrera": "Economía",
     "ciclo": "9° Ciclo",
-    "count": 13
+    "count": 15
   },
   {
     "facultad": "Facultad de Ingeniería",
@@ -525,55 +525,55 @@
     "facultad": "Facultad de Ingeniería",
     "carrera": "Ingeniería Civil",
     "ciclo": "2° Ciclo",
-    "count": 9
+    "count": 10
   },
   {
     "facultad": "Facultad de Ingeniería",
     "carrera": "Ingeniería Civil",
     "ciclo": "3° Ciclo",
-    "count": 17
+    "count": 47
   },
   {
     "facultad": "Facultad de Ingeniería",
     "carrera": "Ingeniería Civil",
     "ciclo": "4° Ciclo",
-    "count": 7
+    "count": 26
   },
   {
     "facultad": "Facultad de Ingeniería",
     "carrera": "Ingeniería Civil",
     "ciclo": "5° Ciclo",
-    "count": 22
+    "count": 55
   },
   {
     "facultad": "Facultad de Ingeniería",
     "carrera": "Ingeniería Civil",
     "ciclo": "6° Ciclo",
-    "count": 23
+    "count": 30
   },
   {
     "facultad": "Facultad de Ingeniería",
     "carrera": "Ingeniería Civil",
     "ciclo": "7° Ciclo",
-    "count": 14
+    "count": 22
   },
   {
     "facultad": "Facultad de Ingeniería",
     "carrera": "Ingeniería Civil",
     "ciclo": "8° Ciclo",
-    "count": 22
+    "count": 37
   },
   {
     "facultad": "Facultad de Ingeniería",
     "carrera": "Ingeniería Civil",
     "ciclo": "9° Ciclo",
-    "count": 24
+    "count": 25
   },
   {
     "facultad": "Facultad de Ingeniería",
     "carrera": "Ingeniería Industrial",
     "ciclo": "10° Ciclo",
-    "count": 22
+    "count": 24
   },
   {
     "facultad": "Facultad de Ingeniería",
@@ -591,7 +591,7 @@
     "facultad": "Facultad de Ingeniería",
     "carrera": "Ingeniería Industrial",
     "ciclo": "3° Ciclo",
-    "count": 37
+    "count": 38
   },
   {
     "facultad": "Facultad de Ingeniería",
@@ -603,31 +603,31 @@
     "facultad": "Facultad de Ingeniería",
     "carrera": "Ingeniería Industrial",
     "ciclo": "5° Ciclo",
-    "count": 41
-  },
-  {
-    "facultad": "Facultad de Ingeniería",
-    "carrera": "Ingeniería Industrial",
-    "ciclo": "6° Ciclo",
-    "count": 13
-  },
-  {
-    "facultad": "Facultad de Ingeniería",
-    "carrera": "Ingeniería Industrial",
-    "ciclo": "7° Ciclo",
     "count": 44
   },
   {
     "facultad": "Facultad de Ingeniería",
     "carrera": "Ingeniería Industrial",
+    "ciclo": "6° Ciclo",
+    "count": 22
+  },
+  {
+    "facultad": "Facultad de Ingeniería",
+    "carrera": "Ingeniería Industrial",
+    "ciclo": "7° Ciclo",
+    "count": 49
+  },
+  {
+    "facultad": "Facultad de Ingeniería",
+    "carrera": "Ingeniería Industrial",
     "ciclo": "8° Ciclo",
-    "count": 54
+    "count": 65
   },
   {
     "facultad": "Facultad de Ingeniería",
     "carrera": "Ingeniería Industrial",
     "ciclo": "9° Ciclo",
-    "count": 22
+    "count": 34
   },
   {
     "facultad": "Facultad de Ingeniería",
@@ -681,31 +681,31 @@
     "facultad": "Facultad de Ingeniería",
     "carrera": "Ingeniería de Sistemas",
     "ciclo": "4° Ciclo",
-    "count": 16
-  },
-  {
-    "facultad": "Facultad de Ingeniería",
-    "carrera": "Ingeniería de Sistemas",
-    "ciclo": "5° Ciclo",
-    "count": 34
-  },
-  {
-    "facultad": "Facultad de Ingeniería",
-    "carrera": "Ingeniería de Sistemas",
-    "ciclo": "6° Ciclo",
     "count": 17
   },
   {
     "facultad": "Facultad de Ingeniería",
     "carrera": "Ingeniería de Sistemas",
+    "ciclo": "5° Ciclo",
+    "count": 46
+  },
+  {
+    "facultad": "Facultad de Ingeniería",
+    "carrera": "Ingeniería de Sistemas",
+    "ciclo": "6° Ciclo",
+    "count": 19
+  },
+  {
+    "facultad": "Facultad de Ingeniería",
+    "carrera": "Ingeniería de Sistemas",
     "ciclo": "7° Ciclo",
-    "count": 43
+    "count": 46
   },
   {
     "facultad": "Facultad de Ingeniería",
     "carrera": "Ingeniería de Sistemas",
     "ciclo": "8° Ciclo",
-    "count": 16
+    "count": 17
   },
   {
     "facultad": "Facultad de Ingeniería",
@@ -717,7 +717,7 @@
     "facultad": "Facultad de Psicología",
     "carrera": "Psicología",
     "ciclo": "10° Ciclo",
-    "count": 20
+    "count": 21
   },
   {
     "facultad": "Facultad de Psicología",
@@ -753,7 +753,7 @@
     "facultad": "Facultad de Psicología",
     "carrera": "Psicología",
     "ciclo": "4° Ciclo",
-    "count": 14
+    "count": 15
   },
   {
     "facultad": "Facultad de Psicología",
@@ -765,24 +765,24 @@
     "facultad": "Facultad de Psicología",
     "carrera": "Psicología",
     "ciclo": "6° Ciclo",
-    "count": 24
+    "count": 44
   },
   {
     "facultad": "Facultad de Psicología",
     "carrera": "Psicología",
     "ciclo": "7° Ciclo",
-    "count": 36
+    "count": 46
   },
   {
     "facultad": "Facultad de Psicología",
     "carrera": "Psicología",
     "ciclo": "8° Ciclo",
-    "count": 20
+    "count": 36
   },
   {
     "facultad": "Facultad de Psicología",
     "carrera": "Psicología",
     "ciclo": "9° Ciclo",
-    "count": 21
+    "count": 29
   }
 ]

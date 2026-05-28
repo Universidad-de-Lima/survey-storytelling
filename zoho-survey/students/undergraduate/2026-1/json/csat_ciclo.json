@@ -1,31 +1,31 @@
 [
   {
     "ciclo": "10° Ciclo",
-    "Totalmente satisfecho": 61,
-    "Muy satisfecho": 37,
-    "Satisfecho": 45,
-    "Insatisfecho": 3,
+    "Totalmente satisfecho": 73,
+    "Muy satisfecho": 44,
+    "Satisfecho": 54,
+    "Insatisfecho": 4,
     "Totalmente insatisfecho": 0,
     "No utilizo": 0,
     "No conozco": 0,
-    "score": 97.95
+    "score": 97.71
   },
   {
     "ciclo": "11° Ciclo",
-    "Totalmente satisfecho": 6,
-    "Muy satisfecho": 5,
-    "Satisfecho": 6,
+    "Totalmente satisfecho": 12,
+    "Muy satisfecho": 10,
+    "Satisfecho": 14,
     "Insatisfecho": 2,
     "Totalmente insatisfecho": 0,
     "No utilizo": 0,
     "No conozco": 0,
-    "score": 89.47
+    "score": 94.74
   },
   {
     "ciclo": "12° Ciclo",
-    "Totalmente satisfecho": 4,
-    "Muy satisfecho": 4,
-    "Satisfecho": 5,
+    "Totalmente satisfecho": 16,
+    "Muy satisfecho": 14,
+    "Satisfecho": 10,
     "Insatisfecho": 0,
     "Totalmente insatisfecho": 0,
     "No utilizo": 0,
@@ -34,7 +34,7 @@
   },
   {
     "ciclo": "1° Ciclo",
-    "Totalmente satisfecho": 142,
+    "Totalmente satisfecho": 143,
     "Muy satisfecho": 104,
     "Satisfecho": 83,
     "Insatisfecho": 6,
@@ -47,88 +47,88 @@
     "ciclo": "2° Ciclo",
     "Totalmente satisfecho": 114,
     "Muy satisfecho": 78,
-    "Satisfecho": 61,
+    "Satisfecho": 62,
     "Insatisfecho": 5,
     "Totalmente insatisfecho": 0,
     "No utilizo": 0,
     "No conozco": 0,
-    "score": 98.06
+    "score": 98.07
   },
   {
     "ciclo": "3° Ciclo",
-    "Totalmente satisfecho": 207,
-    "Muy satisfecho": 135,
-    "Satisfecho": 105,
-    "Insatisfecho": 7,
+    "Totalmente satisfecho": 226,
+    "Muy satisfecho": 146,
+    "Satisfecho": 111,
+    "Insatisfecho": 8,
     "Totalmente insatisfecho": 1,
     "No utilizo": 0,
     "No conozco": 0,
-    "score": 98.24
+    "score": 98.17
   },
   {
     "ciclo": "4° Ciclo",
-    "Totalmente satisfecho": 98,
-    "Muy satisfecho": 49,
-    "Satisfecho": 52,
+    "Totalmente satisfecho": 124,
+    "Muy satisfecho": 74,
+    "Satisfecho": 67,
     "Insatisfecho": 1,
     "Totalmente insatisfecho": 1,
     "No utilizo": 0,
     "No conozco": 0,
-    "score": 99.0
+    "score": 99.25
   },
   {
     "ciclo": "5° Ciclo",
-    "Totalmente satisfecho": 200,
-    "Muy satisfecho": 127,
-    "Satisfecho": 91,
-    "Insatisfecho": 10,
+    "Totalmente satisfecho": 256,
+    "Muy satisfecho": 169,
+    "Satisfecho": 120,
+    "Insatisfecho": 11,
     "Totalmente insatisfecho": 1,
     "No utilizo": 0,
     "No conozco": 0,
-    "score": 97.44
+    "score": 97.85
   },
   {
     "ciclo": "6° Ciclo",
-    "Totalmente satisfecho": 89,
-    "Muy satisfecho": 86,
-    "Satisfecho": 57,
-    "Insatisfecho": 6,
+    "Totalmente satisfecho": 115,
+    "Muy satisfecho": 101,
+    "Satisfecho": 70,
+    "Insatisfecho": 7,
     "Totalmente insatisfecho": 1,
     "No utilizo": 0,
     "No conozco": 0,
-    "score": 97.07
+    "score": 97.28
   },
   {
     "ciclo": "7° Ciclo",
-    "Totalmente satisfecho": 179,
-    "Muy satisfecho": 131,
-    "Satisfecho": 110,
-    "Insatisfecho": 8,
-    "Totalmente insatisfecho": 2,
+    "Totalmente satisfecho": 195,
+    "Muy satisfecho": 144,
+    "Satisfecho": 122,
+    "Insatisfecho": 9,
+    "Totalmente insatisfecho": 3,
     "No utilizo": 0,
     "No conozco": 0,
-    "score": 97.67
+    "score": 97.46
   },
   {
     "ciclo": "8° Ciclo",
-    "Totalmente satisfecho": 136,
-    "Muy satisfecho": 86,
-    "Satisfecho": 85,
+    "Totalmente satisfecho": 166,
+    "Muy satisfecho": 121,
+    "Satisfecho": 103,
     "Insatisfecho": 7,
-    "Totalmente insatisfecho": 4,
+    "Totalmente insatisfecho": 5,
     "No utilizo": 0,
     "No conozco": 0,
-    "score": 96.54
+    "score": 97.01
   },
   {
     "ciclo": "9° Ciclo",
-    "Totalmente satisfecho": 78,
-    "Muy satisfecho": 56,
-    "Satisfecho": 64,
+    "Totalmente satisfecho": 99,
+    "Muy satisfecho": 74,
+    "Satisfecho": 76,
     "Insatisfecho": 8,
-    "Totalmente insatisfecho": 0,
+    "Totalmente insatisfecho": 1,
     "No utilizo": 0,
     "No conozco": 0,
-    "score": 96.12
+    "score": 96.51
   }
 ]
