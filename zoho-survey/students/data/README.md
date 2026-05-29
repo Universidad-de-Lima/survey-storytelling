@@ -8,33 +8,37 @@ Single source of truth for all survey data. Files placed here trigger the CI bui
 
 ## Key Files
 
-| File | Period | Level | Status |
-|------|--------|-------|--------|
+| File                                                          | Period | Level         | Status     |
+| ------------------------------------------------------------- | ------ | ------------- | ---------- |
 | `ENCUESTA DE SATISFACCIÓN ESTUDIANTIL- PREGRADO - 2025-2.csv` | 2025-2 | Undergraduate | Historical |
-| `ENCUESTA DE SATISFACCIÓN ESTUDIANTIL- PREGRADO - 2026-1.csv` | 2026-1 | Undergraduate | Current |
+| `ENCUESTA DE SATISFACCIÓN ESTUDIANTIL- PREGRADO - 2026-1.csv` | 2026-1 | Undergraduate | Current    |
 
 ## CSV Requirements
 
 ### Naming Convention
+
 ```
 ENCUESTA DE SATISFACCIÓN {LEVEL} - {PERIOD}.csv
 ```
 
 Where:
+
 - `{LEVEL}` = `PREGRADO` (undergraduate) or `POSGRADO` (postgraduate)
 - `{PERIOD}` matches regex `(20\d{2}-[12])`, e.g., `2025-2`, `2026-1`
 
 ### Column Requirements
+
 The CSV must contain columns mapped by `build_json.py` `COLUMN_RENAME` dictionary (see `scripts/build_json.py` lines ~20-58). Critical columns:
 
-| Zoho Column Name | Internal Name | Purpose |
-|-----------------|---------------|---------|
-| `ID de respuesta` | `id_respuesta` | Unique response identifier |
-| `Net Promoter Score (de un total de 10)` | `nps` | NPS calculation (0-10 scale) |
-| `¿Qué carrera profesional estudias?` | `carrera` | Career filter and grouping |
-| `¿Qué ciclo es el que cursas?` | `ciclo` | Cycle filter and grouping |
+| Zoho Column Name                         | Internal Name  | Purpose                      |
+| ---------------------------------------- | -------------- | ---------------------------- |
+| `ID de respuesta`                        | `id_respuesta` | Unique response identifier   |
+| `Net Promoter Score (de un total de 10)` | `nps`          | NPS calculation (0-10 scale) |
+| `¿Qué carrera profesional estudias?`     | `carrera`      | Career filter and grouping   |
+| `¿Qué ciclo es el que cursas?`           | `ciclo`        | Cycle filter and grouping    |
 
 ### Encoding
+
 - Preferred: UTF-8 with BOM
 - Fallback: Latin-1 (ISO 8859-1)
 - No explicit encoding detection — tries UTF-8 first, then Latin-1
@@ -54,6 +58,7 @@ CSV upload → CI trigger (build_students.yml)
 ## CI Trigger
 
 Push to this directory triggers `.github/workflows/build_students.yml` which:
+
 1. Installs Python + pandas
 2. Runs `build_json.py`
 3. Auto-commits generated JSON files

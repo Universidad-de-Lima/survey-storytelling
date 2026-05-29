@@ -8,12 +8,12 @@ Presentation layer assets. Consumed by `loader.css` (splash screen, topbar) and 
 
 ## Key Files
 
-| File | Usage | Dimensions | Consumer |
-|------|-------|-----------|----------|
-| `logo-horizontal.png` | Topbar logo in period navigator | ~200×40px | `loader.css` (`.topbar-logo`) |
-| `logo-vertical.png` | Splash screen logo | ~150×200px | `loader.css` (`.logo-vertical`) |
-| `logo-isotipo.png` | Footer logo in dashboard | ~30×30px | `template/index.html` footer |
-| `favicon.png` | Browser tab icon | 32×32px | All `index.html` files |
+| File                  | Usage                           | Dimensions | Consumer                        |
+| --------------------- | ------------------------------- | ---------- | ------------------------------- |
+| `logo-horizontal.png` | Topbar logo in period navigator | ~200×40px  | `loader.css` (`.topbar-logo`)   |
+| `logo-vertical.png`   | Splash screen logo              | ~150×200px | `loader.css` (`.logo-vertical`) |
+| `logo-isotipo.png`    | Footer logo in dashboard        | ~30×30px   | `template/index.html` footer    |
+| `favicon.png`         | Browser tab icon                | 32×32px    | All `index.html` files          |
 
 ## Dependencies
 
@@ -24,6 +24,7 @@ Presentation layer assets. Consumed by `loader.css` (splash screen, topbar) and 
 ## Configuration
 
 No configuration needed. Image paths are hardcoded in CSS and HTML:
+
 - CSS: `url('../img/logo-horizontal.png')` (relative from `css/` to `img/`)
 - HTML: `<link rel="icon" href="../../../shared/img/favicon.png">`
 

@@ -29,8 +29,8 @@ const mockData: DashboardData = {
   csat: {
     'Totalmente satisfecho': 45,
     'Muy satisfecho': 30,
-    'Satisfecho': 17.1,
-    'Insatisfecho': 5,
+    Satisfecho: 17.1,
+    Insatisfecho: 5,
     'Totalmente insatisfecho': 2.9,
   },
 };

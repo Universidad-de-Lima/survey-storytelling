@@ -13,6 +13,7 @@ This file defines rules and conventions for AI coding agents working on this pro
 ## Project Conventions
 
 ### File Naming
+
 - React components: PascalCase (`kpi-card.tsx` → `KpiCard`)
 - Utility files: kebab-case (`format-date.ts`)
 - Constants: UPPER_SNAKE_CASE
@@ -20,19 +21,23 @@ This file defines rules and conventions for AI coding agents working on this pro
 - Types/interfaces: PascalCase with descriptive names
 
 ### Imports
+
 - Use absolute imports with `@/` prefix for app code
 - Import shared types from `@survey-storytelling/shared-types`
 - Import UI components from `@survey-storytelling/ui`
 - NO deep relative imports (`../../../shared/`)
 
 ### TypeScript Rules
+
 - `strict: true` — never disable
 - No `any` — use `unknown` and type guards if needed
 - Explicit return types on public functions
 - All external inputs must be validated with Zod
 
 ### Frontend Architecture (Feature-Based)
+
 Each feature in `apps/frontend/src/features/{feature}/`:
+
 - `components/` — UI components
 - `hooks/` — React hooks (state, data fetching)
 - `services/` — API calls
@@ -42,7 +47,9 @@ Each feature in `apps/frontend/src/features/{feature}/`:
 - `pages/` — Page components
 
 ### Backend Architecture (Clean Architecture)
+
 Each module in `apps/backend/src/modules/{module}/`:
+
 - `{module}.routes.ts` — Route definitions
 - `{module}.controller.ts` — Request handling
 - `{module}.service.ts` — Business logic
@@ -51,6 +58,7 @@ Each module in `apps/backend/src/modules/{module}/`:
 - `{module}.test.ts` — Unit tests
 
 ### ETL Pipeline (Python)
+
 - `scripts/build_json.py` — Single source of truth for JSON generation
 - `scripts/validate_generated_json.py` — Contract validation
 - Never manually edit generated JSON files

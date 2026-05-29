@@ -12,21 +12,21 @@ Capa de tooling. No contiene lógica de negocio ni se ejecuta en runtime. Es con
 
 ## Configuration
 
-| Setting | Value |
-|---------|-------|
-| Parser | `@typescript-eslint/parser` |
-| Plugins | `@typescript-eslint`, `react`, `react-hooks` |
+| Setting | Value                                                            |
+| ------- | ---------------------------------------------------------------- |
+| Parser  | `@typescript-eslint/parser`                                      |
+| Plugins | `@typescript-eslint`, `react`, `react-hooks`                     |
 | Extends | ESLint recommended, TS recommended, react, react-hooks, prettier |
 
 ## Key Rules
 
-| Rule | Level | Rationale |
-|------|-------|-----------|
-| `react/react-in-jsx-scope` | off | React 18 JSX transform |
-| `react/prop-types` | off | Using TypeScript instead |
-| `@typescript-eslint/no-explicit-any` | warn | Avoid `any` unless justified |
-| `@typescript-eslint/no-unused-vars` | warn | Catch unused code |
-| `no-console` | warn | Use logger instead |
+| Rule                                 | Level | Rationale                    |
+| ------------------------------------ | ----- | ---------------------------- |
+| `react/react-in-jsx-scope`           | off   | React 18 JSX transform       |
+| `react/prop-types`                   | off   | Using TypeScript instead     |
+| `@typescript-eslint/no-explicit-any` | warn  | Avoid `any` unless justified |
+| `@typescript-eslint/no-unused-vars`  | warn  | Catch unused code            |
+| `no-console`                         | warn  | Use logger instead           |
 
 ## Usage
 

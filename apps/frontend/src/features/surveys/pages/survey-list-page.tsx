@@ -50,9 +50,7 @@ export function SurveyListPage() {
     <div className="max-w-4xl mx-auto px-4 py-12">
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-gray-900">Encuestas de Satisfacción</h1>
-        <p className="mt-2 text-gray-600">
-          Selecciona un periodo para ver los resultados.
-        </p>
+        <p className="mt-2 text-gray-600">Selecciona un periodo para ver los resultados.</p>
       </div>
 
       {data?.levels.map((level) => (
@@ -77,9 +75,7 @@ export function SurveyListPage() {
                   <h3 className="font-semibold text-gray-900 group-hover:text-ulima-orange transition-colors">
                     {period.label}
                   </h3>
-                  <p className="text-sm text-gray-500 mt-1">
-                    Ver resultados →
-                  </p>
+                  <p className="text-sm text-gray-500 mt-1">Ver resultados →</p>
                 </button>
               ))}
           </div>

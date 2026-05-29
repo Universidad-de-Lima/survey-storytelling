@@ -14,6 +14,7 @@ graph TD
 ```
 
 ### 1.1 Directorios Clave
+
 - `zoho-survey/shared/`: Lógica y estilos reutilizables entre todas las encuestas.
 - `zoho-survey/students/`: Datos y scripts específicos para encuestas estudiantiles.
 - `zoho-survey/students/undergraduate/{periodo}/`: Implementación de una instancia específica de encuesta.
@@ -23,6 +24,7 @@ graph TD
 El proceso de transformación es gestionado por `assets/zoho-survey/students/scripts/build_json.py`.
 
 ### Responsabilidades Técnicas:
+
 - **Normalización**: Renombrado de columnas de Zoho Survey a nombres internos estandarizados (ver `COLUMN_RENAME` en el script).
 - **Agregación**: Cálculo de NPS (Net Promoter Score) y CSAT (Customer Satisfaction Score) por carrera, facultad y ciclo.
 - **Análisis Semántico**: Extracción de tópicos basada en palabras clave para comentarios NPS (detractores y pasivos).
@@ -33,12 +35,14 @@ El proceso de transformación es gestionado por `assets/zoho-survey/students/scr
 El frontend es una aplicación de una sola página (SPA) estática diseñada para alto rendimiento.
 
 ### 3.1 `dashboard.js` (Lógica Central)
+
 - **Estado**: Gestionado a través de un objeto `cache` para evitar re-peticiones de red.
 - **Filtrado**: Lógica de filtrado multidimensional (Facultad -> Carrera -> Ciclo) implementada en `filtrarDatos()`.
 - **Renderizado**: Manipulación directa del DOM basada en eventos de cambio en los selectores.
 - **Dependencias Externas**: Ninguna (Vanilla JS), excepto Chart.js (si se añade) o SVGs inline para gráficos de radar.
 
 ### 3.2 `dashboard.css` (Diseño)
+
 - Basado en variables CSS para facilitar cambios de tema.
 - Layout responsivo utilizando Flexbox y CSS Grid.
 

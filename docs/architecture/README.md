@@ -4,9 +4,9 @@ Documentos de arquitectura del sistema.
 
 ## Contents
 
-| File | Description |
-|------|-------------|
-| `README.md` | This index |
+| File            | Description                       |
+| --------------- | --------------------------------- |
+| `README.md`     | This index                        |
 | `../decisions/` | Decisiones arquitectónicas (ADRs) |
 
 ## System Overview

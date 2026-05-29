@@ -12,19 +12,19 @@ Capa de presentación base. Contiene componentes puramente visuales sin lógica 
 
 ## Components
 
-| Component | Props | Description |
-|-----------|-------|-------------|
+| Component | Props          | Description                                                |
+| --------- | -------------- | ---------------------------------------------------------- |
 | `KpiCard` | `KpiCardProps` | Tarjeta KPI con valor, meta, tendencia y variante de color |
 
 ### KpiCard Props
 
 ```typescript
 interface KpiCardProps {
-  title: string;        // KPI label
-  value: number;        // Current value
-  suffix?: string;      // Unit suffix (%, pts, etc.)
-  meta?: number;        // Target/goal value
-  trend?: 'up' | 'down' | 'stable';  // Trend indicator
+  title: string; // KPI label
+  value: number; // Current value
+  suffix?: string; // Unit suffix (%, pts, etc.)
+  meta?: number; // Target/goal value
+  trend?: 'up' | 'down' | 'stable'; // Trend indicator
   variant?: 'primary' | 'success' | 'warning' | 'danger';
 }
 ```
@@ -39,13 +39,7 @@ interface KpiCardProps {
 ```tsx
 import { KpiCard } from '@survey-storytelling/ui';
 
-<KpiCard
-  title="NPS"
-  value={65.4}
-  meta={50}
-  trend="up"
-  variant="success"
-/>
+<KpiCard title="NPS" value={65.4} meta={50} trend="up" variant="success" />;
 ```
 
 ## AI Agent Notes

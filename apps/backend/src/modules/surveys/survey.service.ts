@@ -38,7 +38,11 @@ export class SurveyService {
   }
 
   async getDashboardData(level: string, period: string): Promise<DashboardData> {
-    const data = await this.repository.readJson<DashboardData>(level, period, 'dashboard_data.json');
+    const data = await this.repository.readJson<DashboardData>(
+      level,
+      period,
+      'dashboard_data.json',
+    );
     if (!data) {
       throw new Error(`Dashboard data not found for ${level}/${period}`);
     }

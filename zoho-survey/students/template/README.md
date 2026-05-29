@@ -23,20 +23,20 @@ Scaffold del dashboard de periodo. Define la estructura DOM completa que `dashbo
 
 El template expone IDs que `dashboard.js` consume como contratos públicos:
 
-| ID Prefix | Section | Element Type |
-|-----------|---------|--------------|
-| `kpi-*` | Ejecutivo | KPIs (NPS, CSAT) |
-| `nps-bar`, `csat-bar` | Ejecutivo | Bar charts |
-| `chart-{categoria}` | Operativo | Category bar charts (academico, infraestructura, tecnologia, admin-bienestar) |
-| `radar-chart` | Operativo | SVG radar |
-| `filter-{type}-{sufijo}` | All sections | Filter selects |
-| `reset-{sufijo}` | All sections | Reset buttons |
-| `tabla-*` | Detallado | Data tables |
-| `tbody-*` | Detallado | Table bodies |
-| `insight-*` | All sections | Insight text containers |
-| `sentimiento` | Cualitativo | Section ID (técnico, aunque etiqueta visible sea "Cualitativo") |
-| `progress-fill` | Global | Scroll progress bar |
-| `tooltip` | Global | Floating tooltip |
+| ID Prefix                | Section      | Element Type                                                                  |
+| ------------------------ | ------------ | ----------------------------------------------------------------------------- |
+| `kpi-*`                  | Ejecutivo    | KPIs (NPS, CSAT)                                                              |
+| `nps-bar`, `csat-bar`    | Ejecutivo    | Bar charts                                                                    |
+| `chart-{categoria}`      | Operativo    | Category bar charts (academico, infraestructura, tecnologia, admin-bienestar) |
+| `radar-chart`            | Operativo    | SVG radar                                                                     |
+| `filter-{type}-{sufijo}` | All sections | Filter selects                                                                |
+| `reset-{sufijo}`         | All sections | Reset buttons                                                                 |
+| `tabla-*`                | Detallado    | Data tables                                                                   |
+| `tbody-*`                | Detallado    | Table bodies                                                                  |
+| `insight-*`              | All sections | Insight text containers                                                       |
+| `sentimiento`            | Cualitativo  | Section ID (técnico, aunque etiqueta visible sea "Cualitativo")               |
+| `progress-fill`          | Global       | Scroll progress bar                                                           |
+| `tooltip`                | Global       | Floating tooltip                                                              |
 
 ## Dependencies
 
@@ -47,6 +47,7 @@ El template expone IDs que `dashboard.js` consume como contratos públicos:
 ## Copy Behavior
 
 `build_json.py` ejecuta:
+
 ```python
 if not INDEX_FILE.exists():
     copyfile(TEMPLATE_INDEX, INDEX_FILE)

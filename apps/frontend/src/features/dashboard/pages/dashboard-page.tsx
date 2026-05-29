@@ -60,10 +60,10 @@ function DashboardShell({ level, period }: { level: string; period: string }) {
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">
-          Dashboard — Periodo {period}
-        </h1>
-        <p className="text-sm text-gray-500 capitalize">{level === 'undergraduate' ? 'Pregrado' : 'Posgrado'}</p>
+        <h1 className="text-2xl font-bold text-gray-900">Dashboard — Periodo {period}</h1>
+        <p className="text-sm text-gray-500 capitalize">
+          {level === 'undergraduate' ? 'Pregrado' : 'Posgrado'}
+        </p>
       </div>
 
       <DashboardExecutive data={data} />

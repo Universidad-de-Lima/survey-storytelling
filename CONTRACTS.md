@@ -4,9 +4,10 @@ Este documento define los esquemas y responsabilidades de los datos que fluyen a
 
 ## 1. Contrato de Entrada (CSV de Zoho Survey)
 
-El archivo CSV de origen debe contener las columnas mapeadas en `build_json.py`. 
+El archivo CSV de origen debe contener las columnas mapeadas en `build_json.py`.
 
 ### Dependencias Críticas:
+
 - `ID de respuesta`: Identificador único.
 - `Net Promoter Score (de un total de 10)`: Escala 0-10 para cálculo de NPS.
 - `¿Qué carrera profesional estudias?`: Base para filtrado por carrera.
@@ -17,7 +18,9 @@ El archivo CSV de origen debe contener las columnas mapeadas en `build_json.py`.
 El pipeline ETL genera los siguientes archivos en `json/`:
 
 ### 2.1 `dashboard_data.json`
+
 Contiene los agregados globales de la encuesta.
+
 - **Esquema**:
   ```json
   {
@@ -29,14 +32,19 @@ Contiene los agregados globales de la encuesta.
   ```
 
 ### 2.2 `dimensiones.json`
+
 Resultados de satisfacción por dimensiones específicas (ej. Calidad docente, Infraestructura).
+
 - **Esquema**: Array de objetos con el promedio de satisfacción (0-100%).
 
 ### 2.3 `resumen.json`
+
 Datos para la tabla resumen de indicadores.
 
 ### 2.4 `sentimiento.json`
+
 Análisis de tópicos de los comentarios NPS.
+
 - **Esquema**:
   ```json
   {
@@ -54,10 +62,12 @@ Análisis de tópicos de los comentarios NPS.
 ## 3. Responsabilidades por Capa
 
 ### 3.1 Capa ETL (Python)
+
 - **Responsabilidad**: Transformación determinista. No debe realizar suposiciones sobre el layout visual.
 - **Garantía**: Si el CSV es válido, el JSON generado debe cumplir estrictamente con los esquemas anteriores.
 
 ### 3.2 Capa Frontend (JavaScript)
+
 - **Responsabilidad**: Consumo de datos. No debe recalcular promedios ni agregaciones que ya debieron ser procesadas por el ETL.
 - **Garantía**: El frontend fallará de forma controlada (graceful degradation) si un archivo JSON falta o está corrupto.
 

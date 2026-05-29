@@ -12,13 +12,13 @@ Capa de presentación base. Proporciona el sistema de diseño (CSS), la lógica 
 
 ## Key Files
 
-| File | Responsibility |
-|------|----------------|
+| File                | Responsibility                                                                                                                     |
+| ------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
 | `css/dashboard.css` | Sistema de diseño completo: variables CSS, layout (Grid/Flexbox), tipografía, componentes (KPIs, tablas, filtros, radar, tooltips) |
-| `css/loader.css` | Estilos del splash screen, topbar, navegador de periodos (pills/select) y overlay de carga |
-| `js/dashboard.js` | Lógica central del dashboard SPA. 4 secciones, filtros en cascada, renderizado de gráficos SVG, tooltips |
-| `js/loader.js` | Lógica del navegador de periodos: carga de `periodos.json`, inicialización de pills/select, control del iframe |
-| `img/` | Assets gráficos institucionales (logos ULIMA, favicon) |
+| `css/loader.css`    | Estilos del splash screen, topbar, navegador de periodos (pills/select) y overlay de carga                                         |
+| `js/dashboard.js`   | Lógica central del dashboard SPA. 4 secciones, filtros en cascada, renderizado de gráficos SVG, tooltips                           |
+| `js/loader.js`      | Lógica del navegador de periodos: carga de `periodos.json`, inicialización de pills/select, control del iframe                     |
+| `img/`              | Assets gráficos institucionales (logos ULIMA, favicon)                                                                             |
 
 ## Data Flow
 
@@ -51,6 +51,7 @@ loader.js → fetch periodos.json → render pills/select → set iframe src
 ## Configuration
 
 Variables CSS en `dashboard.css`:
+
 - `--ulima-orange`, `--ulima-red`, `--ulima-blue`: Colores institucionales
 - `--font-family-primary`: 'Roboto', sans-serif
 - `--font-family-display`: 'Lusitana', Georgia, serif
@@ -58,6 +59,7 @@ Variables CSS en `dashboard.css`:
 - Colores semánticos: `--success-pastel`, `--warning-pastel`, `--danger-pastel`
 
 Constantes en `dashboard.js`:
+
 - `META_NPS = 50` — umbral target NPS
 - `META_CSAT = 93` — umbral target CSAT
 - `CARRERAS_12_CICLOS = ['Derecho', 'Psicología']` — carreras con 12 ciclos

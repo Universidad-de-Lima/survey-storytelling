@@ -4,15 +4,15 @@ Este documento define el contrato minimo que debe respetar cada periodo academic
 
 ## Archivos obligatorios
 
-| Archivo | Tipo raiz | Uso principal |
-|---|---:|---|
-| `dashboard_data.json` | object | KPIs ejecutivos, barras NPS/CSAT y hallazgos |
-| `dimensiones.json` | array | Top 3, radar, preguntas y visibilidad |
-| `ids.json` | array | Conteos por facultad/carrera/ciclo para detalle |
-| `nps_ciclo_carrera.json` | array | NPS por carrera y ciclo |
-| `csat_ciclo_carrera.json` | array | CSAT por carrera y ciclo |
-| `filtros.json` | object | Opciones de filtros cascada |
-| `sentimiento.json` | object | Visual cualitativo |
+| Archivo                   | Tipo raiz | Uso principal                                   |
+| ------------------------- | --------: | ----------------------------------------------- |
+| `dashboard_data.json`     |    object | KPIs ejecutivos, barras NPS/CSAT y hallazgos    |
+| `dimensiones.json`        |     array | Top 3, radar, preguntas y visibilidad           |
+| `ids.json`                |     array | Conteos por facultad/carrera/ciclo para detalle |
+| `nps_ciclo_carrera.json`  |     array | NPS por carrera y ciclo                         |
+| `csat_ciclo_carrera.json` |     array | CSAT por carrera y ciclo                        |
+| `filtros.json`            |    object | Opciones de filtros cascada                     |
+| `sentimiento.json`        |    object | Visual cualitativo                              |
 
 ## Archivos legado
 

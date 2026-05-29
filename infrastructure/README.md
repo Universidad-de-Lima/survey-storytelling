@@ -12,33 +12,33 @@ Capa de despliegue. Permite ejecutar el sistema completo (frontend + backend) en
 
 ## Files
 
-| File | Description |
-|------|-------------|
-| `docker-compose.yml` | Orquestación de servicios (backend + frontend) |
-| `Dockerfile.backend` | Multi-stage build para Fastify API |
-| `Dockerfile.frontend` | Build Vite + Nginx static serving |
-| `nginx.conf` | Reverse proxy config con seguridad y caching |
+| File                  | Description                                    |
+| --------------------- | ---------------------------------------------- |
+| `docker-compose.yml`  | Orquestación de servicios (backend + frontend) |
+| `Dockerfile.backend`  | Multi-stage build para Fastify API             |
+| `Dockerfile.frontend` | Build Vite + Nginx static serving              |
+| `nginx.conf`          | Reverse proxy config con seguridad y caching   |
 
 ## Services
 
 ### Backend
 
-| Property | Value |
-|----------|-------|
-| Port | `3000` |
-| Base image | `node:20-alpine` |
-| Build | Multi-stage (deps → build → runner) |
-| Healthcheck | `GET /api/health` |
-| Data volume | `../zoho-survey:/app/data` |
+| Property    | Value                               |
+| ----------- | ----------------------------------- |
+| Port        | `3000`                              |
+| Base image  | `node:20-alpine`                    |
+| Build       | Multi-stage (deps → build → runner) |
+| Healthcheck | `GET /api/health`                   |
+| Data volume | `../zoho-survey:/app/data`          |
 
 ### Frontend
 
-| Property | Value |
-|----------|-------|
-| Port | `80` (mapped to `5173`) |
-| Base image | `nginx:alpine` |
-| Build | Multi-stage (deps → build → nginx) |
-| Static files | Built Vite output served by Nginx |
+| Property     | Value                              |
+| ------------ | ---------------------------------- |
+| Port         | `80` (mapped to `5173`)            |
+| Base image   | `nginx:alpine`                     |
+| Build        | Multi-stage (deps → build → nginx) |
+| Static files | Built Vite output served by Nginx  |
 
 ## Nginx Config Highlights
 

@@ -26,27 +26,27 @@ undergraduate/
 
 ## Periods
 
-| Period | Status | JSON Files | Data Source |
-|--------|--------|------------|-------------|
-| 2025-2 | Historical | 13 files | `data/ENCUESTA DE SATISFACCIÓN ESTUDIANTIL- PREGRADO - 2025-2.csv` |
-| 2026-1 | Current (`isNew: true`) | 13 files | `data/ENCUESTA DE SATISFACCIÓN ESTUDIANTIL- PREGRADO - 2026-1.csv` |
+| Period | Status                  | JSON Files | Data Source                                                        |
+| ------ | ----------------------- | ---------- | ------------------------------------------------------------------ |
+| 2025-2 | Historical              | 13 files   | `data/ENCUESTA DE SATISFACCIÓN ESTUDIANTIL- PREGRADO - 2025-2.csv` |
+| 2026-1 | Current (`isNew: true`) | 13 files   | `data/ENCUESTA DE SATISFACCIÓN ESTUDIANTIL- PREGRADO - 2026-1.csv` |
 
 ## JSON Contracts (per period)
 
-| File | Content | Consumed By |
-|------|---------|-------------|
-| `dashboard_data.json` | KPIs agregados, hallazgos, distribuciones NPS/CSAT | dashboard.js (Ejecutivo) |
-| `dimensiones.json` | Satisfacción por facultad/carrera/ciclo/dimensión | dashboard.js (Operativo, Detallado) |
-| `filtros.json` | Opciones de filtro: facultades, carreras, ciclos | dashboard.js (todos los filtros) |
-| `ids.json` | Conteos de respuestas por facultad/carrera/ciclo | dashboard.js (Detallado) |
-| `nps_ciclo_carrera.json` | NPS cruzado por carrera y ciclo | dashboard.js (Detallado) |
-| `csat_ciclo_carrera.json` | CSAT cruzado por carrera y ciclo | dashboard.js (Detallado) |
-| `sentimiento.json` | Análisis semántico de comentarios NPS | dashboard.js (Cualitativo) |
-| `nps.json` (legacy) | NPS global | No consumido |
-| `csat.json` (legacy) | CSAT global | No consumido |
-| `nps_carrera.json` (legacy) | NPS por carrera | No consumido |
-| `csat_carrera.json` (legacy) | CSAT por carrera | No consumido |
-| `resumen.json` (legacy) | Resumen de indicadores | No consumido |
+| File                         | Content                                            | Consumed By                         |
+| ---------------------------- | -------------------------------------------------- | ----------------------------------- |
+| `dashboard_data.json`        | KPIs agregados, hallazgos, distribuciones NPS/CSAT | dashboard.js (Ejecutivo)            |
+| `dimensiones.json`           | Satisfacción por facultad/carrera/ciclo/dimensión  | dashboard.js (Operativo, Detallado) |
+| `filtros.json`               | Opciones de filtro: facultades, carreras, ciclos   | dashboard.js (todos los filtros)    |
+| `ids.json`                   | Conteos de respuestas por facultad/carrera/ciclo   | dashboard.js (Detallado)            |
+| `nps_ciclo_carrera.json`     | NPS cruzado por carrera y ciclo                    | dashboard.js (Detallado)            |
+| `csat_ciclo_carrera.json`    | CSAT cruzado por carrera y ciclo                   | dashboard.js (Detallado)            |
+| `sentimiento.json`           | Análisis semántico de comentarios NPS              | dashboard.js (Cualitativo)          |
+| `nps.json` (legacy)          | NPS global                                         | No consumido                        |
+| `csat.json` (legacy)         | CSAT global                                        | No consumido                        |
+| `nps_carrera.json` (legacy)  | NPS por carrera                                    | No consumido                        |
+| `csat_carrera.json` (legacy) | CSAT por carrera                                   | No consumido                        |
+| `resumen.json` (legacy)      | Resumen de indicadores                             | No consumido                        |
 
 ## Dependencies
 

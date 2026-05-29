@@ -19,13 +19,13 @@ docs/
 
 ## Index
 
-| Directory | Description | Key File |
-|-----------|-------------|----------|
+| Directory       | Description                               | Key File    |
+| --------------- | ----------------------------------------- | ----------- |
 | `architecture/` | System overview, component map, data flow | `README.md` |
-| `api/` | API endpoint reference | `README.md` |
-| `prompts/` | AI agent instructions and context | `README.md` |
-| `diagrams/` | Visual diagrams (Mermaid) | `README.md` |
-| `decisions/` | ADR log with template | `README.md` |
+| `api/`          | API endpoint reference                    | `README.md` |
+| `prompts/`      | AI agent instructions and context         | `README.md` |
+| `diagrams/`     | Visual diagrams (Mermaid)                 | `README.md` |
+| `decisions/`    | ADR log with template                     | `README.md` |
 
 ## Conventions
 

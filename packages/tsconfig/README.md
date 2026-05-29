@@ -12,11 +12,11 @@ Capa de tooling. Define los defaults de compilación TypeScript. Todos los works
 
 ## Available Configs
 
-| Config | File | Target | Use Case |
-|--------|------|--------|----------|
-| **Base** | `base.json` | ES2022, ESNext modules | Shared defaults for all |
-| **Node** | `node.json` | Extends base + node types | Backend, scripts |
-| **React** | `react.json` | Extends base + jsx: react-jsx | Frontend, UI package |
+| Config    | File         | Target                        | Use Case                |
+| --------- | ------------ | ----------------------------- | ----------------------- |
+| **Base**  | `base.json`  | ES2022, ESNext modules        | Shared defaults for all |
+| **Node**  | `node.json`  | Extends base + node types     | Backend, scripts        |
+| **React** | `react.json` | Extends base + jsx: react-jsx | Frontend, UI package    |
 
 ## Base Configuration
 

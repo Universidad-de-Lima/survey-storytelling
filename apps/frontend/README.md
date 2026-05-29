@@ -12,17 +12,17 @@ Capa de presentación del sistema. Consume datos de la API REST (`apps/backend/`
 
 ## Stack
 
-| Technology | Version | Purpose |
-|-----------|---------|---------|
-| Vite | 5.x | Build tool and dev server |
-| React | 18.3 | UI framework |
-| TypeScript | 5.4 | Type safety |
-| TailwindCSS | 4.x | Utility-first CSS |
-| TanStack Query | 5.x | Server state management |
-| React Router | 6.x | Client-side routing |
-| Zustand | 4.x | Client state management |
-| Zod | 3.x | Runtime validation |
-| Vitest | 1.x | Unit testing |
+| Technology     | Version | Purpose                   |
+| -------------- | ------- | ------------------------- |
+| Vite           | 5.x     | Build tool and dev server |
+| React          | 18.3    | UI framework              |
+| TypeScript     | 5.4     | Type safety               |
+| TailwindCSS    | 4.x     | Utility-first CSS         |
+| TanStack Query | 5.x     | Server state management   |
+| React Router   | 6.x     | Client-side routing       |
+| Zustand        | 4.x     | Client state management   |
+| Zod            | 3.x     | Runtime validation        |
+| Vitest         | 1.x     | Unit testing              |
 
 ## Structure
 
@@ -65,16 +65,16 @@ src/
 
 ## Key Files
 
-| File | Responsibility |
-|------|----------------|
-| `src/main.tsx` | Entry point, React root render |
-| `src/app/App.tsx` | Root component, provider composition |
-| `src/app/router/app-router.tsx` | Route definitions |
-| `src/app/providers/app-provider.tsx` | QueryClient setup |
-| `src/features/surveys/pages/survey-list-page.tsx` | Period selection page |
-| `src/features/dashboard/pages/dashboard-page.tsx` | Dashboard container |
-| `src/features/dashboard/components/dashboard-executive.tsx` | Ejecutivo section (KPIs, NPS/CSAT) |
-| `src/styles/index.css` | Tailwind imports + design tokens |
+| File                                                        | Responsibility                       |
+| ----------------------------------------------------------- | ------------------------------------ |
+| `src/main.tsx`                                              | Entry point, React root render       |
+| `src/app/App.tsx`                                           | Root component, provider composition |
+| `src/app/router/app-router.tsx`                             | Route definitions                    |
+| `src/app/providers/app-provider.tsx`                        | QueryClient setup                    |
+| `src/features/surveys/pages/survey-list-page.tsx`           | Period selection page                |
+| `src/features/dashboard/pages/dashboard-page.tsx`           | Dashboard container                  |
+| `src/features/dashboard/components/dashboard-executive.tsx` | Ejecutivo section (KPIs, NPS/CSAT)   |
+| `src/styles/index.css`                                      | Tailwind imports + design tokens     |
 
 ## Data Flow
 
@@ -101,11 +101,11 @@ User navigates to /
 
 Environment variables (via `VITE_` prefix):
 
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `VITE_API_URL` | `/api` | Backend API base URL |
-| `VITE_DEFAULT_PERIOD` | `latest` | Default period to load |
-| `VITE_DEFAULT_LEVEL` | `undergraduate` | Default academic level |
+| Variable              | Default         | Description            |
+| --------------------- | --------------- | ---------------------- |
+| `VITE_API_URL`        | `/api`          | Backend API base URL   |
+| `VITE_DEFAULT_PERIOD` | `latest`        | Default period to load |
+| `VITE_DEFAULT_LEVEL`  | `undergraduate` | Default academic level |
 
 ## Technical Debt
 

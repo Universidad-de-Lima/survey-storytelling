@@ -50,8 +50,8 @@ export interface NpsDistribution {
 export interface CsatDistribution {
   'Totalmente satisfecho': number;
   'Muy satisfecho': number;
-  'Satisfecho': number;
-  'Insatisfecho': number;
+  Satisfecho: number;
+  Insatisfecho: number;
   'Totalmente insatisfecho': number;
 }
 
@@ -71,8 +71,8 @@ export interface DimensionRow {
   no_conozco: number;
   'Totalmente satisfecho': number;
   'Muy satisfecho': number;
-  'Satisfecho': number;
-  'Insatisfecho': number;
+  Satisfecho: number;
+  Insatisfecho: number;
   'Totalmente insatisfecho': number;
   'No utilizo': number;
   'No conozco': number;
@@ -113,8 +113,8 @@ export interface CsatCrossRow {
   ciclo: string;
   'Totalmente satisfecho': number;
   'Muy satisfecho': number;
-  'Satisfecho': number;
-  'Insatisfecho': number;
+  Satisfecho: number;
+  Insatisfecho: number;
   'Totalmente insatisfecho': number;
 }
 

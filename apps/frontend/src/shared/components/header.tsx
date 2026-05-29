@@ -6,11 +6,7 @@ export function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <Link to="/" className="flex items-center gap-2">
-            <img
-              src="/logo-horizontal.png"
-              alt="Universidad de Lima"
-              className="h-8"
-            />
+            <img src="/logo-horizontal.png" alt="Universidad de Lima" className="h-8" />
             <span className="hidden sm:inline text-sm font-medium text-gray-600">
               Encuestas de Satisfacción
             </span>

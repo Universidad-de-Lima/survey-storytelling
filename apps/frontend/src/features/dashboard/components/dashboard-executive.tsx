@@ -39,16 +39,8 @@ export function DashboardExecutive({ data }: DashboardExecutiveProps) {
           meta={META_CSAT}
           variant={getCsatVariant(hallazgos.csat_pct)}
         />
-        <KpiCard
-          title="Tipo NPS"
-          value={0}
-          variant="primary"
-        />
-        <KpiCard
-          title="Respuestas"
-          value={resumen.encuestas}
-          variant="primary"
-        />
+        <KpiCard title="Tipo NPS" value={0} variant="primary" />
+        <KpiCard title="Respuestas" value={resumen.encuestas} variant="primary" />
       </div>
 
       {/* Period Info */}

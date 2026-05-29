@@ -12,13 +12,13 @@ Capa de API del sistema. Traduce los JSON contracts estáticos del pipeline ETL 
 
 ## Stack
 
-| Technology | Version | Purpose |
-|-----------|---------|---------|
-| Fastify | 4.x | HTTP server framework |
-| TypeScript | 5.4 | Type safety |
-| Zod | 3.x | Runtime validation (env, params) |
-| Vitest | 1.x | Unit testing |
-| tsx | 4.x | TypeScript execution (dev) |
+| Technology | Version | Purpose                          |
+| ---------- | ------- | -------------------------------- |
+| Fastify    | 4.x     | HTTP server framework            |
+| TypeScript | 5.4     | Type safety                      |
+| Zod        | 3.x     | Runtime validation (env, params) |
+| Vitest     | 1.x     | Unit testing                     |
+| tsx        | 4.x     | TypeScript execution (dev)       |
 
 ## Structure
 
@@ -50,17 +50,17 @@ src/
 
 ## API Endpoints
 
-| Method | Path | Description |
-|--------|------|-------------|
-| GET | `/api/health` | Health check |
-| GET | `/api/surveys/periods` | List all periods |
-| GET | `/api/surveys/:level/:period/dashboard` | Dashboard KPIs |
-| GET | `/api/surveys/:level/:period/dimensions` | Dimension data |
-| GET | `/api/surveys/:level/:period/filters` | Filter options |
-| GET | `/api/surveys/:level/:period/sentiment` | Sentiment analysis |
-| GET | `/api/surveys/:level/:period/ids` | Response counts |
-| GET | `/api/surveys/:level/:period/nps-cross` | NPS cross table |
-| GET | `/api/surveys/:level/:period/csat-cross` | CSAT cross table |
+| Method | Path                                     | Description        |
+| ------ | ---------------------------------------- | ------------------ |
+| GET    | `/api/health`                            | Health check       |
+| GET    | `/api/surveys/periods`                   | List all periods   |
+| GET    | `/api/surveys/:level/:period/dashboard`  | Dashboard KPIs     |
+| GET    | `/api/surveys/:level/:period/dimensions` | Dimension data     |
+| GET    | `/api/surveys/:level/:period/filters`    | Filter options     |
+| GET    | `/api/surveys/:level/:period/sentiment`  | Sentiment analysis |
+| GET    | `/api/surveys/:level/:period/ids`        | Response counts    |
+| GET    | `/api/surveys/:level/:period/nps-cross`  | NPS cross table    |
+| GET    | `/api/surveys/:level/:period/csat-cross` | CSAT cross table   |
 
 ## Data Flow
 
@@ -79,16 +79,16 @@ Request → Route → Controller (validates params via Zod)
 
 ## Configuration
 
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `NODE_ENV` | `development` | Environment |
-| `PORT` | `3000` | Server port |
-| `HOST` | `0.0.0.0` | Server host |
-| `CORS_ORIGIN` | `http://localhost:5173` | Allowed CORS origin |
-| `DATA_DIR` | `./data` | JSON data directory |
-| `LOG_LEVEL` | `info` | Logging level |
-| `RATE_LIMIT_MAX` | `100` | Max requests per window |
-| `RATE_LIMIT_WINDOW_MS` | `60000` | Rate limit window (ms) |
+| Variable               | Default                 | Description             |
+| ---------------------- | ----------------------- | ----------------------- |
+| `NODE_ENV`             | `development`           | Environment             |
+| `PORT`                 | `3000`                  | Server port             |
+| `HOST`                 | `0.0.0.0`               | Server host             |
+| `CORS_ORIGIN`          | `http://localhost:5173` | Allowed CORS origin     |
+| `DATA_DIR`             | `./data`                | JSON data directory     |
+| `LOG_LEVEL`            | `info`                  | Logging level           |
+| `RATE_LIMIT_MAX`       | `100`                   | Max requests per window |
+| `RATE_LIMIT_WINDOW_MS` | `60000`                 | Rate limit window (ms)  |
 
 ## Technical Debt
 

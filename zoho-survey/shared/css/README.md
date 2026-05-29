@@ -12,21 +12,21 @@ Capa de presentación pura. No contiene lógica de negocio. Todos los estilos so
 
 ## Key Files
 
-| File | Lines | Responsibility |
-|------|-------|----------------|
+| File            | Lines | Responsibility                                                                                                                                                                                |
+| --------------- | ----- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `dashboard.css` | ~800+ | Sistema de diseño completo: variables CSS, reset, tipografía, layout (sticky header, grid cards, tablas), componentes (KPIs, barras, filtros, tabs, tooltips, radar), animaciones, responsive |
-| `loader.css` | ~300+ | Splash screen animado, topbar fija con logo y selector de periodos, pills, overlay de carga, iframe container, estilos mobile |
+| `loader.css`    | ~300+ | Splash screen animado, topbar fija con logo y selector de periodos, pills, overlay de carga, iframe container, estilos mobile                                                                 |
 
 ## Design Tokens (dashboard.css)
 
 ```css
 :root {
-  --ulima-orange: #FF5117;       /* Primary brand color */
-  --ulima-red: #FF0000;           /* Danger / low scores */
-  --ulima-blue: #2563EB;          /* Accent */
+  --ulima-orange: #ff5117; /* Primary brand color */
+  --ulima-red: #ff0000; /* Danger / low scores */
+  --ulima-blue: #2563eb; /* Accent */
   --font-family-primary: 'Roboto', sans-serif;
   --font-family-display: 'Lusitana', Georgia, serif;
-  --focus-outline: 2px solid #FF5117;
+  --focus-outline: 2px solid #ff5117;
 }
 ```
 
@@ -38,17 +38,17 @@ Capa de presentación pura. No contiene lógica de negocio. Todos los estilos so
 
 ## Components (dashboard.css)
 
-| Component | Selector Pattern | Behavior |
-|-----------|-----------------|----------|
-| KPI Cards | `.kpi-card` | Valor grande + barra de progreso + meta |
-| Bar Charts | `.bar-chart`, `.bar-segment` | Segmentos apilados con tooltips |
-| Radar Chart | `.radar-svg` | SVG inline con polígonos y ejes |
-| Filter Selects | `.filter-select`, `.filter-custom-select` | Custom dropdown con panel |
-| Multiselect | `.filter-multiselect`, `.filter-multiselect-panel` | Checkbox panel multi-selección |
-| Tables | `.visibility-table` | Datos con barras de distribución inline |
-| Insight Boxes | `.insight-box.info`, `.insight-box.success`, `.insight-box.warning`, `.insight-box.pink` | Alertas contextuales con 4 variantes |
-| Progress Bar | `.progress-bar`, `.progress-fill` | Indicador de scroll vertical |
-| Tooltip | `#tooltip` | Flotante absoluto para barras y segmentos |
+| Component      | Selector Pattern                                                                         | Behavior                                  |
+| -------------- | ---------------------------------------------------------------------------------------- | ----------------------------------------- |
+| KPI Cards      | `.kpi-card`                                                                              | Valor grande + barra de progreso + meta   |
+| Bar Charts     | `.bar-chart`, `.bar-segment`                                                             | Segmentos apilados con tooltips           |
+| Radar Chart    | `.radar-svg`                                                                             | SVG inline con polígonos y ejes           |
+| Filter Selects | `.filter-select`, `.filter-custom-select`                                                | Custom dropdown con panel                 |
+| Multiselect    | `.filter-multiselect`, `.filter-multiselect-panel`                                       | Checkbox panel multi-selección            |
+| Tables         | `.visibility-table`                                                                      | Datos con barras de distribución inline   |
+| Insight Boxes  | `.insight-box.info`, `.insight-box.success`, `.insight-box.warning`, `.insight-box.pink` | Alertas contextuales con 4 variantes      |
+| Progress Bar   | `.progress-bar`, `.progress-fill`                                                        | Indicador de scroll vertical              |
+| Tooltip        | `#tooltip`                                                                               | Flotante absoluto para barras y segmentos |
 
 ## Data Flow
 
@@ -72,18 +72,18 @@ template/index.html (period)         {level}/index.html (loader)
 
 Design tokens defined in `dashboard.css` `:root`:
 
-| Variable | Value | Usage |
-|----------|-------|-------|
-| `--ulima-orange` | `#FF5117` | Primary brand color, accent, focus outline |
-| `--ulima-red` | `#FF0000` | Danger states, low NPS/CSAT indicators |
-| `--ulima-blue` | `#2563EB` | Secondary accent, links |
-| `--font-family-primary` | `'Roboto', sans-serif` | Body text |
-| `--font-family-display` | `'Lusitana', Georgia, serif` | Headings, KPIs |
-| `--gray-900` to `--gray-50` | Scale | Text hierarchy, backgrounds, borders |
-| `--success-pastel` | pastel green | Positive indicators |
-| `--warning-pastel` | pastel yellow | Neutral/attention indicators |
-| `--danger-pastel` | pastel red | Negative indicators |
-| `--focus-outline` | `2px solid #FF5117` | Accessibility focus indicator |
+| Variable                    | Value                        | Usage                                      |
+| --------------------------- | ---------------------------- | ------------------------------------------ |
+| `--ulima-orange`            | `#FF5117`                    | Primary brand color, accent, focus outline |
+| `--ulima-red`               | `#FF0000`                    | Danger states, low NPS/CSAT indicators     |
+| `--ulima-blue`              | `#2563EB`                    | Secondary accent, links                    |
+| `--font-family-primary`     | `'Roboto', sans-serif`       | Body text                                  |
+| `--font-family-display`     | `'Lusitana', Georgia, serif` | Headings, KPIs                             |
+| `--gray-900` to `--gray-50` | Scale                        | Text hierarchy, backgrounds, borders       |
+| `--success-pastel`          | pastel green                 | Positive indicators                        |
+| `--warning-pastel`          | pastel yellow                | Neutral/attention indicators               |
+| `--danger-pastel`           | pastel red                   | Negative indicators                        |
+| `--focus-outline`           | `2px solid #FF5117`          | Accessibility focus indicator              |
 
 ## Dependencies
 

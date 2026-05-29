@@ -12,27 +12,27 @@ Capa de contratos. Es el único punto de definición de tipos para todos los dat
 
 ## Key Types
 
-| Type | Source File | Description |
-|------|------------|-------------|
-| `DashboardData` | `dashboard_data.json` | KPIs agregados, hallazgos, distribuciones NPS/CSAT |
-| `DimensionRow` | `dimensiones.json` | Satisfacción por facultad/carrera/ciclo/dimensión |
-| `FilterOptions` | `filtros.json` | Opciones de filtro: facultades, carreras, ciclos |
-| `ResponseCount` | `ids.json` | Conteos de respuestas |
-| `NpsCrossRow` | `nps_ciclo_carrera.json` | NPS cruzado por carrera y ciclo |
-| `CsatCrossRow` | `csat_ciclo_carrera.json` | CSAT cruzado por carrera y ciclo |
-| `SentimentData` | `sentimiento.json` | Análisis semántico de comentarios |
-| `PeriodInfo` | `periodos.json` | Información de periodo académico |
-| `FilterState` | — | Estado de filtros en el frontend |
-| `ApiResponse<T>` | — | Envoltorio genérico de respuesta API |
+| Type             | Source File               | Description                                        |
+| ---------------- | ------------------------- | -------------------------------------------------- |
+| `DashboardData`  | `dashboard_data.json`     | KPIs agregados, hallazgos, distribuciones NPS/CSAT |
+| `DimensionRow`   | `dimensiones.json`        | Satisfacción por facultad/carrera/ciclo/dimensión  |
+| `FilterOptions`  | `filtros.json`            | Opciones de filtro: facultades, carreras, ciclos   |
+| `ResponseCount`  | `ids.json`                | Conteos de respuestas                              |
+| `NpsCrossRow`    | `nps_ciclo_carrera.json`  | NPS cruzado por carrera y ciclo                    |
+| `CsatCrossRow`   | `csat_ciclo_carrera.json` | CSAT cruzado por carrera y ciclo                   |
+| `SentimentData`  | `sentimiento.json`        | Análisis semántico de comentarios                  |
+| `PeriodInfo`     | `periodos.json`           | Información de periodo académico                   |
+| `FilterState`    | —                         | Estado de filtros en el frontend                   |
+| `ApiResponse<T>` | —                         | Envoltorio genérico de respuesta API               |
 
 ## Key Constants
 
-| Constant | Value | Description |
-|----------|-------|-------------|
+| Constant            | Value                            | Description                         |
+| ------------------- | -------------------------------- | ----------------------------------- |
 | `SATISFACTION_KEYS` | `['Totalmente satisfecho', ...]` | Escala de 5 niveles de satisfacción |
-| `NPS_THRESHOLDS` | `{ PROMOTOR_MIN: 9, ... }` | Umbrales de clasificación NPS |
-| `META_NPS` | `50` | Target NPS para KPIs |
-| `META_CSAT` | `93` | Target CSAT para KPIs |
+| `NPS_THRESHOLDS`    | `{ PROMOTOR_MIN: 9, ... }`       | Umbrales de clasificación NPS       |
+| `META_NPS`          | `50`                             | Target NPS para KPIs                |
+| `META_CSAT`         | `93`                             | Target CSAT para KPIs               |
 
 ## Dependencies
 

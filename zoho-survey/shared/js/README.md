@@ -29,6 +29,7 @@ Capa de presentación lógica. No hay framework, bundler ni sistema de módulos.
 | `showLoaderError(msg, err)` | Internal | Display error overlay with message |
 
 **State**:
+
 - `PERIODS[]`: Array de periodos normalizados
 - `currentPeriod`: ID del periodo activo
 
@@ -49,6 +50,7 @@ Capa de presentación lógica. No hay framework, bundler ni sistema de módulos.
 | Cualitativo | `#sentimiento` | KPIs de sentimiento, tópicos, tabla por carrera |
 
 **Core Architecture**:
+
 - **Cache**: `cache` object — stores fetched JSON data to avoid redundant network requests
 - **DOM Registry**: `DOM` object — centralized references via `getElementById`
 - **Filter System**: 6 independent filter groups (top3, radar, preguntas, detalle, visibilidad, sent) with cascade logic
@@ -67,6 +69,7 @@ Capa de presentación lógica. No hay framework, bundler ni sistema de módulos.
 | `getCiclosForFiltro(fac, car)` | Determine available cycles based on career rules |
 
 **Constants**:
+
 - `META_NPS = 50`, `META_CSAT = 93` — Target thresholds for KPI indicators
 - `CARRERAS_12_CICLOS = ['Derecho', 'Psicología']` — Careers with 12 cycles
 - `FACULTADES_12_CICLOS = ['Facultad de Derecho', 'Facultad de Psicología']` — Faculties with 12 cycles
@@ -116,14 +119,14 @@ dashboard.js (inside iframe):
 
 Constants in `dashboard.js`:
 
-| Constant | Value | Purpose |
-|----------|-------|---------|
-| `META_NPS` | `50` | Target NPS threshold for KPI indicators |
-| `META_CSAT` | `93` | Target CSAT threshold for KPI indicators |
-| `CARRERAS_12_CICLOS` | `['Derecho', 'Psicología']` | Careers with 12-cycle range |
-| `FACULTADES_12_CICLOS` | `['Facultad de Derecho', 'Facultad de Psicología']` | Faculties with 12-cycle range |
-| `PROGRAMA_ESTUDIOS_GENERALES` | `'Programa de Estudios Generales'` | Special program with 2-cycle limit |
-| `SAT_KEYS` | `['Totalmente satisfecho', ...]` | 5-level satisfaction scale keys |
+| Constant                      | Value                                               | Purpose                                  |
+| ----------------------------- | --------------------------------------------------- | ---------------------------------------- |
+| `META_NPS`                    | `50`                                                | Target NPS threshold for KPI indicators  |
+| `META_CSAT`                   | `93`                                                | Target CSAT threshold for KPI indicators |
+| `CARRERAS_12_CICLOS`          | `['Derecho', 'Psicología']`                         | Careers with 12-cycle range              |
+| `FACULTADES_12_CICLOS`        | `['Facultad de Derecho', 'Facultad de Psicología']` | Faculties with 12-cycle range            |
+| `PROGRAMA_ESTUDIOS_GENERALES` | `'Programa de Estudios Generales'`                  | Special program with 2-cycle limit       |
+| `SAT_KEYS`                    | `['Totalmente satisfecho', ...]`                    | 5-level satisfaction scale keys          |
 
 ## Dependencies
 

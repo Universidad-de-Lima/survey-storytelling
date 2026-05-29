@@ -39,6 +39,7 @@ pnpm validate:json undergraduate
 ## Documentation
 
 Para documentación detallada del pipeline ETL, ver:
+
 - `zoho-survey/students/scripts/README.md` — Documentación completa de scripts
 - `zoho-survey/students/JSON_SCHEMA.md` — Esquemas de contratos JSON
 - `zoho-survey/students/FILTER_LOGIC.md` — Lógica de filtros en cascada

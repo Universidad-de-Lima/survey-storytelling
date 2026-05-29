@@ -23,7 +23,9 @@ describe('SurveyService', () => {
     ];
 
     // Type assertion: vi.mock replaces getPeriods with vi.fn() at runtime
-    (SurveyRepository.prototype.getPeriods as ReturnType<typeof vi.fn>).mockResolvedValue(mockPeriods);
+    (SurveyRepository.prototype.getPeriods as ReturnType<typeof vi.fn>).mockResolvedValue(
+      mockPeriods,
+    );
 
     const service = new SurveyService();
     const result = await service.getAllPeriods();
@@ -38,9 +40,7 @@ describe('SurveyService', () => {
 
     // Type assertion for chained mock methods
     const mockGetPeriods = SurveyRepository.prototype.getPeriods as ReturnType<typeof vi.fn>;
-    mockGetPeriods
-      .mockResolvedValueOnce(mockPeriods)
-      .mockRejectedValueOnce(new Error('Not found'));
+    mockGetPeriods.mockResolvedValueOnce(mockPeriods).mockRejectedValueOnce(new Error('Not found'));
 
     const service = new SurveyService();
     const result = await service.getAllPeriods();

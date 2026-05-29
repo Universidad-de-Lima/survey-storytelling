@@ -12,24 +12,24 @@ Módulo principal del dominio de encuestas. Implementa el pipeline completo desd
 
 ## Submodules
 
-| Submodule | Path | Status | Responsibility |
-|-----------|------|--------|----------------|
-| Data | `data/` | Active | Raw CSV exports from Zoho Survey |
-| Scripts | `scripts/` | Active | ETL pipeline (build_json.py) + JSON validator (validate_generated_json.py) |
-| Template | `template/` | Active | HTML template copied to each new period by ETL |
-| Undergraduate | `undergraduate/` | Active | Dashboard instances for undergraduate surveys (2025-2, 2026-1) |
-| Postgraduate | `postgraduate/` | Placeholder | Empty structure awaiting postgraduate survey data |
+| Submodule     | Path             | Status      | Responsibility                                                             |
+| ------------- | ---------------- | ----------- | -------------------------------------------------------------------------- |
+| Data          | `data/`          | Active      | Raw CSV exports from Zoho Survey                                           |
+| Scripts       | `scripts/`       | Active      | ETL pipeline (build_json.py) + JSON validator (validate_generated_json.py) |
+| Template      | `template/`      | Active      | HTML template copied to each new period by ETL                             |
+| Undergraduate | `undergraduate/` | Active      | Dashboard instances for undergraduate surveys (2025-2, 2026-1)             |
+| Postgraduate  | `postgraduate/`  | Placeholder | Empty structure awaiting postgraduate survey data                          |
 
 ## Key Files
 
-| File | Responsibility |
-|------|----------------|
-| `data/ENCUESTA DE SATISFACCIÓN ESTUDIANTIL- PREGRADO - {periodo}.csv` | Raw survey data from Zoho Survey |
-| `scripts/build_json.py` | ETL: transforms CSV → JSON contracts per period |
-| `scripts/validate_generated_json.py` | Validates JSON contract compliance |
-| `template/index.html` | Scaffold copied to new periods |
-| `FILTER_LOGIC.md` | Filter cascade logic specification |
-| `JSON_SCHEMA.md` | JSON contract schema documentation |
+| File                                                                  | Responsibility                                  |
+| --------------------------------------------------------------------- | ----------------------------------------------- |
+| `data/ENCUESTA DE SATISFACCIÓN ESTUDIANTIL- PREGRADO - {periodo}.csv` | Raw survey data from Zoho Survey                |
+| `scripts/build_json.py`                                               | ETL: transforms CSV → JSON contracts per period |
+| `scripts/validate_generated_json.py`                                  | Validates JSON contract compliance              |
+| `template/index.html`                                                 | Scaffold copied to new periods                  |
+| `FILTER_LOGIC.md`                                                     | Filter cascade logic specification              |
+| `JSON_SCHEMA.md`                                                      | JSON contract schema documentation              |
 
 ## Data Flow
 

@@ -4,9 +4,9 @@ Registro de decisiones arquitectónicas del proyecto.
 
 ## Index
 
-| ADR | Title | Status | Date |
-|-----|-------|--------|------|
-| — | Pending | — | — |
+| ADR | Title   | Status | Date |
+| --- | ------- | ------ | ---- |
+| —   | Pending | —      | —    |
 
 ## Template
 

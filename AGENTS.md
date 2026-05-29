@@ -1,5 +1,7 @@
 # Proyecto
+
 Priorizar:
+
 - delegación de eventos
 - reutilización de componentes
 - separación entre datos y renderizado
@@ -10,6 +12,7 @@ Priorizar:
 # Reglas JSON
 
 Los JSON deben:
+
 - permanecer compactos
 - minimizar redundancia
 - evitar anidamientos innecesarios
@@ -18,6 +21,7 @@ Los JSON deben:
 - estar desacoplados del layout visual
 
 Nunca:
+
 - generar payloads innecesariamente grandes
 - duplicar metadata repetitiva
 - acoplar JSON a implementaciones visuales específicas
@@ -27,6 +31,7 @@ Nunca:
 # Reglas ETL
 
 build_json.py:
+
 - es la única fuente oficial de transformación
 - debe permanecer idempotente
 - debe validar columnas esperadas
@@ -41,6 +46,7 @@ Nunca modificar manualmente JSON generados.
 # Reglas GitHub Actions
 
 Los workflows deben:
+
 - minimizar commits innecesarios
 - evitar loops automáticos
 - evitar regeneraciones redundantes
@@ -55,6 +61,7 @@ Los workflows deben:
 No realizar reescrituras completas salvo necesidad crítica.
 
 Priorizar:
+
 - refactors incrementales
 - modularización progresiva
 - extracción de utilidades compartidas
@@ -63,6 +70,7 @@ Priorizar:
 - desacoplamiento progresivo
 
 Evitar:
+
 - breaking changes innecesarios
 - abstracciones prematuras
 - sobreingeniería
@@ -73,6 +81,7 @@ Evitar:
 # Estándares de respuesta
 
 Toda respuesta técnica debe incluir:
+
 - diagnóstico
 - causa raíz
 - impacto técnico

@@ -15,12 +15,14 @@ Capa de automatización e integración continua. Workflows legacy (ETL Python) c
 ### Legacy ETL
 
 #### `build_students.yml` — Auto-build Survey JSON
+
 **Trigger**: Push a `zoho-survey/students/data/**` o `zoho-survey/students/scripts/**`. También `workflow_dispatch`.
 **Runs**: Python 3.11 + pandas
 **Steps**: Checkout → Setup Python → Install pandas → Run `build_json.py` → Commit JSON
 **Risk**: Auto-commit sin validación post-build.
 
 #### `validate-survey-json.yml` — Validate Survey JSON
+
 **Trigger**: PR a `zoho-survey/students/**`. Push a `main`.
 **Runs**: Python 3.11
 **Steps**: Checkout → Setup Python → Run `validate_generated_json.py undergraduate`
@@ -29,26 +31,31 @@ Capa de automatización e integración continua. Workflows legacy (ETL Python) c
 ### Modern CI/CD
 
 #### `ci.yml` — Continuous Integration
+
 **Trigger**: Push/PR a `main` (excluye `zoho-survey/**` y `**.md`)
 **Runs**: pnpm + Node 20
 **Steps**: Install → Type Check → Lint → Unit Tests → Build
 **Concurrency**: Cancel-in-progress para PRs.
 
 #### `tests.yml` — Test Suite
+
 **Trigger**: Push/PR a `main` cuando cambian `apps/**`, `packages/**`, `tests/**`
 **Jobs**: Unit tests + Integration tests
 **Coverage**: Upload de coverage como artifact.
 
 #### `lint.yml` — Lint & Format
+
 **Trigger**: Push/PR a `main`
 **Jobs**: ESLint + Prettier (paralelos)
 
 #### `deploy-frontend.yml` — GitHub Pages Deploy
+
 **Trigger**: Push a `main` con cambios en `apps/frontend/**`, `packages/ui/**`, `packages/shared-types/**`
 **Runs**: Build → Upload Pages Artifact → Deploy to GitHub Pages
 **Environment**: `github-pages`
 
 #### `security.yml` — Security Scan
+
 **Trigger**: Semanal (lunes 06:00) + push/PR a `main`
 **Jobs**: Dependency audit (pnpm audit) + Gitleaks secrets detection
 

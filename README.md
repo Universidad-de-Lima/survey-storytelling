@@ -5,6 +5,7 @@ Monorepo del sistema de visualización de encuestas de satisfacción para la Uni
 ## Purpose
 
 Transformar datos crudos de encuestas de satisfacción (CSV) en dashboards visuales interactivos. El sistema ofrece dos modos de operación:
+
 1. **Modo estático** (legacy): SPA vanilla JS sin backend, desplegable en GitHub Pages
 2. **Modo API** (moderno): Frontend React + Backend Fastify con acceso programático a datos
 
@@ -44,35 +45,37 @@ survey-storytelling/
 
 ## System Layers
 
-| Layer | Path | Technology | Responsibility |
-|-------|------|------------|----------------|
-| **Source** | `zoho-survey/students/data/` | CSV (UTF-8/Latin-1) | Raw survey exports from Zoho Survey |
-| **ETL** | `zoho-survey/students/scripts/` | Python 3.11 + pandas | Transform, aggregate, topic analysis |
-| **Contracts** | `zoho-survey/students/{level}/{period}/json/` | JSON | Precomputed data contracts |
-| **API** | `apps/backend/` | Fastify + TypeScript | Serve JSON data via REST endpoints |
-| **Frontend** | `apps/frontend/` | Vite + React + TypeScript + TailwindCSS | Interactive dashboard SPA |
-| **Legacy Dashboard** | `zoho-survey/` | Vanilla JS (ES6) | Original static dashboard (preserved) |
-| **CI/CD** | `.github/workflows/` | GitHub Actions | ETL build, CI, tests, deploy |
+| Layer                | Path                                          | Technology                              | Responsibility                        |
+| -------------------- | --------------------------------------------- | --------------------------------------- | ------------------------------------- |
+| **Source**           | `zoho-survey/students/data/`                  | CSV (UTF-8/Latin-1)                     | Raw survey exports from Zoho Survey   |
+| **ETL**              | `zoho-survey/students/scripts/`               | Python 3.11 + pandas                    | Transform, aggregate, topic analysis  |
+| **Contracts**        | `zoho-survey/students/{level}/{period}/json/` | JSON                                    | Precomputed data contracts            |
+| **API**              | `apps/backend/`                               | Fastify + TypeScript                    | Serve JSON data via REST endpoints    |
+| **Frontend**         | `apps/frontend/`                              | Vite + React + TypeScript + TailwindCSS | Interactive dashboard SPA             |
+| **Legacy Dashboard** | `zoho-survey/`                                | Vanilla JS (ES6)                        | Original static dashboard (preserved) |
+| **CI/CD**            | `.github/workflows/`                          | GitHub Actions                          | ETL build, CI, tests, deploy          |
 
 ## Key Modules
 
-| Module | Path | Responsibility |
-|--------|------|----------------|
-| ETL Pipeline | `zoho-survey/students/scripts/build_json.py` | CSV → JSON transformation, NPS/CSAT calculation, topic analysis |
-| JSON Validator | `zoho-survey/students/scripts/validate_generated_json.py` | Contract compliance verification |
-| Dashboard SPA | `zoho-survey/shared/js/dashboard.js` | 4-section interactive visualization (Ejecutivo, Operativo, Detallado, Cualitativo) |
-| Period Loader | `zoho-survey/shared/js/loader.js` | Multi-period navigation with pills/select |
-| HTML Template | `zoho-survey/students/template/index.html` | Period dashboard scaffold, copied by ETL |
+| Module         | Path                                                      | Responsibility                                                                     |
+| -------------- | --------------------------------------------------------- | ---------------------------------------------------------------------------------- |
+| ETL Pipeline   | `zoho-survey/students/scripts/build_json.py`              | CSV → JSON transformation, NPS/CSAT calculation, topic analysis                    |
+| JSON Validator | `zoho-survey/students/scripts/validate_generated_json.py` | Contract compliance verification                                                   |
+| Dashboard SPA  | `zoho-survey/shared/js/dashboard.js`                      | 4-section interactive visualization (Ejecutivo, Operativo, Detallado, Cualitativo) |
+| Period Loader  | `zoho-survey/shared/js/loader.js`                         | Multi-period navigation with pills/select                                          |
+| HTML Template  | `zoho-survey/students/template/index.html`                | Period dashboard scaffold, copied by ETL                                           |
 
 ## Data Flow
 
 ### Build Time (Offline)
+
 1. **Input**: CSV from Zoho Survey placed in `data/` directory
 2. **ETL**: `build_json.py` reads CSVs matching `ENCUESTA*` pattern, extracts period from filename regex `(20\d{2}-[12])`
 3. **Generation**: Produces ~12 JSON files per period + `periodos.json` per level, copies `template/index.html` if missing
 4. **Validation**: CI runs `validate_generated_json.py` on PR/push to main
 
 ### Runtime (Browser)
+
 1. `loader.js` fetches `periodos.json`, renders period pills/select
 2. User selects period → `loader.js` sets `iframe.src`
 3. Period `index.html` loads `dashboard.js`

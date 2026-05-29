@@ -24,6 +24,7 @@ GET /api/surveys/periods
 Returns all available periods grouped by level.
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -44,6 +45,7 @@ GET /api/surveys/:level/:period/dashboard
 ```
 
 **Parameters:**
+
 - `level`: `undergraduate` | `postgraduate`
 - `period`: `YYYY-S` (e.g., `2026-1`)
 

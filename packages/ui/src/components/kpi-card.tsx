@@ -43,7 +43,11 @@ export function KpiCard({
         {trend && (
           <span
             className={`ml-2 text-sm ${
-              trend === 'up' ? 'text-green-600' : trend === 'down' ? 'text-red-600' : 'text-gray-400'
+              trend === 'up'
+                ? 'text-green-600'
+                : trend === 'down'
+                  ? 'text-red-600'
+                  : 'text-gray-400'
             }`}
           >
             {trendIcons[trend]}
@@ -59,7 +63,8 @@ export function KpiCard({
             />
           </div>
           <div className="mt-0.5 text-xs text-gray-500">
-            Meta: {meta}{suffix}
+            Meta: {meta}
+            {suffix}
           </div>
         </div>
       )}

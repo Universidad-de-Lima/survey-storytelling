@@ -21,11 +21,11 @@ tests/
 
 ## Test Strategy
 
-| Level | Tool | Location | Scope |
-|-------|------|----------|-------|
-| **Unit** | Vitest | Co-located in each package (`*.test.ts`) | Individual functions and components |
-| **Integration** | Vitest + Supertest | `tests/integration/` | API endpoints, data flow between modules |
-| **E2E** | Playwright | `tests/e2e/` | Full user workflows in browser |
+| Level           | Tool               | Location                                 | Scope                                    |
+| --------------- | ------------------ | ---------------------------------------- | ---------------------------------------- |
+| **Unit**        | Vitest             | Co-located in each package (`*.test.ts`) | Individual functions and components      |
+| **Integration** | Vitest + Supertest | `tests/integration/`                     | API endpoints, data flow between modules |
+| **E2E**         | Playwright         | `tests/e2e/`                             | Full user workflows in browser           |
 
 ## Running Tests
 

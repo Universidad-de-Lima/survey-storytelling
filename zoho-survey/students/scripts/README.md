@@ -18,21 +18,22 @@ Capa de transformación de datos. Es el único punto de generación de datos en 
 
 **Pipeline Steps**:
 
-| Step | Output File | Description |
-|------|-------------|-------------|
-| 1. Column mapping | — | Renombra columnas Zoho → nombres internos via `COLUMN_RENAME` |
-| 2. Faculty assignment | — | Mapea carrera → facultad via `carrera_facultad` dictionary |
-| 3. Dimension categorization | — | Mapea dimensión → categoría via `categoria_dim` dictionary |
-| 4. NPS calculation | `nps.json`, `nps_carrera.json`, `nps_ciclo.json`, `nps_ciclo_carrera.json` | NPS score per dimension (global, career, cycle, cross) |
-| 5. CSAT calculation | `csat.json`, `csat_carrera.json`, `csat_ciclo.json`, `csat_ciclo_carrera.json` | CSAT score per dimension (global, career, cycle, cross) |
-| 6. Dimension breakdown | `dimensiones.json` | Satisfaction by facultad/carrera/ciclo/dimension |
-| 7. ID counts | `ids.json` | Response counts per facultad/carrera/ciclo |
-| 8. Dashboard data | `dashboard_data.json` | Aggregated KPIs, hallazgos, NPS/CSAT distributions |
-| 9. Filter options | `filtros.json` | facultades, carreras, ciclos, facultad_carrera mapping |
-| 10. Sentiment analysis | `sentimiento.json` | Topic-based semantic analysis of NPS comments (Pasivos + Detractores only) |
-| 11. Period manifest | `periodos.json` (per level) | Auto-generated chronological period list with `isNew` flag |
+| Step                        | Output File                                                                    | Description                                                                |
+| --------------------------- | ------------------------------------------------------------------------------ | -------------------------------------------------------------------------- |
+| 1. Column mapping           | —                                                                              | Renombra columnas Zoho → nombres internos via `COLUMN_RENAME`              |
+| 2. Faculty assignment       | —                                                                              | Mapea carrera → facultad via `carrera_facultad` dictionary                 |
+| 3. Dimension categorization | —                                                                              | Mapea dimensión → categoría via `categoria_dim` dictionary                 |
+| 4. NPS calculation          | `nps.json`, `nps_carrera.json`, `nps_ciclo.json`, `nps_ciclo_carrera.json`     | NPS score per dimension (global, career, cycle, cross)                     |
+| 5. CSAT calculation         | `csat.json`, `csat_carrera.json`, `csat_ciclo.json`, `csat_ciclo_carrera.json` | CSAT score per dimension (global, career, cycle, cross)                    |
+| 6. Dimension breakdown      | `dimensiones.json`                                                             | Satisfaction by facultad/carrera/ciclo/dimension                           |
+| 7. ID counts                | `ids.json`                                                                     | Response counts per facultad/carrera/ciclo                                 |
+| 8. Dashboard data           | `dashboard_data.json`                                                          | Aggregated KPIs, hallazgos, NPS/CSAT distributions                         |
+| 9. Filter options           | `filtros.json`                                                                 | facultades, carreras, ciclos, facultad_carrera mapping                     |
+| 10. Sentiment analysis      | `sentimiento.json`                                                             | Topic-based semantic analysis of NPS comments (Pasivos + Detractores only) |
+| 11. Period manifest         | `periodos.json` (per level)                                                    | Auto-generated chronological period list with `isNew` flag                 |
 
 **Semantic Analysis** (`agrupar_comentarios_por_topico`):
+
 - Only processes NPS scores < 9 (Pasivos: 7-8, Detractores: 0-6)
 - Uses keyword matching against 8 predefined topics (calidad docente, malla curricular, infraestructura, etc.)
 - Stopwords filtering via `STOPWORDS` set (extended Spanish stopwords)
@@ -41,6 +42,7 @@ Capa de transformación de datos. Es el único punto de generación de datos en 
 - Generates distribution per career, faculty, and cycle
 
 **Faculty Catalog** (hardcoded):
+
 ```python
 carrera_facultad = {
     "Arquitectura": "Facultad de Arquitectura",
@@ -51,6 +53,7 @@ carrera_facultad = {
 ```
 
 **Cycle Stage Mapping**:
+
 ```python
 etapa_map = {1-2: "Inicial", 3-6: "Intermedio", 7-12: "Avanzado"}
 ```
@@ -62,6 +65,7 @@ etapa_map = {1-2: "Inicial", 3-6: "Intermedio", 7-12: "Avanzado"}
 **Input**: Nivel académico como argumento CLI (`undergraduate` o `postgraduate`)
 
 **Validation Rules**:
+
 - File existence: 7 required files, 5 legacy files (warning only)
 - Structural: JSON type checks (object vs array), non-empty validation
 - Schema: Required keys per file (e.g., `dashboard_data.json` requires `resumen`, `hallazgos`, `nps`, `csat`)
@@ -88,13 +92,13 @@ python scripts/validate_generated_json.py postgraduate
 
 ## Configuration (build_json.py)
 
-| Constant | Location | Description |
-|----------|----------|-------------|
-| `COLUMN_RENAME` | Lines ~20-58 | Zoho Survey column name → internal name mapping |
-| `carrera_facultad` | Lines ~270-286 | Career → Faculty catalog |
-| `categoria_dim` | Lines ~290-326 | Dimension → Category mapping |
-| `TOPICOS` | Lines ~80-145 | Topic definitions with keywords, type, icon |
-| `STOPWORDS` | Lines ~148-175 | Spanish stopwords for text normalization |
+| Constant           | Location       | Description                                     |
+| ------------------ | -------------- | ----------------------------------------------- |
+| `COLUMN_RENAME`    | Lines ~20-58   | Zoho Survey column name → internal name mapping |
+| `carrera_facultad` | Lines ~270-286 | Career → Faculty catalog                        |
+| `categoria_dim`    | Lines ~290-326 | Dimension → Category mapping                    |
+| `TOPICOS`          | Lines ~80-145  | Topic definitions with keywords, type, icon     |
+| `STOPWORDS`        | Lines ~148-175 | Spanish stopwords for text normalization        |
 
 ## Technical Debt
 

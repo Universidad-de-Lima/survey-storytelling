@@ -12,24 +12,24 @@ Capa única del sistema que abarca desde la ingesta de datos CSV hasta el render
 
 ## Submodules
 
-| Submodule | Path | Responsibility |
-|-----------|------|----------------|
-| **Shared** | `shared/` | CSS, JS, imágenes reutilizables entre todos los módulos de encuesta |
+| Submodule    | Path        | Responsibility                                                        |
+| ------------ | ----------- | --------------------------------------------------------------------- |
+| **Shared**   | `shared/`   | CSS, JS, imágenes reutilizables entre todos los módulos de encuesta   |
 | **Students** | `students/` | Datos, scripts ETL, templates e instancias de encuestas estudiantiles |
 
 ## Key Files
 
-| File | Function |
-|------|----------|
-| `shared/js/dashboard.js` | Core SPA: 4 secciones (Ejecutivo, Operativo, Detallado, Cualitativo) con filtros en cascada |
-| `shared/js/loader.js` | Navegador de periodos académicos con pills (desktop) y select (mobile) |
-| `shared/css/dashboard.css` | Sistema de diseño con variables CSS, layout responsivo |
-| `shared/css/loader.css` | Estilos del splash screen, topbar y navegador de periodos |
-| `students/scripts/build_json.py` | Pipeline ETL: CSV → JSON contracts |
-| `students/scripts/validate_generated_json.py` | Validador de contratos JSON |
-| `students/template/index.html` | Template HTML copiado a cada nuevo periodo |
-| `students/JSON_SCHEMA.md` | Especificación detallada de contratos JSON |
-| `students/FILTER_LOGIC.md` | Lógica de filtros en cascada del dashboard |
+| File                                          | Function                                                                                    |
+| --------------------------------------------- | ------------------------------------------------------------------------------------------- |
+| `shared/js/dashboard.js`                      | Core SPA: 4 secciones (Ejecutivo, Operativo, Detallado, Cualitativo) con filtros en cascada |
+| `shared/js/loader.js`                         | Navegador de periodos académicos con pills (desktop) y select (mobile)                      |
+| `shared/css/dashboard.css`                    | Sistema de diseño con variables CSS, layout responsivo                                      |
+| `shared/css/loader.css`                       | Estilos del splash screen, topbar y navegador de periodos                                   |
+| `students/scripts/build_json.py`              | Pipeline ETL: CSV → JSON contracts                                                          |
+| `students/scripts/validate_generated_json.py` | Validador de contratos JSON                                                                 |
+| `students/template/index.html`                | Template HTML copiado a cada nuevo periodo                                                  |
+| `students/JSON_SCHEMA.md`                     | Especificación detallada de contratos JSON                                                  |
+| `students/FILTER_LOGIC.md`                    | Lógica de filtros en cascada del dashboard                                                  |
 
 ## Data Flow
 
@@ -46,6 +46,7 @@ Capa única del sistema que abarca desde la ingesta de datos CSV hasta el render
 ## Execution Flow
 
 ### Build Time
+
 1. CSV placed in `students/data/`
 2. `build_json.py` detects period from filename (regex `(20\d{2}-[12])`)
 3. Transforms and aggregates → writes JSON contracts per period
@@ -53,6 +54,7 @@ Capa única del sistema que abarca desde la ingesta de datos CSV hasta el render
 5. Updates `periodos.json` for the level
 
 ### Runtime
+
 1. `students/{level}/index.html` (loader) → `loader.js` initializes
 2. `loader.js` fetches `periodos.json`, renders pills/select
 3. User selects period → iframe loads `{level}/{period}/index.html`
