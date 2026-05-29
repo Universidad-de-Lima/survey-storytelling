@@ -37,8 +37,12 @@
     "12° Ciclo"
   ],
   "facultad_carrera": {
-    "Facultad de Derecho": ["Derecho"],
-    "Facultad de Arquitectura": ["Arquitectura"],
+    "Facultad de Derecho": [
+      "Derecho"
+    ],
+    "Facultad de Arquitectura": [
+      "Arquitectura"
+    ],
     "Facultad de Ingeniería": [
       "Ingeniería Civil",
       "Ingeniería Industrial",
@@ -50,8 +54,14 @@
       "Marketing",
       "Negocios Internacionales"
     ],
-    "Facultad de Comunicación": ["Comunicación"],
-    "Facultad de Psicología": ["Psicología"],
-    "Facultad de Economía": ["Economía"]
+    "Facultad de Comunicación": [
+      "Comunicación"
+    ],
+    "Facultad de Psicología": [
+      "Psicología"
+    ],
+    "Facultad de Economía": [
+      "Economía"
+    ]
   }
 }

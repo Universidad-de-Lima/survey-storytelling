@@ -39,7 +39,9 @@
     "12° Ciclo"
   ],
   "facultad_carrera": {
-    "Facultad de Comunicación": ["Comunicación"],
+    "Facultad de Comunicación": [
+      "Comunicación"
+    ],
     "Facultad de Ciencias Empresariales": [
       "Administración",
       "Contabilidad y Finanzas",
@@ -53,9 +55,17 @@
       "Ingeniería Mecatrónica",
       "Ingeniería de Sistemas"
     ],
-    "Facultad de Psicología": ["Psicología"],
-    "Facultad de Economía": ["Economía"],
-    "Facultad de Derecho": ["Derecho"],
-    "Facultad de Arquitectura": ["Arquitectura"]
+    "Facultad de Psicología": [
+      "Psicología"
+    ],
+    "Facultad de Economía": [
+      "Economía"
+    ],
+    "Facultad de Derecho": [
+      "Derecho"
+    ],
+    "Facultad de Arquitectura": [
+      "Arquitectura"
+    ]
   }
 }
