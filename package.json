@@ -11,8 +11,8 @@
     "test:unit": "turbo test:unit",
     "test:integration": "turbo test:integration",
     "test:e2e": "turbo test:e2e",
-    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md,py}\"",
-    "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md,py}\"",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md}\"",
     "clean": "turbo clean && rm -rf node_modules",
     "prepare": "husky",
     "build:json": "cd scripts && python build_json.py",
@@ -20,6 +20,7 @@
     "type-check": "turbo type-check"
   },
   "devDependencies": {
+    "@survey-storytelling/eslint-config": "workspace:*",
     "eslint": "^8.57.0",
     "turbo": "^2.0.0",
     "prettier": "^3.2.0",
@@ -30,8 +31,7 @@
   },
   "lint-staged": {
     "*.{ts,tsx,js,jsx}": ["eslint --fix", "prettier --write"],
-    "*.{json,md}": ["prettier --write"],
-    "*.py": ["prettier --write"]
+    "*.{json,md}": ["prettier --write"]
   },
   "packageManager": "pnpm@9.1.0",
   "engines": {
