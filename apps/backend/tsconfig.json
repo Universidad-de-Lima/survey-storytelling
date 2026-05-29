@@ -1,5 +1,5 @@
 {
-  "extends": "@survey-storytelling/tsconfig/node.json",
+  "extends": "../../packages/tsconfig/node.json",
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
