@@ -2,6 +2,10 @@
 
 Módulos JavaScript del dashboard. Implementan la lógica de navegación entre periodos y la visualización interactiva de datos mediante manipulación directa del DOM (Vanilla JS, ES6+).
 
+## Purpose
+
+Proveer toda la lógica de frontend del sistema: navegación entre periodos académicos (`loader.js`) y visualización interactiva de datos del dashboard (`dashboard.js`). Sin frameworks, sin bundlers, sin dependencias externas en runtime.
+
 ## Architecture Role
 
 Capa de presentación lógica. No hay framework, bundler ni sistema de módulos. Ambos archivos son IIFEs que se ejecutan al cargarse y dependen del orden de inclusión en el HTML.
@@ -69,6 +73,58 @@ Capa de presentación lógica. No hay framework, bundler ni sistema de módulos.
 - `PROGRAMA_ESTUDIOS_GENERALES` — Special handling for General Studies program
 - `SAT_KEYS` — 5-level satisfaction scale keys
 
+## Data Flow
+
+```
+loader.js:
+  periodos.json → render pills/select → iframe.src = {period}/index.html
+
+dashboard.js (inside iframe):
+  ./json/dashboard_data.json  → Ejecutivo section (KPIs, bars, hallazgos)
+  ./json/dimensiones.json     → Operativo (Top 3, radar), Detallado (tables)
+  ./json/filtros.json         → All filter dropdown options
+  ./json/ids.json             → Detallado (response counts)
+  ./json/nps_ciclo_carrera.json → Detallado (NPS cross-table)
+  ./json/csat_ciclo_carrera.json → Detallado (CSAT cross-table)
+  ./json/sentimiento.json     → Cualitativo section
+```
+
+## Execution Flow
+
+```
+1. loader.js IIFE executes on {level}/index.html load
+   → splash screen → fetch periodos.json → normalize periods
+   → render pills (desktop) + select (mobile) → load latest period
+   → set iframe.src = {level}/{period}/index.html
+
+2. dashboard.js IIFE executes on period/index.html load
+   → register DOM references in DOM object
+   → fetch all 7 JSON files in parallel → store in cache
+   → render Ejecutivo → Operativo → Detallado → Cualitativo
+   → initialize all 6 filter groups
+   → bind cascade events (facultad → carrera → ciclo)
+   → bind scroll progress (progress-fill)
+
+3. User interaction
+   → filter change → filtrarDatos(data, fac, car, cic)
+   → updateCascade(suffix) → repopulate selects + re-render section
+   → tooltip hover → window.showTooltip/hideTooltip
+   → period change (from loader) → iframe reload → step 2
+```
+
+## Configuration
+
+Constants in `dashboard.js`:
+
+| Constant | Value | Purpose |
+|----------|-------|---------|
+| `META_NPS` | `50` | Target NPS threshold for KPI indicators |
+| `META_CSAT` | `93` | Target CSAT threshold for KPI indicators |
+| `CARRERAS_12_CICLOS` | `['Derecho', 'Psicología']` | Careers with 12-cycle range |
+| `FACULTADES_12_CICLOS` | `['Facultad de Derecho', 'Facultad de Psicología']` | Faculties with 12-cycle range |
+| `PROGRAMA_ESTUDIOS_GENERALES` | `'Programa de Estudios Generales'` | Special program with 2-cycle limit |
+| `SAT_KEYS` | `['Totalmente satisfecho', ...]` | 5-level satisfaction scale keys |
+
 ## Dependencies
 
 - **Runtime**: Zero external dependencies. No jQuery, no Chart.js, no D3.js.
@@ -85,6 +141,15 @@ Capa de presentación lógica. No hay framework, bundler ni sistema de módulos.
 - **No loading states per section**: Single overlay for entire dashboard. Individual sections don't show loading state.
 - **Sentimiento limitation**: Topic analysis aggregates by facultad/carrera/ciclo separately, not exact row-level intersection.
 
+## Improvement Opportunities
+
+- Separar `dashboard.js` en módulos: data fetching, rendering, filter logic, UI utilities.
+- Reemplazar custom select/multiselect dropdowns con `<select>` nativo mejorado o Web Component.
+- Agregar manejo de errores visible para el usuario en fallos de fetch JSON (no solo `console.error`).
+- Implementar dirty checking en filtros para evitar re-renderizados innecesarios.
+- Agregar pruebas unitarias para `filtrarDatos`, `getCiclosForFiltro`, y funciones de render.
+- Mover `CARRERAS_12_CICLOS` y `FACULTADES_12_CICLOS` a `filtros.json` como configuración.
+
 ## AI Agent Notes
 
 - `dashboard.js` implements the `'use strict'` directive. All variables must be declared.
@@ -93,3 +158,6 @@ Capa de presentación lógica. No hay framework, bundler ni sistema de módulos.
 - The `filtrarDatos` function has special-cased logic for "Programa de Estudios Generales" — only cycles 1° and 2° are included.
 - Multiselect cycles: the `render*` functions receive ciclo as either string (single) or array of strings (multi), plus null for "all".
 - Changes to cycle range rules must be consistent between `getCiclosForFiltro()` and `getCiclosOptions()`.
+- `loader.js` splash screen timing: `setTimeout` for splash visibility, then class toggle for main wrapper.
+- `dashboard.js` uses `cache` object as simple key-value store. No expiration or invalidation logic.
+- The `DOM` registry pattern (`const DOM = { el: () => document.getElementById('id') }`) centralizes element lookups but creates new query on each access.

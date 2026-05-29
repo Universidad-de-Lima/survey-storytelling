@@ -2,6 +2,10 @@
 
 Estructura preparada para dashboards de encuestas de **posgrado**. Actualmente contiene solo archivos placeholder (`.txt` vacíos) sin datos procesados ni instancias de dashboard funcionales.
 
+## Purpose
+
+Reservar el espacio estructural para futuros dashboards de encuestas de posgrado. Mantiene compatibilidad estructural con `undergraduate/` para que el ETL pueda generar instancias automáticamente cuando existan datos.
+
 ## Architecture Role
 
 Espacio reservado para futuras encuestas de posgrado. Sigue la misma convención de estructura que `undergraduate/` (subdirectorios por año con `json/` y `index.html`), pero sin datos reales.

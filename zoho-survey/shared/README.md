@@ -2,6 +2,10 @@
 
 Componentes reutilizables compartidos entre todos los módulos de encuesta del sistema. Contiene estilos, JavaScript e imágenes utilizados por los dashboards de todos los niveles académicos.
 
+## Purpose
+
+Proveer la capa de presentación base (CSS, JS, imágenes) que consume cada instancia de dashboard de periodo, garantizando consistencia visual y comportamental sin duplicación de código.
+
 ## Architecture Role
 
 Capa de presentación base. Proporciona el sistema de diseño (CSS), la lógica de visualización (JS) y los assets gráficos que consumen las páginas de periodo individuales.
@@ -14,10 +18,7 @@ Capa de presentación base. Proporciona el sistema de diseño (CSS), la lógica 
 | `css/loader.css` | Estilos del splash screen, topbar, navegador de periodos (pills/select) y overlay de carga |
 | `js/dashboard.js` | Lógica central del dashboard SPA. 4 secciones, filtros en cascada, renderizado de gráficos SVG, tooltips |
 | `js/loader.js` | Lógica del navegador de periodos: carga de `periodos.json`, inicialización de pills/select, control del iframe |
-| `img/logo-horizontal.png` | Logo horizontal usado en topbar del loader |
-| `img/logo-vertical.png` | Logo vertical usado en splash screen |
-| `img/logo-isotipo.png` | Isotipo usado en footer del dashboard |
-| `img/favicon.png` | Favicon del dashboard |
+| `img/` | Assets gráficos institucionales (logos ULIMA, favicon) |
 
 ## Data Flow
 
@@ -28,6 +29,17 @@ loader.js → fetch periodos.json → render pills/select → set iframe src
                                                               ↓
                                               render 4 sections (Ejecutivo, Operativo, Detallado, Cualitativo)
 ```
+
+## Execution Flow
+
+1. `{level}/index.html` loads → `loader.js` executes (IIFE)
+2. `loader.js` fetches `periodos.json` → builds pills (desktop) and `<select>` (mobile)
+3. User picks period → `loadPeriod()` sets `iframe.src` to `{period}/index.html`
+4. Iframe loads → `dashboard.js` executes (IIFE)
+5. `dashboard.js` fetches 7 JSON files from `./json/` → stores in `cache` object
+6. Registers DOM references in `DOM` object (centralized `getElementById`)
+7. Initializes 6 filter groups with cascade logic
+8. Renders 4 sections in order: Ejecutivo → Operativo → Detallado → Cualitativo
 
 ## Dependencies
 
@@ -45,6 +57,12 @@ Variables CSS en `dashboard.css`:
 - Escala de grises `--gray-900` a `--gray-50`
 - Colores semánticos: `--success-pastel`, `--warning-pastel`, `--danger-pastel`
 
+Constantes en `dashboard.js`:
+- `META_NPS = 50` — umbral target NPS
+- `META_CSAT = 93` — umbral target CSAT
+- `CARRERAS_12_CICLOS = ['Derecho', 'Psicología']` — carreras con 12 ciclos
+- `FACULTADES_12_CICLOS` — facultades con 12 ciclos
+
 ## Technical Debt
 
 - **dashboard.js** (1200+ lines): Monolítico. Toda la lógica de negocio, renderizado y eventos en un solo archivo. Dificulta testing y mantenimiento.
@@ -54,6 +72,14 @@ Variables CSS en `dashboard.css`:
 - **Tooltip positioning**: `showTooltip` usa coordenadas de evento sin boundary detection (puede desbordar viewport).
 - **Console.error patterns**: Algunos catch blocks usan `console.error` sin manejo de errores visible para el usuario.
 
+## Improvement Opportunities
+
+- Dividir `dashboard.js` en módulos: `data-loader.js`, `render-engine.js`, `filter-system.js`, `ui-utils.js`.
+- Migrar a ES modules (`<script type="module">`) para eliminar dependencia de orden de carga.
+- Agregar boundary detection en `showTooltip` para prevenir desbordamiento del viewport.
+- Implementar carga lazy de JSON por sección (solo fetchear datos cuando el usuario navega a esa sección).
+- Agregar pruebas unitarias con Vitest o similar (el proyecto `survey-tracker` ya usa Vitest).
+
 ## AI Agent Notes
 
 - `dashboard.js` espera que los `<select>` tengan atributo `data-multiselect="true"` para activar el dropdown multiselect.
@@ -62,3 +88,4 @@ Variables CSS en `dashboard.css`:
 - `#progress-fill` es requerido para la barra de progreso de scroll.
 - No cambiar el nombre de la función `loadPeriod` — es llamada desde HTML inline (`onchange="loadPeriod(this.value)"`).
 - `showTooltip` y `hideTooltip` están expuestas globalmente como `window.showTooltip` y `window.hideTooltip` para uso desde eventos inline SVG.
+- El orden de carga de scripts es crítico: `dashboard.js` debe cargarse al final del `<body>` del period `index.html`, después de que todos los elementos DOM existen.

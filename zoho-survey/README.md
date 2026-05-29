@@ -2,6 +2,10 @@
 
 Módulo de procesamiento y visualización de encuestas de satisfacción. Contiene toda la lógica ETL, los contratos de datos y la capa de presentación para los dashboards de encuestas estudiantiles.
 
+## Purpose
+
+Implementar el pipeline completo desde la ingesta de datos CSV hasta el renderizado del dashboard, organizado en componentes reutilizables (`shared/`) y lógica específica por dominio (`students/`).
+
 ## Architecture Role
 
 Capa única del sistema que abarca desde la ingesta de datos CSV hasta el renderizado del dashboard. Se subdivide en `shared/` (componentes reutilizables) y `students/` (lógica específica para encuestas estudiantiles).
@@ -27,6 +31,33 @@ Capa única del sistema que abarca desde la ingesta de datos CSV hasta el render
 | `students/JSON_SCHEMA.md` | Especificación detallada de contratos JSON |
 | `students/FILTER_LOGIC.md` | Lógica de filtros en cascada del dashboard |
 
+## Data Flow
+
+```
+[CSV] → students/data/
+  → students/scripts/build_json.py (ETL offline)
+    → students/{level}/{period}/json/*.json (7 active + 5 legacy)
+    → students/{level}/periodos.json (auto-updated)
+    → students/{level}/{period}/index.html (copied from template/)
+      → runtime: consumes shared/js/dashboard.js
+      → runtime: consumes shared/css/dashboard.css
+```
+
+## Execution Flow
+
+### Build Time
+1. CSV placed in `students/data/`
+2. `build_json.py` detects period from filename (regex `(20\d{2}-[12])`)
+3. Transforms and aggregates → writes JSON contracts per period
+4. Copies `template/index.html` if period `index.html` doesn't exist
+5. Updates `periodos.json` for the level
+
+### Runtime
+1. `students/{level}/index.html` (loader) → `loader.js` initializes
+2. `loader.js` fetches `periodos.json`, renders pills/select
+3. User selects period → iframe loads `{level}/{period}/index.html`
+4. `dashboard.js` fetches JSON contracts and renders 4 sections
+
 ## Dependencies
 
 - **Internal**: `shared/` es consumido por `students/{level}/{period}/`
@@ -41,9 +72,17 @@ Capa única del sistema que abarca desde la ingesta de datos CSV hasta el render
 
 - `students/` y `shared/` son los únicos subdirectorios; el diseño actual solo soporta encuestas estudiantiles. Nuevos tipos de encuesta requerirían módulos adicionales al mismo nivel.
 - Las imágenes en `shared/img/` están acopladas a la marca institucional (logos ULIMA). Reutilización externa requiere reemplazo.
+- `dashboard.js` monolítico (1200+ líneas) mezcla fetch, render, eventos y formateo.
+
+## Improvement Opportunities
+
+- Extraer módulo `shared/js/` en múltiples archivos (data, render, filters, utils) con un loader sencillo.
+- Agregar sistema de módulos ES6 (`type="module"`) para eliminar dependencia de orden de carga.
+- Unificar nomenclatura técnica: el ID `#sentimiento` debería ser `#cualitativo` para coincidir con la etiqueta visible.
 
 ## AI Agent Notes
 
 - El HTML de periodo (`index.html`) tiene contratos DOM estrictos documentados en `JSON_SCHEMA.md`.
 - No agregar dependencias JS externas al dashboard sin evaluar impacto en despliegue estático (GitHub Pages).
 - `dashboard.js` usa IIFE (Immediately Invoked Function Expression) con `'use strict'`.
+- La convención de sufijos en filtros (`top3`, `radar`, `preguntas`, `detalle`, `visibilidad`, `sent`) debe mantenerse consistente.

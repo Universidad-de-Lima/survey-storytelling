@@ -2,6 +2,10 @@
 
 Template HTML para los dashboards de periodo. Es copiado por `build_json.py` a cada nuevo directorio de periodo cuando no existe un `index.html`.
 
+## Purpose
+
+Proveer el scaffold HTML estándar para todas las instancias de dashboard de periodo. Garantiza que cada periodo tenga la estructura DOM completa que `dashboard.js` requiere, manteniendo consistencia entre periodos.
+
 ## Architecture Role
 
 Scaffold del dashboard de periodo. Define la estructura DOM completa que `dashboard.js` espera para funcionar. Cualquier modificación en este template afecta a todos los periodos futuros.

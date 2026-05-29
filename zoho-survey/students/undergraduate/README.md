@@ -2,6 +2,10 @@
 
 Instancias del dashboard de encuestas de satisfacción para el nivel de **pregrado**. Es el nivel funcionalmente activo del sistema, con datos procesados para los periodos 2025-2 y 2026-1.
 
+## Purpose
+
+Publicar dashboards de encuestas de satisfacción para estudiantes de pregrado. Cada subdirectorio de periodo es una instancia autónoma desplegable en GitHub Pages.
+
 ## Architecture Role
 
 Capa de presentación por periodo. Cada subdirectorio representa una instancia autónoma del dashboard: contiene su propio `index.html` (copia del template) y su directorio `json/` con los contratos de datos generados por el ETL.

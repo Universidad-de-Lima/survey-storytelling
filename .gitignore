@@ -1,0 +1,42 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build outputs
+dist/
+.turbo/
+.next/
+out/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# IDE
+.vscode/settings.json
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+
+# Testing
+coverage/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Generated data (but not the CSV source)
+apps/frontend/public/data/
+!apps/frontend/public/data/.gitkeep

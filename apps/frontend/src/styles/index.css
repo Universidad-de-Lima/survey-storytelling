@@ -1,0 +1,54 @@
+@import 'tailwindcss';
+
+/* ==========================================================================
+   Design Tokens — Survey Storytelling
+   ========================================================================== */
+@theme {
+  --color-ulima-orange: #FF5117;
+  --color-ulima-red: #FF0000;
+  --color-ulima-blue: #2563EB;
+  --color-ulima-dark: #1E293B;
+  --color-success: #22C55E;
+  --color-warning: #F59E0B;
+  --color-danger: #EF4444;
+
+  --font-family-primary: 'Roboto', sans-serif;
+  --font-family-display: 'Lusitana', Georgia, serif;
+}
+
+/* ==========================================================================
+   Base Styles
+   ========================================================================== */
+body {
+  font-family: var(--font-family-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-family-display);
+}
+
+/* ==========================================================================
+   Legacy compatibility — preserve original dashboard IDs for iframe mode
+   ========================================================================== */
+#ejecutivo,
+#operativo,
+#analitico,
+#sentimiento {
+  scroll-margin-top: 80px;
+}
+
+/* ==========================================================================
+   Scrollbar
+   ========================================================================== */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+::-webkit-scrollbar-thumb {
+  background: #94a3b8;
+  border-radius: 4px;
+}

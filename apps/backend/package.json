@@ -1,0 +1,33 @@
+{
+  "name": "@survey-storytelling/backend",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Backend API para servir datos de encuestas de satisfacción",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "lint": "eslint . --ext .ts",
+    "test": "vitest run",
+    "test:unit": "vitest run --dir src",
+    "type-check": "tsc --noEmit",
+    "clean": "rm -rf dist node_modules"
+  },
+  "dependencies": {
+    "@fastify/cors": "^9.0.0",
+    "@fastify/helmet": "^11.0.0",
+    "@fastify/rate-limit": "^9.0.0",
+    "@survey-storytelling/shared-types": "workspace:*",
+    "fastify": "^4.26.0",
+    "zod": "^3.22.0"
+  },
+  "devDependencies": {
+    "@survey-storytelling/eslint-config": "workspace:*",
+    "@survey-storytelling/tsconfig": "workspace:*",
+    "@types/node": "^20.12.0",
+    "eslint": "^8.57.0",
+    "tsx": "^4.7.0",
+    "typescript": "^5.4.0",
+    "vitest": "^1.6.0"
+  }
+}

@@ -2,6 +2,10 @@
 
 Módulo de encuestas estudiantiles. Contiene datos fuente (CSV), scripts ETL, templates, documentación de contratos e instancias de dashboard por nivel académico y periodo.
 
+## Purpose
+
+Implementar el pipeline de datos para encuestas estudiantiles: desde la ingesta de CSV hasta la generación de dashboards autónomos por nivel académico (pregrado y posgrado) y periodo.
+
 ## Architecture Role
 
 Módulo principal del dominio de encuestas. Implementa el pipeline completo desde los datos crudos de Zoho Survey hasta los dashboards desplegables. Se organiza en dos niveles: `undergraduate/` (pregrado, activo) y `postgraduate/` (posgrado, placeholder).
@@ -33,7 +37,19 @@ Módulo principal del dominio de encuestas. Implementa el pipeline completo desd
 data/*.csv → build_json.py → undergraduate/{periodo}/json/*.json
                                   → undergraduate/{periodo}/index.html (from template)
                                   → undergraduate/periodos.json (auto-updated)
+                                  → postgraduate/{periodo}/json/*.json (if POSGRADO CSV present)
 ```
+
+## Execution Flow
+
+1. User places CSV file in `data/` with naming convention `ENCUESTA DE SATISFACCIÓN {LEVEL} - {PERIOD}.csv`
+2. User runs `python scripts/build_json.py` (or CI triggers on push)
+3. Script detects level (`PREGRADO` → `undergraduate/`, `POSGRADO` → `postgraduate/`)
+4. Extracts period from filename via regex `(20\d{2}-[12])`
+5. Transforms CSV data through 11 pipeline steps (column mapping, aggregation, topic analysis)
+6. Writes 12+ JSON files to `{level}/{period}/json/`
+7. Copies `template/index.html` if period `/index.html` doesn't exist
+8. Updates `{level}/periodos.json` with new period entry
 
 ## Dependencies
 
@@ -50,6 +66,14 @@ data/*.csv → build_json.py → undergraduate/{periodo}/json/*.json
 - **Postgraduate sin datos**: La estructura `postgraduate/` existe pero no contiene datos procesados. El ETL busca archivos con `POSGRADO` en el nombre.
 - **Archivos legado**: `nps.json`, `csat.json`, `nps_carrera.json`, `csat_carrera.json`, `resumen.json` aún se generan pero son legacy. El dashboard moderno no los consume.
 - **Template no versionado**: `template/index.html` no tiene control de versiones. Cambios en el template no se reflejan retroactivamente en periodos existentes.
+- **CSV filename validation**: No hay validación pre-ETL del formato de nombre de archivo.
+
+## Improvement Opportunities
+
+- Agregar flag `--level` a `build_json.py` para procesar un nivel específico sin scanear todos los CSVs.
+- Migrar legacy JSON generation a un flag `--legacy` o eliminarlo.
+- Agregar version metadata a `template/index.html` para detectar templates desactualizados en periodos existentes.
+- Centralizar la configuración de `build_json.py` (COLUMN_RENAME, carrera_facultad, categoria_dim) en archivos YAML/JSON externos.
 
 ## AI Agent Notes
 
@@ -57,3 +81,4 @@ data/*.csv → build_json.py → undergraduate/{periodo}/json/*.json
 - El ETL copia `template/index.html` solo si no existe en el directorio del periodo. Para actualizar periodos existentes, copiar manualmente.
 - Validar JSON localmente: `python scripts/validate_generated_json.py {nivel}`.
 - Los archivos CSV deben estar en `data/` con prefijo `ENCUESTA` y el periodo en el nombre debe coincidir con el regex `(20\d{2}-[12])`.
+- La nomenclatura de periodo para posgrado es `{año}-{semestre}` (ej. `2025-1`), no solo `{año}`. Los directorios existentes `2025/` y `2026/` en `postgraduate/` son placeholders preliminares.
