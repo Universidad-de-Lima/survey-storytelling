@@ -101,7 +101,7 @@
     line-height: 1.1;
     font-family: 'Roboto', sans-serif;
     font-weight: 700;
-    font-size: 22px;
+    font-size: 20px;
     color: #fff;
     white-space: nowrap;
   }
@@ -217,7 +217,7 @@
     .period-label { display: none; }
     .select-wrap { display: flex; }
     .bar-title {
-      font-size: 18px;
+      font-size: 16px;
       white-space: normal;
       max-width: 140px;
     }

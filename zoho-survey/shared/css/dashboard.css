@@ -178,7 +178,7 @@ body {
 }
 
 .section-title {
-  font-size: 22px;
+  font-size: 18px;
   font-weight: var(--font-bold);
   color: var(--gray-900);
   letter-spacing: 0.5px;
@@ -1000,7 +1000,7 @@ body {
   .nav-links a { font-size: 9px; padding: 4px 8px; }
   .main-content { padding: 16px 12px; }
   .section { margin-bottom: 32px; }
-  .section-title { font-size: 17px; }
+  .section-title { font-size: 15px; }
   .kpi-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 12px;
@@ -1060,7 +1060,7 @@ body {
   .sticky-header { padding: 6px 8px; }
   .nav-links a { font-size: 8px; padding: 3px 6px; }
   .main-content { padding: 12px 8px; }
-  .section-title { font-size: 15px; }
+  .section-title { font-size: 13px; }
   .kpi-grid {
     grid-template-columns: 1fr;
     gap: 10px;
