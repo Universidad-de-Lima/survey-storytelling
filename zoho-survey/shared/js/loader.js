@@ -1,54 +1,116 @@
 (() => {
   'use strict';
 
-  let PERIODS = [];
-  let currentPeriod = null;
+  const SURVEY_TYPES = [
+    { id: 'undergraduate', label: 'ESTUDIANTES PREGRADO', path: '.' },
+    { id: 'graduate', label: 'GRADUADOS PREGRADO', path: '../graduate' },
+    { id: 'posgraduate', label: 'ESTUDIANTES POSGRADO', path: '../posgraduate' },
+    { id: 'alumni-ug', label: 'EGRESADOS PREGRADO', path: '../../alumni/undergraduate' },
+    { id: 'alumni-pg', label: 'EGRESADOS POSGRADO', path: '../../alumni/posgraduate' },
+    { id: 'faculty-ug', label: 'DOCENTES PREGRADO', path: '../../facultyStaff/undergraduate' },
+    { id: 'faculty-pg', label: 'DOCENTES POSGRADO', path: '../../facultyStaff/posgraduate' },
+    { id: 'nonfaculty', label: 'NO DOCENTES', path: '../../nonfacultyStaff' },
+    { id: 'employers', label: 'EMPLEADORES', path: '../../employers' },
+  ];
 
+  let currentSurvey = null;
+  let currentPeriod = null;
+  let PERIODS = [];
+  let _initializing = true;
+
+  const tabsEl = document.getElementById('survey-tabs');
+  const surveySelect = document.getElementById('survey-select');
   const pillsEl = document.getElementById('pills-container');
-  const selectEl = document.getElementById('period-select');
+  const periodSelect = document.getElementById('period-select');
+  const periodBar = document.getElementById('period-bar');
   const frame = document.getElementById('dashboard-frame');
   const overlay = document.getElementById('overlay');
   const ovMsg = document.getElementById('overlay-msg');
   const splash = document.getElementById('splash');
 
-  function showLoaderError(message, error) {
-    if (error) console.error(message, error);
-    if (ovMsg) ovMsg.textContent = message;
-    overlay?.classList.add('show');
-    frame?.classList.remove('loaded');
+  // ── Render survey tabs ──
+  SURVEY_TYPES.forEach((s, i) => {
+    // Desktop tab
+    const btn = document.createElement('button');
+    btn.className = 'survey-tab' + (i === 0 ? ' active' : '');
+    btn.textContent = s.label;
+    btn.disabled = !s.path;
+    btn.addEventListener('click', () => selectSurvey(s.id));
+    tabsEl?.appendChild(btn);
+
+    // Mobile select option
+    const opt = document.createElement('option');
+    opt.value = s.id;
+    opt.textContent = s.label;
+    opt.disabled = !s.path;
+    if (i === 0) opt.selected = true;
+    surveySelect?.appendChild(opt);
+  });
+
+  surveySelect?.addEventListener('change', (e) => selectSurvey(e.target.value));
+
+  // ── Select survey type ──
+  async function selectSurvey(id) {
+    const survey = SURVEY_TYPES.find((s) => s.id === id);
+    if (!survey || !survey.path) return;
+    if (!_initializing && survey.id === currentSurvey?.id) return;
+    _initializing = false;
+
+    currentSurvey = survey;
+    currentPeriod = null;
+
+    // Update tabs
+    document.querySelectorAll('.survey-tab').forEach((b) => {
+      b.classList.toggle('active', b.textContent === survey.label);
+    });
+    if (surveySelect) surveySelect.value = survey.id;
+
+    // Fetch periods
+    try {
+      const res = await fetch(`${survey.path}/periodos.json`, { cache: 'no-store' });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      PERIODS = normalizePeriods(await res.json());
+    } catch (err) {
+      showLoaderError(`Sin datos para ${survey.label}`, err);
+      periodBar.classList.remove('visible');
+      // Load "en construcción" page
+      frame.src = '../underconstruction.html';
+      overlay?.classList.remove('show');
+      frame.classList.add('loaded');
+      return;
+    }
+
+    // Show period bar
+    periodBar.classList.add('visible');
+    renderPeriods();
+
+    // Load latest period
+    const latest = PERIODS[PERIODS.length - 1];
+    if (latest) loadPeriod(latest.id);
   }
 
-  function normalizePeriods(rawPeriods) {
-    if (!Array.isArray(rawPeriods)) return [];
-
-    return rawPeriods
+  // ── Normalize periods ──
+  function normalizePeriods(raw) {
+    if (!Array.isArray(raw)) return [];
+    return raw
       .filter((p) => p && typeof p.id === 'string' && p.id.trim())
       .map((p) => ({
         ...p,
         id: p.id.trim(),
-        label: typeof p.label === 'string' && p.label.trim() ? p.label.trim() : p.id.trim(),
-        url: p.url || `./${p.id.trim()}/index.html`,
+        label: p.label || p.id,
+        url: p.url || `${currentSurvey.path}/${p.id.trim()}/index.html`,
       }));
   }
 
-  async function initPeriods() {
-    try {
-      const res = await fetch('./periodos.json', { cache: 'no-store' });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      PERIODS = normalizePeriods(await res.json());
-      if (!PERIODS.length) throw new Error('periodos.json no contiene periodos validos');
-    } catch (err) {
-      showLoaderError('Error al cargar periodos.', err);
-      return;
-    }
-
-    currentPeriod = PERIODS[PERIODS.length - 1].id;
+  // ── Render period pills ──
+  function renderPeriods() {
+    pillsEl.innerHTML = '';
+    periodSelect.innerHTML = '';
 
     PERIODS.forEach((p) => {
       const btn = document.createElement('button');
       btn.className = 'pill' + (p.id === currentPeriod ? ' active' : '');
       btn.dataset.id = p.id;
-      btn.type = 'button';
       btn.textContent = p.label;
       if (p.isNew) {
         const badge = document.createElement('span');
@@ -63,44 +125,42 @@
       opt.value = p.id;
       opt.textContent = p.label + (p.isNew ? ' ★' : '');
       if (p.id === currentPeriod) opt.selected = true;
-      selectEl?.appendChild(opt);
+      periodSelect?.appendChild(opt);
     });
-
-    const initial = PERIODS.find((p) => p.id === currentPeriod);
-    if (!initial) {
-      showLoaderError('No se encontro el periodo inicial.');
-      return;
-    }
-
-    ovMsg.textContent = `Cargando periodo ${initial.label}...`;
-    overlay.classList.add('show');
-    frame.src = initial.url;
   }
 
+  // ── Load period ──
   function loadPeriod(id) {
-    if (id === currentPeriod) return;
-
     const p = PERIODS.find((x) => x.id === id);
-    if (!p) {
-      showLoaderError('No se encontro el periodo seleccionado.');
-      return;
-    }
+    if (!p || id === currentPeriod) return;
 
     currentPeriod = id;
 
     document.querySelectorAll('.pill').forEach((b) => {
-      b.classList.toggle('active', b.dataset.id === id);
+      b.classList.toggle('active', b.dataset.id === p.id);
     });
-    if (selectEl) selectEl.value = id;
+    if (periodSelect) periodSelect.value = id;
 
-    ovMsg.textContent = `Cargando periodo ${p.label}...`;
-    overlay.classList.add('show');
-    frame.classList.remove('loaded');
+    ovMsg.textContent = `Cargando ${p.label}...`;
+    overlay?.classList.add('show');
+    frame?.classList.remove('loaded');
     frame.src = p.url;
   }
 
+  periodSelect?.addEventListener('change', (e) => loadPeriod(e.target.value));
+
+  // ── Helpers ──
+  function showLoaderError(msg, err) {
+    if (err) console.error(msg, err);
+    if (ovMsg) ovMsg.textContent = msg;
+    overlay?.classList.add('show');
+    frame?.classList.remove('loaded');
+  }
+
+  window.selectSurvey = selectSurvey;
   window.loadPeriod = loadPeriod;
 
+  // ── Events ──
   frame?.addEventListener('load', () => {
     overlay?.classList.remove('show');
     frame.classList.add('loaded');
@@ -113,5 +173,6 @@
     }, 1200);
   });
 
-  initPeriods();
+  // ── Init ──
+  selectSurvey('undergraduate');
 })();

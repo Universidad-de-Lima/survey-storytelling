@@ -290,25 +290,48 @@ def agrupar_comentarios_por_topico(df_comentarios):
 periodos_por_nivel = defaultdict(set)
 
 
+# Mapa de niveles a directorios de salida
+SURVEY_DIRS = {
+    "undergraduate": ROOT_DIR / "undergraduate",
+    "graduate": ROOT_DIR / "graduate",
+    "posgraduate": ROOT_DIR / "posgraduate",
+    "alumni-ug": ROOT_DIR.parent / "alumni" / "undergraduate",
+    "alumni-pg": ROOT_DIR.parent / "alumni" / "posgraduate",
+    "faculty-ug": ROOT_DIR.parent / "facultyStaff" / "undergraduate",
+    "faculty-pg": ROOT_DIR.parent / "facultyStaff" / "posgraduate",
+    "nonfaculty": ROOT_DIR.parent / "nonfacultyStaff",
+    "employers": ROOT_DIR.parent / "employers",
+}
+
 for INPUT_FILE in files:
     filename = INPUT_FILE.name.upper()
-    if "PREGRADO" in filename:
-        LEVEL = "undergraduate"
-    elif "POSGRADO" in filename:
-        LEVEL = "postgraduate"
+
+    if "NO DOCENTES" in filename:
+        LEVEL = "nonfaculty"
+    elif "EMPLEADORES" in filename:
+        LEVEL = "employers"
+    elif "EGRESADOS" in filename:
+        LEVEL = "alumni-pg" if "POSGRADO" in filename else "alumni-ug"
+    elif "DOCENTES" in filename:
+        LEVEL = "faculty-pg" if "POSGRADO" in filename else "faculty-ug"
+    elif "GRADUADOS" in filename:
+        LEVEL = "graduate"
+    elif "ESTUDIANTIL" in filename or "ESTUDIANTES" in filename:
+        LEVEL = "posgraduate" if "POSGRADO" in filename else "undergraduate"
     else:
         continue
 
-    match = re.search(r"(20\d{2}-[12])", filename)
+    match = re.search(r"(20\d{2}(?:-[12])?)", filename)
     if not match:
         continue
 
     YEAR = match.group()
+    SURVEY_DIR = SURVEY_DIRS[LEVEL]
     periodos_por_nivel[LEVEL].add(YEAR)
-    OUT = ROOT_DIR / LEVEL / YEAR / "json"
+    OUT = SURVEY_DIR / YEAR / "json"
     OUT.mkdir(parents=True, exist_ok=True)
 
-    YEAR_DIR = ROOT_DIR / LEVEL / YEAR
+    YEAR_DIR = SURVEY_DIR / YEAR
     INDEX_FILE = YEAR_DIR / "index.html"
     TEMPLATE_INDEX = ROOT_DIR / "template" / "index.html"
     if not INDEX_FILE.exists():
@@ -774,7 +797,7 @@ for lvl, periodos in periodos_por_nivel.items():
             "isNew": p == ultimo_periodo
         })
 
-    path_periodos = ROOT_DIR / lvl / "periodos.json"
+    path_periodos = SURVEY_DIRS[lvl] / "periodos.json"
     try:
         with open(path_periodos, "w", encoding="utf-8") as f:
             json.dump(periodos_json, f, ensure_ascii=False, indent=2)

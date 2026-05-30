@@ -12,51 +12,39 @@
 </head>
 <body>
 <div id="splash">
-  <img
-    src="../../shared/img/logo-vertical.png"
-    alt="Universidad de Lima">
+  <img src="../../shared/img/logo-vertical.png" alt="Universidad de Lima">
 </div>
 
-<!-- Overlay de carga -->
 <div id="overlay">
   <div class="overlay-inner">
     <div class="spinner"></div>
-    <div class="overlay-text" id="overlay-msg">Cargando periodo…</div>
+    <div class="overlay-text" id="overlay-msg">Cargando…</div>
   </div>
 </div>
 
-<!-- Barra superior -->
 <header id="topbar">
   <div class="bar-left">
     <img class="topbar-logo" src="../../shared/img/logo-horizontal.png" alt="Universidad de Lima">
-    <span class="bar-title">ENCUESTA DE SATISFACCIÓN</span>
-  </div>
-
-  <!-- Pills (desktop) -->
-  <div class="period-wrapper">
-    <span class="period-label">Período</span>
-    <div class="pills" id="pills-container">
-      <!-- Se generan por JS -->
+    <div class="survey-tabs" id="survey-tabs"></div>
+    <div class="survey-select-wrap">
+      <select class="survey-select" id="survey-select"></select>
+      <span class="select-arrow">▾</span>
     </div>
   </div>
-
-  <!-- Select (mobile) -->
-  <div class="select-wrap">
-    <select class="period-select" id="period-select" onchange="loadPeriod(this.value)">
-      <!-- Se generan por JS -->
-    </select>
-    <span class="select-arrow">▾</span>
+  <div id="period-bar" class="period-bar">
+    <span class="period-label">PERIODO</span>
+    <div class="pills" id="pills-container"></div>
+    <div class="select-wrap">
+      <select class="period-select" id="period-select"></select>
+      <span class="select-arrow">▾</span>
+    </div>
   </div>
 </header>
 
-<!-- Dashboard iframe -->
 <div id="frame-wrap">
-  <iframe
-    id="dashboard-frame"
-    title="Dashboard de Satisfacción Estudiantil"
-    allowfullscreen
-  ></iframe>
+  <iframe id="dashboard-frame" title="Dashboard" allowfullscreen></iframe>
 </div>
+
 <script src="../../shared/js/loader.js"></script>
 </body>
 </html>
