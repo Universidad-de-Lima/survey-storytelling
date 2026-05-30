@@ -1,0 +1,158 @@
+{
+  "resumen": {
+    "total_con_comentario": 30,
+    "total_analizados": 30,
+    "pasivos": 25,
+    "detractores": 5,
+    "nota": "Solo se analizan comentarios de Pasivos (7-8) y Detractores (0-6). Los Promotores (9-10) no responden esta pregunta."
+  },
+  "topicos": [
+    {
+      "topico": "Calidad docente",
+      "tipo": "mejora",
+      "icono": "📚",
+      "total_comentarios": 6,
+      "detractores": 0,
+      "pasivos": 6,
+      "frases_representativas": [
+        "Siento que hay muchos ámbitos en los que la universidad debe mejorar desde la psicológica hacia sus alumnos hasta el tipo de profesores y su metodología de aprendizaje.",
+        "Es un buen lugar para educación superior sin embargo siento que puede avanzar mucho más en cuanto a metodologías y temas de enseñanza",
+        "Si bien la enseñanza es buena, podrían haber algunos talleres extra como Excel y habilidades blandas"
+      ],
+      "por_carrera": {
+        "Comunicación": 5,
+        "Ingeniería Industrial": 1
+      },
+      "por_facultad": {
+        "Facultad de Comunicación": 5,
+        "Facultad de Ingeniería": 1
+      },
+      "por_ciclo": {
+        "NA": 6
+      }
+    },
+    {
+      "topico": "Malla curricular y cursos",
+      "tipo": "mejora",
+      "icono": "📋",
+      "total_comentarios": 4,
+      "detractores": 0,
+      "pasivos": 4,
+      "frases_representativas": [
+        "En temas académicos siento que se quedan atrás de universidades como la ESAN. Infraestructura de primera, pero llena de gente.",
+        "Presenta muchos beneficios y material adecuado pero siento que podria actualizar mar los cursos y materiales.",
+        "Muy buena universidad con recursos, espacio, tecnología y cursos interesantes"
+      ],
+      "por_carrera": {
+        "Administración": 3,
+        "Comunicación": 1
+      },
+      "por_facultad": {
+        "Facultad de Ciencias Empresariales": 3,
+        "Facultad de Comunicación": 1
+      },
+      "por_ciclo": {
+        "NA": 4
+      }
+    },
+    {
+      "topico": "Infraestructura y espacios",
+      "tipo": "mejora",
+      "icono": "🏛️",
+      "total_comentarios": 3,
+      "detractores": 0,
+      "pasivos": 3,
+      "frases_representativas": [
+        "Me parece que es una buena universidad, tienes todos los recursos necesarios, pero siento que admiten a demasiados alumnos que la capacidad de la universidad está quedando pequeña para espacios comunes. Sería ver bien ese tema",
+        "Es una universidad que invierte bastante en la infraestructura",
+        "Hay muchos alumnos y poco espacios en el campus"
+      ],
+      "por_carrera": {
+        "Comunicación": 2,
+        "Ingeniería Industrial": 1
+      },
+      "por_facultad": {
+        "Facultad de Comunicación": 2,
+        "Facultad de Ingeniería": 1
+      },
+      "por_ciclo": {
+        "NA": 3
+      }
+    },
+    {
+      "topico": "Oportunidades laborales",
+      "tipo": "mejora",
+      "icono": "💼",
+      "total_comentarios": 2,
+      "detractores": 1,
+      "pasivos": 1,
+      "frases_representativas": [
+        "Hay mucho peso en los trabajos grupales. Y con ello existen alumnos dispuestos a no apoyar",
+        "bolsa trabajo limitada"
+      ],
+      "por_carrera": {
+        "Administración": 1,
+        "Ingeniería Industrial": 1
+      },
+      "por_facultad": {
+        "Facultad de Ciencias Empresariales": 1,
+        "Facultad de Ingeniería": 1
+      },
+      "por_ciclo": {
+        "NA": 2
+      }
+    },
+    {
+      "topico": "Valoración positiva general",
+      "tipo": "positivo",
+      "icono": "✅",
+      "total_comentarios": 2,
+      "detractores": 0,
+      "pasivos": 2,
+      "frases_representativas": [
+        "Es una gran oportunidad para poder crecer como profesional y como comunicador. Estoy muy satisfecho",
+        "Siento que lo recomendaría para la carrera de la Comunicación"
+      ],
+      "por_carrera": {
+        "Comunicación": 2
+      },
+      "por_facultad": {
+        "Facultad de Comunicación": 2
+      },
+      "por_ciclo": {
+        "NA": 2
+      }
+    }
+  ],
+  "por_carrera": [
+    {
+      "carrera": "Comunicación",
+      "facultad": "Facultad de Comunicación",
+      "total": 19,
+      "pasivos": 16,
+      "detractores": 3
+    },
+    {
+      "carrera": "Ingeniería Industrial",
+      "facultad": "Facultad de Ingeniería",
+      "total": 6,
+      "pasivos": 5,
+      "detractores": 1
+    },
+    {
+      "carrera": "Administración",
+      "facultad": "Facultad de Ciencias Empresariales",
+      "total": 5,
+      "pasivos": 4,
+      "detractores": 1
+    }
+  ],
+  "por_ciclo": [
+    {
+      "ciclo": "NA",
+      "total": 30,
+      "pasivos": 25,
+      "detractores": 5
+    }
+  ]
+}

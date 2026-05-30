@@ -12,10 +12,10 @@
     "facultad": "Facultad de Arquitectura",
     "carrera": "Arquitectura",
     "ciclo": "1° Ciclo",
-    "Promotores": 32,
+    "Promotores": 33,
     "Pasivos": 7,
     "Detractores": 0,
-    "score": 82.05
+    "score": 82.5
   },
   {
     "facultad": "Facultad de Arquitectura",
@@ -103,9 +103,9 @@
     "carrera": "Administración",
     "ciclo": "1° Ciclo",
     "Promotores": 29,
-    "Pasivos": 14,
+    "Pasivos": 15,
     "Detractores": 4,
-    "score": 53.19
+    "score": 52.08
   },
   {
     "facultad": "Facultad de Ciencias Empresariales",
@@ -129,10 +129,10 @@
     "facultad": "Facultad de Ciencias Empresariales",
     "carrera": "Administración",
     "ciclo": "4° Ciclo",
-    "Promotores": 21,
+    "Promotores": 22,
     "Pasivos": 8,
     "Detractores": 2,
-    "score": 61.29
+    "score": 62.5
   },
   {
     "facultad": "Facultad de Ciencias Empresariales",
@@ -192,10 +192,10 @@
     "facultad": "Facultad de Ciencias Empresariales",
     "carrera": "Contabilidad y Finanzas",
     "ciclo": "1° Ciclo",
-    "Promotores": 1,
+    "Promotores": 2,
     "Pasivos": 2,
     "Detractores": 0,
-    "score": 33.33
+    "score": 50.0
   },
   {
     "facultad": "Facultad de Ciencias Empresariales",
@@ -219,46 +219,46 @@
     "facultad": "Facultad de Ciencias Empresariales",
     "carrera": "Contabilidad y Finanzas",
     "ciclo": "4° Ciclo",
-    "Promotores": 18,
+    "Promotores": 23,
     "Pasivos": 3,
     "Detractores": 0,
-    "score": 85.71
+    "score": 88.46
   },
   {
     "facultad": "Facultad de Ciencias Empresariales",
     "carrera": "Contabilidad y Finanzas",
     "ciclo": "5° Ciclo",
-    "Promotores": 22,
+    "Promotores": 25,
     "Pasivos": 7,
     "Detractores": 0,
-    "score": 75.86
+    "score": 78.12
   },
   {
     "facultad": "Facultad de Ciencias Empresariales",
     "carrera": "Contabilidad y Finanzas",
     "ciclo": "6° Ciclo",
-    "Promotores": 16,
-    "Pasivos": 5,
+    "Promotores": 19,
+    "Pasivos": 6,
     "Detractores": 1,
-    "score": 68.18
+    "score": 69.23
   },
   {
     "facultad": "Facultad de Ciencias Empresariales",
     "carrera": "Contabilidad y Finanzas",
     "ciclo": "7° Ciclo",
-    "Promotores": 21,
-    "Pasivos": 3,
+    "Promotores": 27,
+    "Pasivos": 4,
     "Detractores": 1,
-    "score": 80.0
+    "score": 81.25
   },
   {
     "facultad": "Facultad de Ciencias Empresariales",
     "carrera": "Contabilidad y Finanzas",
     "ciclo": "8° Ciclo",
-    "Promotores": 26,
+    "Promotores": 27,
     "Pasivos": 3,
     "Detractores": 3,
-    "score": 71.88
+    "score": 72.73
   },
   {
     "facultad": "Facultad de Ciencias Empresariales",
@@ -273,16 +273,16 @@
     "facultad": "Facultad de Ciencias Empresariales",
     "carrera": "Marketing",
     "ciclo": "10° Ciclo",
-    "Promotores": 0,
+    "Promotores": 12,
     "Pasivos": 1,
     "Detractores": 0,
-    "score": 0.0
+    "score": 92.31
   },
   {
     "facultad": "Facultad de Ciencias Empresariales",
     "carrera": "Marketing",
     "ciclo": "1° Ciclo",
-    "Promotores": 11,
+    "Promotores": 12,
     "Pasivos": 0,
     "Detractores": 0,
     "score": 100.0
@@ -291,10 +291,10 @@
     "facultad": "Facultad de Ciencias Empresariales",
     "carrera": "Marketing",
     "ciclo": "2° Ciclo",
-    "Promotores": 10,
+    "Promotores": 11,
     "Pasivos": 2,
     "Detractores": 0,
-    "score": 83.33
+    "score": 84.62
   },
   {
     "facultad": "Facultad de Ciencias Empresariales",
@@ -318,46 +318,46 @@
     "facultad": "Facultad de Ciencias Empresariales",
     "carrera": "Marketing",
     "ciclo": "5° Ciclo",
-    "Promotores": 38,
+    "Promotores": 39,
     "Pasivos": 11,
     "Detractores": 3,
-    "score": 67.31
+    "score": 67.92
   },
   {
     "facultad": "Facultad de Ciencias Empresariales",
     "carrera": "Marketing",
     "ciclo": "6° Ciclo",
-    "Promotores": 17,
+    "Promotores": 18,
     "Pasivos": 4,
     "Detractores": 4,
-    "score": 52.0
+    "score": 53.85
   },
   {
     "facultad": "Facultad de Ciencias Empresariales",
     "carrera": "Marketing",
     "ciclo": "7° Ciclo",
-    "Promotores": 29,
+    "Promotores": 31,
     "Pasivos": 3,
     "Detractores": 0,
-    "score": 90.62
+    "score": 91.18
   },
   {
     "facultad": "Facultad de Ciencias Empresariales",
     "carrera": "Marketing",
     "ciclo": "8° Ciclo",
-    "Promotores": 23,
-    "Pasivos": 3,
+    "Promotores": 29,
+    "Pasivos": 4,
     "Detractores": 0,
-    "score": 88.46
+    "score": 87.88
   },
   {
     "facultad": "Facultad de Ciencias Empresariales",
     "carrera": "Marketing",
     "ciclo": "9° Ciclo",
-    "Promotores": 6,
-    "Pasivos": 0,
+    "Promotores": 17,
+    "Pasivos": 2,
     "Detractores": 0,
-    "score": 100.0
+    "score": 89.47
   },
   {
     "facultad": "Facultad de Ciencias Empresariales",
@@ -372,28 +372,28 @@
     "facultad": "Facultad de Ciencias Empresariales",
     "carrera": "Negocios Internacionales",
     "ciclo": "1° Ciclo",
-    "Promotores": 18,
-    "Pasivos": 4,
-    "Detractores": 0,
-    "score": 81.82
+    "Promotores": 19,
+    "Pasivos": 5,
+    "Detractores": 1,
+    "score": 72.0
   },
   {
     "facultad": "Facultad de Ciencias Empresariales",
     "carrera": "Negocios Internacionales",
     "ciclo": "2° Ciclo",
     "Promotores": 18,
-    "Pasivos": 8,
+    "Pasivos": 10,
     "Detractores": 0,
-    "score": 69.23
+    "score": 64.29
   },
   {
     "facultad": "Facultad de Ciencias Empresariales",
     "carrera": "Negocios Internacionales",
     "ciclo": "3° Ciclo",
-    "Promotores": 27,
+    "Promotores": 28,
     "Pasivos": 2,
     "Detractores": 0,
-    "score": 93.1
+    "score": 93.33
   },
   {
     "facultad": "Facultad de Ciencias Empresariales",
@@ -408,28 +408,28 @@
     "facultad": "Facultad de Ciencias Empresariales",
     "carrera": "Negocios Internacionales",
     "ciclo": "5° Ciclo",
-    "Promotores": 37,
-    "Pasivos": 5,
+    "Promotores": 38,
+    "Pasivos": 6,
     "Detractores": 2,
-    "score": 79.55
+    "score": 78.26
   },
   {
     "facultad": "Facultad de Ciencias Empresariales",
     "carrera": "Negocios Internacionales",
     "ciclo": "6° Ciclo",
-    "Promotores": 16,
-    "Pasivos": 6,
+    "Promotores": 29,
+    "Pasivos": 7,
     "Detractores": 2,
-    "score": 58.33
+    "score": 71.05
   },
   {
     "facultad": "Facultad de Ciencias Empresariales",
     "carrera": "Negocios Internacionales",
     "ciclo": "7° Ciclo",
-    "Promotores": 30,
-    "Pasivos": 8,
+    "Promotores": 31,
+    "Pasivos": 9,
     "Detractores": 2,
-    "score": 70.0
+    "score": 69.05
   },
   {
     "facultad": "Facultad de Ciencias Empresariales",
@@ -453,10 +453,10 @@
     "facultad": "Facultad de Comunicación",
     "carrera": "Comunicación",
     "ciclo": "10° Ciclo",
-    "Promotores": 11,
+    "Promotores": 12,
     "Pasivos": 3,
     "Detractores": 0,
-    "score": 78.57
+    "score": 80.0
   },
   {
     "facultad": "Facultad de Comunicación",
@@ -534,17 +534,17 @@
     "facultad": "Facultad de Comunicación",
     "carrera": "Comunicación",
     "ciclo": "9° Ciclo",
-    "Promotores": 15,
+    "Promotores": 17,
     "Pasivos": 11,
-    "Detractores": 0,
-    "score": 57.69
+    "Detractores": 1,
+    "score": 55.17
   },
   {
     "facultad": "Facultad de Derecho",
     "carrera": "Derecho",
     "ciclo": "10° Ciclo",
-    "Promotores": 16,
-    "Pasivos": 3,
+    "Promotores": 19,
+    "Pasivos": 4,
     "Detractores": 1,
     "score": 75.0
   },
@@ -552,46 +552,46 @@
     "facultad": "Facultad de Derecho",
     "carrera": "Derecho",
     "ciclo": "11° Ciclo",
-    "Promotores": 20,
+    "Promotores": 24,
     "Pasivos": 4,
+    "Detractores": 0,
+    "score": 85.71
+  },
+  {
+    "facultad": "Facultad de Derecho",
+    "carrera": "Derecho",
+    "ciclo": "12° Ciclo",
+    "Promotores": 36,
+    "Pasivos": 5,
+    "Detractores": 1,
+    "score": 83.33
+  },
+  {
+    "facultad": "Facultad de Derecho",
+    "carrera": "Derecho",
+    "ciclo": "1° Ciclo",
+    "Promotores": 45,
+    "Pasivos": 9,
     "Detractores": 0,
     "score": 83.33
   },
   {
     "facultad": "Facultad de Derecho",
     "carrera": "Derecho",
-    "ciclo": "12° Ciclo",
-    "Promotores": 33,
-    "Pasivos": 5,
-    "Detractores": 0,
-    "score": 86.84
-  },
-  {
-    "facultad": "Facultad de Derecho",
-    "carrera": "Derecho",
-    "ciclo": "1° Ciclo",
-    "Promotores": 44,
-    "Pasivos": 9,
-    "Detractores": 0,
-    "score": 83.02
-  },
-  {
-    "facultad": "Facultad de Derecho",
-    "carrera": "Derecho",
     "ciclo": "2° Ciclo",
-    "Promotores": 28,
-    "Pasivos": 6,
+    "Promotores": 29,
+    "Pasivos": 7,
     "Detractores": 0,
-    "score": 82.35
+    "score": 80.56
   },
   {
     "facultad": "Facultad de Derecho",
     "carrera": "Derecho",
     "ciclo": "3° Ciclo",
-    "Promotores": 8,
-    "Pasivos": 0,
+    "Promotores": 29,
+    "Pasivos": 2,
     "Detractores": 0,
-    "score": 100.0
+    "score": 93.55
   },
   {
     "facultad": "Facultad de Derecho",
@@ -615,37 +615,37 @@
     "facultad": "Facultad de Derecho",
     "carrera": "Derecho",
     "ciclo": "6° Ciclo",
-    "Promotores": 14,
-    "Pasivos": 1,
-    "Detractores": 1,
-    "score": 81.25
+    "Promotores": 26,
+    "Pasivos": 9,
+    "Detractores": 2,
+    "score": 64.86
   },
   {
     "facultad": "Facultad de Derecho",
     "carrera": "Derecho",
     "ciclo": "7° Ciclo",
-    "Promotores": 45,
-    "Pasivos": 18,
-    "Detractores": 5,
-    "score": 58.82
+    "Promotores": 52,
+    "Pasivos": 23,
+    "Detractores": 6,
+    "score": 56.79
   },
   {
     "facultad": "Facultad de Derecho",
     "carrera": "Derecho",
     "ciclo": "8° Ciclo",
-    "Promotores": 31,
+    "Promotores": 32,
     "Pasivos": 3,
     "Detractores": 1,
-    "score": 85.71
+    "score": 86.11
   },
   {
     "facultad": "Facultad de Derecho",
     "carrera": "Derecho",
     "ciclo": "9° Ciclo",
-    "Promotores": 6,
+    "Promotores": 10,
     "Pasivos": 2,
     "Detractores": 1,
-    "score": 55.56
+    "score": 69.23
   },
   {
     "facultad": "Facultad de Economía",
@@ -660,10 +660,10 @@
     "facultad": "Facultad de Economía",
     "carrera": "Economía",
     "ciclo": "1° Ciclo",
-    "Promotores": 1,
+    "Promotores": 2,
     "Pasivos": 1,
     "Detractores": 0,
-    "score": 50.0
+    "score": 66.67
   },
   {
     "facultad": "Facultad de Economía",
@@ -768,10 +768,10 @@
     "facultad": "Facultad de Ingeniería",
     "carrera": "Ingeniería Civil",
     "ciclo": "10° Ciclo",
-    "Promotores": 13,
-    "Pasivos": 3,
+    "Promotores": 19,
+    "Pasivos": 6,
     "Detractores": 0,
-    "score": 81.25
+    "score": 76.0
   },
   {
     "facultad": "Facultad de Ingeniería",
@@ -813,10 +813,10 @@
     "facultad": "Facultad de Ingeniería",
     "carrera": "Ingeniería Civil",
     "ciclo": "5° Ciclo",
-    "Promotores": 43,
+    "Promotores": 44,
     "Pasivos": 12,
     "Detractores": 0,
-    "score": 78.18
+    "score": 78.57
   },
   {
     "facultad": "Facultad de Ingeniería",
@@ -831,28 +831,28 @@
     "facultad": "Facultad de Ingeniería",
     "carrera": "Ingeniería Civil",
     "ciclo": "7° Ciclo",
-    "Promotores": 15,
+    "Promotores": 16,
     "Pasivos": 9,
     "Detractores": 0,
-    "score": 62.5
+    "score": 64.0
   },
   {
     "facultad": "Facultad de Ingeniería",
     "carrera": "Ingeniería Civil",
     "ciclo": "8° Ciclo",
-    "Promotores": 31,
-    "Pasivos": 12,
+    "Promotores": 32,
+    "Pasivos": 13,
     "Detractores": 1,
-    "score": 68.18
+    "score": 67.39
   },
   {
     "facultad": "Facultad de Ingeniería",
     "carrera": "Ingeniería Civil",
     "ciclo": "9° Ciclo",
-    "Promotores": 22,
+    "Promotores": 28,
     "Pasivos": 6,
     "Detractores": 0,
-    "score": 78.57
+    "score": 82.35
   },
   {
     "facultad": "Facultad de Ingeniería",
@@ -867,19 +867,19 @@
     "facultad": "Facultad de Ingeniería",
     "carrera": "Ingeniería Industrial",
     "ciclo": "1° Ciclo",
-    "Promotores": 43,
-    "Pasivos": 10,
+    "Promotores": 47,
+    "Pasivos": 11,
     "Detractores": 0,
-    "score": 81.13
+    "score": 81.03
   },
   {
     "facultad": "Facultad de Ingeniería",
     "carrera": "Ingeniería Industrial",
     "ciclo": "2° Ciclo",
-    "Promotores": 36,
+    "Promotores": 38,
     "Pasivos": 7,
-    "Detractores": 2,
-    "score": 75.56
+    "Detractores": 3,
+    "score": 72.92
   },
   {
     "facultad": "Facultad de Ingeniería",
@@ -984,10 +984,10 @@
     "facultad": "Facultad de Ingeniería",
     "carrera": "Ingeniería de Sistemas",
     "ciclo": "10° Ciclo",
-    "Promotores": 3,
+    "Promotores": 5,
     "Pasivos": 2,
     "Detractores": 0,
-    "score": 60.0
+    "score": 71.43
   },
   {
     "facultad": "Facultad de Ingeniería",
@@ -1002,10 +1002,10 @@
     "facultad": "Facultad de Ingeniería",
     "carrera": "Ingeniería de Sistemas",
     "ciclo": "2° Ciclo",
-    "Promotores": 20,
+    "Promotores": 21,
     "Pasivos": 8,
     "Detractores": 1,
-    "score": 65.52
+    "score": 66.67
   },
   {
     "facultad": "Facultad de Ingeniería",
@@ -1020,19 +1020,19 @@
     "facultad": "Facultad de Ingeniería",
     "carrera": "Ingeniería de Sistemas",
     "ciclo": "4° Ciclo",
-    "Promotores": 12,
-    "Pasivos": 5,
+    "Promotores": 17,
+    "Pasivos": 6,
     "Detractores": 0,
-    "score": 70.59
+    "score": 73.91
   },
   {
     "facultad": "Facultad de Ingeniería",
     "carrera": "Ingeniería de Sistemas",
     "ciclo": "5° Ciclo",
-    "Promotores": 37,
-    "Pasivos": 8,
+    "Promotores": 41,
+    "Pasivos": 10,
     "Detractores": 1,
-    "score": 78.26
+    "score": 76.92
   },
   {
     "facultad": "Facultad de Ingeniería",
@@ -1056,19 +1056,19 @@
     "facultad": "Facultad de Ingeniería",
     "carrera": "Ingeniería de Sistemas",
     "ciclo": "8° Ciclo",
-    "Promotores": 8,
+    "Promotores": 12,
     "Pasivos": 7,
     "Detractores": 2,
-    "score": 35.29
+    "score": 47.62
   },
   {
     "facultad": "Facultad de Ingeniería",
     "carrera": "Ingeniería de Sistemas",
     "ciclo": "9° Ciclo",
-    "Promotores": 12,
-    "Pasivos": 4,
-    "Detractores": 1,
-    "score": 64.71
+    "Promotores": 22,
+    "Pasivos": 10,
+    "Detractores": 2,
+    "score": 58.82
   },
   {
     "facultad": "Facultad de Psicología",
@@ -1156,9 +1156,9 @@
     "carrera": "Psicología",
     "ciclo": "7° Ciclo",
     "Promotores": 29,
-    "Pasivos": 14,
+    "Pasivos": 15,
     "Detractores": 3,
-    "score": 56.52
+    "score": 55.32
   },
   {
     "facultad": "Facultad de Psicología",
@@ -1173,9 +1173,9 @@
     "facultad": "Facultad de Psicología",
     "carrera": "Psicología",
     "ciclo": "9° Ciclo",
-    "Promotores": 18,
+    "Promotores": 19,
     "Pasivos": 7,
     "Detractores": 4,
-    "score": 48.28
+    "score": 50.0
   }
 ]
