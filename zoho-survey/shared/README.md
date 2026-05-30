@@ -54,7 +54,7 @@ Variables CSS en `dashboard.css`:
 
 - `--ulima-orange`, `--ulima-red`, `--ulima-blue`: Colores institucionales
 - `--font-family-primary`: 'Roboto', sans-serif
-- `--font-family-display`: 'Lusitana', Georgia, serif
+- `--font-family-display`: 'Roboto', sans-serif
 - Escala de grises `--gray-900` a `--gray-50`
 - Colores semánticos: `--success-pastel`, `--warning-pastel`, `--danger-pastel`
 

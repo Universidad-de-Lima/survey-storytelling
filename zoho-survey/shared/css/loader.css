@@ -99,7 +99,8 @@
 
   .bar-title {
     line-height: 1.1;
-    font-family: 'DM Serif Display', serif;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700;
     font-size: 15px;
     color: #fff;
     white-space: nowrap;
@@ -188,7 +189,7 @@
     background: rgba(255,255,255,.07);
     border: 1.5px solid rgba(255,255,255,.16);
     color: #fff;
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-size: 13px;
     font-weight: 500;
     padding: 7px 36px 7px 14px;

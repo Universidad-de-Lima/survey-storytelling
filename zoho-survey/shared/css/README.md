@@ -25,7 +25,7 @@ Capa de presentación pura. No contiene lógica de negocio. Todos los estilos so
   --ulima-red: #ff0000; /* Danger / low scores */
   --ulima-blue: #2563eb; /* Accent */
   --font-family-primary: 'Roboto', sans-serif;
-  --font-family-display: 'Lusitana', Georgia, serif;
+  --font-family-display: 'Roboto', sans-serif;
   --focus-outline: 2px solid #ff5117;
 }
 ```
@@ -78,7 +78,7 @@ Design tokens defined in `dashboard.css` `:root`:
 | `--ulima-red`               | `#FF0000`                    | Danger states, low NPS/CSAT indicators     |
 | `--ulima-blue`              | `#2563EB`                    | Secondary accent, links                    |
 | `--font-family-primary`     | `'Roboto', sans-serif`       | Body text                                  |
-| `--font-family-display`     | `'Lusitana', Georgia, serif` | Headings, KPIs                             |
+| `--font-family-display`     | `'Roboto', sans-serif`       | Section titles, KPIs                       |
 | `--gray-900` to `--gray-50` | Scale                        | Text hierarchy, backgrounds, borders       |
 | `--success-pastel`          | pastel green                 | Positive indicators                        |
 | `--warning-pastel`          | pastel yellow                | Neutral/attention indicators               |
@@ -87,7 +87,7 @@ Design tokens defined in `dashboard.css` `:root`:
 
 ## Dependencies
 
-- **External**: Google Fonts (Roboto + Lusitana) cargadas vía `<link>` en el HTML
+- **External**: Google Fonts (Roboto 300/400/500/700/900) cargadas vía `<link>` en el HTML
 - **Internal**: `dashboard.css` asume estructura DOM generada por `dashboard.js`
 
 ## Technical Debt
