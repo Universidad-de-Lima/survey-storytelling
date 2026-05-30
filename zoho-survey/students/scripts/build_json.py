@@ -9,7 +9,8 @@ from collections import defaultdict
 
 BASE_DIR = Path(__file__).resolve().parent
 ROOT_DIR = BASE_DIR.parent
-DATA_DIR = ROOT_DIR / "data"
+PROJECT_DIR = BASE_DIR.parent.parent.parent
+DATA_DIR = PROJECT_DIR / "data"
 
 respuestas_texto = [
     "Totalmente satisfecho",
