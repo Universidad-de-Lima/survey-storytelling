@@ -25,9 +25,7 @@
     "csat_pct": 99,
     "nps_score": 85,
     "nps_tipo": "Excelente",
-    "nps_etapas": {
-      "Otro": 85.88
-    },
+    "nps_etapas": {},
     "tendencia": "se mantiene",
     "delta": 0,
     "top_dimensiones": [

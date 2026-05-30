@@ -1491,6 +1491,14 @@
       cache.sentimiento.topicos &&
       cache.sentimiento.topicos.length > 0;
 
+    // Si la encuesta no tiene columna Ciclo (ej: graduados, egresados),
+    // ocultar todos los filtros de ciclo en el DOM.
+    if (!cache.filtros.has_ciclo) {
+      document.querySelectorAll('.filter-ciclo-actions').forEach((el) => {
+        el.style.display = 'none';
+      });
+    }
+
     if (!tieneDatosCualitativos) {
       // Ocultar sección del DOM
       const secSentimiento = document.getElementById('sentimiento');

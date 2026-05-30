@@ -346,9 +346,11 @@ for INPUT_FILE in files:
     df.columns = [c.strip().replace("\ufeff", "") for c in df.columns]
     df.rename(columns=COLUMN_RENAME, inplace=True)
 
-    # Si el CSV no tiene "Ciclo" (ej: graduados, egresados, docentes, etc.),
-    # se agrega con valor "NA" para que todo el pipeline downstream funcione.
-    if "Ciclo" not in df.columns:
+    # Detectar si el CSV tiene columna "Ciclo" (solo estudiantes pregrado).
+    # Si no existe, se agrega con valor "NA" para que los groupby funcionen,
+    # pero se generarán arrays vacíos para los JSONs específicos de ciclo.
+    HAS_CICLO = "Ciclo" in df.columns
+    if not HAS_CICLO:
         df["Ciclo"] = "NA"
 
     # -----------------------
@@ -497,22 +499,24 @@ for INPUT_FILE in files:
         json.dump(nps_carrera, f, ensure_ascii=False, indent=2)
 
     nps_ciclo = []
-    for ciclo, sub in df_nps.groupby("Ciclo"):
-        p  = int((sub[nps_col] >= 9).sum())
-        pa = int(((sub[nps_col] >= 7) & (sub[nps_col] <= 8)).sum())
-        d  = int((sub[nps_col] <= 6).sum())
-        nps_ciclo.append({"ciclo": ciclo, "Promotores": p, "Pasivos": pa, "Detractores": d, "score": calc_nps(p, pa, d)})
+    if HAS_CICLO:
+        for ciclo, sub in df_nps.groupby("Ciclo"):
+            p  = int((sub[nps_col] >= 9).sum())
+            pa = int(((sub[nps_col] >= 7) & (sub[nps_col] <= 8)).sum())
+            d  = int((sub[nps_col] <= 6).sum())
+            nps_ciclo.append({"ciclo": ciclo, "Promotores": p, "Pasivos": pa, "Detractores": d, "score": calc_nps(p, pa, d)})
     with open(OUT / "nps_ciclo.json", "w", encoding="utf-8") as f:
         json.dump(nps_ciclo, f, ensure_ascii=False, indent=2)
 
     nps_ciclo_carrera = []
-    for (fac, car, cic), sub in df_nps.groupby(["Facultad", "Carrera", "Ciclo"]):
-        p  = int((sub[nps_col] >= 9).sum())
-        pa = int(((sub[nps_col] >= 7) & (sub[nps_col] <= 8)).sum())
-        d  = int((sub[nps_col] <= 6).sum())
-        nps_ciclo_carrera.append({"facultad": fac, "carrera": car, "ciclo": cic,
-                                   "Promotores": p, "Pasivos": pa, "Detractores": d,
-                                   "score": calc_nps(p, pa, d)})
+    if HAS_CICLO:
+        for (fac, car, cic), sub in df_nps.groupby(["Facultad", "Carrera", "Ciclo"]):
+            p  = int((sub[nps_col] >= 9).sum())
+            pa = int(((sub[nps_col] >= 7) & (sub[nps_col] <= 8)).sum())
+            d  = int((sub[nps_col] <= 6).sum())
+            nps_ciclo_carrera.append({"facultad": fac, "carrera": car, "ciclo": cic,
+                                       "Promotores": p, "Pasivos": pa, "Detractores": d,
+                                       "score": calc_nps(p, pa, d)})
     with open(OUT / "nps_ciclo_carrera.json", "w", encoding="utf-8") as f:
         json.dump(nps_ciclo_carrera, f, ensure_ascii=False, indent=2)
 
@@ -538,28 +542,30 @@ for INPUT_FILE in files:
         json.dump(csat_carrera, f, ensure_ascii=False, indent=2)
 
     csat_ciclo = []
-    for cic, sub in df.groupby("Ciclo"):
-        serie = sub[csat_col].dropna()
-        row = {"ciclo": cic}
-        for r in respuestas_texto:
-            row[r] = int((serie == r).sum())
-        t3b   = row["Totalmente satisfecho"] + row["Muy satisfecho"] + row["Satisfecho"]
-        total = t3b + row["Insatisfecho"] + row["Totalmente insatisfecho"]
-        row["score"] = calc_csat(t3b, total)
-        csat_ciclo.append(row)
+    if HAS_CICLO:
+        for cic, sub in df.groupby("Ciclo"):
+            serie = sub[csat_col].dropna()
+            row = {"ciclo": cic}
+            for r in respuestas_texto:
+                row[r] = int((serie == r).sum())
+            t3b   = row["Totalmente satisfecho"] + row["Muy satisfecho"] + row["Satisfecho"]
+            total = t3b + row["Insatisfecho"] + row["Totalmente insatisfecho"]
+            row["score"] = calc_csat(t3b, total)
+            csat_ciclo.append(row)
     with open(OUT / "csat_ciclo.json", "w", encoding="utf-8") as f:
         json.dump(csat_ciclo, f, ensure_ascii=False, indent=2)
 
     csat_ciclo_carrera = []
-    for (fac, car, cic), sub in df.groupby(["Facultad", "Carrera", "Ciclo"]):
-        serie = sub[csat_col].dropna()
-        row = {"facultad": fac, "carrera": car, "ciclo": cic}
-        for r in respuestas_texto:
-            row[r] = int((serie == r).sum())
-        t3b   = row["Totalmente satisfecho"] + row["Muy satisfecho"] + row["Satisfecho"]
-        total = t3b + row["Insatisfecho"] + row["Totalmente insatisfecho"]
-        row["score"] = calc_csat(t3b, total)
-        csat_ciclo_carrera.append(row)
+    if HAS_CICLO:
+        for (fac, car, cic), sub in df.groupby(["Facultad", "Carrera", "Ciclo"]):
+            serie = sub[csat_col].dropna()
+            row = {"facultad": fac, "carrera": car, "ciclo": cic}
+            for r in respuestas_texto:
+                row[r] = int((serie == r).sum())
+            t3b   = row["Totalmente satisfecho"] + row["Muy satisfecho"] + row["Satisfecho"]
+            total = t3b + row["Insatisfecho"] + row["Totalmente insatisfecho"]
+            row["score"] = calc_csat(t3b, total)
+            csat_ciclo_carrera.append(row)
     with open(OUT / "csat_ciclo_carrera.json", "w", encoding="utf-8") as f:
         json.dump(csat_ciclo_carrera, f, ensure_ascii=False, indent=2)
 
@@ -674,10 +680,11 @@ for INPUT_FILE in files:
     # 8. filtros.json
     # =========================================================
     filtros = {
+        "has_ciclo": HAS_CICLO,
         "facultades": sorted(df["Facultad"].dropna().unique().tolist()),
         "carreras": sorted(df["Carrera"].dropna().unique().tolist()),
         "ciclos": sorted(df["Ciclo"].dropna().unique().tolist(),
-                         key=lambda x: int("".join(filter(str.isdigit, x)) or 0)),
+                         key=lambda x: int("".join(filter(str.isdigit, x)) or 0)) if HAS_CICLO else [],
         "facultad_carrera": {
             fac: sorted(df[df["Facultad"] == fac]["Carrera"].unique().tolist())
             for fac in df["Facultad"].dropna().unique()
