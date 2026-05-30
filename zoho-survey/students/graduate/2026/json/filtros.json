@@ -1,0 +1,30 @@
+{
+  "facultades": [
+    "Facultad de Ciencias Empresariales",
+    "Facultad de Comunicación",
+    "Facultad de Ingeniería"
+  ],
+  "carreras": [
+    "Administración",
+    "Comunicación",
+    "Ingeniería Ambiental",
+    "Ingeniería Civil",
+    "Ingeniería Industrial"
+  ],
+  "ciclos": [
+    "NA"
+  ],
+  "facultad_carrera": {
+    "Facultad de Ciencias Empresariales": [
+      "Administración"
+    ],
+    "Facultad de Comunicación": [
+      "Comunicación"
+    ],
+    "Facultad de Ingeniería": [
+      "Ingeniería Ambiental",
+      "Ingeniería Civil",
+      "Ingeniería Industrial"
+    ]
+  }
+}

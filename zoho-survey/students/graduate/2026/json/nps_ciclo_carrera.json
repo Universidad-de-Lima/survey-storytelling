@@ -1,0 +1,47 @@
+[
+  {
+    "facultad": "Facultad de Ciencias Empresariales",
+    "carrera": "Administración",
+    "ciclo": "NA",
+    "Promotores": 54,
+    "Pasivos": 4,
+    "Detractores": 1,
+    "score": 89.83
+  },
+  {
+    "facultad": "Facultad de Comunicación",
+    "carrera": "Comunicación",
+    "ciclo": "NA",
+    "Promotores": 67,
+    "Pasivos": 17,
+    "Detractores": 3,
+    "score": 73.56
+  },
+  {
+    "facultad": "Facultad de Ingeniería",
+    "carrera": "Ingeniería Ambiental",
+    "ciclo": "NA",
+    "Promotores": 1,
+    "Pasivos": 0,
+    "Detractores": 0,
+    "score": 100.0
+  },
+  {
+    "facultad": "Facultad de Ingeniería",
+    "carrera": "Ingeniería Civil",
+    "ciclo": "NA",
+    "Promotores": 1,
+    "Pasivos": 0,
+    "Detractores": 0,
+    "score": 100.0
+  },
+  {
+    "facultad": "Facultad de Ingeniería",
+    "carrera": "Ingeniería Industrial",
+    "ciclo": "NA",
+    "Promotores": 101,
+    "Pasivos": 5,
+    "Detractores": 1,
+    "score": 93.46
+  }
+]

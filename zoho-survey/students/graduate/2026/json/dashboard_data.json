@@ -1,0 +1,70 @@
+{
+  "resumen": {
+    "encuestas": 255,
+    "carreras": 5,
+    "facultades": 3,
+    "fecha_inicio": "2026-05-14",
+    "fecha_fin": "2026-05-15",
+    "dias": 1,
+    "dias_recoleccion": 2,
+    "año": 2026,
+    "nps": {
+      "score": 85.88,
+      "promotores": 224,
+      "pasivos": 26,
+      "detractores": 5,
+      "total": 255
+    },
+    "csat": {
+      "score": 99.22,
+      "t3b": 253,
+      "total": 255
+    }
+  },
+  "hallazgos": {
+    "csat_pct": 99,
+    "nps_score": 85,
+    "nps_tipo": "Excelente",
+    "nps_etapas": {
+      "Otro": 85.88
+    },
+    "tendencia": "se mantiene",
+    "delta": 0,
+    "top_dimensiones": [
+      {
+        "name": "Calidad de la formación académica",
+        "score": 99.61
+      },
+      {
+        "name": "Aulas de clase",
+        "score": 99.61
+      }
+    ],
+    "top_facultades": [
+      {
+        "name": "Facultad de Ingeniería",
+        "score": 100.0
+      },
+      {
+        "name": "Facultad de Comunicación",
+        "score": 98.85
+      }
+    ]
+  },
+  "nps": {
+    "Promotores": 224,
+    "Pasivos": 26,
+    "Detractores": 5,
+    "score": 85.88
+  },
+  "csat": {
+    "Totalmente satisfecho": 151,
+    "Muy satisfecho": 55,
+    "Satisfecho": 47,
+    "Insatisfecho": 2,
+    "Totalmente insatisfecho": 0,
+    "No utilizo": 0,
+    "No conozco": 0,
+    "score": 99.22
+  }
+}

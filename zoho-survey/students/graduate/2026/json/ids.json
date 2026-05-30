@@ -1,0 +1,32 @@
+[
+  {
+    "facultad": "Facultad de Ciencias Empresariales",
+    "carrera": "Administración",
+    "ciclo": "NA",
+    "count": 59
+  },
+  {
+    "facultad": "Facultad de Comunicación",
+    "carrera": "Comunicación",
+    "ciclo": "NA",
+    "count": 87
+  },
+  {
+    "facultad": "Facultad de Ingeniería",
+    "carrera": "Ingeniería Ambiental",
+    "ciclo": "NA",
+    "count": 1
+  },
+  {
+    "facultad": "Facultad de Ingeniería",
+    "carrera": "Ingeniería Civil",
+    "ciclo": "NA",
+    "count": 1
+  },
+  {
+    "facultad": "Facultad de Ingeniería",
+    "carrera": "Ingeniería Industrial",
+    "ciclo": "NA",
+    "count": 107
+  }
+]

@@ -346,6 +346,11 @@ for INPUT_FILE in files:
     df.columns = [c.strip().replace("\ufeff", "") for c in df.columns]
     df.rename(columns=COLUMN_RENAME, inplace=True)
 
+    # Si el CSV no tiene "Ciclo" (ej: graduados, egresados, docentes, etc.),
+    # se agrega con valor "NA" para que todo el pipeline downstream funcione.
+    if "Ciclo" not in df.columns:
+        df["Ciclo"] = "NA"
+
     # -----------------------
     # Catálogo Carrera → Facultad
     # -----------------------
