@@ -3,7 +3,7 @@ name: Build Survey JSON
 on:
   push:
     paths:
-      - 'zoho-survey/students/data/**'
+      - 'data/**'
       - 'zoho-survey/students/scripts/**'
 
   workflow_dispatch:
@@ -35,13 +35,12 @@ jobs:
           python scripts/build_json.py
 
       - name: Commit generated JSON
-        working-directory: zoho-survey/students
         run: |
-
           git config --global user.name "survey-bot"
           git config --global user.email "survey-bot@users.noreply.github.com"
 
-          git add .
+          git add zoho-survey/
+          git add data/
 
           git commit -m "Auto update survey json" || echo "No changes"
 
