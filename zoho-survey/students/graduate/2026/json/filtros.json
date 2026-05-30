@@ -1,4 +1,5 @@
 {
+  "has_ciclo": false,
   "facultades": [
     "Facultad de Ciencias Empresariales",
     "Facultad de Comunicación",
@@ -11,9 +12,7 @@
     "Ingeniería Civil",
     "Ingeniería Industrial"
   ],
-  "ciclos": [
-    "NA"
-  ],
+  "ciclos": [],
   "facultad_carrera": {
     "Facultad de Ciencias Empresariales": [
       "Administración"
