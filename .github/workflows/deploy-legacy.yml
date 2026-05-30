@@ -5,7 +5,6 @@ on:
     branches: [main]
     paths:
       - 'zoho-survey/**'
-      - 'index.html'
   workflow_dispatch:
 
 concurrency:
@@ -32,10 +31,10 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
-      - name: Upload artifact (root)
+      - name: Upload artifact (zoho-survey)
         uses: actions/upload-pages-artifact@v3
         with:
-          path: '.'
+          path: './zoho-survey'
 
       - name: Deploy to GitHub Pages
         id: deployment
