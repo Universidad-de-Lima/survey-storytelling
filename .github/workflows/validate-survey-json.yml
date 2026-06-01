@@ -4,12 +4,14 @@ on:
   pull_request:
     paths:
       - 'zoho-survey/students/**'
+      - 'scripts/**'
       - '.github/workflows/validate-survey-json.yml'
   push:
     branches:
       - main
     paths:
       - 'zoho-survey/students/**'
+      - 'scripts/**'
       - '.github/workflows/validate-survey-json.yml'
 
 jobs:
@@ -25,4 +27,4 @@ jobs:
           python-version: '3.11'
 
       - name: Validate undergraduate JSON and HTML contracts
-        run: python zoho-survey/students/scripts/validate_generated_json.py undergraduate
+        run: python scripts/validate_generated_json.py undergraduate

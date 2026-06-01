@@ -39,7 +39,7 @@ survey-storytelling/
 | Layer       | Path                                          | Technology           | Responsibility                        |
 | ----------- | --------------------------------------------- | -------------------- | ------------------------------------- |
 | **Source**  | `data/`                                       | CSV (UTF-8/Latin-1)  | Raw survey exports from Zoho Survey   |
-| **ETL**     | `zoho-survey/students/scripts/`               | Python 3.11 + pandas | Transform, aggregate, topic analysis  |
+| **ETL**     | `scripts/`                                    | Python 3.11 + pandas | Transform, aggregate, topic analysis  |
 | **Contracts** | `zoho-survey/students/{level}/{period}/json/` | JSON                 | Precomputed data contracts            |
 | **Loader**  | `zoho-survey/index.html`                      | Vanilla JS (ES6)     | Survey type + period navigation       |
 | **Dashboard** | `zoho-survey/shared/js/dashboard.js`         | Vanilla JS (ES6)     | Interactive visualization SPA         |
