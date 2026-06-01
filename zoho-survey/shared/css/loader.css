@@ -49,11 +49,12 @@
     right: 0;  
     background: var(--ink);  
     display: flex;
-    flex-direction: column;
-    padding: 8px 28px 6px;
+    align-items: center;
+    padding: 8px 28px;
     z-index: 9999;  
     border-bottom: 1px solid rgba(255,81,23,.18);  
-    gap: 4px;
+    gap: 10px;
+    flex-wrap: wrap;
     color: #fff;
   }
 
@@ -71,6 +72,8 @@
     align-items: center;
     gap: 10px;
     flex-wrap: wrap;
+    flex: 1 1 auto;
+    min-width: 0;
   }
 
   .topbar-logo {
@@ -181,8 +184,7 @@
     align-items: center;
     gap: 8px;
     flex-wrap: wrap;
-    padding-top: 4px;
-    border-top: 1px solid rgba(255,255,255,.07);
+    flex-shrink: 0;
   }
 
   .period-bar.visible {
@@ -287,8 +289,8 @@
 
   @media (max-width: 960px) {
     #topbar {
-      padding: 6px 18px 4px;
-      gap: 3px;
+      padding: 6px 18px;
+      gap: 6px;
     }
     .bar-left {
       gap: 6px;
@@ -315,13 +317,12 @@
       width: 100%;
     }
     #topbar {
-      padding: 8px 12px 6px;
+      padding: 8px 14px;
       gap: 4px;
     }
     .period-bar {
       width: 100%;
       justify-content: center;
-      padding-top: 3px;
     }
     .period-select {
       padding: 5px 28px 5px 12px;
