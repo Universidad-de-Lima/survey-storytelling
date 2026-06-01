@@ -625,33 +625,33 @@
 
     const SAFETY_MARGIN = 16;
 
+    const barWidth = barRow.offsetWidth;
+    if (!barWidth) return;
+
     const smallSegs = [];
     barRow.querySelectorAll('.csat-segment').forEach((seg) => {
       const label = seg.querySelector('.csat-label');
       if (!label) return;
-      // Depuración: ver valores reales de cada segmento
+      const segPct = seg.offsetWidth / barWidth; // ancho real proporcional del segmento
+      // Depuración
       console.log('adjustSegmentLabels', containerSelector, {
         text: label.textContent,
         labelWidth: label.scrollWidth,
         segmentWidth: seg.offsetWidth,
+        segmentPct: (segPct * 100).toFixed(2) + '%',
         threshold: label.scrollWidth + SAFETY_MARGIN,
-        textFits: label.scrollWidth + SAFETY_MARGIN <= seg.offsetWidth,
-        segmentNarrow: seg.offsetWidth < 30,
       });
-      // Detección combinada:
-      // 1) El texto + margen no cabe (medición absoluta)
-      // 2) El segmento es físicamente muy angosto (< 30px)
-      const textFits = label.scrollWidth + SAFETY_MARGIN <= seg.offsetWidth;
-      const segmentNarrow = seg.offsetWidth < 30;
-      if (!textFits || segmentNarrow) {
+      // Tres criterios combinados (cualquiera activa etiqueta externa):
+      // 1) El texto + margen no cabe físicamente
+      // 2) El segmento mide menos de 30px
+      // 3) El segmento representa menos del 2% del ancho total de la barra
+      const tooNarrow = seg.offsetWidth < 30;
+      const tooSmall = segPct < 0.02;
+      const textOverflows = label.scrollWidth + SAFETY_MARGIN > seg.offsetWidth;
+      if (textOverflows || tooNarrow || tooSmall) {
         smallSegs.push(seg);
       }
     });
-
-    if (!smallSegs.length) return;
-
-    const barWidth = barRow.offsetWidth;
-    if (!barWidth) return;
 
     // 2. Crear contenedor de etiquetas externas sobre la barra
     const wrap = document.createElement('div');
