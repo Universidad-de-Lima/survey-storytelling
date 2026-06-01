@@ -315,10 +315,16 @@ body {
   transition: opacity 0.2s;
   position: relative;
   min-width: 0;
+  overflow: hidden;
 }
 
 .csat-segment:hover {
   opacity: 0.85;
+}
+
+/* Etiqueta interna: nowrap para que scrollWidth mida el texto real */
+.csat-label {
+  white-space: nowrap;
 }
 
 /* Etiquetas externas sobre la barra con línea callout */
