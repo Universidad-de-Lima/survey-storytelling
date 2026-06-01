@@ -666,10 +666,12 @@
 
     // 3. Posicionar etiquetas externas, detectar colisiones
     const rows = [];
+    const WRAP_LEFT = wrap.getBoundingClientRect().left;
 
     smallSegs.forEach((seg) => {
       const label = seg.querySelector('.csat-label');
-      const cx = seg.offsetLeft + seg.offsetWidth / 2;
+      const segRect = seg.getBoundingClientRect();
+      const cx = (segRect.left - WRAP_LEFT) + segRect.width / 2;
       const txt = label.textContent;
 
       const el = document.createElement('div');
