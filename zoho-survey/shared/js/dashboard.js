@@ -623,14 +623,27 @@
     const barRow = container.querySelector('.csat-bar-row');
     if (!barRow) return;
 
-    const SAFETY_MARGIN = 16; // px: margen visual para que el texto no quede pegado al borde
+    const SAFETY_MARGIN = 16;
 
     const smallSegs = [];
     barRow.querySelectorAll('.csat-segment').forEach((seg) => {
       const label = seg.querySelector('.csat-label');
       if (!label) return;
-      // Si el texto + margen no cabe cómodamente, se muestra como etiqueta externa
-      if (label.scrollWidth + SAFETY_MARGIN > seg.offsetWidth) {
+      // Depuración: ver valores reales de cada segmento
+      console.log('adjustSegmentLabels', containerSelector, {
+        text: label.textContent,
+        labelWidth: label.scrollWidth,
+        segmentWidth: seg.offsetWidth,
+        threshold: label.scrollWidth + SAFETY_MARGIN,
+        textFits: label.scrollWidth + SAFETY_MARGIN <= seg.offsetWidth,
+        segmentNarrow: seg.offsetWidth < 30,
+      });
+      // Detección combinada:
+      // 1) El texto + margen no cabe (medición absoluta)
+      // 2) El segmento es físicamente muy angosto (< 30px)
+      const textFits = label.scrollWidth + SAFETY_MARGIN <= seg.offsetWidth;
+      const segmentNarrow = seg.offsetWidth < 30;
+      if (!textFits || segmentNarrow) {
         smallSegs.push(seg);
       }
     });
