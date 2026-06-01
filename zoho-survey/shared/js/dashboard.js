@@ -623,12 +623,14 @@
     const barRow = container.querySelector('.csat-bar-row');
     if (!barRow) return;
 
+    const SAFETY_MARGIN = 8; // px de padding visual: evita texto pegado al borde
+
     const smallSegs = [];
     barRow.querySelectorAll('.csat-segment').forEach((seg) => {
       const label = seg.querySelector('.csat-label');
       if (!label) return;
-      // NO ocultar la etiqueta interna — overflow:hidden la recorta naturalmente
-      if (label.scrollWidth > seg.offsetWidth) {
+      // Con margen de seguridad: si el texto + 8px no cabe cómodamente, va fuera
+      if (label.scrollWidth + SAFETY_MARGIN > seg.offsetWidth) {
         smallSegs.push(seg);
       }
     });
