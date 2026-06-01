@@ -566,11 +566,11 @@
     const total = nps.Promotores + nps.Pasivos + nps.Detractores;
     DOM.npsBar.innerHTML = `
       <div class="csat-segment" style="width:${pct(nps.Promotores, total)}%; background:var(--gray-700);"
-           data-label="Promotores (9-10)" data-value="${formatInteger(nps.Promotores)} (${formatPctDecimal(nps.Promotores, total)})">${formatPctSimple(nps.Promotores, total)}</div>
+           data-label="Promotores (9-10)" data-value="${formatInteger(nps.Promotores)} (${formatPctDecimal(nps.Promotores, total)})"><span class="csat-label">${formatPctSimple(nps.Promotores, total)}</span></div>
       <div class="csat-segment" style="width:${pct(nps.Pasivos, total)}%; background:var(--gray-400);"
-           data-label="Pasivos (7-8)" data-value="${formatInteger(nps.Pasivos)} (${formatPctDecimal(nps.Pasivos, total)})">${formatPctSimple(nps.Pasivos, total)}</div>
+           data-label="Pasivos (7-8)" data-value="${formatInteger(nps.Pasivos)} (${formatPctDecimal(nps.Pasivos, total)})"><span class="csat-label">${formatPctSimple(nps.Pasivos, total)}</span></div>
       <div class="csat-segment" style="width:${pct(nps.Detractores, total)}%; background:var(--ulima-orange);"
-           data-label="Detractores (0-6)" data-value="${formatInteger(nps.Detractores)} (${formatPctDecimal(nps.Detractores, total)})">${formatPctSimple(nps.Detractores, total)}</div>
+           data-label="Detractores (0-6)" data-value="${formatInteger(nps.Detractores)} (${formatPctDecimal(nps.Detractores, total)})"><span class="csat-label">${formatPctSimple(nps.Detractores, total)}</span></div>
     `;
     DOM.npsLegend.innerHTML = `
       <div class="legend-item"><div class="legend-dot" style="background:var(--gray-700);"></div>Promotores: ${formatInteger(nps.Promotores)}</div>
@@ -578,6 +578,7 @@
       <div class="legend-item"><div class="legend-dot" style="background:var(--ulima-orange);"></div>Detractores: ${formatInteger(nps.Detractores)}</div>
     `;
     addTooltipToSegments('#nps-bar .csat-segment');
+    adjustSegmentLabels('#nps-bar');
   }
 
   function renderCSATBar(csat) {
@@ -594,7 +595,7 @@
       .map((l) => {
         const p = pct(csat[l.key], total);
         return `<div class="csat-segment" style="width:${p}%; background:${l.color};"
-              data-label="${l.key}" data-value="${formatInteger(csat[l.key])} (${formatPctDecimal(csat[l.key], total)})">${formatPctSimple(csat[l.key], total)}</div>`;
+              data-label="${l.key}" data-value="${formatInteger(csat[l.key])} (${formatPctDecimal(csat[l.key], total)})"><span class="csat-label">${formatPctSimple(csat[l.key], total)}</span></div>`;
       })
       .join('');
     DOM.csatLegend.innerHTML = visibleLabels
@@ -604,6 +605,21 @@
       )
       .join('');
     addTooltipToSegments('#csat-bar .csat-segment');
+    adjustSegmentLabels('#csat-bar');
+  }
+
+  // Mide cada segmento: si la etiqueta no cabe, la muestra fuera con línea conectora
+  function adjustSegmentLabels(containerSelector) {
+    const container = document.querySelector(containerSelector);
+    if (!container) return;
+    container.querySelectorAll('.csat-segment').forEach((seg) => {
+      const label = seg.querySelector('.csat-label');
+      if (!label) return;
+      // Si el texto es más ancho que el segmento (con margen 4px), mover fuera
+      if (label.scrollWidth > seg.offsetWidth - 4) {
+        seg.classList.add('csat-segment-outside');
+      }
+    });
   }
   // ==================== SECCIÓN OPERATIVO ====================
   function dimensionAplica(rows, dimension) {
