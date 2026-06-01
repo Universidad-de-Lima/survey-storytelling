@@ -334,7 +334,7 @@ for INPUT_FILE in files:
 
     YEAR_DIR = SURVEY_DIR / YEAR
     INDEX_FILE = YEAR_DIR / "index.html"
-    TEMPLATE_INDEX = ROOT_DIR / "template" / "index.html"
+    TEMPLATE_INDEX = ROOT_DIR.parent / "template" / "index.html"
     if not INDEX_FILE.exists():
         copyfile(TEMPLATE_INDEX, INDEX_FILE)
 
