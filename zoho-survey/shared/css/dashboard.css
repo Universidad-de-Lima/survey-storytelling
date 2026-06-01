@@ -366,18 +366,7 @@ body {
   border-radius: 1px;
 }
 
-/* Punto de anclaje sobre la barra */
-.callout-dot {
-  position: absolute;
-  left: 50%;
-  bottom: -1px;
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  transform: translateX(-50%);
-  pointer-events: none;
-  z-index: 1;
-}
+/* Punto de anclaje sobre la barra - eliminado */
 
 .legend {
   display: flex;
