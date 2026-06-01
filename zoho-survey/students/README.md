@@ -17,7 +17,7 @@ Módulo del dominio de encuestas estudiantiles. Implementa el pipeline desde los
 
 | Submodule     | Path             | Status      | Responsibility                                                             |
 | ------------- | ---------------- | ----------- | -------------------------------------------------------------------------- |
-| Scripts       | `scripts/`       | Active      | ETL pipeline (build_json.py) + JSON validator (validate_generated_json.py) |
+| Scripts       | `../scripts/`    | Active      | ETL pipeline (build_json.py) + JSON validator (validate_generated_json.py) |
 | Undergraduate | `undergraduate/` | Active      | Dashboard instances for undergraduate surveys (2025-2, 2026-1)             |
 | Graduate      | `graduate/`      | Active      | Dashboard instances for graduate surveys (2026)                            |
 | Postgraduate  | `posgraduate/`   | Placeholder | Empty structure awaiting posgraduate survey data                           |
@@ -27,8 +27,8 @@ Módulo del dominio de encuestas estudiantiles. Implementa el pipeline desde los
 | File                                                            | Responsibility                                  |
 | --------------------------------------------------------------- | ----------------------------------------------- |
 | `../../data/*.csv`                                              | Raw survey data from Zoho Survey (project root) |
-| `scripts/build_json.py`                                         | ETL: transforms CSV → JSON contracts per period |
-| `scripts/validate_generated_json.py`                            | Validates JSON contract compliance              |
+| `../scripts/build_json.py`                                      | ETL: transforms CSV → JSON contracts per period |
+| `../scripts/validate_generated_json.py`                         | Validates JSON contract compliance              |
 | `../template/index.html`                                        | Scaffold copied to new periods                  |
 | `FILTER_LOGIC.md`                                               | Filter cascade logic specification              |
 | `JSON_SCHEMA.md`                                                | JSON contract schema documentation              |
@@ -44,7 +44,7 @@ Módulo del dominio de encuestas estudiantiles. Implementa el pipeline desde los
 ## Execution Flow
 
 1. User places CSV file in `../../data/` (project root) with naming convention `ENCUESTA DE SATISFACCIÓN {LEVEL} - {PERIOD}.csv`
-2. User runs `python scripts/build_json.py` from `zoho-survey/students/` (or CI triggers on push)
+2. User runs `python ../scripts/build_json.py` from `zoho-survey/students/` or `python scripts/build_json.py` from project root
 3. Script detects level from filename keywords (GRADUADOS, PREGRADO, POSGRADO, etc.)
 4. Extracts period from filename via regex `(20\d{2}(?:-[12])?)`
 5. Transforms CSV data through 11 pipeline steps (column mapping, aggregation, topic analysis)
@@ -80,6 +80,6 @@ Módulo del dominio de encuestas estudiantiles. Implementa el pipeline desde los
 
 - Documentación detallada de contratos en `JSON_SCHEMA.md` y lógica de filtros en `FILTER_LOGIC.md`.
 - El ETL copia `../template/index.html` solo si no existe en el directorio del periodo.
-- Validar JSON localmente: `python scripts/validate_generated_json.py {nivel}`.
+- Validar JSON localmente: `python ../scripts/validate_generated_json.py {nivel}` desde `zoho-survey/students/` o `python scripts/validate_generated_json.py {nivel}` desde la raíz.
 - Los archivos CSV deben estar en `../../data/` con prefijo `ENCUESTA` en el nombre.
 - El entry point del navegador es `zoho-survey/index.html` (no `students/undergraduate/index.html`).

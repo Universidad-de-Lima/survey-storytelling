@@ -4,7 +4,7 @@ on:
   push:
     paths:
       - 'data/**'
-      - 'zoho-survey/students/scripts/**'
+      - 'scripts/**'
 
   workflow_dispatch:
 
@@ -30,7 +30,6 @@ jobs:
           pip install pandas
 
       - name: Run build_json.py
-        working-directory: zoho-survey/students
         run: |
           python scripts/build_json.py
 
