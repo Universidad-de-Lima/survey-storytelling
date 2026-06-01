@@ -138,7 +138,8 @@
     });
   }
 
-  const ordenarFacultades = (lista) => [PROGRAMA_ESTUDIOS_GENERALES, ...lista.sort()];
+  const ordenarFacultades = (lista, hasCiclo) =>
+    hasCiclo ? [PROGRAMA_ESTUDIOS_GENERALES, ...lista.sort()] : [...lista.sort()];
 
   const showTooltip = (e, content) => {
     const { tooltip } = DOM;
@@ -210,7 +211,7 @@
   const FACULTAD_PLACEHOLDER = 'Todas las facultades / programas';
 
   function populateFacultadSelect(selFac, filtros) {
-    const items = ordenarFacultades(filtros.facultades);
+    const items = ordenarFacultades(filtros.facultades, filtros.has_ciclo);
     selFac.innerHTML = `<option value="">${FACULTAD_PLACEHOLDER}</option>`;
     items.forEach((f) => {
       const opt = document.createElement('option');
@@ -1493,8 +1494,10 @@
 
     // Si la encuesta no tiene columna Ciclo (ej: graduados, egresados),
     // ocultar todos los filtros de ciclo en el DOM.
+    // Si la encuesta no tiene columna Ciclo, ocultar el grupo de filtro de ciclo
+    // pero mantener visible el botón Limpiar (que está dentro del mismo contenedor)
     if (!cache.filtros.has_ciclo) {
-      document.querySelectorAll('.filter-ciclo-actions').forEach((el) => {
+      document.querySelectorAll('.filter-ciclo-actions .filter-group').forEach((el) => {
         el.style.display = 'none';
       });
     }
