@@ -632,31 +632,40 @@
     barRow.querySelectorAll('.csat-segment').forEach((seg) => {
       const label = seg.querySelector('.csat-label');
       if (!label) return;
-      const segPct = seg.offsetWidth / barWidth; // ancho real proporcional del segmento
-      // Depuración
-      console.log('adjustSegmentLabels', containerSelector, {
-        text: label.textContent,
-        labelWidth: label.scrollWidth,
-        segmentWidth: seg.offsetWidth,
-        segmentPct: (segPct * 100).toFixed(2) + '%',
-        threshold: label.scrollWidth + SAFETY_MARGIN,
-      });
-      // Tres criterios combinados (cualquiera activa etiqueta externa):
-      // 1) El texto + margen no cabe físicamente
-      // 2) El segmento mide menos de 30px
-      // 3) El segmento representa menos del 2% del ancho total de la barra
+      const segPct = seg.offsetWidth / barWidth;
       const tooNarrow = seg.offsetWidth < 30;
       const tooSmall = segPct < 0.02;
       const textOverflows = label.scrollWidth + SAFETY_MARGIN > seg.offsetWidth;
-      if (textOverflows || tooNarrow || tooSmall) {
+      const selected = textOverflows || tooNarrow || tooSmall;
+      console.log('adjustSegmentLabels|check', containerSelector, {
+        text: label.textContent,
+        segW: seg.offsetWidth,
+        barW: barWidth,
+        segPct: (segPct * 100).toFixed(2) + '%',
+        tooNarrow,
+        tooSmall,
+        textOverflows,
+        selected
+      });
+      if (selected) {
         smallSegs.push(seg);
       }
+    });
+
+    console.log('adjustSegmentLabels|smallSegs', containerSelector, {
+      count: smallSegs.length,
+      labels: smallSegs.map(s => s.querySelector('.csat-label')?.textContent)
     });
 
     // 2. Crear contenedor de etiquetas externas sobre la barra
     const wrap = document.createElement('div');
     wrap.className = 'csat-labels-above';
     container.insertBefore(wrap, container.firstChild);
+
+    if (!smallSegs.length) {
+      console.log('adjustSegmentLabels|empty - no external labels needed', containerSelector);
+      return;
+    }
 
     const ROW_H = 20;
 
@@ -666,21 +675,22 @@
     smallSegs.forEach((seg) => {
       const cx = seg.offsetLeft + seg.offsetWidth / 2;
       const txt = seg.querySelector('.csat-label').textContent;
+      console.log('adjustSegmentLabels|creating external label', containerSelector, txt, 'cx:', cx);
 
       const el = document.createElement('div');
       el.className = 'csat-label-above';
       el.textContent = txt;
       wrap.appendChild(el);
+      console.log('adjustSegmentLabels|external label appended', containerSelector, el.outerHTML);
 
       const labelW = el.scrollWidth || 30;
       const labelL = cx - labelW / 2;
 
-      // Asignar fila
       let row = 0;
       for (let r = 0; r <= rows.length; r++) {
         if (!rows[r] || labelL >= rows[r] + 6) {
           row = r;
-          rows[r] = cx + labelW / 2; // rightMost
+          rows[r] = cx + labelW / 2;
           break;
         }
       }
@@ -688,7 +698,6 @@
       el.style.left = cx + 'px';
       el.style.top = (row * ROW_H) + 'px';
 
-      // Línea conectora hasta la barra
       const barTop = rows.length * ROW_H + 4;
       const labelBottom = row * ROW_H + 14;
       const lineH = Math.max(4, barTop - labelBottom);
