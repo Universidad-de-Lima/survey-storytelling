@@ -292,48 +292,50 @@
   }
 
   @media (max-width: 960px) {
-    .bar-left {
-      gap: 8px;
-    }
     #topbar {
-      padding: 8px 16px;
+      padding: 8px 18px;
       gap: 8px;
     }
-  }
-
-  @media (max-width: 720px) {
-    .survey-tabs { display: none; }
-    .survey-select-wrap { display: flex; width: 100%; }
-    .pills { display: none; }
-    .period-label { display: none; }
-    .select-wrap { display: flex; }
     .bar-left {
-      gap: 6px;
-      width: 100%;
+      gap: 8px;
+    }
+    .survey-tab {
+      font-size: 10px;
+      padding: 4px 10px;
+    }
+    .pill {
+      font-size: 12px;
+      padding: 5px 13px;
     }
   }
 
   @media (max-width: 640px) {
-    :root {
-      --bar-h: 60px;
-    }
-    .topbar-logo {
-      width: 100px;
+    .survey-tabs { display: none; }
+    .survey-select-wrap { display: flex; width: 100%; }
+    .pills { display: none; }
+    .period-label { display: none; }
+    .select-wrap { display: flex; width: 100%; }
+    .topbar-logo { width: 100px; }
+    .bar-left {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 6px;
+      width: 100%;
     }
     #topbar {
-      padding: 6px 12px;
-      gap: 6px;
+      flex-direction: column;
+      align-items: stretch;
+      padding: 10px 14px;
+      gap: 8px;
     }
     .period-bar {
       width: 100%;
       margin-left: 0;
+      justify-content: center;
     }
     .period-select {
       padding: 5px 28px 5px 12px;
       font-size: 12px;
-    }
-    #frame-wrap {
-      top: var(--bar-h);
     }
     .select-arrow {
       right: 12px;
