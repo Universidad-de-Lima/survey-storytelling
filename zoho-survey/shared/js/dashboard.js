@@ -610,107 +610,81 @@
     adjustSegmentLabels('#csat-bar');
   }
 
-  // Mide cada segmento: si la etiqueta no cabe, muestra etiqueta externa
-  // con línea guía estilo callout y punto de anclaje
+  // Mide cada segmento: si la etiqueta no cabe, muestra etiqueta externa encima
   function adjustSegmentLabels(containerSelector) {
     const container = document.querySelector(containerSelector);
     if (!container) return;
 
-    // 1. Colectar segmentos donde label.scrollWidth > seg.offsetWidth (sin margen)
+    // Limpiar contenedor previo de etiquetas externas
+    const oldWrap = container.querySelector('.csat-labels-above');
+    if (oldWrap) oldWrap.remove();
+
+    // 1. Identificar segmentos donde el texto no cabe
+    const barRow = container.querySelector('.csat-bar-row');
+    if (!barRow) return;
+
     const smallSegs = [];
-    container.querySelectorAll('.csat-segment').forEach((seg) => {
+    barRow.querySelectorAll('.csat-segment').forEach((seg) => {
       const label = seg.querySelector('.csat-label');
       if (!label) return;
+      // NO ocultar la etiqueta interna — overflow:hidden la recorta naturalmente
       if (label.scrollWidth > seg.offsetWidth) {
-        label.style.display = 'none';
         smallSegs.push(seg);
       }
     });
 
-    // Limpiar contenedor previo
-    const oldWrap = container.querySelector('.csat-labels-above');
-    if (oldWrap) oldWrap.remove();
     if (!smallSegs.length) return;
 
-    // 2. Obtener bar-row para calcular posiciones
-    const barRow = container.querySelector('.csat-bar-row');
-    if (!barRow) return;
     const barWidth = barRow.offsetWidth;
     if (!barWidth) return;
 
-    // 3. Crear contenedor de etiquetas sobre la barra
+    // 2. Crear contenedor de etiquetas externas sobre la barra
     const wrap = document.createElement('div');
     wrap.className = 'csat-labels-above';
     container.insertBefore(wrap, container.firstChild);
 
     const ROW_H = 20;
-    const DOT_SIZE = 5;
 
-    // 4. Posicionar cada etiqueta y detectar colisiones
-    const rows = []; // cada fila: { rightMost } (borde derecho del label más a la derecha)
-    const labelEls = [];
+    // 3. Posicionar etiquetas externas, detectar colisiones
+    const rows = [];
 
     smallSegs.forEach((seg) => {
-      // Centro geométrico del segmento en píxeles
       const cx = seg.offsetLeft + seg.offsetWidth / 2;
+      const txt = seg.querySelector('.csat-label').textContent;
 
-      // Crear elemento label
-      const textEl = seg.querySelector('.csat-label');
-      const txt = textEl ? textEl.textContent : '';
       const el = document.createElement('div');
       el.className = 'csat-label-above';
       el.textContent = txt;
       wrap.appendChild(el);
 
-      // Forzar layout para medir scrollWidth
       const labelW = el.scrollWidth || 30;
       const labelL = cx - labelW / 2;
-      const labelR = cx + labelW / 2;
 
-      // Asignar fila (staggering)
+      // Asignar fila
       let row = 0;
       for (let r = 0; r <= rows.length; r++) {
-        if (!rows[r]) {
-          // Fila vacía
+        if (!rows[r] || labelL >= rows[r] + 6) {
           row = r;
-          rows[r] = { rightMost: labelR };
-          break;
-        }
-        // La etiqueta cabe en esta fila si su borde izquierdo está
-        // más a la derecha que el borde derecho de cualquier label existente + gap
-        if (labelL >= rows[r].rightMost + 6) {
-          row = r;
-          rows[r].rightMost = labelR;
+          rows[r] = cx + labelW / 2; // rightMost
           break;
         }
       }
 
-      const topPx = row * ROW_H;
       el.style.left = cx + 'px';
-      el.style.top = topPx + 'px';
+      el.style.top = (row * ROW_H) + 'px';
 
-      // Calcular altura de la línea conectora
-      const lineBottom = topPx + 16; // bottom del label
-      const anchorTop = rows.length * ROW_H + 2; // tope de la barra
-      const lineH = anchorTop - lineBottom;
+      // Línea conectora hasta la barra
+      const barTop = rows.length * ROW_H + 4;
+      const labelBottom = row * ROW_H + 14;
+      const lineH = Math.max(4, barTop - labelBottom);
 
-      // Crear línea conectora (vertical) 
       const line = document.createElement('span');
       line.className = 'callout-line';
-      line.style.height = Math.max(4, lineH) + 'px';
+      line.style.height = lineH + 'px';
       el.appendChild(line);
-
-      // Crear punto de anclaje
-      const dot = document.createElement('span');
-      dot.className = 'callout-dot';
-      el.appendChild(dot);
-
-      labelEls.push(el);
     });
 
-    // 5. Ajustar altura del contenedor
-    const totalHeight = rows.length * ROW_H + 8; // +8 para el dot
-    wrap.style.height = totalHeight + 'px';
+    wrap.style.height = (rows.length * ROW_H + 10) + 'px';
   }
   // ==================== SECCIÓN OPERATIVO ====================
   function dimensionAplica(rows, dimension) {
