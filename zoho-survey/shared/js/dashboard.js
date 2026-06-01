@@ -623,13 +623,13 @@
     const barRow = container.querySelector('.csat-bar-row');
     if (!barRow) return;
 
-    const SAFETY_MARGIN = 8; // px de padding visual: evita texto pegado al borde
+    const SAFETY_MARGIN = 16; // px: margen visual para que el texto no quede pegado al borde
 
     const smallSegs = [];
     barRow.querySelectorAll('.csat-segment').forEach((seg) => {
       const label = seg.querySelector('.csat-label');
       if (!label) return;
-      // Con margen de seguridad: si el texto + 8px no cabe cómodamente, va fuera
+      // Si el texto + margen no cabe cómodamente, se muestra como etiqueta externa
       if (label.scrollWidth + SAFETY_MARGIN > seg.offsetWidth) {
         smallSegs.push(seg);
       }
