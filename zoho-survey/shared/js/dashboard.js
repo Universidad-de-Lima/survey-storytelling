@@ -667,7 +667,7 @@
     wrap.className = 'csat-labels-above';
     container.insertBefore(wrap, container.firstChild);
 
-    const ROW_H = 12;
+    const ROW_H = 22;
 
     // 3. Posicionar etiquetas externas, detectar colisiones
     const rows = [];
@@ -707,6 +707,7 @@
       el.style.left = cx + 'px';
       el.style.top = (row * ROW_H) + 'px';
 
+      // La línea conecta hasta la barra (borde inferior de la última fila)
       const barTop = rows.length * ROW_H + 2;
       const labelBottom = row * ROW_H + 10;
       const lineH = Math.max(4, barTop - labelBottom);
