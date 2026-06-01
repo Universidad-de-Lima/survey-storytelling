@@ -354,17 +354,7 @@ body {
   pointer-events: none;
 }
 
-/* Brazo horizontal (codo al pie de la línea) */
-.callout-arm {
-  position: absolute;
-  left: 50%;
-  bottom: 2px;
-  width: 10px;
-  height: 2px;
-  transform: translateX(-50%);
-  pointer-events: none;
-  border-radius: 1px;
-}
+/* Brazo horizontal (codo al pie de la línea) - eliminado */
 
 /* Punto de anclaje sobre la barra - eliminado */
 
