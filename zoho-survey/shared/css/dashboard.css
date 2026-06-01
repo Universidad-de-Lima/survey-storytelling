@@ -337,7 +337,6 @@ body {
   position: absolute;
   font-size: 10px;
   font-weight: var(--font-bold);
-  color: var(--gray-700);
   white-space: nowrap;
   transform: translateX(-50%);
   line-height: 1;
@@ -361,12 +360,12 @@ body {
   position: absolute;
   left: 50%;
   bottom: -2px;
-  width: 5px;
-  height: 5px;
-  background: var(--gray-400);
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
   transform: translateX(-50%);
   pointer-events: none;
+  z-index: 1;
 }
 
 .legend {
