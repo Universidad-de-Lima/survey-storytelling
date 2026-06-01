@@ -2,15 +2,15 @@
   'use strict';
 
   const SURVEY_TYPES = [
-    { id: 'undergraduate', label: 'ESTUDIANTES PREGRADO', path: '.' },
-    { id: 'graduate', label: 'GRADUADOS PREGRADO', path: '../graduate' },
-    { id: 'posgraduate', label: 'ESTUDIANTES POSGRADO', path: '../posgraduate' },
-    { id: 'alumni-ug', label: 'EGRESADOS PREGRADO', path: '../../alumni/undergraduate' },
-    { id: 'alumni-pg', label: 'EGRESADOS POSGRADO', path: '../../alumni/posgraduate' },
-    { id: 'faculty-ug', label: 'DOCENTES PREGRADO', path: '../../facultyStaff/undergraduate' },
-    { id: 'faculty-pg', label: 'DOCENTES POSGRADO', path: '../../facultyStaff/posgraduate' },
-    { id: 'nonfaculty', label: 'NO DOCENTES', path: '../../nonfacultyStaff' },
-    { id: 'employers', label: 'EMPLEADORES', path: '../../employers' },
+    { id: 'undergraduate', label: 'ESTUDIANTES PREGRADO', path: 'students/undergraduate' },
+    { id: 'graduate', label: 'GRADUADOS PREGRADO', path: 'students/graduate' },
+    { id: 'posgraduate', label: 'ESTUDIANTES POSGRADO', path: 'students/posgraduate' },
+    { id: 'alumni-ug', label: 'EGRESADOS PREGRADO', path: 'alumni/undergraduate' },
+    { id: 'alumni-pg', label: 'EGRESADOS POSGRADO', path: 'alumni/posgraduate' },
+    { id: 'faculty-ug', label: 'DOCENTES PREGRADO', path: 'facultyStaff/undergraduate' },
+    { id: 'faculty-pg', label: 'DOCENTES POSGRADO', path: 'facultyStaff/posgraduate' },
+    { id: 'nonfaculty', label: 'NO DOCENTES', path: 'nonfacultyStaff' },
+    { id: 'employers', label: 'EMPLEADORES', path: 'employers' },
   ];
 
   let currentSurvey = null;
@@ -74,7 +74,7 @@
       showLoaderError(`Sin datos para ${survey.label}`, err);
       periodBar.classList.remove('visible');
       // Load "en construcción" page
-      frame.src = '../underconstruction.html';
+      frame.src = 'students/underconstruction.html';
       overlay?.classList.remove('show');
       frame.classList.add('loaded');
       return;
