@@ -96,6 +96,7 @@
   const sumKeys = (row, keys) => keys.reduce((acc, k) => acc + (row[k] || 0), 0);
 
   function filtrarDatos(datos, fac, car, cic) {
+    if (!datos) return [];
     const ciclos = Array.isArray(cic) ? cic : cic ? [cic] : null;
     return datos.filter((r) => {
       if (esEstudiosGen(fac)) {
