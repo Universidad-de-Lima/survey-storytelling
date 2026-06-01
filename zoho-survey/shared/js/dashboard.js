@@ -657,6 +657,11 @@
       const tooSmall = segPct < 0.02;
       const textOverflows = label.scrollWidth + SAFETY_MARGIN > seg.offsetWidth;
       const selected = textOverflows || tooNarrow || tooSmall;
+      // Segmentos menores a 0.5%: ocultar etiqueta y no generar externa
+      if (segPct < 0.005) {
+        label.style.visibility = 'hidden';
+        return;
+      }
       if (selected) {
         smallSegs.push(seg);
       }
