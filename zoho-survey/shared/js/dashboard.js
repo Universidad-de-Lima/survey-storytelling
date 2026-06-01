@@ -624,6 +624,13 @@
     const barRow = container.querySelector('.csat-bar-row');
     if (!barRow) return;
 
+    // Restaurar visibilidad de etiquetas internas ocultadas en ejecuciones previas
+    barRow.querySelectorAll('.csat-label').forEach((lbl) => {
+      if (lbl.style.visibility === 'hidden') {
+        lbl.style.removeProperty('visibility');
+      }
+    });
+
     const SAFETY_MARGIN = 16;
 
     const barWidth = barRow.offsetWidth;
