@@ -679,9 +679,16 @@
       const cx = (segRect.left - BAR_LEFT) + segRect.width / 2;
       const txt = label.textContent;
 
+      // Ocultar etiqueta interna para evitar duplicado
+      label.style.visibility = 'hidden';
+
+      // Obtener color real del segmento
+      const segColor = getComputedStyle(seg).backgroundColor;
+
       const el = document.createElement('div');
       el.className = 'csat-label-above';
       el.textContent = txt;
+      el.style.color = segColor;
       wrap.appendChild(el);
 
       const labelW = el.scrollWidth || 30;
@@ -703,10 +710,19 @@
       const labelBottom = row * ROW_H + 14;
       const lineH = Math.max(4, barTop - labelBottom);
 
+      // Línea vertical conectora
       const line = document.createElement('span');
       line.className = 'callout-line';
       line.style.height = lineH + 'px';
+      line.style.background = segColor;
       el.appendChild(line);
+
+      // Punto de anclaje sobre la barra
+      const dot = document.createElement('span');
+      dot.className = 'callout-dot';
+      dot.style.background = segColor;
+      el.appendChild(dot);
+
     });
 
     wrap.style.height = (rows.length * ROW_H + 10) + 'px';
