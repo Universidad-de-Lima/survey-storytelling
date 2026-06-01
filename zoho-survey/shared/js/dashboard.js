@@ -580,9 +580,7 @@
       <div class="legend-item"><div class="legend-dot" style="background:var(--ulima-orange);"></div>Detractores: ${formatInteger(nps.Detractores)}</div>
     `;
     addTooltipToSegments('#nps-bar .csat-segment');
-    // Esperar a que la animación CSS stackedGrow (0.8s) termine
-    const npsRow = DOM.npsBar.querySelector('.csat-bar-row');
-    if (npsRow) npsRow.addEventListener('animationend', () => adjustSegmentLabels('#nps-bar'), { once: true });
+    adjustSegmentLabels('#nps-bar');
   }
 
   function renderCSATBar(csat) {
@@ -611,9 +609,7 @@
       )
       .join('');
     addTooltipToSegments('#csat-bar .csat-segment');
-    // Esperar a que la animación CSS stackedGrow (0.8s) termine
-    const csatRow = DOM.csatBar.querySelector('.csat-bar-row');
-    if (csatRow) csatRow.addEventListener('animationend', () => adjustSegmentLabels('#csat-bar'), { once: true });
+    adjustSegmentLabels('#csat-bar');
   }
 
   // Mide cada segmento: si la etiqueta no cabe, muestra etiqueta externa encima
@@ -641,7 +637,19 @@
 
     const barWidth = barRow.offsetWidth;
     if (!barWidth) {
-      console.log('adjustSegmentLabels EXIT: barWidth is 0', containerSelector);
+      console.log('adjustSegmentLabels RETRY: barWidth is 0', containerSelector, '(hidden tab or anim not started)');
+      // Reintentar cuando la animación termine (setTimeout) o cuando la pestaña se active
+      setTimeout(() => adjustSegmentLabels(containerSelector), 500);
+      if (!container.dataset._visListener) {
+        container.dataset._visListener = '1';
+        document.addEventListener('visibilitychange', function visHandler() {
+          if (!document.hidden) {
+            document.removeEventListener('visibilitychange', visHandler);
+            delete container.dataset._visListener;
+            adjustSegmentLabels(containerSelector);
+          }
+        });
+      }
       return;
     }
 
