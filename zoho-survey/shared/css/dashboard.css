@@ -321,7 +321,7 @@ body {
   opacity: 0.85;
 }
 
-/* Etiquetas externas sobre la barra */
+/* Etiquetas externas sobre la barra con línea callout */
 .csat-labels-above {
   position: relative;
   width: 100%;
@@ -333,20 +333,34 @@ body {
   font-weight: var(--font-bold);
   color: var(--gray-700);
   white-space: nowrap;
-  text-align: center;
   transform: translateX(-50%);
   line-height: 1;
   z-index: 2;
+  padding: 1px 3px;
 }
 
-.csat-label-above::after {
-  content: '';
+/* Línea vertical conectora */
+.callout-line {
   position: absolute;
   left: 50%;
   top: 100%;
   width: 1px;
-  height: 6px;
   background: var(--gray-400);
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+/* Punto de anclaje sobre la barra */
+.callout-dot {
+  position: absolute;
+  left: 50%;
+  bottom: -2px;
+  width: 5px;
+  height: 5px;
+  background: var(--gray-400);
+  border-radius: 50%;
+  transform: translateX(-50%);
+  pointer-events: none;
 }
 
 .legend {
