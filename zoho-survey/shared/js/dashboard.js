@@ -628,8 +628,13 @@
 
     const barWidth = barRow.offsetWidth;
     if (!barWidth) {
-      // Reintentar cuando la animación CSS stackedGrow termine o la pestaña se active
-      setTimeout(() => adjustSegmentLabels(containerSelector), 500);
+      // Esperar a que la animación CSS stackedGrow (0.8s) termine completamente
+      barRow.addEventListener('animationend', function onEnd() {
+        barRow.removeEventListener('animationend', onEnd);
+        adjustSegmentLabels(containerSelector);
+      }, { once: true });
+      // Safety net por si animationend nunca se dispara
+      setTimeout(() => adjustSegmentLabels(containerSelector), 1200);
       if (!container.dataset._visListener) {
         container.dataset._visListener = '1';
         document.addEventListener('visibilitychange', function visHandler() {
