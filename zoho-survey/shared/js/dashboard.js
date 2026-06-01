@@ -590,32 +590,17 @@
     ];
     const total = labels.reduce((s, l) => s + (csat[l.key] || 0), 0);
     const visibleLabels = labels.filter((l) => csat[l.key] > 0);
-
-    // Etiquetas pequeñas: se renderizan sobre la barra
-    const smallLabelsHtml = visibleLabels
-      .filter((l) => {
-        const p = pct(csat[l.key], total);
-        return p > 0 && p < 5;
-      })
+    DOM.csatBar.innerHTML = visibleLabels
       .map((l) => {
         const p = pct(csat[l.key], total);
-        return `<span class="csat-label-above" style="left:${p / 2}%">${formatPctSimple(csat[l.key], total)}</span>`;
+        const label = formatPctSimple(csat[l.key], total);
+        const outside = p < 5;
+        return `<div class="csat-segment${outside ? ' csat-segment-outside' : ''}" style="width:${p}%; background:${l.color};"
+              data-label="${l.key}" data-value="${formatInteger(csat[l.key])} (${formatPctDecimal(csat[l.key], total)})">
+                ${outside ? `<span class="csat-label">${label}</span>` : label}
+              </div>`;
       })
       .join('');
-
-    DOM.csatBar.innerHTML = (smallLabelsHtml ? `<div class="csat-labels-above">${smallLabelsHtml}</div>` : '')
-      + '<div style="display:flex;height:32px;border-radius:4px;overflow:hidden;animation:stackedGrow 0.8s ease-out forwards">'
-      + visibleLabels
-        .map((l) => {
-          const p = pct(csat[l.key], total);
-          const showInside = p >= 5;
-          return `<div class="csat-segment" style="width:${p}%; background:${l.color};"
-                data-label="${l.key}" data-value="${formatInteger(csat[l.key])} (${formatPctDecimal(csat[l.key], total)})">
-                  ${showInside ? formatPctSimple(csat[l.key], total) : ''}
-                </div>`;
-        })
-        .join('')
-      + '</div>';
     DOM.csatLegend.innerHTML = visibleLabels
       .map(
         (l) =>
