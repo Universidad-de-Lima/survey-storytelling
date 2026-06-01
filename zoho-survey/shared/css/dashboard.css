@@ -283,12 +283,11 @@ body {
 }
 
 .csat-bar {
-  height: 32px;
+  height: auto;
   display: flex;
+  flex-direction: column;
   border-radius: 4px;
-  overflow: visible;
   font-size: 11px;
-  animation: stackedGrow 0.8s ease-out forwards;
 }
 
 .csat-segment {
@@ -307,29 +306,33 @@ body {
   opacity: 0.85;
 }
 
-/* Valor pequeño: se muestra fuera de la barra con línea conectora */
-.csat-segment-outside {
-  color: var(--gray-700);
-  overflow: visible;
+/* Etiquetas de valores pequeños sobre la barra con línea vertical */
+.csat-labels-above {
+  display: flex;
+  height: 20px;
+  margin-bottom: 2px;
   position: relative;
 }
 
-.csat-segment-outside::before {
-  content: '';
+.csat-label-above {
   position: absolute;
-  left: 100%;
-  top: 50%;
-  width: 8px;
-  height: 1px;
-  background: var(--gray-400);
+  top: 0;
+  font-size: 10px;
+  font-weight: var(--font-bold);
+  color: var(--gray-700);
+  white-space: nowrap;
+  text-align: center;
+  transform: translateX(-50%);
 }
 
-.csat-segment-outside .csat-label {
+.csat-label-above::after {
+  content: '';
   position: absolute;
-  left: calc(100% + 12px);
-  top: 50%;
-  transform: translateY(-50%);
-  white-space: nowrap;
+  left: 50%;
+  top: 100%;
+  width: 1px;
+  height: 6px;
+  background: var(--gray-400);
 }
 
 .legend {
