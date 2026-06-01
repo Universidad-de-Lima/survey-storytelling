@@ -74,7 +74,7 @@
       showLoaderError(`Sin datos para ${survey.label}`, err);
       periodBar.classList.remove('visible');
       // Load "en construcción" page
-      frame.src = 'students/underconstruction.html';
+      frame.src = 'underconstruction.html';
       overlay?.classList.remove('show');
       frame.classList.add('loaded');
       return;
