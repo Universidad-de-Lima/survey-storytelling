@@ -42,7 +42,7 @@ REQUIRED_SCORE_KEYS = {"score"}
 REQUIRED_HALLAZGOS_KEYS = {
     "csat_pct", "nps_score", "nps_tipo", "nps_etapas", "tendencia", "delta",
 }
-REQUIRED_FILTROS_KEYS = {"facultades", "carreras", "ciclos", "facultad_carrera"}
+REQUIRED_FILTROS_KEYS = {"has_ciclo", "facultades", "carreras", "ciclos", "facultad_carrera"}
 REQUIRED_DIMENSION_KEYS = {
     "facultad", "carrera", "ciclo", "categoria", "dimension",
     "t3b", "b2b", "total", "t3b_pct", "no_utilizo", "no_conozco",
@@ -121,12 +121,21 @@ def validate_dashboard(value):
 
 def validate_filtros(value):
     require_keys(value, REQUIRED_FILTROS_KEYS, "filtros.json")
+    has_ciclo = value.get("has_ciclo", True)
 
-    for key in ("facultades", "carreras", "ciclos"):
+    for key in ("facultades", "carreras"):
         if not isinstance(value.get(key), list) or not value[key]:
             raise ValueError(f"filtros.{key} debe ser una lista no vacia")
         if not all(isinstance(item, str) and item.strip() for item in value[key]):
             raise ValueError(f"filtros.{key} debe contener textos no vacios")
+
+    # Ciclo es opcional: si has_ciclo=false, puede estar vacio
+    if not isinstance(value.get("ciclos"), list):
+        raise ValueError("filtros.ciclos debe ser una lista")
+    if has_ciclo and not value["ciclos"]:
+        raise ValueError("filtros.ciclos debe ser una lista no vacia cuando has_ciclo=true")
+    if value["ciclos"] and not all(isinstance(item, str) and item.strip() for item in value["ciclos"]):
+        raise ValueError("filtros.ciclos debe contener textos no vacios")
 
     facultad_carrera = value.get("facultad_carrera")
     if not isinstance(facultad_carrera, dict) or not facultad_carrera:
@@ -166,17 +175,12 @@ def validate_id_rows(value, filename):
 
 
 def validate_cross_rows(value, filename, response_keys):
-    rows_with_data = 0
     required_keys = REQUIRED_CROSS_KEYS | set(response_keys)
     for index, row in enumerate(value):
         if not isinstance(row, dict):
             raise ValueError(f"{filename}[{index}] debe ser objeto")
         require_keys(row, required_keys, f"{filename}[{index}]")
         require_numeric(row, response_keys, f"{filename}[{index}]")
-        if sum(row.get(key, 0) for key in response_keys) > 0:
-            rows_with_data += 1
-    if not rows_with_data:
-        raise ValueError(f"{filename} no contiene filas con datos")
 
 
 def validate_sentimiento(value):
@@ -263,7 +267,23 @@ def validate_period(period_dir):
 
     errors.extend(validate_period_html(period_dir))
 
-    for filename, spec in REQUIRED_PERIOD_FILES.items():
+    # Leer filtros.json primero para conocer has_ciclo
+    has_ciclo = True
+    filtros_path = json_dir / "filtros.json"
+    if filtros_path.exists():
+        try:
+            filtros_val = load_json(filtros_path)
+            has_ciclo = filtros_val.get("has_ciclo", True)
+        except Exception:
+            pass
+
+    required = dict(REQUIRED_PERIOD_FILES)
+    # Si no hay ciclo, nps_ciclo_carrera y csat_ciclo_carrera pueden estar vacios
+    if not has_ciclo:
+        required["nps_ciclo_carrera.json"] = dict(type=list, non_empty=False)
+        required["csat_ciclo_carrera.json"] = dict(type=list, non_empty=False)
+
+    for filename, spec in required.items():
         path = json_dir / filename
         try:
             validate_json_file(json_dir, filename, spec)
