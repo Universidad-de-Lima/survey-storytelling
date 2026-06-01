@@ -673,6 +673,9 @@
     const rows = [];
     const BAR_LEFT = barRow.getBoundingClientRect().left;
 
+    // Ordenar: segmento más pequeño arriba (menor % ocupa fila superior)
+    smallSegs.sort((a, b) => a.offsetWidth - b.offsetWidth);
+
     smallSegs.forEach((seg) => {
       const label = seg.querySelector('.csat-label');
       const segRect = seg.getBoundingClientRect();
