@@ -676,10 +676,40 @@
     // Ordenar: segmento más pequeño arriba (menor % ocupa fila superior)
     smallSegs.sort((a, b) => a.offsetWidth - b.offsetWidth);
 
+    // Paso 1: asignar filas midiendo etiquetas con temporal fuera del wrap
+    const rowAssignments = [];
     smallSegs.forEach((seg) => {
+      const cx = (seg.getBoundingClientRect().left - BAR_LEFT) + seg.getBoundingClientRect().width / 2;
+      const txt = seg.querySelector('.csat-label').textContent;
+      // Medir ancho real con temporal en body
+      const temp = document.createElement('div');
+      temp.className = 'csat-label-above';
+      temp.textContent = txt;
+      temp.style.position = 'absolute';
+      temp.style.left = '-9999px';
+      document.body.appendChild(temp);
+      const labelW = temp.scrollWidth || 30;
+      document.body.removeChild(temp);
+
+      const labelL = cx - labelW / 2;
+
+      let row = 0;
+      for (let r = 0; r <= rows.length; r++) {
+        if (!rows[r] || labelL >= rows[r] + 10) {
+          row = r;
+          rows[r] = cx + labelW / 2;
+          break;
+        }
+      }
+      rowAssignments.push({ seg, cx, labelW, row });
+    });
+
+    // Ahora rows.length es el final — todas las líneas usan el mismo barTop
+    const barTop = rows.length * ROW_H + 2;
+
+    // Paso 2: crear DOM con barTop definitivo
+    rowAssignments.forEach(({ seg, cx, labelW, row }) => {
       const label = seg.querySelector('.csat-label');
-      const segRect = seg.getBoundingClientRect();
-      const cx = (segRect.left - BAR_LEFT) + segRect.width / 2;
       const txt = label.textContent;
 
       // Ocultar etiqueta interna para evitar duplicado
@@ -694,24 +724,9 @@
       el.style.color = segColor;
       wrap.appendChild(el);
 
-      const labelW = el.scrollWidth || 30;
-      const labelL = cx - labelW / 2;
-
-      // Apilamiento inteligente: colisión por solapamiento horizontal
-      let row = 0;
-      for (let r = 0; r <= rows.length; r++) {
-        if (!rows[r] || labelL >= rows[r] + 10) {
-          row = r;
-          rows[r] = cx + labelW / 2;
-          break;
-        }
-      }
-
       el.style.left = cx + 'px';
       el.style.top = (row * ROW_H) + 'px';
 
-      // La línea conecta hasta la barra (borde inferior de la última fila)
-      const barTop = rows.length * ROW_H + 2;
       const labelBottom = row * ROW_H + 10;
       const lineH = Math.max(4, barTop - labelBottom);
 
