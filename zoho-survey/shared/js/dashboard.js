@@ -610,73 +610,107 @@
     adjustSegmentLabels('#csat-bar');
   }
 
-  // Mide cada segmento: si la etiqueta no cabe, la muestra encima con línea vertical
+  // Mide cada segmento: si la etiqueta no cabe, muestra etiqueta externa
+  // con línea guía estilo callout y punto de anclaje
   function adjustSegmentLabels(containerSelector) {
     const container = document.querySelector(containerSelector);
     if (!container) return;
 
-    // Colectar segmentos donde la etiqueta no cabe
+    // 1. Colectar segmentos donde label.scrollWidth > seg.offsetWidth (sin margen)
     const smallSegs = [];
     container.querySelectorAll('.csat-segment').forEach((seg) => {
       const label = seg.querySelector('.csat-label');
       if (!label) return;
-      if (label.scrollWidth > seg.offsetWidth - 4) {
+      if (label.scrollWidth > seg.offsetWidth) {
         label.style.display = 'none';
         smallSegs.push(seg);
       }
     });
 
-    if (!smallSegs.length) {
-      // Limpiar contenedor de labels si ya no se necesita
-      const old = container.querySelector('.csat-labels-above');
-      if (old) old.remove();
-      return;
-    }
+    // Limpiar contenedor previo
+    const oldWrap = container.querySelector('.csat-labels-above');
+    if (oldWrap) oldWrap.remove();
+    if (!smallSegs.length) return;
 
-    // Crear contenedor de etiquetas sobre la barra
-    let labelsWrap = container.querySelector('.csat-labels-above');
-    if (!labelsWrap) {
-      labelsWrap = document.createElement('div');
-      labelsWrap.className = 'csat-labels-above';
-      container.insertBefore(labelsWrap, container.firstChild);
-    }
-    labelsWrap.innerHTML = '';
+    // 2. Obtener bar-row para calcular posiciones
+    const barRow = container.querySelector('.csat-bar-row');
+    if (!barRow) return;
+    const barWidth = barRow.offsetWidth;
+    if (!barWidth) return;
 
-    const barWidth = container.offsetWidth;
-    const rows = [];
-    const ROW_H = 18;
-    const MIN_GAP = 8;
+    // 3. Crear contenedor de etiquetas sobre la barra
+    const wrap = document.createElement('div');
+    wrap.className = 'csat-labels-above';
+    container.insertBefore(wrap, container.firstChild);
+
+    const ROW_H = 20;
+    const DOT_SIZE = 5;
+
+    // 4. Posicionar cada etiqueta y detectar colisiones
+    const rows = []; // cada fila: { rightMost } (borde derecho del label más a la derecha)
+    const labelEls = [];
 
     smallSegs.forEach((seg) => {
+      // Centro geométrico del segmento en píxeles
       const cx = seg.offsetLeft + seg.offsetWidth / 2;
-      const pct = barWidth > 0 ? (cx / barWidth) * 100 : 0;
+
+      // Crear elemento label
       const textEl = seg.querySelector('.csat-label');
       const txt = textEl ? textEl.textContent : '';
-
       const el = document.createElement('div');
       el.className = 'csat-label-above';
       el.textContent = txt;
-      el.style.left = pct + '%';
-      labelsWrap.appendChild(el);
+      wrap.appendChild(el);
 
-      // Determinar fila (staggering) para evitar superposición
-      const w = el.scrollWidth || 40;
-      const l = cx - w / 2;
-      const r = cx + w / 2;
+      // Forzar layout para medir scrollWidth
+      const labelW = el.scrollWidth || 30;
+      const labelL = cx - labelW / 2;
+      const labelR = cx + labelW / 2;
+
+      // Asignar fila (staggering)
       let row = 0;
-      for (let rIdx = 0; rIdx <= rows.length; rIdx++) {
-        const taken = rows[rIdx] || null;
-        if (!taken || l > taken.r + MIN_GAP || r < taken.l - MIN_GAP) {
-          row = rIdx;
-          if (!rows[rIdx]) rows[rIdx] = { l, r };
-          else { rows[rIdx].l = Math.min(rows[rIdx].l, l); rows[rIdx].r = Math.max(rows[rIdx].r, r); }
+      for (let r = 0; r <= rows.length; r++) {
+        if (!rows[r]) {
+          // Fila vacía
+          row = r;
+          rows[r] = { rightMost: labelR };
+          break;
+        }
+        // La etiqueta cabe en esta fila si su borde izquierdo está
+        // más a la derecha que el borde derecho de cualquier label existente + gap
+        if (labelL >= rows[r].rightMost + 6) {
+          row = r;
+          rows[r].rightMost = labelR;
           break;
         }
       }
-      el.style.top = (row * ROW_H) + 'px';
+
+      const topPx = row * ROW_H;
+      el.style.left = cx + 'px';
+      el.style.top = topPx + 'px';
+
+      // Calcular altura de la línea conectora
+      const lineBottom = topPx + 16; // bottom del label
+      const anchorTop = rows.length * ROW_H + 2; // tope de la barra
+      const lineH = anchorTop - lineBottom;
+
+      // Crear línea conectora (vertical) 
+      const line = document.createElement('span');
+      line.className = 'callout-line';
+      line.style.height = Math.max(4, lineH) + 'px';
+      el.appendChild(line);
+
+      // Crear punto de anclaje
+      const dot = document.createElement('span');
+      dot.className = 'callout-dot';
+      el.appendChild(dot);
+
+      labelEls.push(el);
     });
 
-    labelsWrap.style.height = (rows.length * ROW_H) + 'px';
+    // 5. Ajustar altura del contenedor
+    const totalHeight = rows.length * ROW_H + 8; // +8 para el dot
+    wrap.style.height = totalHeight + 'px';
   }
   // ==================== SECCIÓN OPERATIVO ====================
   function dimensionAplica(rows, dimension) {
