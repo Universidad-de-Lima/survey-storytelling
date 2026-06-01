@@ -535,6 +535,7 @@
   }
 
   function renderEjecutivo() {
+    console.log('renderEjecutivo CALLED');
     const { resumen: r, hallazgos: h, nps, csat } = cache.dashboard;
     DOM.footerAnio.textContent = r.año;
     DOM.footerPeriodo.textContent = `Periodo: ${formatDate(r.fecha_inicio)} - ${formatDate(r.fecha_fin)} · Dirección de Planificación y Acreditación`;
@@ -613,8 +614,13 @@
 
   // Mide cada segmento: si la etiqueta no cabe, muestra etiqueta externa encima
   function adjustSegmentLabels(containerSelector) {
+    console.log('adjustSegmentLabels CALLED', containerSelector);
+    window.__adjustLabelsCalled = true;
     const container = document.querySelector(containerSelector);
-    if (!container) return;
+    if (!container) {
+      console.log('adjustSegmentLabels EXIT: container not found', containerSelector);
+      return;
+    }
 
     // Limpiar contenedor previo de etiquetas externas
     const oldWrap = container.querySelector('.csat-labels-above');
@@ -622,12 +628,18 @@
 
     // 1. Identificar segmentos donde el texto no cabe
     const barRow = container.querySelector('.csat-bar-row');
-    if (!barRow) return;
+    if (!barRow) {
+      console.log('adjustSegmentLabels EXIT: no .csat-bar-row', containerSelector);
+      return;
+    }
 
     const SAFETY_MARGIN = 16;
 
     const barWidth = barRow.offsetWidth;
-    if (!barWidth) return;
+    if (!barWidth) {
+      console.log('adjustSegmentLabels EXIT: barWidth is 0', containerSelector);
+      return;
+    }
 
     const smallSegs = [];
     barRow.querySelectorAll('.csat-segment').forEach((seg) => {
@@ -1636,6 +1648,7 @@
 
   // ==================== INICIALIZACIÓN ====================
   async function init() {
+    console.log('init CALLED');
     if (!(await loadAllData())) {
       console.error('No se pudieron cargar los datos.');
       return;
