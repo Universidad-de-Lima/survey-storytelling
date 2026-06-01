@@ -666,12 +666,12 @@
 
     // 3. Posicionar etiquetas externas, detectar colisiones
     const rows = [];
-    const WRAP_LEFT = wrap.getBoundingClientRect().left;
+    const BAR_LEFT = barRow.getBoundingClientRect().left;
 
     smallSegs.forEach((seg) => {
       const label = seg.querySelector('.csat-label');
       const segRect = seg.getBoundingClientRect();
-      const cx = (segRect.left - WRAP_LEFT) + segRect.width / 2;
+      const cx = (segRect.left - BAR_LEFT) + segRect.width / 2;
       const txt = label.textContent;
 
       const el = document.createElement('div');
@@ -1638,6 +1638,16 @@
     }
 
     setupProgressBar();
+
+    // Re-ajustar etiquetas externas al redimensionar la ventana
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        adjustSegmentLabels('#nps-bar');
+        adjustSegmentLabels('#csat-bar');
+      }, 250);
+    });
   }
 
   if (document.readyState === 'loading') {
