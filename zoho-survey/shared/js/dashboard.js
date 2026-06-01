@@ -593,14 +593,18 @@
     DOM.csatBar.innerHTML = visibleLabels
       .map((l) => {
         const p = pct(csat[l.key], total);
-        const label = formatPctSimple(csat[l.key], total);
-        const outside = p < 5;
-        return `<div class="csat-segment${outside ? ' csat-segment-outside' : ''}" style="width:${p}%; background:${l.color};"
-              data-label="${l.key}" data-value="${formatInteger(csat[l.key])} (${formatPctDecimal(csat[l.key], total)})">
-                ${outside ? `<span class="csat-label">${label}</span>` : label}
-              </div>`;
+        return `<div class="csat-segment" style="width:${p}%; background:${l.color};"
+              data-label="${l.key}" data-value="${formatInteger(csat[l.key])} (${formatPctDecimal(csat[l.key], total)})">${p < 2 ? '' : formatPctSimple(csat[l.key], total)}</div>`;
       })
       .join('');
+          const showInside = p >= 5;
+          return `<div class="csat-segment" style="width:${p}%; background:${l.color};"
+                data-label="${l.key}" data-value="${formatInteger(csat[l.key])} (${formatPctDecimal(csat[l.key], total)})">
+                  ${showInside ? formatPctSimple(csat[l.key], total) : ''}
+                </div>`;
+        })
+        .join('')
+      + '</div>';
     DOM.csatLegend.innerHTML = visibleLabels
       .map(
         (l) =>
@@ -620,14 +624,13 @@
     const fragment = document.createDocumentFragment();
     data.forEach((item, idx) => {
       const barClass = item.pct >= META_CSAT ? 'high' : item.pct >= 80 ? 'medium' : 'low';
-      const barValueOutside = item.pct < 12;
       const barItem = document.createElement('div');
       barItem.className = 'bar-item';
       barItem.innerHTML = `
         <div class="bar-label">${formatDimensionName(item.dim)}</div>
         <div class="bar-container">
           <div class="bar-fill animated ${barClass}" style="width:${item.pct}%; animation-delay:${idx * 0.08}s">
-            <span class="bar-value${barValueOutside ? ' bar-value-outside' : ''}">${formatPercent(item.pct, 2)}</span>
+            <span class="bar-value">${formatPercent(item.pct, 2)}</span>
           </div>
         </div>
       `;
