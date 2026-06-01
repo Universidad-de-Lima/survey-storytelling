@@ -14,11 +14,11 @@ Capa de presentación base. Proporciona el sistema de diseño (CSS), la lógica 
 
 | File                | Responsibility                                                                                                                     |
 | ------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
-| `css/dashboard.css` | Sistema de diseño completo: variables CSS, layout (Grid/Flexbox), tipografía, componentes (KPIs, tablas, filtros, radar, tooltips) |
-| `css/loader.css`    | Estilos del splash screen, topbar, navegador de periodos (pills/select) y overlay de carga                                         |
-| `js/dashboard.js`   | Lógica central del dashboard SPA. 4 secciones, filtros en cascada, renderizado de gráficos SVG, tooltips                           |
-| `js/loader.js`      | Lógica del navegador de periodos: carga de `periodos.json`, inicialización de pills/select, control del iframe                     |
-| `img/`              | Assets gráficos institucionales (logos ULIMA, favicon)                                                                             |
+| `css/dashboard.css` | Sistema de diseño completo (~800 líneas): variables CSS, layout (Grid/Flexbox), componentes (KPIs, barras, filtros, radar, tooltips) |
+| `css/loader.css`    | Estilos del splash screen, topbar, navegador de periodos (~300 líneas)                                                              |
+| `js/dashboard.js`   | Lógica central del dashboard SPA. 4 secciones, filtros en cascada, renderizado SVG, tooltips                                        |
+| `js/loader.js`      | Lógica del navegador de periodos: fetch `periodos.json`, pills/select, control del iframe                                           |
+| `img/`              | Assets institucionales: `logo-horizontal.png`, `logo-vertical.png`, `logo-isotipo.png`, `favicon.png`, `todo-posible.webp`          |
 
 ## Data Flow
 
@@ -28,6 +28,18 @@ loader.js → fetch periodos.json → render pills/select → set iframe src
                                               dashboard.js → fetch JSON files from ./json/
                                                               ↓
                                               render 4 sections (Ejecutivo, Operativo, Detallado, Cualitativo)
+```
+
+## Design Tokens (CSS)
+
+```css
+:root {
+  --ulima-orange: #ff5117;
+  --ulima-red: #ff0000;
+  --ulima-blue: #2563eb;
+  --font-family-primary: 'Roboto', sans-serif;
+}
+```
 ```
 
 ## Execution Flow
