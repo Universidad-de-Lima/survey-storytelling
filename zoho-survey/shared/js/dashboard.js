@@ -535,7 +535,6 @@
   }
 
   function renderEjecutivo() {
-    console.log('renderEjecutivo CALLED');
     const { resumen: r, hallazgos: h, nps, csat } = cache.dashboard;
     DOM.footerAnio.textContent = r.año;
     DOM.footerPeriodo.textContent = `Periodo: ${formatDate(r.fecha_inicio)} - ${formatDate(r.fecha_fin)} · Dirección de Planificación y Acreditación`;
@@ -614,13 +613,8 @@
 
   // Mide cada segmento: si la etiqueta no cabe, muestra etiqueta externa encima
   function adjustSegmentLabels(containerSelector) {
-    console.log('adjustSegmentLabels CALLED', containerSelector);
-    window.__adjustLabelsCalled = true;
     const container = document.querySelector(containerSelector);
-    if (!container) {
-      console.log('adjustSegmentLabels EXIT: container not found', containerSelector);
-      return;
-    }
+    if (!container) return;
 
     // Limpiar contenedor previo de etiquetas externas
     const oldWrap = container.querySelector('.csat-labels-above');
@@ -628,17 +622,13 @@
 
     // 1. Identificar segmentos donde el texto no cabe
     const barRow = container.querySelector('.csat-bar-row');
-    if (!barRow) {
-      console.log('adjustSegmentLabels EXIT: no .csat-bar-row', containerSelector);
-      return;
-    }
+    if (!barRow) return;
 
     const SAFETY_MARGIN = 16;
 
     const barWidth = barRow.offsetWidth;
     if (!barWidth) {
-      console.log('adjustSegmentLabels RETRY: barWidth is 0', containerSelector, '(hidden tab or anim not started)');
-      // Reintentar cuando la animación termine (setTimeout) o cuando la pestaña se active
+      // Reintentar cuando la animación CSS stackedGrow termine o la pestaña se active
       setTimeout(() => adjustSegmentLabels(containerSelector), 500);
       if (!container.dataset._visListener) {
         container.dataset._visListener = '1';
@@ -663,7 +653,6 @@
       const textOverflows = label.scrollWidth + SAFETY_MARGIN > seg.offsetWidth;
       const selected = textOverflows || tooNarrow || tooSmall;
       if (selected) {
-        seg.dataset.smallSegment = 'true';
         smallSegs.push(seg);
       }
     });
@@ -686,14 +675,7 @@
       const el = document.createElement('div');
       el.className = 'csat-label-above';
       el.textContent = txt;
-      el.dataset.externalLabel = 'true';
       wrap.appendChild(el);
-      el.dataset.appended = 'true';
-
-      // OCULTAR etiqueta interna YA NO se usa
-      // Eliminado: label.style.display = 'none';
-      // La etiqueta externa reemplaza visualmente, pero la interna
-      // queda visible dentro del segmento (error detectado)
 
       const labelW = el.scrollWidth || 30;
       const labelL = cx - labelW / 2;
@@ -719,67 +701,6 @@
       line.style.height = lineH + 'px';
       el.appendChild(line);
     });
-
-    wrap.style.height = (rows.length * ROW_H + 10) + 'px';
-
-    // ===== DIAGNÓSTICO: reporte completo de cada segmento =====
-    const report = [];
-    barRow.querySelectorAll('.csat-segment').forEach((seg) => {
-      const label = seg.querySelector('.csat-label');
-      if (!label) return;
-      const segPct = seg.offsetWidth / barWidth;
-      const tooNarrow = seg.offsetWidth < 30;
-      const tooSmall = segPct < 0.02;
-      const textOverflows = label.scrollWidth + SAFETY_MARGIN > seg.offsetWidth;
-      const inSmallSegs = seg.dataset.smallSegment === 'true';
-      // Buscar etiqueta externa correspondiente (mismo texto)
-      const externalEl = Array.from(wrap.querySelectorAll('.csat-label-above'))
-        .find(el => el.textContent === label.textContent);
-      const hasExternal = !!externalEl;
-      const appended = externalEl?.dataset.appended === 'true';
-      const externalRect = externalEl?.getBoundingClientRect();
-      const containerRect = container.getBoundingClientRect();
-      const isVisible = externalRect
-        ? (externalRect.top >= containerRect.top - 100 && externalRect.left >= containerRect.left - 50 &&
-           externalRect.bottom <= containerRect.bottom + 100 && externalRect.right <= containerRect.right + 50)
-        : null;
-
-      report.push({
-        texto: label.textContent,
-        segPct: (segPct * 100).toFixed(2) + '%',
-        tooSmall,
-        tooNarrow,
-        textOverflows,
-        smallSegs: inSmallSegs,
-        tieneExternal: hasExternal,
-        appended,
-        visible: isVisible,
-        extWidth: externalRect ? Math.round(externalRect.width) : '-',
-        extHeight: externalRect ? Math.round(externalRect.height) : '-',
-        extTop: externalRect ? Math.round(externalRect.top) : '-',
-        extLeft: externalRect ? Math.round(externalRect.left) : '-',
-      });
-    });
-    console.log('========== DIAGNÓSTICO adjustSegmentLabels ==========');
-    console.table(report);
-
-    // Buscar específicamente el segmento ~0.6%
-    const target = report.find(r => {
-      const pct = parseFloat(r.segPct);
-      return pct > 0 && pct < 1.5; // busca entre 0% y 1.5%
-    });
-    if (target) {
-      console.log('========== SEGMENTO OBJETIVO (~0.6%) ==========');
-      console.log(JSON.stringify(target, null, 2));
-      console.log('Causa raíz:', target.smallSegs
-        ? (target.tieneExternal
-          ? (target.visible === false
-            ? 'Etiqueta externa CREADA pero FUERA del área visible'
-            : 'Etiqueta externa CREADA y VISIBLE. El texto que ves DENTRO de la barra es la etiqueta interna (nunca se oculta)')
-          : 'Entró en smallSegs pero NO se creó etiqueta externa')
-        : 'NO entró en smallSegs. Revisar criterios: tooSmall=' + target.tooSmall + ' tooNarrow=' + target.tooNarrow + ' textOverflows=' + target.textOverflows);
-    }
-    console.log('==================================================');
 
     wrap.style.height = (rows.length * ROW_H + 10) + 'px';
   }
@@ -1660,7 +1581,6 @@
 
   // ==================== INICIALIZACIÓN ====================
   async function init() {
-    console.log('init CALLED');
     if (!(await loadAllData())) {
       console.error('No se pudieron cargar los datos.');
       return;
