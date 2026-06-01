@@ -722,7 +722,7 @@
       const arm = document.createElement('span');
       arm.className = 'callout-arm';
       arm.style.background = segColor;
-      el.appendChild(arm);
+      line.appendChild(arm);
 
       // Punto de anclaje sobre la barra
       const dot = document.createElement('span');

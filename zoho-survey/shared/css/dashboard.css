@@ -358,7 +358,7 @@ body {
 .callout-arm {
   position: absolute;
   left: 50%;
-  bottom: 4px;
+  bottom: 2px;
   width: 10px;
   height: 2px;
   transform: translateX(-50%);
