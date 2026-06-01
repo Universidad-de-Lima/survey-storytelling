@@ -580,7 +580,9 @@
       <div class="legend-item"><div class="legend-dot" style="background:var(--ulima-orange);"></div>Detractores: ${formatInteger(nps.Detractores)}</div>
     `;
     addTooltipToSegments('#nps-bar .csat-segment');
-    adjustSegmentLabels('#nps-bar');
+    // Esperar a que la animación CSS stackedGrow (0.8s) termine
+    const npsRow = DOM.npsBar.querySelector('.csat-bar-row');
+    if (npsRow) npsRow.addEventListener('animationend', () => adjustSegmentLabels('#nps-bar'), { once: true });
   }
 
   function renderCSATBar(csat) {
@@ -609,7 +611,9 @@
       )
       .join('');
     addTooltipToSegments('#csat-bar .csat-segment');
-    adjustSegmentLabels('#csat-bar');
+    // Esperar a que la animación CSS stackedGrow (0.8s) termine
+    const csatRow = DOM.csatBar.querySelector('.csat-bar-row');
+    if (csatRow) csatRow.addEventListener('animationend', () => adjustSegmentLabels('#csat-bar'), { once: true });
   }
 
   // Mide cada segmento: si la etiqueta no cabe, muestra etiqueta externa encima
