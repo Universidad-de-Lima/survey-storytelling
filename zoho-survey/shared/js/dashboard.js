@@ -208,11 +208,13 @@
     }
   }
 
-  const FACULTAD_PLACEHOLDER = 'Todas las facultades / programas';
+  const FACULTAD_PLACEHOLDER = 'Todas las facultades';
+  const FACULTAD_PLACEHOLDER_PROG = 'Todas las facultades / programas';
 
   function populateFacultadSelect(selFac, filtros) {
     const items = ordenarFacultades(filtros.facultades, filtros.has_ciclo);
-    selFac.innerHTML = `<option value="">${FACULTAD_PLACEHOLDER}</option>`;
+    const placeholder = filtros.has_ciclo ? FACULTAD_PLACEHOLDER_PROG : FACULTAD_PLACEHOLDER;
+    selFac.innerHTML = `<option value="">${placeholder}</option>`;
     items.forEach((f) => {
       const opt = document.createElement('option');
       opt.value = opt.textContent = f;
@@ -222,10 +224,10 @@
     selFac.value = '';
   }
 
-  function syncFacultadCustomUI(selFac) {
+  function syncFacultadCustomUI(selFac, hasCiclo) {
     if (!selFac?.__custom) return;
     selFac.__custom.update();
-    selFac.__custom.button.textContent = FACULTAD_PLACEHOLDER;
+    selFac.__custom.button.textContent = hasCiclo ? FACULTAD_PLACEHOLDER_PROG : FACULTAD_PLACEHOLDER;
     selFac.__custom.button.classList.remove('filter-active');
     selFac.classList.remove('filter-active');
     selFac.__custom.wrapper.classList.remove('open');
@@ -1408,7 +1410,7 @@
       selFac.__custom?.close();
       selCar?.__custom?.close();
       populateFacultadSelect(selFac, filtros);
-      syncFacultadCustomUI(selFac);
+      syncFacultadCustomUI(selFac, filtros.has_ciclo);
       if (selCar) {
         clearFilterSelect(selCar);
         populateSelect(selCar, 'Todas las carreras', [...filtros.carreras].sort());
@@ -1495,10 +1497,12 @@
     // Si la encuesta no tiene columna Ciclo (ej: graduados, egresados),
     // ocultar todos los filtros de ciclo en el DOM.
     // Si la encuesta no tiene columna Ciclo, ocultar el grupo de filtro de ciclo
-    // pero mantener visible el botón Limpiar (que está dentro del mismo contenedor)
+    // y redistribuir el espacio a los filtros de facultad y carrera
     if (!cache.filtros.has_ciclo) {
-      document.querySelectorAll('.filter-ciclo-actions .filter-group').forEach((el) => {
-        el.style.display = 'none';
+      document.querySelectorAll('.filter-ciclo-actions').forEach((el) => {
+        const grp = el.querySelector('.filter-group');
+        if (grp) grp.style.display = 'none';
+        el.style.flex = 'none';
       });
     }
 
