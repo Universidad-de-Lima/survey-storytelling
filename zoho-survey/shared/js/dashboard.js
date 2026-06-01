@@ -667,7 +667,7 @@
     wrap.className = 'csat-labels-above';
     container.insertBefore(wrap, container.firstChild);
 
-    const ROW_H = 20;
+    const ROW_H = 12;
 
     // 3. Posicionar etiquetas externas, detectar colisiones
     const rows = [];
@@ -694,9 +694,10 @@
       const labelW = el.scrollWidth || 30;
       const labelL = cx - labelW / 2;
 
+      // Apilamiento inteligente: colisión por solapamiento horizontal
       let row = 0;
       for (let r = 0; r <= rows.length; r++) {
-        if (!rows[r] || labelL >= rows[r] + 6) {
+        if (!rows[r] || labelL >= rows[r] + 10) {
           row = r;
           rows[r] = cx + labelW / 2;
           break;
@@ -706,8 +707,8 @@
       el.style.left = cx + 'px';
       el.style.top = (row * ROW_H) + 'px';
 
-      const barTop = rows.length * ROW_H + 4;
-      const labelBottom = row * ROW_H + 14;
+      const barTop = rows.length * ROW_H + 2;
+      const labelBottom = row * ROW_H + 10;
       const lineH = Math.max(4, barTop - labelBottom);
 
       // Línea vertical conectora
@@ -716,6 +717,12 @@
       line.style.height = lineH + 'px';
       line.style.background = segColor;
       el.appendChild(line);
+
+      // Brazo horizontal tipo codo al pie de la línea
+      const arm = document.createElement('span');
+      arm.className = 'callout-arm';
+      arm.style.background = segColor;
+      el.appendChild(arm);
 
       // Punto de anclaje sobre la barra
       const dot = document.createElement('span');
