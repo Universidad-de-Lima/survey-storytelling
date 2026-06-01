@@ -64,7 +64,7 @@
     return rounded.replace('.', ',');
   };
   const formatPercent = (n, digits = 2) => formatDecimal(n, digits) + ' %';
-  const formatPctSimple = (v, t) => (t === 0 ? '0 %' : Math.round((v / t) * 100) + ' %');
+  const formatPctSimple = (v, t) => (t === 0 ? '0%' : Math.round((v / t) * 100) + '%');
   const formatPctDecimal = (v, t) => {
     if (t === 0) return '0,0 %';
     return formatDecimal((v / t) * 100, 1) + ' %';
