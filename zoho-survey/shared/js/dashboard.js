@@ -564,14 +564,14 @@
 
   function renderNPSBar(nps) {
     const total = nps.Promotores + nps.Pasivos + nps.Detractores;
-    DOM.npsBar.innerHTML = `
-      <div class="csat-segment" style="width:${pct(nps.Promotores, total)}%; background:var(--gray-700);"
-           data-label="Promotores (9-10)" data-value="${formatInteger(nps.Promotores)} (${formatPctDecimal(nps.Promotores, total)})"><span class="csat-label">${formatPctSimple(nps.Promotores, total)}</span></div>
-      <div class="csat-segment" style="width:${pct(nps.Pasivos, total)}%; background:var(--gray-400);"
-           data-label="Pasivos (7-8)" data-value="${formatInteger(nps.Pasivos)} (${formatPctDecimal(nps.Pasivos, total)})"><span class="csat-label">${formatPctSimple(nps.Pasivos, total)}</span></div>
-      <div class="csat-segment" style="width:${pct(nps.Detractores, total)}%; background:var(--ulima-orange);"
-           data-label="Detractores (0-6)" data-value="${formatInteger(nps.Detractores)} (${formatPctDecimal(nps.Detractores, total)})"><span class="csat-label">${formatPctSimple(nps.Detractores, total)}</span></div>
-    `;
+    DOM.npsBar.innerHTML = `<div class="csat-bar-row">`
+      + `<div class="csat-segment" style="width:${pct(nps.Promotores, total)}%; background:var(--gray-700);"
+           data-label="Promotores (9-10)" data-value="${formatInteger(nps.Promotores)} (${formatPctDecimal(nps.Promotores, total)})"><span class="csat-label">${formatPctSimple(nps.Promotores, total)}</span></div>`
+      + `<div class="csat-segment" style="width:${pct(nps.Pasivos, total)}%; background:var(--gray-400);"
+           data-label="Pasivos (7-8)" data-value="${formatInteger(nps.Pasivos)} (${formatPctDecimal(nps.Pasivos, total)})"><span class="csat-label">${formatPctSimple(nps.Pasivos, total)}</span></div>`
+      + `<div class="csat-segment" style="width:${pct(nps.Detractores, total)}%; background:var(--ulima-orange);"
+           data-label="Detractores (0-6)" data-value="${formatInteger(nps.Detractores)} (${formatPctDecimal(nps.Detractores, total)})"><span class="csat-label">${formatPctSimple(nps.Detractores, total)}</span></div>`
+      + `</div>`;
     DOM.npsLegend.innerHTML = `
       <div class="legend-item"><div class="legend-dot" style="background:var(--gray-700);"></div>Promotores: ${formatInteger(nps.Promotores)}</div>
       <div class="legend-item"><div class="legend-dot" style="background:var(--gray-400);"></div>Pasivos: ${formatInteger(nps.Pasivos)}</div>
@@ -591,13 +591,15 @@
     ];
     const total = labels.reduce((s, l) => s + (csat[l.key] || 0), 0);
     const visibleLabels = labels.filter((l) => csat[l.key] > 0);
-    DOM.csatBar.innerHTML = visibleLabels
-      .map((l) => {
-        const p = pct(csat[l.key], total);
-        return `<div class="csat-segment" style="width:${p}%; background:${l.color};"
-              data-label="${l.key}" data-value="${formatInteger(csat[l.key])} (${formatPctDecimal(csat[l.key], total)})"><span class="csat-label">${formatPctSimple(csat[l.key], total)}</span></div>`;
-      })
-      .join('');
+    DOM.csatBar.innerHTML = `<div class="csat-bar-row">`
+      + visibleLabels
+        .map((l) => {
+          const p = pct(csat[l.key], total);
+          return `<div class="csat-segment" style="width:${p}%; background:${l.color};"
+                data-label="${l.key}" data-value="${formatInteger(csat[l.key])} (${formatPctDecimal(csat[l.key], total)})"><span class="csat-label">${formatPctSimple(csat[l.key], total)}</span></div>`;
+        })
+        .join('')
+      + `</div>`;
     DOM.csatLegend.innerHTML = visibleLabels
       .map(
         (l) =>
@@ -608,18 +610,73 @@
     adjustSegmentLabels('#csat-bar');
   }
 
-  // Mide cada segmento: si la etiqueta no cabe, la muestra fuera con línea conectora
+  // Mide cada segmento: si la etiqueta no cabe, la muestra encima con línea vertical
   function adjustSegmentLabels(containerSelector) {
     const container = document.querySelector(containerSelector);
     if (!container) return;
+
+    // Colectar segmentos donde la etiqueta no cabe
+    const smallSegs = [];
     container.querySelectorAll('.csat-segment').forEach((seg) => {
       const label = seg.querySelector('.csat-label');
       if (!label) return;
-      // Si el texto es más ancho que el segmento (con margen 4px), mover fuera
       if (label.scrollWidth > seg.offsetWidth - 4) {
-        seg.classList.add('csat-segment-outside');
+        label.style.display = 'none';
+        smallSegs.push(seg);
       }
     });
+
+    if (!smallSegs.length) {
+      // Limpiar contenedor de labels si ya no se necesita
+      const old = container.querySelector('.csat-labels-above');
+      if (old) old.remove();
+      return;
+    }
+
+    // Crear contenedor de etiquetas sobre la barra
+    let labelsWrap = container.querySelector('.csat-labels-above');
+    if (!labelsWrap) {
+      labelsWrap = document.createElement('div');
+      labelsWrap.className = 'csat-labels-above';
+      container.insertBefore(labelsWrap, container.firstChild);
+    }
+    labelsWrap.innerHTML = '';
+
+    const barWidth = container.offsetWidth;
+    const rows = [];
+    const ROW_H = 18;
+    const MIN_GAP = 8;
+
+    smallSegs.forEach((seg) => {
+      const cx = seg.offsetLeft + seg.offsetWidth / 2;
+      const pct = barWidth > 0 ? (cx / barWidth) * 100 : 0;
+      const textEl = seg.querySelector('.csat-label');
+      const txt = textEl ? textEl.textContent : '';
+
+      const el = document.createElement('div');
+      el.className = 'csat-label-above';
+      el.textContent = txt;
+      el.style.left = pct + '%';
+      labelsWrap.appendChild(el);
+
+      // Determinar fila (staggering) para evitar superposición
+      const w = el.scrollWidth || 40;
+      const l = cx - w / 2;
+      const r = cx + w / 2;
+      let row = 0;
+      for (let rIdx = 0; rIdx <= rows.length; rIdx++) {
+        const taken = rows[rIdx] || null;
+        if (!taken || l > taken.r + MIN_GAP || r < taken.l - MIN_GAP) {
+          row = rIdx;
+          if (!rows[rIdx]) rows[rIdx] = { l, r };
+          else { rows[rIdx].l = Math.min(rows[rIdx].l, l); rows[rIdx].r = Math.max(rows[rIdx].r, r); }
+          break;
+        }
+      }
+      el.style.top = (row * ROW_H) + 'px';
+    });
+
+    labelsWrap.style.height = (rows.length * ROW_H) + 'px';
   }
   // ==================== SECCIÓN OPERATIVO ====================
   function dimensionAplica(rows, dimension) {
