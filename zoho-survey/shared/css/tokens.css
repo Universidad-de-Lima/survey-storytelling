@@ -1,0 +1,49 @@
+/* ============================================================
+   TOKENS — Design tokens y variables CSS
+   Fuente canónica de colores, tipografía, espaciado y estados.
+   ============================================================ */
+
+:root {
+  /* ── Colores institucionales ── */
+  --ulima-orange: #FF5117;
+  --ulima-orange-soft: rgba(241, 90, 34, 0.15);
+  --ulima-red: #FF0000;
+  --ulima-blue: #2563EB;
+  --ulima-blue-soft: rgba(37, 99, 235, 0.12);
+  --ulima-gray: #97999B;
+
+  /* ── Escala de grises ── */
+  --gray-900: #111827;
+  --gray-800: #1F2937;
+  --gray-700: #374151;
+  --gray-600: #4B5563;
+  --gray-500: #6B7280;
+  --gray-400: #9CA3AF;
+  --gray-300: #D1D5DB;
+  --gray-200: #E5E7EB;
+  --gray-100: #F3F4F6;
+  --gray-50: #F9FAFB;
+  --white: #FFFFFF;
+  --black: #000000;
+
+  /* ── Estados semánticos ── */
+  --success-pastel: #ebfff5;
+  --success-text: #065F46;
+  --warning-pastel: #FEF3C7;
+  --warning-text: #92400E;
+  --danger-pastel: #FEE2E2;
+  --danger-text: #991B1B;
+
+  /* ── Tipografía ── */
+  --font-family-primary: 'Roboto', sans-serif;
+  --font-family-display: 'Roboto', sans-serif;
+  --font-light: 300;
+  --font-regular: 400;
+  --font-medium: 500;
+  --font-bold: 700;
+  --font-black: 900;
+
+  /* ── Accesibilidad ── */
+  --focus-outline: 2px solid #FF5117;
+  --focus-outline-offset: 2px;
+}
