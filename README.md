@@ -26,7 +26,7 @@ survey-storytelling/
 │   ├── shared/              ← CSS, JS, imágenes compartidos
 │   ├── template/            ← Template HTML para nuevos periodos
 │   └── students/
-│       ├── scripts/         ← ETL Python (build_json.py, validate_generated_json.py)
+│   ├── scripts/         ← ETL Python (build_json.py, validate_generated_json.py — ruta real: zoho-survey/scripts/)
 │       ├── undergraduate/   ← Dashboards de pregrado (2025-2, 2026-1)
 │       ├── graduate/        ← Dashboards de graduados (2026)
 │       └── posgraduate/     ← Placeholder posgrado
@@ -39,7 +39,7 @@ survey-storytelling/
 | Layer       | Path                                          | Technology           | Responsibility                        |
 | ----------- | --------------------------------------------- | -------------------- | ------------------------------------- |
 | **Source**  | `data/`                                       | CSV (UTF-8/Latin-1)  | Raw survey exports from Zoho Survey   |
-| **ETL**     | `scripts/`                                    | Python 3.11 + pandas | Transform, aggregate, topic analysis  |
+| **ETL**     | `zoho-survey/scripts/`                        | Python 3.11 + pandas | Transform, aggregate, topic analysis  |
 | **Contracts** | `zoho-survey/students/{level}/{period}/json/` | JSON                 | Precomputed data contracts            |
 | **Loader**  | `zoho-survey/index.html`                      | Vanilla JS (ES6)     | Survey type + period navigation       |
 | **Dashboard** | `zoho-survey/shared/js/dashboard.js`         | Vanilla JS (ES6)     | Interactive visualization SPA         |

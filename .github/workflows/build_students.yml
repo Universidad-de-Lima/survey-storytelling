@@ -4,7 +4,7 @@ on:
   push:
     paths:
       - 'data/**'
-      - 'scripts/**'
+      - 'zoho-survey/scripts/**'
 
   workflow_dispatch:
 
@@ -31,7 +31,7 @@ jobs:
 
       - name: Run build_json.py
         run: |
-          python scripts/build_json.py
+          python zoho-survey/scripts/build_json.py
 
       - name: Commit generated JSON
         run: |

@@ -21,7 +21,7 @@ graph TD
 
 ## 2. Pipeline de Datos (ETL)
 
-El proceso de transformación es gestionado por `assets/zoho-survey/students/scripts/build_json.py`.
+El proceso de transformación es gestionado por `zoho-survey/scripts/build_json.py`.
 
 ### Responsabilidades Técnicas:
 
