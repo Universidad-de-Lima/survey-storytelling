@@ -180,7 +180,7 @@ La etiqueta visible del visual debe ser `Cualitativo` y el titulo debe ser `ANAL
 Ejecutar:
 
 ```bash
-python zoho-survey/students/scripts/validate_generated_json.py undergraduate
+python zoho-survey/scripts/validate_generated_json.py undergraduate
 ```
 
 El workflow `.github/workflows/validate-survey-json.yml` ejecuta esta validacion en push y pull request que afecten `zoho-survey/students/**`.

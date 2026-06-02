@@ -83,11 +83,11 @@ etapa_map = {1-2: "Inicial", 3-6: "Intermedio", 7-12: "Avanzado"}
 ```bash
 # Generate all JSON files for all detected CSVs
 cd zoho-survey/students
-python scripts/build_json.py
+python ../scripts/build_json.py
 
 # Validate a specific level
-python scripts/validate_generated_json.py undergraduate
-python scripts/validate_generated_json.py postgraduate
+python ../scripts/validate_generated_json.py undergraduate
+python ../scripts/validate_generated_json.py postgraduate
 ```
 
 ## Configuration (build_json.py)

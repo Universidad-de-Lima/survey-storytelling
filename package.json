@@ -4,8 +4,8 @@
   "private": true,
   "description": "Dashboard estático de encuestas de satisfacción — Universidad de Lima",
   "scripts": {
-    "build:json": "cd zoho-survey/students && python scripts/build_json.py",
-    "validate:json": "cd zoho-survey/students && python scripts/validate_generated_json.py",
+    "build:json": "cd zoho-survey/students && python ../scripts/build_json.py",
+    "validate:json": "cd zoho-survey/students && python ../scripts/validate_generated_json.py",
     "start": "python -m http.server 8080"
   },
   "engines": {
