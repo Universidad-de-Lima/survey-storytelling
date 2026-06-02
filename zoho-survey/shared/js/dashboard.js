@@ -1,14 +1,20 @@
 ﻿(() => {
   'use strict';
 
+  // ── Constantes de negocio ──
+  // Fuente primaria: window.SURVEY_CONFIG (config/constants.js)
+  // Fallback: valores hardcodeados (compatibilidad backward)
+  const C = window.SURVEY_CONFIG || {};
   const BASE_URL = './json';
-  const META_NPS = 50;
-  const META_CSAT = 93;
-  const CARRERAS_12_CICLOS = ['Derecho', 'Psicología'];
-  const FACULTADES_12_CICLOS = ['Facultad de Derecho', 'Facultad de Psicología'];
-  const PROGRAMA_ESTUDIOS_GENERALES = 'Programa de Estudios Generales';
-  const CICLOS_ESTUDIOS_GENERALES = ['1° Ciclo', '2° Ciclo'];
-  const SAT_KEYS = [
+  const META_NPS = C.META_NPS ?? 50;
+  const META_CSAT = C.META_CSAT ?? 93;
+  const CARRERAS_12_CICLOS = C.CARRERAS_12_CICLOS ?? ['Derecho', 'Psicología'];
+  const FACULTADES_12_CICLOS = C.FACULTADES_12_CICLOS ?? ['Facultad de Derecho', 'Facultad de Psicología'];
+  const PROGRAMA_ESTUDIOS_GENERALES = C.PROGRAMA_ESTUDIOS_GENERALES ?? 'Programa de Estudios Generales';
+  const CICLOS_ESTUDIOS_GENERALES = C.CICLOS_ESTUDIOS_GENERALES ?? ['1° Ciclo', '2° Ciclo'];
+  const FACULTAD_PLACEHOLDER = C.FACULTAD_PLACEHOLDER ?? 'Todas las facultades';
+  const FACULTAD_PLACEHOLDER_PROG = C.FACULTAD_PLACEHOLDER_PROG ?? 'Todas las facultades / programas';
+  const SAT_KEYS = C.SAT_KEYS ?? [
     'Totalmente satisfecho',
     'Muy satisfecho',
     'Satisfecho',
@@ -56,44 +62,73 @@
 
   const $ = (id) => document.getElementById(id);
 
-  const formatInteger = (n) => n.toString();
-  const formatDecimal = (n, digits = 2) => {
+  // ── Utilidades: delegar a módulos externos si disponibles (v2.0) ──
+  // Fallback a definiciones inline para compatibilidad backward con HTMLs
+  // que aún no cargan los scripts modulares.
+  const _fmt = window.SurveyFormatters;
+  const _san = window.SurveySanitizer;
+
+  const formatInteger = _fmt ? _fmt.formatInteger : ((n) => n.toString());
+  const formatDecimal = _fmt ? _fmt.formatDecimal : ((n, digits = 2) => {
     if (n === null || n === undefined) return '';
     const rounded = n.toFixed(digits);
     if (rounded.endsWith('0'.repeat(digits))) return Math.round(n).toString();
     return rounded.replace('.', ',');
-  };
-  const formatPercent = (n, digits = 2) => formatDecimal(n, digits) + ' %';
-  const formatPctSimple = (v, t) => (t === 0 ? '0%' : Math.round((v / t) * 100) + '%');
-  const formatPctDecimal = (v, t) => {
+  });
+  const formatPercent = _fmt ? _fmt.formatPercent : ((n, d) => formatDecimal(n, d) + ' %');
+  const formatPctSimple = _fmt ? _fmt.formatPctSimple : ((v, t) => (t === 0 ? '0%' : Math.round((v / t) * 100) + '%'));
+  const formatPctDecimal = _fmt ? _fmt.formatPctDecimal : ((v, t) => {
     if (t === 0) return '0,0 %';
     return formatDecimal((v / t) * 100, 1) + ' %';
-  };
-  const formatDimensionName = (dim) => {
+  });
+  const formatDate = _fmt ? _fmt.formatDate : ((ds) =>
+    new Date(`${ds}T12:00:00`).toLocaleDateString('es-PE', { day: 'numeric', month: 'long' }));
+  const formatCicloText = _fmt ? _fmt.formatCicloText : ((ciclo) => {
+    const match = ciclo.match(/^(\d+)/);
+    if (!match) return ciclo;
+    const num = match[1];
+    return num === '1' || num === '3' ? `${num}.ᵉʳ ciclo` : `${num}.º ciclo`;
+  });
+  const cortarTexto = _fmt ? _fmt.cortarTexto : ((t, max) => (t.length > max ? `${t.slice(0, max - 1)}…` : t));
+  const formatDimensionName = _fmt ? _fmt.formatDimensionName : ((dim) => {
     if (dim === 'Software especializado empleado en la carrera') {
       return '<span><i>Software</i> especializado empleado en la carrera</span>';
     }
     return dim;
-  };
-  const formatDimensionNameSVG = (dim, maxLen = 26) => {
+  });
+  const formatDimensionNameSVG = _fmt ? _fmt.formatDimensionNameSVG : ((dim, maxLen = 26) => {
     const plain = formatDimensionName(dim).replace(/<[^>]*>/g, '');
     const truncated = cortarTexto(plain, maxLen);
-    if (
-      dim === 'Software especializado empleado en la carrera' &&
-      truncated.startsWith('Software')
-    ) {
+    if (dim === 'Software especializado empleado en la carrera' && truncated.startsWith('Software')) {
       return `<tspan font-style="italic">Software</tspan>${truncated.slice('Software'.length)}`;
     }
     return truncated;
-  };
-  const formatDimensionNameForAttr = (dim) =>
-    formatDimensionName(dim).replace(/</g, '&lt;').replace(/>/g, '&gt;');
-  const formatDate = (ds) =>
-    new Date(`${ds}T12:00:00`).toLocaleDateString('es-PE', { day: 'numeric', month: 'long' });
+  });
+  const formatDimensionNameForAttr = _fmt ? _fmt.formatDimensionNameForAttr : ((dim) =>
+    formatDimensionName(dim).replace(/</g, '&lt;').replace(/>/g, '&gt;'));
+
   const pct = (v, t) => (t > 0 ? Math.round((v / t) * 100) : 0);
   const esEstudiosGen = (f) => f === PROGRAMA_ESTUDIOS_GENERALES;
-  const cortarTexto = (t, max) => (t.length > max ? `${t.slice(0, max - 1)}…` : t);
   const sumKeys = (row, keys) => keys.reduce((acc, k) => acc + (row[k] || 0), 0);
+
+  // ── Sanitización HTML (delegar a SurveySanitizer si disponible) ──
+  const escapeHTML = _san ? _san.escapeHTML : ((str) => {
+    if (!str || typeof str !== 'string') return '';
+    return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+  });
+  const sanitizeHTML = _san ? _san.sanitizeHTML : ((html) => {
+    if (!html || typeof html !== 'string') return '';
+    const allowedTags = ['br', 'strong', 'em', 'i', 'span'];
+    let safe = escapeHTML(html);
+    allowedTags.forEach((tag) => {
+      safe = safe.split(`&lt;${tag}&gt;`).join(`<${tag}>`);
+      safe = safe.split(`&lt;/${tag}&gt;`).join(`</${tag}>`);
+    });
+    safe = safe.replace(/\s+on\w+\s*=\s*["'][^"']*["']/gi, '');
+    safe = safe.replace(/\s+on\w+\s*=\s*[^\s>]*/gi, '');
+    return safe;
+  });
 
   function filtrarDatos(datos, fac, car, cic) {
     if (!datos) return [];
@@ -144,7 +179,8 @@
 
   const showTooltip = (e, content) => {
     const { tooltip } = DOM;
-    tooltip.innerHTML = content;
+    // Sanitizar contenido: permitir solo <br> para saltos de línea
+    tooltip.innerHTML = sanitizeHTML(content);
     tooltip.style.display = 'block';
     tooltip.style.left = `${e.clientX + 10}px`;
     tooltip.style.top = `${e.clientY - 10}px`;
@@ -163,13 +199,6 @@
       seg.addEventListener('mouseleave', hideTooltip);
     });
   }
-
-  const formatCicloText = (ciclo) => {
-    const match = ciclo.match(/^(\d+)/);
-    if (!match) return ciclo;
-    const num = match[1];
-    return num === '1' || num === '3' ? `${num}.ᵉʳ ciclo` : `${num}.º ciclo`;
-  };
 
   function populateSelect(sel, placeholder, items, texts) {
     const current = getSelectedValues(sel);
@@ -208,9 +237,6 @@
       if (emptyOpt) sel.value = '';
     }
   }
-
-  const FACULTAD_PLACEHOLDER = 'Todas las facultades';
-  const FACULTAD_PLACEHOLDER_PROG = 'Todas las facultades / programas';
 
   function populateFacultadSelect(selFac, filtros) {
     const items = ordenarFacultades(filtros.facultades, filtros.has_ciclo);

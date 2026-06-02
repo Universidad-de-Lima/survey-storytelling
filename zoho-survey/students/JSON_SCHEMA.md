@@ -18,11 +18,10 @@ Este documento define el contrato minimo que debe respetar cada periodo academic
 
 Estos archivos pueden existir por compatibilidad historica, pero no deben considerarse contrato obligatorio para nuevas encuestas:
 
-- `nps.json`
-- `csat.json`
 - `nps_carrera.json`
 - `csat_carrera.json`
-- `resumen.json`
+
+Estos archivos se generan por compatibilidad pero el dashboard usa `dashboard_data.json` como fuente primaria de datos globales y `nps_ciclo_carrera.json`/`csat_ciclo_carrera.json` para datos desagregados.
 
 El validador permite su presencia y emite advertencias para que la deuda sea visible sin romper periodos existentes.
 

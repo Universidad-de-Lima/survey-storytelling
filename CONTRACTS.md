@@ -37,11 +37,7 @@ Resultados de satisfacción por dimensiones específicas (ej. Calidad docente, I
 
 - **Esquema**: Array de objetos con el promedio de satisfacción (0-100%).
 
-### 2.3 `resumen.json`
-
-Datos para la tabla resumen de indicadores.
-
-### 2.4 `sentimiento.json`
+### 2.3 `sentimiento.json`
 
 Análisis de tópicos de los comentarios NPS.
 

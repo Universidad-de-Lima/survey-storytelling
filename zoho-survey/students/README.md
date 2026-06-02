@@ -66,7 +66,7 @@ Módulo del dominio de encuestas estudiantiles. Implementa el pipeline desde los
 ## Technical Debt
 
 - **Posgrado sin datos**: La estructura `posgraduate/` existe pero no contiene datos procesados.
-- **Archivos legado**: `nps.json`, `csat.json`, `nps_carrera.json`, `csat_carrera.json`, `resumen.json` aún se generan pero son legacy. El dashboard moderno no los consume.
+- **Archivos legado**: `nps_carrera.json`, `csat_carrera.json` aún se generan pero son legacy. El dashboard moderno no los consume activamente (usa `nps_ciclo_carrera.json` y `csat_ciclo_carrera.json`). `resumen.json`, `nps.json`, `csat.json`, `nps_ciclo.json`, `csat_ciclo.json` fueron eliminados en v2.0.
 - **Template no versionado**: `../template/index.html` no tiene control de versiones. Cambios no se reflejan retroactivamente.
 - **CSV filename validation**: No hay validación pre-ETL del formato de nombre de archivo.
 

@@ -23,8 +23,8 @@ Capa de transformación de datos. Es el único punto de generación de datos en 
 | 1. Column mapping           | —                                                                              | Renombra columnas Zoho → nombres internos via `COLUMN_RENAME`              |
 | 2. Faculty assignment       | —                                                                              | Mapea carrera → facultad via `carrera_facultad` dictionary                 |
 | 3. Dimension categorization | —                                                                              | Mapea dimensión → categoría via `categoria_dim` dictionary                 |
-| 4. NPS calculation          | `nps.json`, `nps_carrera.json`, `nps_ciclo.json`, `nps_ciclo_carrera.json`     | NPS score per dimension (global, career, cycle, cross)                     |
-| 5. CSAT calculation         | `csat.json`, `csat_carrera.json`, `csat_ciclo.json`, `csat_ciclo_carrera.json` | CSAT score per dimension (global, career, cycle, cross)                    |
+| 4. NPS calculation          | `nps_carrera.json`, `nps_ciclo_carrera.json`                                 | NPS score per dimension (career, cross)                                    |
+| 5. CSAT calculation         | `csat_carrera.json`, `csat_ciclo_carrera.json`                               | CSAT score per dimension (career, cross)                                   |
 | 6. Dimension breakdown      | `dimensiones.json`                                                             | Satisfaction by facultad/carrera/ciclo/dimension                           |
 | 7. ID counts                | `ids.json`                                                                     | Response counts per facultad/carrera/ciclo                                 |
 | 8. Dashboard data           | `dashboard_data.json`                                                          | Aggregated KPIs, hallazgos, NPS/CSAT distributions                         |
