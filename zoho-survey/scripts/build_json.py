@@ -8,8 +8,8 @@ from collections import defaultdict
 
 
 BASE_DIR = Path(__file__).resolve().parent
-DATA_DIR = BASE_DIR.parent / "data"
-ZOHO_DIR = BASE_DIR.parent / "zoho-survey"
+DATA_DIR = BASE_DIR.parent.parent / "data"
+ZOHO_DIR = BASE_DIR.parent
 STUDENTS_DIR = ZOHO_DIR / "students"
 
 respuestas_texto = [
@@ -474,11 +474,10 @@ for INPUT_FILE in files:
         }
     }
 
-    with open(OUT / "resumen.json", "w", encoding="utf-8") as f:
-        json.dump(resumen, f, ensure_ascii=False, indent=2)
+    # ── resumen.json ELIMINADO (v2.0): datos redundantes con dashboard_data.resumen ──
 
     # =========================================================
-    # 2. NPS (global, carrera, ciclo, ciclo_carrera)
+    # 2. NPS (global, carrera, ciclo_carrera)
     # =========================================================
     nps_total = {
         "Promotores": promotores_total,
@@ -486,8 +485,7 @@ for INPUT_FILE in files:
         "Detractores": detractores_total,
         "score": nps_score
     }
-    with open(OUT / "nps.json", "w", encoding="utf-8") as f:
-        json.dump(nps_total, f, ensure_ascii=False, indent=2)
+    # ── nps.json ELIMINADO (v2.0): datos redundantes con dashboard_data.nps ──
 
     nps_carrera = []
     for carrera, sub in df_nps.groupby("Carrera"):
@@ -505,8 +503,7 @@ for INPUT_FILE in files:
             pa = int(((sub[nps_col] >= 7) & (sub[nps_col] <= 8)).sum())
             d  = int((sub[nps_col] <= 6).sum())
             nps_ciclo.append({"ciclo": ciclo, "Promotores": p, "Pasivos": pa, "Detractores": d, "score": calc_nps(p, pa, d)})
-    with open(OUT / "nps_ciclo.json", "w", encoding="utf-8") as f:
-        json.dump(nps_ciclo, f, ensure_ascii=False, indent=2)
+    # ── nps_ciclo.json ELIMINADO (v2.0): no consumido por el frontend ──
 
     nps_ciclo_carrera = []
     if HAS_CICLO:
@@ -525,8 +522,7 @@ for INPUT_FILE in files:
     # =========================================================
     csat_conteos = {r: int((serie_csat == r).sum()) for r in respuestas_texto}
     csat_conteos["score"] = csat_score
-    with open(OUT / "csat.json", "w", encoding="utf-8") as f:
-        json.dump(csat_conteos, f, ensure_ascii=False, indent=2)
+    # ── csat.json ELIMINADO (v2.0): datos redundantes con dashboard_data.csat ──
 
     csat_carrera = []
     for (car, fac), sub in df.groupby(["Carrera", "Facultad"]):
@@ -541,19 +537,7 @@ for INPUT_FILE in files:
     with open(OUT / "csat_carrera.json", "w", encoding="utf-8") as f:
         json.dump(csat_carrera, f, ensure_ascii=False, indent=2)
 
-    csat_ciclo = []
-    if HAS_CICLO:
-        for cic, sub in df.groupby("Ciclo"):
-            serie = sub[csat_col].dropna()
-            row = {"ciclo": cic}
-            for r in respuestas_texto:
-                row[r] = int((serie == r).sum())
-            t3b   = row["Totalmente satisfecho"] + row["Muy satisfecho"] + row["Satisfecho"]
-            total = t3b + row["Insatisfecho"] + row["Totalmente insatisfecho"]
-            row["score"] = calc_csat(t3b, total)
-            csat_ciclo.append(row)
-    with open(OUT / "csat_ciclo.json", "w", encoding="utf-8") as f:
-        json.dump(csat_ciclo, f, ensure_ascii=False, indent=2)
+    # ── csat_ciclo.json ELIMINADO (v2.0): no consumido por el frontend ──
 
     csat_ciclo_carrera = []
     if HAS_CICLO:
@@ -779,10 +763,10 @@ for INPUT_FILE in files:
         json.dump(sentimiento, f, ensure_ascii=False, indent=2)
 
     print(f"\n✅ Archivos generados para {LEVEL}/{YEAR}:")
-    print(f"   resumen.json · nps*.json · csat*.json")
-    print(f"   dimensiones.json · evolucion_temporal.json")
-    print(f"   ids.json · dashboard_data.json · filtros.json")
-    print(f"   sentimiento.json (análisis semántico por tópicos)")
+    print(f"   dashboard_data.json · dimensiones.json · ids.json")
+    print(f"   nps_carrera.json · nps_ciclo_carrera.json")
+    print(f"   csat_carrera.json · csat_ciclo_carrera.json")
+    print(f"   filtros.json · sentimiento.json")
 
 
 # =========================================================

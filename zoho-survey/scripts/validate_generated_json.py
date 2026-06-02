@@ -4,7 +4,7 @@ from pathlib import Path
 
 
 BASE_DIR = Path(__file__).resolve().parent
-ROOT_DIR = BASE_DIR.parent / "zoho-survey" / "students"
+ROOT_DIR = BASE_DIR.parent / "students"
 
 REQUIRED_PERIOD_FILES = {
     "dashboard_data.json": dict(type=dict, non_empty=True),
@@ -16,14 +16,12 @@ REQUIRED_PERIOD_FILES = {
     "sentimiento.json": dict(type=dict, non_empty=True),
 }
 
-# Estos archivos se siguen permitiendo por compatibilidad historica, pero el
-# frontend actual no debe depender de ellos como contrato obligatorio.
+# Archivos legacy: generados por build_json.py pero NO requeridos por el frontend.
+# Se validan si existen (compatibilidad con periodos antiguos), pero su ausencia no es error.
+# v2.0: nps.json, csat.json, resumen.json, nps_ciclo.json, csat_ciclo.json ELIMINADOS.
 LEGACY_PERIOD_FILES = {
-    "nps.json": dict(type=dict, non_empty=True),
-    "csat.json": dict(type=dict, non_empty=True),
     "nps_carrera.json": dict(type=list, non_empty=True),
     "csat_carrera.json": dict(type=list, non_empty=True),
-    "resumen.json": dict(type=dict, non_empty=True),
 }
 
 SAT_KEYS = {
