@@ -13,21 +13,36 @@ El archivo CSV de origen debe contener las columnas mapeadas en `build_json.py`.
 - `¿Qué carrera profesional estudias?`: Base para filtrado por carrera.
 - `¿Qué ciclo es el que cursas?`: Base para filtrado por ciclo.
 
-## 2. Contratos de Salida (JSON)
+## 2. Contratos de Salida (JSON) — v2.0
 
-El pipeline ETL genera los siguientes archivos en `json/`:
+El pipeline ETL genera **9 archivos** en `json/` (7 obligatorios + 2 legacy):
+
+| Archivo | Tipo | Versión | Obligatorio |
+|---------|------|---------|-------------|
+| `dashboard_data.json` | object | ✅ `"2.0"` | Sí |
+| `dimensiones.json` | array | implícita | Sí |
+| `ids.json` | array | implícita | Sí |
+| `nps_ciclo_carrera.json` | array | implícita | Sí |
+| `csat_ciclo_carrera.json` | array | implícita | Sí |
+| `filtros.json` | object | ✅ `"2.0"` | Sí |
+| `sentimiento.json` | object | ✅ `"2.0"` | Sí |
+| `nps_carrera.json` | array | implícita | Legacy |
+| `csat_carrera.json` | array | implícita | Legacy |
 
 ### 2.1 `dashboard_data.json`
 
 Contiene los agregados globales de la encuesta.
 
-- **Esquema**:
+- **Schema**: `scripts/schemas/dashboard_data.schema.json` (JSON Schema draft-07)
+- **Esquema resumido**:
   ```json
   {
-    "nps": 65.4,
-    "csat": 92.1,
-    "total_respuestas": 1250,
-    "periodo": "2025-2"
+    "version": "2.0",
+    "resumen": { "nps": { "score": 65.4 }, "csat": { "score": 92.1 } },
+    "nps": { "Promotores": 2669, "Pasivos": 1111, "Detractores": 218 },
+    "csat": { "Totalmente satisfecho": 1626, "Muy satisfecho": 1135 }
+  }
+  ```
   }
   ```
 
@@ -75,5 +90,6 @@ Análisis de tópicos de los comentarios NPS.
 
 ## 5. Deuda Técnica en Contratos
 
-- **Redundancia**: Los archivos `nps_ciclo_carrera.json` y `csat_ciclo_carrera.json` contienen estructuras similares que podrían unificarse en un solo contrato para reducir peticiones HTTP.
-- **Falta de Versión**: Los contratos no tienen un campo `version`. Cambios en la estructura del JSON romperán versiones anteriores del dashboard si no se maneja compatibilidad.
+- ✅ **Falta de Versión** (resuelto v2.0): `dashboard_data.json`, `filtros.json` y `sentimiento.json` incluyen `"version": "2.0"`.
+- ⚠️ **Redundancia NPS/CSAT**: `nps_ciclo_carrera.json` y `csat_ciclo_carrera.json` contienen la unión de datos por carrera y por ciclo. Podrían consolidarse si la latencia se vuelve un problema.
+- ⚠️ **Archivos legacy**: `nps_carrera.json` y `csat_carrera.json` se generan pero el frontend usa `nps_ciclo_carrera.json`/`csat_ciclo_carrera.json`. Eliminarlos requeriría refactorizar `renderDetalleCarreras()`.

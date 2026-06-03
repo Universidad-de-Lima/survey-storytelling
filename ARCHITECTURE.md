@@ -63,3 +63,67 @@ El frontend es una aplicación de una sola página (SPA) estática diseñada par
 - **Nomenclatura**: CamelCase para variables JS, kebab-case para clases CSS e IDs de HTML.
 - **Compatibilidad**: Debe funcionar en navegadores modernos sin necesidad de transpiler (ES6+).
 - **Estado Estático**: La arquitectura debe permitir el despliegue en GitHub Pages sin servidor dinámico.
+
+## 7. Estado Actual (v2.0 — Junio 2026)
+
+### 7.1 Modularización JS
+
+`dashboard.js` fue modularizado en 8 archivos independientes con fallback inline:
+
+```
+shared/js/
+├── config/constants.js       ← Metas, ciclos, placeholders
+├── utils/formatters.js       ← 13 funciones de formateo
+├── utils/sanitizer.js        ← escapeHTML + sanitizeHTML
+├── components/tooltip.js     ← Tooltip flotante
+├── components/progress-bar.js← Barra de progreso scroll
+├── components/custom-select.js← Dropdown personalizado
+├── components/multiselect.js ← Dropdown multiselección
+├── dashboard.js              ← Orquestador (delega a módulos)
+└── loader.js                 ← Navegador de encuestas
+```
+
+Cada módulo expone su API en `window.Survey*`. `dashboard.js` delega en ellos si están disponibles, con fallback a implementaciones inline para compatibilidad backward.
+
+### 7.2 Modularización CSS
+
+`dashboard.css` (antes 1,176 líneas monolíticas) fue dividido en 5 capas + entry point:
+
+```
+shared/css/
+├── tokens.css        ← Design tokens (variables CSS)
+├── reset.css         ← Reset + utilidades atómicas
+├── layout.css        ← Header, nav, grid, footer
+├── components.css    ← KPIs, filtros, barras, tooltips, tablas
+├── sections.css      ← Splash, media queries, scrollbars
+└── dashboard.css     ← Entry point (@import, 16 líneas)
+```
+
+### 7.3 Seguridad
+
+- `showTooltip()` sanitiza contenido vía `sanitizeHTML()` (whitelist: `<br>`, `<strong>`, `<em>`, `<i>`, `<span>`)
+- Las funciones `escapeHTML()` y `sanitizeHTML()` están disponibles como `window.SurveySanitizer`
+
+### 7.4 Datos
+
+- Reducción de 14 → 9 archivos JSON por periodo (eliminados: `resumen.json`, `nps.json`, `csat.json`, `nps_ciclo.json`, `csat_ciclo.json`)
+- Contratos versionados: `dashboard_data.json`, `filtros.json` y `sentimiento.json` incluyen `"version": "2.0"`
+- Configuración ETL externalizada en `scripts/lib/config.py` (documentación y migración futura)
+
+### 7.5 Tests
+
+Infraestructura de tests en `tests/`:
+- `test-framework.js`: Mini-framework (assert, describe, it)
+- `run-tests.html`: Runner HTML
+- `unit/test-config.js`, `test-formatters.js`, `test-sanitizer.js`: 34 tests
+
+### 7.6 Deuda Técnica Resuelta
+
+- ✅ Constantes hardcodeadas → `config/constants.js` (`window.SURVEY_CONFIG`)
+- ✅ CSS monolítico → 5 capas modulares
+- ✅ JS monolítico → 8 módulos + orquestador
+- ✅ XSS en tooltips → sanitización con whitelist
+- ✅ Archivos JSON redundantes → eliminados 5 de 14
+- ✅ Sin versionado de contratos → `"version": "2.0"` en objetos
+- ⚠️ Lógica de ciclos: externalizada a `SURVEY_CONFIG` pero aún no dinámica por periodo
+- ⚠️ Migración ETL a `lib/config.py`: archivo creado, pendiente integración completa

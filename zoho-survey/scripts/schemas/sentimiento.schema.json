@@ -1,0 +1,71 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://universidad-de-lima.github.io/survey-storytelling/schemas/sentimiento.json",
+  "title": "Sentimiento",
+  "description": "Análisis cualitativo de comentarios NPS (tópicos, frases, distribución).",
+  "type": "object",
+  "required": ["version", "resumen", "topicos", "por_carrera", "por_ciclo"],
+  "properties": {
+    "version": {
+      "type": "string",
+      "const": "2.0"
+    },
+    "resumen": {
+      "type": "object",
+      "required": ["total_con_comentario", "total_analizados", "pasivos", "detractores"],
+      "properties": {
+        "total_con_comentario": { "type": "integer", "minimum": 0 },
+        "total_analizados": { "type": "integer", "minimum": 0 },
+        "pasivos": { "type": "integer", "minimum": 0 },
+        "detractores": { "type": "integer", "minimum": 0 },
+        "nota": { "type": "string" }
+      }
+    },
+    "topicos": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["topico", "tipo", "icono", "total_comentarios"],
+        "properties": {
+          "topico": { "type": "string" },
+          "tipo": { "type": "string", "enum": ["negativo", "mejora", "positivo"] },
+          "icono": { "type": "string" },
+          "total_comentarios": { "type": "integer", "minimum": 0 },
+          "detractores": { "type": "integer", "minimum": 0 },
+          "pasivos": { "type": "integer", "minimum": 0 },
+          "frases_representativas": { "type": "array", "items": { "type": "string" } },
+          "por_carrera": { "type": "object" },
+          "por_facultad": { "type": "object" },
+          "por_ciclo": { "type": "object" }
+        }
+      }
+    },
+    "por_carrera": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["carrera", "total", "pasivos", "detractores"],
+        "properties": {
+          "carrera": { "type": "string" },
+          "facultad": { "type": "string" },
+          "total": { "type": "integer", "minimum": 0 },
+          "pasivos": { "type": "integer", "minimum": 0 },
+          "detractores": { "type": "integer", "minimum": 0 }
+        }
+      }
+    },
+    "por_ciclo": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["ciclo", "total", "pasivos", "detractores"],
+        "properties": {
+          "ciclo": { "type": "string" },
+          "total": { "type": "integer", "minimum": 0 },
+          "pasivos": { "type": "integer", "minimum": 0 },
+          "detractores": { "type": "integer", "minimum": 0 }
+        }
+      }
+    }
+  }
+}
