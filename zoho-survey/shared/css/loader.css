@@ -225,7 +225,7 @@
   /* Badge "nuevo" */
   .pill-badge {
     position: absolute;
-    top: calc(100% - 4px);
+    top: calc(100% - 5px);
     left: 100%;
     transform: translateX(-50%);
     white-space: nowrap;
