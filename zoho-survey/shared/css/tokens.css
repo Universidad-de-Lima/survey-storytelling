@@ -49,4 +49,15 @@
 
   /* ── Splash ── */
   --splash-bg: #F37021;
+
+  /* ── Capas z-index ── */
+  --z-base: 1;
+  --z-dropdown: 1000;
+  --z-sticky: 1020;
+  --z-filter-open: 1040;
+  --z-filter-panel: 1051;
+  --z-tooltip: 1100;
+  --z-overlay: 9998;
+  --z-skip-link: 9999;
+  --z-splash: 99999;
 }

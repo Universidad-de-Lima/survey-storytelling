@@ -40,11 +40,18 @@ window.SURVEY_CONFIG = {
   FACULTAD_PLACEHOLDER: 'Todas las facultades',
   FACULTAD_PLACEHOLDER_PROG: 'Todas las facultades / programas',
 
+  // ── Ciclos ──
+  MAX_CICLOS_DEFAULT: 10,
+  MAX_CICLOS_ESPECIALES: 12,
+
   // ── Umbrales visuales ──
-  // Porcentaje mínimo para mostrar etiqueta en barra
   MIN_BAR_LABEL_PCT: 4,
-  // Porcentaje mínimo para generar etiqueta externa
   MIN_EXTERNAL_LABEL_PCT: 0.5,
-  // Ancho mínimo (px) para etiqueta en segmento
   MIN_SEGMENT_WIDTH: 30,
+  SEGMENT_LABEL_HIDE_PCT: 0.005,
+  SEGMENT_EXTERNAL_LABEL_PCT: 0.02,
+
+  // ── Visualización ──
+  RADAR_LABEL_MAXLEN: 26,
+  ANIMATION_FALLBACK_MS: 1200,
 };

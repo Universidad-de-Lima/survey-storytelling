@@ -1,6 +1,14 @@
 (() => {
   'use strict';
 
+  // ── Configuración del loader ──
+  const LOADER_CONFIG = {
+    PERIODS_FILE: 'periodos.json',
+    FALLBACK_PAGE: 'underconstruction.html',
+    SPLASH_DELAY_MS: 1200,
+    SPLASH_FADE_MS: 900,
+  };
+
   const SURVEY_TYPES = [
     { id: 'undergraduate', label: 'ESTUDIANTES PREGRADO', path: 'students/undergraduate' },
     { id: 'graduate', label: 'GRADUADOS PREGRADO', path: 'students/graduate' },
@@ -67,14 +75,14 @@
 
     // Fetch periods
     try {
-      const res = await fetch(`${survey.path}/periodos.json`, { cache: 'no-store' });
+      const res = await fetch(`${survey.path}/${LOADER_CONFIG.PERIODS_FILE}`, { cache: 'no-store' });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       PERIODS = normalizePeriods(await res.json());
     } catch (err) {
       showLoaderError(`Sin datos para ${survey.label}`, err);
       periodBar.classList.remove('visible');
       // Load "en construcción" page
-      frame.src = 'underconstruction.html';
+      frame.src = LOADER_CONFIG.FALLBACK_PAGE;
       overlay?.classList.remove('show');
       frame.classList.add('loaded');
       return;
@@ -169,8 +177,8 @@
   window.addEventListener('load', () => {
     setTimeout(() => {
       splash?.classList.add('hide');
-      setTimeout(() => splash?.remove(), 900);
-    }, 1200);
+      setTimeout(() => splash?.remove(), LOADER_CONFIG.SPLASH_FADE_MS);
+    }, LOADER_CONFIG.SPLASH_DELAY_MS);
   });
 
   // ── Init ──

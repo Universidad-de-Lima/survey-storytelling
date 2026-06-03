@@ -8,6 +8,7 @@
     --surface: #faf8f6;
     --bar-h: 96px;
     --font-family: 'Roboto', sans-serif;
+    --white: #FFFFFF;
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -27,7 +28,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 100000;
+    z-index: 100000; /* splash */
     transition:
       opacity .8s ease,
       visibility .8s ease;
@@ -53,10 +54,10 @@
     grid-template-columns: auto 1fr;
     grid-template-rows: auto auto;
     padding: 8px 28px;
-    z-index: 9999;  
+    z-index: 9999; /* topbar */  
     border-bottom: 1px solid rgba(255,81,23,.18);  
     gap: 2px 14px;
-    color: #fff;
+    color: var(--white);
   }
 
   /* Acento lateral izquierdo */
@@ -124,7 +125,7 @@
   .survey-tab.active {
     background: var(--brand);
     border-color: var(--brand);
-    color: #fff;
+    color: var(--white);
   }
 
   .survey-tab:disabled {
@@ -140,7 +141,7 @@
     appearance: none;
     background: rgba(255,255,255,.07);
     border: 1.5px solid rgba(255,255,255,.16);
-    color: #fff;
+    color: var(--white);
     font-family: 'Roboto', sans-serif;
     font-size: 13px;
     font-weight: 500;
@@ -160,7 +161,7 @@
   .survey-tab.active {
     background: var(--brand);
     border-color: var(--brand);
-    color: #fff;
+    color: var(--white);
   }
 
   .survey-tab:disabled {
@@ -176,7 +177,7 @@
     appearance: none;
     background: rgba(255,255,255,.07);
     border: 1.5px solid rgba(255,255,255,.16);
-    color: #fff;
+    color: var(--white);
     font-family: 'Roboto', sans-serif;
     font-size: 13px;
     font-weight: 500;
@@ -242,7 +243,7 @@
   .pill.active {
     background: var(--brand);
     border-color: var(--brand);
-    color: #fff;
+    color: var(--white);
     box-shadow: 0 0 18px rgba(255,81,23,.45);
   }
 
@@ -256,7 +257,7 @@
     letter-spacing: .06em;
     text-transform: uppercase;
     background: var(--brand-light);
-    color: #fff;
+    color: var(--white);
     padding: 1px 5px;
     border-radius: 4px;
     line-height: 1.4;
@@ -274,7 +275,7 @@
     appearance: none;
     background: rgba(255,255,255,.07);
     border: 1.5px solid rgba(255,255,255,.16);
-    color: #fff;
+    color: var(--white);
     font-family: 'Roboto', sans-serif;
     font-size: 13px;
     font-weight: 500;
@@ -359,7 +360,7 @@
     position: fixed;
     inset: 0;
     background: var(--ink);
-    z-index: 9998;
+    z-index: 9998; /* overlay */
     opacity: 0;
     pointer-events: none;
     transition: opacity .25s ease;
