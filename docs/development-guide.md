@@ -598,7 +598,7 @@ When moving from static to dynamic:
 
 ## Getting Help
 
-- **Architecture Questions:** See `docs/architecture-overview.md`
+- **Architecture Questions:** See `ARCHITECTURE.md` (project root)
 - **Adding New Features:** See `docs/adding-new-surveys.md`
 - **Data Contracts:** See `docs/data-contracts.md`
 - **Filter Logic:** See `docs/filter-logic.md`
@@ -606,4 +606,4 @@ When moving from static to dynamic:
 
 ---
 
-See `MIGRATION.md` for architectural changes in v2.0.
+See `docs/CHANGELOG.md` for version history and architectural changes.

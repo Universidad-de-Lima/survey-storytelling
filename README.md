@@ -38,7 +38,7 @@ survey-storytelling/
 ├── data/                          ← CSVs fuente (3 archivos)
 ├── docs/                          ← Documentación
 │   ├── ai-agent-guide.md          ← Guía para DeepSeek, Claude, Copilot
-│   ├── architecture-overview.md
+│   ├── CHANGELOG.md               ← Historial de versiones
 │   └── development-guide.md
 ├── tests/                         ← Tests unitarios (34 tests)
 │   ├── run-tests.html             ← Runner (abrir en navegador)
@@ -80,7 +80,6 @@ survey-storytelling/
 ├── ARCHITECTURE.md                ← Documentación técnica detallada
 ├── CONTRACTS.md                   ← Contratos de datos v2.0
 ├── AGENTS.md                      ← Reglas para IA
-├── MIGRATION.md                   ← Plan de migración (completado)
 └── package.json
 ```
 
