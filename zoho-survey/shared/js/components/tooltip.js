@@ -1,0 +1,73 @@
+/**
+ * SURVEY TOOLTIP — Componente de tooltip flotante.
+ *
+ * Extraído de dashboard.js (v2.0). Gestiona la visualización de tooltips
+ * en barras, gráficos y segmentos de datos.
+ *
+ * Dependencias: SurveySanitizer (opcional, fallback a textContent)
+ *
+ * @module components/tooltip
+ * @version 1.0.0
+ */
+window.SurveyTooltip = (() => {
+  'use strict';
+
+  const TOOLTIP_ID = 'tooltip';
+  const OFFSET_X = 10;
+  const OFFSET_Y = -10;
+
+  /** Obtiene o crea el elemento tooltip en el DOM */
+  function getElement() {
+    let el = document.getElementById(TOOLTIP_ID);
+    if (!el) {
+      el = document.createElement('div');
+      el.id = TOOLTIP_ID;
+      el.setAttribute('role', 'tooltip');
+      el.setAttribute('aria-hidden', 'true');
+      el.style.cssText = 'position:fixed;background:var(--gray-900,#1F2937);color:white;padding:8px 12px;border-radius:4px;font-size:12px;pointer-events:none;z-index:1001;display:none;box-shadow:0 4px 12px rgba(0,0,0,0.2);white-space:nowrap;will-change:left,top;';
+      document.body.appendChild(el);
+    }
+    return el;
+  }
+
+  /** Sanitiza contenido para el tooltip (delega a SurveySanitizer si disponible) */
+  function safeContent(html) {
+    const san = window.SurveySanitizer;
+    return san ? san.sanitizeHTML(html) : String(html).replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+
+  /**
+   * Muestra el tooltip en la posición del evento.
+   * @param {MouseEvent} e - Evento del mouse
+   * @param {string} content - Contenido HTML (se sanitiza automáticamente)
+   */
+  function show(e, content) {
+    const el = getElement();
+    el.innerHTML = safeContent(content);
+    el.style.display = 'block';
+    el.style.left = `${e.clientX + OFFSET_X}px`;
+    el.style.top = `${e.clientY + OFFSET_Y}px`;
+  }
+
+  /** Oculta el tooltip */
+  function hide() {
+    const el = document.getElementById(TOOLTIP_ID);
+    if (el) el.style.display = 'none';
+  }
+
+  /**
+   * Agrega listeners de tooltip a segmentos dentro de un contenedor.
+   * Los segmentos deben tener data-label y data-value.
+   * @param {string} selector - Selector CSS para los segmentos
+   */
+  function bindToSegments(selector) {
+    document.querySelectorAll(selector).forEach((seg) => {
+      seg.addEventListener('mousemove', (e) =>
+        show(e, `${seg.dataset.label}: ${seg.dataset.value}`),
+      );
+      seg.addEventListener('mouseleave', hide);
+    });
+  }
+
+  return { show, hide, bindToSegments };
+})();
