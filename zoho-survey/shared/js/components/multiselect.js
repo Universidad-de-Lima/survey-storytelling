@@ -15,32 +15,23 @@
 window.SurveyMultiselect = (() => {
   'use strict';
 
-  // ── Utilidades internas (self-contained) ──
+  // ── Utilidades: delegar a SurveyDOMHelpers si disponible ──
+  const _dh = window.SurveyDOMHelpers;
 
   function getSelectedValues(sel) {
-    if (!sel) return '';
-    if (sel.multiple) {
-      const vals = Array.from(sel.selectedOptions).map((opt) => opt.value).filter(Boolean);
-      return vals.length ? vals : '';
-    }
-    const opt = sel.options[sel.selectedIndex];
-    return opt ? opt.value : '';
+    return _dh ? _dh.getSelectedValues(sel) : ((!sel) ? '' : sel.multiple ? (() => { const v = Array.from(sel.selectedOptions).map(o => o.value).filter(Boolean); return v.length ? v : ''; })() : (sel.options[sel.selectedIndex] ? sel.options[sel.selectedIndex].value : ''));
   }
 
   function setSelectedValues(sel, values) {
+    if (_dh) return _dh.setSelectedValues(sel, values);
     if (!sel) return;
-    if (!sel.multiple) {
-      sel.value = Array.isArray(values) ? values[0] || '' : values || '';
-    } else {
-      const normalized = new Set((Array.isArray(values) ? values : [values]).filter(Boolean));
-      Array.from(sel.options).forEach((opt) => {
-        opt.selected = normalized.has(opt.value);
-      });
-    }
+    if (!sel.multiple) { sel.value = Array.isArray(values) ? values[0] || '' : values || ''; }
+    else { const n = new Set((Array.isArray(values) ? values : [values]).filter(Boolean)); Array.from(sel.options).forEach(o => { o.selected = n.has(o.value); }); }
     sel.dispatchEvent(new Event('change', { bubbles: true }));
   }
 
   function formatMultiselectLabel(values, placeholder) {
+    if (_dh) return _dh.formatMultiselectLabel(values, placeholder);
     if (!values || !values.length) return placeholder;
     if (values.length === 1) return values[0];
     return `${values.length} ciclos seleccionados`;

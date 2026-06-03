@@ -1,0 +1,89 @@
+/**
+ * SURVEY DOM HELPERS — Utilidades compartidas de manipulación de DOM.
+ *
+ * Funciones usadas por custom-select.js, multiselect.js y dashboard.js.
+ * Centralizadas aquí para evitar duplicación (A2 de auditoría v2.0).
+ *
+ * @module utils/dom-helpers
+ * @version 1.0.0
+ */
+window.SurveyDOMHelpers = (() => {
+  'use strict';
+
+  /**
+   * Obtiene el valor(es) seleccionado(s) de un <select>.
+   * Soporta select simple y multiple.
+   * @param {HTMLSelectElement} sel
+   * @returns {string|string[]} Valor(es) seleccionado(s), o '' si ninguno
+   */
+  function getSelectedValues(sel) {
+    if (!sel) return '';
+    if (sel.multiple) {
+      const vals = Array.from(sel.selectedOptions).map((opt) => opt.value).filter(Boolean);
+      return vals.length ? vals : '';
+    }
+    const opt = sel.options[sel.selectedIndex];
+    return opt ? opt.value : '';
+  }
+
+  /**
+   * Establece el valor(es) seleccionado(s) en un <select>.
+   * Dispara evento 'change' automáticamente.
+   * @param {HTMLSelectElement} sel
+   * @param {string|string[]} values
+   */
+  function setSelectedValues(sel, values) {
+    if (!sel) return;
+    if (!sel.multiple) {
+      sel.value = Array.isArray(values) ? values[0] || '' : values || '';
+    } else {
+      const normalized = new Set((Array.isArray(values) ? values : [values]).filter(Boolean));
+      Array.from(sel.options).forEach((opt) => {
+        opt.selected = normalized.has(opt.value);
+      });
+    }
+    sel.dispatchEvent(new Event('change', { bubbles: true }));
+  }
+
+  /**
+   * Obtiene el texto del placeholder de un <select>.
+   * @param {HTMLSelectElement} sel
+   * @returns {string}
+   */
+  function getPlaceholderText(sel) {
+    const emptyOption = sel.querySelector('option[value=""]');
+    return emptyOption ? emptyOption.textContent : 'Seleccione';
+  }
+
+  /**
+   * Formatea la etiqueta visible de un custom select según su valor actual.
+   * @param {HTMLSelectElement} sel
+   * @returns {string}
+   */
+  function formatCustomLabel(sel) {
+    const selected = getSelectedValues(sel);
+    if (!selected) return getPlaceholderText(sel);
+    const selectedOption = Array.from(sel.options).find((opt) => opt.value === selected);
+    return selectedOption ? selectedOption.textContent : selected;
+  }
+
+  /**
+   * Formatea la etiqueta de un multiselect mostrando conteo.
+   * @param {string[]} values - Valores seleccionados
+   * @param {string} placeholder - Texto cuando no hay selección
+   * @returns {string}
+   */
+  function formatMultiselectLabel(values, placeholder) {
+    if (!values || !values.length) return placeholder;
+    if (values.length === 1) return values[0];
+    return `${values.length} ciclos seleccionados`;
+  }
+
+  return {
+    getSelectedValues,
+    setSelectedValues,
+    getPlaceholderText,
+    formatCustomLabel,
+    formatMultiselectLabel,
+  };
+})();

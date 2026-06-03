@@ -7,13 +7,14 @@
     --muted: #6b5e55;
     --surface: #faf8f6;
     --bar-h: 96px;
+    --font-family: 'Roboto', sans-serif;
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   html, body {
     height: 100%;
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'Roboto', sans-serif;
     background: var(--ink);
     overflow: hidden;
   }
