@@ -226,7 +226,7 @@
   .pill-badge {
     position: absolute;
     bottom: -4px;
-    right: 0;
+    right: -8px;
     font-size: 8px;
     font-weight: 700;
     letter-spacing: .06em;
