@@ -290,7 +290,11 @@
     return selectedOption ? selectedOption.textContent : selected;
   };
 
-  function createCustomSelectDropdown(sel, onChangeCallback) {
+  // ── Custom Select: delegar a SurveyCustomSelect si disponible ──
+  const _cs = window.SurveyCustomSelect;
+  const createCustomSelectDropdown = _cs
+    ? (sel, cb) => _cs.create(sel, cb)
+    : (function(sel, onChangeCallback) {
     const wrapper = document.createElement('div');
     wrapper.className = 'filter-custom-select';
     wrapper.style.position = 'relative';
@@ -395,9 +399,13 @@
 
     renderOptions();
     return { update, close: closePanel, button, wrapper };
-  }
+  });
 
-  function createMultiselectDropdown(selCic, onChangeCallback) {
+  // ── Multiselect: delegar a SurveyMultiselect si disponible ──
+  const _ms = window.SurveyMultiselect;
+  const createMultiselectDropdown = _ms
+    ? (sel, cb) => _ms.create(sel, cb)
+    : (function(selCic, onChangeCallback) {
     const wrapper = document.createElement('div');
     wrapper.className = 'filter-multiselect';
     wrapper.style.position = 'relative';
@@ -507,7 +515,7 @@
 
     selCic.parentNode.insertBefore(wrapper, selCic.nextSibling);
     return wrapper;
-  }
+  });
 
   async function loadAllData() {
     try {
