@@ -640,6 +640,7 @@ for INPUT_FILE in files:
     )[:2]
 
     dashboard_data = {
+        "version": "2.0",
         "resumen": resumen,
         "hallazgos": {
             "csat_pct": int(csat_score),
@@ -664,6 +665,7 @@ for INPUT_FILE in files:
     # 8. filtros.json
     # =========================================================
     filtros = {
+        "version": "2.0",
         "has_ciclo": HAS_CICLO,
         "facultades": sorted(df["Facultad"].dropna().unique().tolist()),
         "carreras": sorted(df["Carrera"].dropna().unique().tolist()),
@@ -734,6 +736,7 @@ for INPUT_FILE in files:
         por_ciclo.sort(key=lambda x: int("".join(filter(str.isdigit, x["ciclo"])) or 0))
 
         sentimiento = {
+            "version": "2.0",
             "resumen": {
                 "total_con_comentario": total_con_comentario,
                 "total_analizados": total_analizados,
@@ -747,6 +750,7 @@ for INPUT_FILE in files:
         }
     else:
         sentimiento = {
+            "version": "2.0",
             "resumen": {
                 "total_con_comentario": 0,
                 "total_analizados": 0,

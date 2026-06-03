@@ -1,0 +1,87 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://universidad-de-lima.github.io/survey-storytelling/schemas/dashboard_data.json",
+  "title": "Dashboard Data",
+  "description": "Contrato de datos agregados del dashboard (KPIs ejecutivos, NPS, CSAT, hallazgos).",
+  "type": "object",
+  "required": ["version", "resumen", "hallazgos", "nps", "csat"],
+  "properties": {
+    "version": {
+      "type": "string",
+      "description": "Versión del contrato de datos.",
+      "const": "2.0"
+    },
+    "resumen": {
+      "type": "object",
+      "required": ["encuestas", "fecha_inicio", "fecha_fin", "nps", "csat"],
+      "properties": {
+        "encuestas": { "type": "integer", "minimum": 0 },
+        "carreras": { "type": "integer", "minimum": 0 },
+        "facultades": { "type": "integer", "minimum": 0 },
+        "fecha_inicio": { "type": "string", "format": "date" },
+        "fecha_fin": { "type": "string", "format": "date" },
+        "dias": { "type": "integer", "minimum": 0 },
+        "dias_recoleccion": { "type": "integer", "minimum": 0 },
+        "año": { "type": "integer" },
+        "nps": {
+          "type": "object",
+          "required": ["score", "promotores", "pasivos", "detractores", "total"],
+          "properties": {
+            "score": { "type": "number", "minimum": -100, "maximum": 100 },
+            "promotores": { "type": "integer", "minimum": 0 },
+            "pasivos": { "type": "integer", "minimum": 0 },
+            "detractores": { "type": "integer", "minimum": 0 },
+            "total": { "type": "integer", "minimum": 0 }
+          }
+        },
+        "csat": {
+          "type": "object",
+          "required": ["score", "t3b", "total"],
+          "properties": {
+            "score": { "type": "number", "minimum": 0, "maximum": 100 },
+            "t3b": { "type": "integer", "minimum": 0 },
+            "total": { "type": "integer", "minimum": 0 }
+          }
+        }
+      }
+    },
+    "hallazgos": {
+      "type": "object",
+      "required": ["csat_pct", "nps_score", "nps_tipo", "nps_etapas", "tendencia", "delta"],
+      "properties": {
+        "csat_pct": { "type": "integer" },
+        "nps_score": { "type": "integer" },
+        "nps_tipo": { "type": "string", "enum": ["Excelente", "Bueno", "Regular", "Pésimo"] },
+        "nps_etapas": { "type": "object" },
+        "tendencia": { "type": "string", "enum": ["disminuye", "aumenta", "se mantiene"] },
+        "delta": { "type": "integer", "minimum": 0 },
+        "top_dimensiones": { "type": "array" },
+        "top_facultades": { "type": "array" }
+      }
+    },
+    "nps": {
+      "type": "object",
+      "required": ["Promotores", "Pasivos", "Detractores"],
+      "properties": {
+        "Promotores": { "type": "integer", "minimum": 0 },
+        "Pasivos": { "type": "integer", "minimum": 0 },
+        "Detractores": { "type": "integer", "minimum": 0 },
+        "score": { "type": "number" }
+      }
+    },
+    "csat": {
+      "type": "object",
+      "required": ["Totalmente satisfecho", "Muy satisfecho", "Satisfecho", "Insatisfecho", "Totalmente insatisfecho"],
+      "properties": {
+        "Totalmente satisfecho": { "type": "integer", "minimum": 0 },
+        "Muy satisfecho": { "type": "integer", "minimum": 0 },
+        "Satisfecho": { "type": "integer", "minimum": 0 },
+        "Insatisfecho": { "type": "integer", "minimum": 0 },
+        "Totalmente insatisfecho": { "type": "integer", "minimum": 0 },
+        "No utilizo": { "type": "integer", "minimum": 0 },
+        "No conozco": { "type": "integer", "minimum": 0 },
+        "score": { "type": "number" }
+      }
+    }
+  }
+}

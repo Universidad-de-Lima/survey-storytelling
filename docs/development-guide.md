@@ -47,8 +47,8 @@ npm start
 **Example:** "Filters aren't cascading correctly from facultad to carrera"
 
 #### Step 1: Identify the Issue
-- Likely location: `surveys/shared/js/filter-engine.js`
-- Method: `setFacultad()` or `getAvailableCarreras()`
+- Likely location: `zoho-survey/shared/js/dashboard.js` → función `filtrarDatos()` o `setupFilters()`
+- También revisar: `zoho-survey/shared/js/config/constants.js` (constantes de negocio)
 
 #### Step 2: Create a Feature Branch
 ```bash
@@ -57,15 +57,10 @@ git checkout -b fix/facultad-carrera-cascade
 
 #### Step 3: Make Changes
 ```javascript
-// surveys/shared/js/filter-engine.js
-setFacultad(facultad) {
-  this.state.facultad = facultad;
-  this.state.carrera = null;  // Reset carrera
-  
-  const available = this.getAvailableCarreras();
-  console.log(`Availble carreras for ${facultad}:`, available);
-  
-  return available;  // Return for testing
+// zoho-survey/shared/js/dashboard.js
+// Buscar la función filtrarDatos o setupFilters
+function filtrarDatos(datos, fac, car, cic) {
+  // ...existing code...
 }
 ```
 

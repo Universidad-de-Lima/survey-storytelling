@@ -1,10 +1,30 @@
 # MIGRATION PLAN: Architectural Refactoring v1.0 → v2.0
 
-**Status:** Draft  
-**Created:** 2026-06-02  
-**Estimated Duration:** 23-33 hours (2-3 days continuous development)  
-**Risk Level:** Medium  
-**Rollback Available:** Yes (v-pre-refactor tag)
+**Status:** ✅ Completed (2026-06-03)
+**Created:** 2026-06-02
+**Completed:** 2026-06-03
+**Actual Duration:** ~12 hours (3 sessions)
+**Risk Level:** Low (no breaking changes, backward compatible)
+**Rollback Available:** Yes (`git restore` per-file)
+
+---
+
+## Executive Summary (Post-Mortem)
+
+La migración se completó exitosamente en 3 sesiones. Todos los dashboards existentes funcionan sin cambios. La arquitectura modular con fallback inline garantiza que los HTMLs de periodos anteriores sigan funcionando incluso sin los nuevos scripts.
+
+### Desviaciones del plan original:
+
+- **T11 (reorganización de directorios)**: Diferida. El renombrado `zoho-survey/` → `surveys/` + `loader/` no justifica el riesgo de romper paths en 20+ archivos.
+- **T10 (integración lib/config.py)**: Parcial. El archivo `lib/config.py` existe como referencia pero `build_json.py` mantiene sus definiciones hardcodeadas. La integración completa requiere más pruebas en CI.
+- **Bloque 6 (Python ETL refactoring)**: Simplificado. Solo se extrajo la configuración; no se dividió en módulos ya que `build_json.py` (770 líneas) es mantenible en su forma actual.
+
+### Lecciones aprendidas:
+
+1. El patrón de delegación con fallback inline funciona excelentemente para migraciones incrementales
+2. La modularización CSS vía `@import` + múltiples `<link>` es backward-compatible
+3. El network drive (maple01) causó problemas de caching que complicaron algunas ediciones
+4. El versionado de contratos JSON (`"version": "2.0"`) es trivial de implementar y muy valioso
 
 ---
 
