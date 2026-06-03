@@ -44,6 +44,7 @@ Historial de cambios significativos del proyecto. Basado en [Keep a Changelog](h
 - **Responsive**: agregado breakpoint 820px, corregidos gaps/paddings en 960px y 640px
 - **Mobile selects**: integrado `SurveyCustomSelect` con tema oscuro institucional (fondo `#2a221c`, hover `--ulima-orange`, sin fondo blanco ni azul nativo)
 - **Duplicate CSS**: eliminado segundo bloque `.survey-tab` en `loader.css`
+- **Header visual polish (2ª iteración)**: gap vertical `.topbar-right` 1px→6px, badge NUEVO reposicionado debajo del pill, labels uniformizadas (11px), añadida etiqueta simétrica "ENCUESTA" junto a "PERIODO", font-size escalado en 3 breakpoints
 
 ### Migration Notes
 - Patrón de delegación con fallback inline: backward compatible con dashboards existentes
