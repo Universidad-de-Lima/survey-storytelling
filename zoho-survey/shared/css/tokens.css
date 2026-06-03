@@ -44,6 +44,9 @@
   --font-black: 900;
 
   /* ── Accesibilidad ── */
-  --focus-outline: 2px solid #FF5117;
+  --focus-outline: 2px solid var(--ulima-orange);
   --focus-outline-offset: 2px;
+
+  /* ── Splash ── */
+  --splash-bg: #F37021;
 }

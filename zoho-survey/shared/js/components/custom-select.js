@@ -15,41 +15,33 @@
 window.SurveyCustomSelect = (() => {
   'use strict';
 
-  // ── Utilidades internas (self-contained) ──
+  // ── Utilidades: delegar a SurveyDOMHelpers si disponible ──
+  const _dh = window.SurveyDOMHelpers;
 
   function getSelectedValues(sel) {
-    if (!sel) return '';
-    if (sel.multiple) {
-      const vals = Array.from(sel.selectedOptions).map((opt) => opt.value).filter(Boolean);
-      return vals.length ? vals : '';
-    }
-    const opt = sel.options[sel.selectedIndex];
-    return opt ? opt.value : '';
+    return _dh ? _dh.getSelectedValues(sel) : ((!sel) ? '' : sel.multiple ? (() => { const v = Array.from(sel.selectedOptions).map(o => o.value).filter(Boolean); return v.length ? v : ''; })() : (sel.options[sel.selectedIndex] ? sel.options[sel.selectedIndex].value : ''));
   }
 
   function setSelectedValues(sel, values) {
+    if (_dh) return _dh.setSelectedValues(sel, values);
     if (!sel) return;
-    if (!sel.multiple) {
-      sel.value = Array.isArray(values) ? values[0] || '' : values || '';
-    } else {
-      const normalized = new Set((Array.isArray(values) ? values : [values]).filter(Boolean));
-      Array.from(sel.options).forEach((opt) => {
-        opt.selected = normalized.has(opt.value);
-      });
-    }
+    if (!sel.multiple) { sel.value = Array.isArray(values) ? values[0] || '' : values || ''; }
+    else { const n = new Set((Array.isArray(values) ? values : [values]).filter(Boolean)); Array.from(sel.options).forEach(o => { o.selected = n.has(o.value); }); }
     sel.dispatchEvent(new Event('change', { bubbles: true }));
   }
 
   function getPlaceholderText(sel) {
-    const emptyOption = sel.querySelector('option[value=""]');
-    return emptyOption ? emptyOption.textContent : 'Seleccione';
+    if (_dh) return _dh.getPlaceholderText(sel);
+    const eo = sel.querySelector('option[value=""]');
+    return eo ? eo.textContent : 'Seleccione';
   }
 
   function formatCustomLabel(sel) {
-    const selected = getSelectedValues(sel);
-    if (!selected) return getPlaceholderText(sel);
-    const selectedOption = Array.from(sel.options).find((opt) => opt.value === selected);
-    return selectedOption ? selectedOption.textContent : selected;
+    if (_dh) return _dh.formatCustomLabel(sel);
+    const s = getSelectedValues(sel);
+    if (!s) return getPlaceholderText(sel);
+    const so = Array.from(sel.options).find(o => o.value === s);
+    return so ? so.textContent : s;
   }
 
   // ── Factory ──

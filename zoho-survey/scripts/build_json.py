@@ -596,8 +596,8 @@ for INPUT_FILE in files:
     # =========================================================
     etapa_map = {
         1: "Inicial", 2: "Inicial",
-        3: "Intermedio", 4: "Intermedio", 5: "Intermedio", 6: "Intermedio",
-        7: "Avanzado", 8: "Avanzado", 9: "Avanzado", 10: "Avanzado",
+        3: "Intermedio", 4: "Intermedio", 5: "Intermedio",
+        6: "Avanzado", 7: "Avanzado", 8: "Avanzado", 9: "Avanzado", 10: "Avanzado",
         11: "Avanzado", 12: "Avanzado"
     }
     etapas = {}

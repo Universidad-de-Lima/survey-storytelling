@@ -27,12 +27,12 @@
     "nps_score": 61,
     "nps_tipo": "Excelente",
     "nps_etapas": {
-      "Avanzado": 59.53,
+      "Avanzado": 61.46,
       "Inicial": 63.13,
-      "Intermedio": 61.88
+      "Intermedio": 60.59
     },
     "tendencia": "disminuye",
-    "delta": 3,
+    "delta": 1,
     "top_dimensiones": [
       {
         "name": "Perfil del egreso de la carrera",
