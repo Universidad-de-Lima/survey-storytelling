@@ -57,6 +57,11 @@
 
   surveySelect?.addEventListener('change', (e) => selectSurvey(e.target.value));
 
+  // Init custom selects for mobile (after options populated)
+  if (window.SurveyCustomSelect) {
+    surveySelect._customSelect = SurveyCustomSelect.create(surveySelect);
+  }
+
   // ── Select survey type ──
   async function selectSurvey(id) {
     const survey = SURVEY_TYPES.find((s) => s.id === id);
@@ -135,6 +140,13 @@
       if (p.id === currentPeriod) opt.selected = true;
       periodSelect?.appendChild(opt);
     });
+
+    // Update/recreate custom select for mobile
+    if (periodSelect._customSelect) {
+      periodSelect._customSelect.update();
+    } else if (window.SurveyCustomSelect) {
+      periodSelect._customSelect = SurveyCustomSelect.create(periodSelect);
+    }
   }
 
   // ── Load period ──
