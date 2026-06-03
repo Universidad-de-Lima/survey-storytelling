@@ -177,28 +177,27 @@
   const ordenarFacultades = (lista, hasCiclo) =>
     hasCiclo ? [PROGRAMA_ESTUDIOS_GENERALES, ...lista.sort()] : [...lista.sort()];
 
-  const showTooltip = (e, content) => {
+  // ── Tooltip: delegar a SurveyTooltip si disponible ──
+  const _ttp = window.SurveyTooltip;
+  const showTooltip = _ttp ? _ttp.show : ((e, content) => {
     const { tooltip } = DOM;
-    // Sanitizar contenido: permitir solo <br> para saltos de línea
     tooltip.innerHTML = sanitizeHTML(content);
     tooltip.style.display = 'block';
     tooltip.style.left = `${e.clientX + 10}px`;
     tooltip.style.top = `${e.clientY - 10}px`;
-  };
-  const hideTooltip = () => {
-    DOM.tooltip.style.display = 'none';
-  };
+  });
+  const hideTooltip = _ttp ? _ttp.hide : (() => { DOM.tooltip.style.display = 'none'; });
   window.showTooltip = showTooltip;
   window.hideTooltip = hideTooltip;
 
-  function addTooltipToSegments(selector) {
+  const addTooltipToSegments = _ttp ? _ttp.bindToSegments : ((selector) => {
     document.querySelectorAll(selector).forEach((seg) => {
       seg.addEventListener('mousemove', (e) =>
         showTooltip(e, `${seg.dataset.label}: ${seg.dataset.value}`),
       );
       seg.addEventListener('mouseleave', hideTooltip);
     });
-  }
+  });
 
   function populateSelect(sel, placeholder, items, texts) {
     const current = getSelectedValues(sel);
@@ -1627,6 +1626,12 @@
 
   // ==================== BARRA DE PROGRESO ====================
   function setupProgressBar() {
+    const _pb = window.SurveyProgressBar;
+    if (_pb) {
+      _pb.init();
+      return;
+    }
+    // Fallback inline (compatibilidad backward)
     const navLinks = document.querySelectorAll('.nav-links a');
     const sections = ['ejecutivo', 'operativo', 'analitico', 'sentimiento']
       .map((id) => document.getElementById(id))
@@ -1648,22 +1653,17 @@
     });
 
     let ticking = false;
-    window.addEventListener(
-      'scroll',
-      () => {
-        if (!ticking) {
-          window.requestAnimationFrame(() => {
-            const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-            const scrollHeight =
-              document.documentElement.scrollHeight - document.documentElement.clientHeight;
-            DOM.progressFill.style.width = `${(scrollTop / scrollHeight) * 100}%`;
-            ticking = false;
-          });
-          ticking = true;
-        }
-      },
-      { passive: true },
-    );
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+          const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+          DOM.progressFill.style.width = `${(scrollTop / scrollHeight) * 100}%`;
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }, { passive: true });
   }
 
   // ==================== INICIALIZACIÓN ====================
