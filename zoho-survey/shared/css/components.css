@@ -124,7 +124,7 @@
   white-space: nowrap;
   transform: translateX(-50%);
   line-height: 1;
-  z-index: 2;
+  z-index: var(--z-base);
   padding: 1px 3px;
 }
 
@@ -225,7 +225,7 @@
 
 .filter-container:has(.open) {
   position: relative;
-  z-index: 1040;
+  z-index: var(--z-filter-open);
 }
 
 .filter-group {
@@ -342,7 +342,7 @@
 
 .filter-custom-select.open,
 .filter-multiselect.open {
-  z-index: 1050;
+  z-index: var(--z-filter-open);
 }
 
 .filter-custom-toggle {
@@ -360,7 +360,7 @@
   top: calc(100% + 6px);
   left: 0;
   right: 0;
-  z-index: 1051;
+  z-index: var(--z-filter-panel);
   background: var(--white);
   border: 1px solid var(--gray-300);
   border-radius: 4px;
@@ -576,7 +576,7 @@
   color: var(--gray-700);
   margin-left: 8px;
   white-space: nowrap;
-  z-index: 1;
+  z-index: var(--z-base);
 }
 
 .bar-value-outside::before {
@@ -714,7 +714,7 @@
   font-size: 12px;
   font-weight: var(--font-regular);
   pointer-events: none;
-  z-index: 1001;
+  z-index: var(--z-tooltip);
   display: none;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   white-space: nowrap;

@@ -7,7 +7,7 @@
 .splash {
   position: fixed;
   inset: 0;
-  z-index: 99999;
+  z-index: var(--z-splash);
   background: var(--splash-bg);
   display: flex;
   align-items: center;

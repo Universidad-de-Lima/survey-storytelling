@@ -96,7 +96,7 @@
     }
     return dim;
   });
-  const formatDimensionNameSVG = _fmt ? _fmt.formatDimensionNameSVG : ((dim, maxLen = 26) => {
+  const formatDimensionNameSVG = _fmt ? _fmt.formatDimensionNameSVG : ((dim, maxLen = (C.RADAR_LABEL_MAXLEN ?? 26)) => {
     const plain = formatDimensionName(dim).replace(/<[^>]*>/g, '');
     const truncated = cortarTexto(plain, maxLen);
     if (dim === 'Software especializado empleado en la carrera' && truncated.startsWith('Software')) {
@@ -159,7 +159,7 @@
   function getCiclosForFiltro(facultad, carrera) {
     if (esEstudiosGen(facultad)) return CICLOS_ESTUDIOS_GENERALES;
     const max =
-      FACULTADES_12_CICLOS.includes(facultad) || CARRERAS_12_CICLOS.includes(carrera) ? 12 : 10;
+      FACULTADES_12_CICLOS.includes(facultad) || CARRERAS_12_CICLOS.includes(carrera) ? (C.MAX_CICLOS_ESPECIALES ?? 12) : (C.MAX_CICLOS_DEFAULT ?? 10);
     return cache.filtros.ciclos.filter((c) => (parseInt(c) || 0) <= max);
   }
 
@@ -674,7 +674,7 @@
         adjustSegmentLabels(containerSelector);
       }, { once: true });
       // Safety net por si animationend nunca se dispara
-      setTimeout(() => adjustSegmentLabels(containerSelector), 1200);
+      setTimeout(() => adjustSegmentLabels(containerSelector), (C.ANIMATION_FALLBACK_MS ?? 1200));
       if (!container.dataset._visListener) {
         container.dataset._visListener = '1';
         document.addEventListener('visibilitychange', function visHandler() {
@@ -693,12 +693,12 @@
       const label = seg.querySelector('.csat-label');
       if (!label) return;
       const segPct = seg.offsetWidth / barWidth;
-      const tooNarrow = seg.offsetWidth < 30;
-      const tooSmall = segPct < 0.02;
+      const tooNarrow = seg.offsetWidth < (C.MIN_SEGMENT_WIDTH ?? 30);
+      const tooSmall = segPct < (C.SEGMENT_EXTERNAL_LABEL_PCT ?? 0.02);
       const textOverflows = label.scrollWidth + SAFETY_MARGIN > seg.offsetWidth;
       const selected = textOverflows || tooNarrow || tooSmall;
       // Segmentos menores a 0.5%: ocultar etiqueta y no generar externa
-      if (segPct < 0.005) {
+      if (segPct < (C.SEGMENT_LABEL_HIDE_PCT ?? 0.005)) {
         label.style.visibility = 'hidden';
         return;
       }
