@@ -39,6 +39,11 @@ Historial de cambios significativos del proyecto. Basado en [Keep a Changelog](h
 - `PERIODS` mutable en `loader.js` documentado como variable de estado
 - Hardcoded colors: `#F37021` → `var(--splash-bg)`, `#000000` → `var(--black)`
 - Duplicación de `getSelectedValues`/`setSelectedValues` en 3 archivos → `utils/dom-helpers.js`
+- **Header/loader redesign**: CSS Grid body layout elimina `position:fixed` y `--bar-h` hardcodeado
+- **Iframe height bug**: `#frame-wrap` ahora usa grid `1fr` en vez de `top: 96px`, adaptándose automáticamente a la altura real del `#topbar`
+- **Responsive**: agregado breakpoint 820px, corregidos gaps/paddings en 960px y 640px
+- **Mobile selects**: integrado `SurveyCustomSelect` con tema oscuro institucional (fondo `#2a221c`, hover `--ulima-orange`, sin fondo blanco ni azul nativo)
+- **Duplicate CSS**: eliminado segundo bloque `.survey-tab` en `loader.css`
 
 ### Migration Notes
 - Patrón de delegación con fallback inline: backward compatible con dashboards existentes
