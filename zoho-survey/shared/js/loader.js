@@ -62,6 +62,139 @@
     surveySelect._customSelect = SurveyCustomSelect.create(surveySelect);
   }
 
+  // ── ▼ MÁS overflow dropdown ──
+  let moreBtn = null;
+  let morePanel = null;
+  let hiddenTabs = [];
+
+  function initMoreOverflow() {
+    if (!tabsEl) return;
+    const tabs = Array.from(tabsEl.querySelectorAll('.survey-tab'));
+    if (tabs.length < 2) return;
+
+    // Cleanup previous
+    if (moreBtn) { moreBtn.remove(); moreBtn = null; }
+    if (morePanel) { morePanel.remove(); morePanel = null; }
+    hiddenTabs = [];
+
+    // Check overflow
+    const containerWidth = tabsEl.clientWidth;
+    const tabsWidth = tabs.reduce((sum, t) => sum + t.offsetWidth, 0);
+    const gap = 4; // matches CSS gap
+    const totalGap = (tabs.length - 1) * gap;
+
+    if (tabsWidth + totalGap <= containerWidth) {
+      // All fit — show all
+      tabs.forEach(t => { t.style.display = ''; });
+      return;
+    }
+
+    // Not all fit — calculate how many + "▼ MÁS"
+    const moreBtnWidth = 85; // approximate width of "▼ MÁS"
+    let visibleWidth = 0;
+    let visibleCount = 0;
+
+    for (let i = 0; i < tabs.length; i++) {
+      const needed = visibleWidth + tabs[i].offsetWidth + (visibleCount > 0 ? gap : 0) + (i < tabs.length - 1 ? gap + moreBtnWidth : 0);
+      if (i === tabs.length - 1 || visibleWidth + tabs[i].offsetWidth + (visibleCount > 0 ? gap : 0) + gap + moreBtnWidth <= containerWidth) {
+        visibleWidth += tabs[i].offsetWidth + (visibleCount > 0 ? gap : 0);
+        visibleCount++;
+      } else {
+        break;
+      }
+    }
+
+    // At least 1 tab + ▼ MÁS
+    if (visibleCount < 1) visibleCount = 1;
+    if (visibleCount >= tabs.length) visibleCount = tabs.length - 1;
+
+    // Hide overflow tabs
+    for (let i = visibleCount; i < tabs.length; i++) {
+      tabs[i].style.display = 'none';
+      hiddenTabs.push(tabs[i]);
+    }
+
+    // Create ▼ MÁS button
+    moreBtn = document.createElement('button');
+    moreBtn.className = 'survey-more-btn';
+    moreBtn.textContent = '▼ MÁS';
+    moreBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      toggleMorePanel();
+    });
+    tabsEl.appendChild(moreBtn);
+
+    // Create dropdown panel
+    morePanel = document.createElement('div');
+    morePanel.className = 'survey-more-panel';
+    morePanel.hidden = true;
+    morePanel.setAttribute('role', 'listbox');
+
+    // Make parent relative for absolute positioning
+    const barLeft = tabsEl.parentElement;
+    if (barLeft && window.getComputedStyle(barLeft).position === 'static') {
+      barLeft.style.position = 'relative';
+    }
+    barLeft.appendChild(morePanel);
+
+    // Populate panel
+    hiddenTabs.forEach(t => {
+      const item = document.createElement('button');
+      item.type = 'button';
+      item.className = 'survey-more-item';
+      item.textContent = t.textContent;
+      if (t.classList.contains('active')) item.classList.add('active');
+      if (t.disabled) item.disabled = true;
+      item.addEventListener('click', () => {
+        t.click(); // trigger original tab click
+        closeMorePanel();
+      });
+      morePanel.appendChild(item);
+    });
+  }
+
+  function toggleMorePanel() {
+    if (!morePanel) return;
+    if (morePanel.hidden) openMorePanel();
+    else closeMorePanel();
+  }
+
+  function openMorePanel() {
+    if (!morePanel || !moreBtn) return;
+    morePanel.hidden = false;
+    moreBtn.classList.add('open');
+  }
+
+  function closeMorePanel() {
+    if (!morePanel || !moreBtn) return;
+    morePanel.hidden = true;
+    moreBtn.classList.remove('open');
+  }
+
+  // Close panel on outside click
+  document.addEventListener('click', (e) => {
+    if (morePanel && !morePanel.hidden) {
+      if (!morePanel.contains(e.target) && e.target !== moreBtn) {
+        closeMorePanel();
+      }
+    }
+  });
+
+  // Run overflow detection after tabs render + on resize
+  function scheduleOverflowCheck() {
+    // Wait for DOM layout
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => initMoreOverflow());
+    });
+  }
+
+  // Observe resize
+  if (tabsEl && window.ResizeObserver) {
+    const ro = new ResizeObserver(() => scheduleOverflowCheck());
+    ro.observe(tabsEl);
+  }
+  window.addEventListener('resize', () => scheduleOverflowCheck());
+
   // ── Select survey type ──
   async function selectSurvey(id) {
     const survey = SURVEY_TYPES.find((s) => s.id === id);
@@ -194,5 +327,5 @@
   });
 
   // ── Init ──
-  selectSurvey('undergraduate');
+  selectSurvey('undergraduate').then(() => scheduleOverflowCheck());
 })();
