@@ -1260,7 +1260,7 @@
 
     const tbody = $('tbody-visibilidad');
     const fragment = document.createDocumentFragment();
-    const fmtV = (v) => (v < 6.5 ? '' : formatDecimal(v, 2) + ' %');
+    const fmtV = (v) => (v < 0 ? '' : Math.round(v) + '%');
     data.forEach((item) => {
       const tr = document.createElement('tr');
       tr.innerHTML = `
