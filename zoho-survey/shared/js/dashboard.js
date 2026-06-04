@@ -1123,11 +1123,11 @@
         <td class="text-center">${catCorta}</td>
         <td>
           <div class="distribution-bar animated">
-            <div class="distribution-segment" style="width:${item.pctTotSat}%;background:var(--gray-800);" data-label="Totalmente satisfecho" data-value="${formatInteger(item.totSat)}"><span class="dist-label">${item.pctTotSat < 2 ? '' : item.pctTotSat + '%'}</span></div>
-            <div class="distribution-segment" style="width:${item.pctMuySat}%;background:var(--gray-500);" data-label="Muy satisfecho" data-value="${formatInteger(item.muySat)}"><span class="dist-label">${item.pctMuySat < 2 ? '' : item.pctMuySat + '%'}</span></div>
-            <div class="distribution-segment" style="width:${item.pctSat}%;background:var(--gray-300);color:var(--gray-700);" data-label="Satisfecho" data-value="${formatInteger(item.sat)}"><span class="dist-label">${item.pctSat < 2 ? '' : item.pctSat + '%'}</span></div>
-            <div class="distribution-segment" style="width:${item.pctInsat}%;background:var(--ulima-orange);" data-label="Insatisfecho" data-value="${formatInteger(item.insat)}"><span class="dist-label">${item.pctInsat < 2 ? '' : item.pctInsat + '%'}</span></div>
-            <div class="distribution-segment" style="width:${item.pctTotInsat}%;background:var(--ulima-red);" data-label="Totalmente insatisfecho" data-value="${formatInteger(item.totInsat)}"><span class="dist-label">${item.pctTotInsat < 2 ? '' : item.pctTotInsat + '%'}</span></div>
+            <div class="distribution-segment" style="width:${item.pctTotSat}%;background:var(--gray-800);" data-label="Totalmente satisfecho" data-value="${formatInteger(item.totSat)}"><span class="dist-label">${item.pctTotSat}%</span></div>
+            <div class="distribution-segment" style="width:${item.pctMuySat}%;background:var(--gray-500);" data-label="Muy satisfecho" data-value="${formatInteger(item.muySat)}"><span class="dist-label">${item.pctMuySat}%</span></div>
+            <div class="distribution-segment" style="width:${item.pctSat}%;background:var(--gray-300);color:var(--gray-700);" data-label="Satisfecho" data-value="${formatInteger(item.sat)}"><span class="dist-label">${item.pctSat}%</span></div>
+            <div class="distribution-segment" style="width:${item.pctInsat}%;background:var(--ulima-orange);" data-label="Insatisfecho" data-value="${formatInteger(item.insat)}"><span class="dist-label">${item.pctInsat}%</span></div>
+            <div class="distribution-segment" style="width:${item.pctTotInsat}%;background:var(--ulima-red);" data-label="Totalmente insatisfecho" data-value="${formatInteger(item.totInsat)}"><span class="dist-label">${item.pctTotInsat}%</span></div>
           </div>
         </td>
       `;
