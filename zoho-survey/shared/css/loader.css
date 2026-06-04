@@ -186,6 +186,7 @@
     display: inline-block;
     width: 85px;
     text-align: left;
+    flex-shrink: 0;
   }
 
   /* Survey label (symmetric with period-label) */
