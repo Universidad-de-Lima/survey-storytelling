@@ -645,8 +645,10 @@
   }
 
   // Mide cada segmento: si la etiqueta no cabe, muestra etiqueta externa encima
-  function adjustSegmentLabels(containerSelector) {
-    const container = document.querySelector(containerSelector);
+  function adjustSegmentLabels(containerOrSelector) {
+    const container = typeof containerOrSelector === 'string'
+      ? document.querySelector(containerOrSelector)
+      : containerOrSelector;
     if (!container) return;
 
     // Limpiar contenedor previo de etiquetas externas
@@ -671,17 +673,17 @@
       // Esperar a que la animación CSS stackedGrow (0.8s) termine completamente
       barRow.addEventListener('animationend', function onEnd() {
         barRow.removeEventListener('animationend', onEnd);
-        adjustSegmentLabels(containerSelector);
+        adjustSegmentLabels(container);
       }, { once: true });
       // Safety net por si animationend nunca se dispara
-      setTimeout(() => adjustSegmentLabels(containerSelector), (C.ANIMATION_FALLBACK_MS ?? 1200));
+      setTimeout(() => adjustSegmentLabels(container), (C.ANIMATION_FALLBACK_MS ?? 1200));
       if (!container.dataset._visListener) {
         container.dataset._visListener = '1';
         document.addEventListener('visibilitychange', function visHandler() {
           if (!document.hidden) {
             document.removeEventListener('visibilitychange', visHandler);
             delete container.dataset._visListener;
-            adjustSegmentLabels(containerSelector);
+            adjustSegmentLabels(container);
           }
         });
       }
@@ -1109,17 +1111,19 @@
         <td>${formatDimensionName(item.dimension)}</td>
         <td class="text-center"><span class="heatmap-cell ${heatClass}">${formatPercent(parseFloat(item.top3box), 2)}</span></td>
         <td class="text-center">${catCorta}</td>
-        <td>
-          <div class="distribution-bar animated">
-            <div class="distribution-segment" style="width:${item.pctTotSat}%;background:var(--gray-800);" data-label="Totalmente satisfecho" data-value="${formatInteger(item.totSat)}">${item.pctTotSat < 4 ? '' : item.pctTotSat + ' %'}</div>
-            <div class="distribution-segment" style="width:${item.pctMuySat}%;background:var(--gray-500);" data-label="Muy satisfecho" data-value="${formatInteger(item.muySat)}">${item.pctMuySat < 4 ? '' : item.pctMuySat + ' %'}</div>
-            <div class="distribution-segment" style="width:${item.pctSat}%;background:var(--gray-300);color:var(--gray-700);" data-label="Satisfecho" data-value="${formatInteger(item.sat)}">${item.pctSat < 4 ? '' : item.pctSat + ' %'}</div>
-            <div class="distribution-segment" style="width:${item.pctInsat}%;background:var(--ulima-orange);" data-label="Insatisfecho" data-value="${formatInteger(item.insat)}">${item.pctInsat < 4 ? '' : item.pctInsat + ' %'}</div>
-            <div class="distribution-segment" style="width:${item.pctTotInsat}%;background:var(--ulima-red);" data-label="Totalmente insatisfecho" data-value="${formatInteger(item.totInsat)}">${item.pctTotInsat < 4 ? '' : item.pctTotInsat + ' %'}</div>
+        <td class="distribution-cell">
+          <div class="csat-distribution">
+            <div class="csat-bar-row animated">
+              <div class="csat-segment" style="width:${item.pctTotSat}%;background:var(--gray-800);" data-label="Totalmente satisfecho" data-value="${formatInteger(item.totSat)} (${formatPctDecimal(item.totSat, item.total)})"><span class="csat-label">${formatPctSimple(item.totSat, item.total)}</span></div>
+              <div class="csat-segment" style="width:${item.pctMuySat}%;background:var(--gray-500);" data-label="Muy satisfecho" data-value="${formatInteger(item.muySat)} (${formatPctDecimal(item.muySat, item.total)})"><span class="csat-label">${formatPctSimple(item.muySat, item.total)}</span></div>
+              <div class="csat-segment" style="width:${item.pctSat}%;background:var(--gray-300);color:var(--gray-700);" data-label="Satisfecho" data-value="${formatInteger(item.sat)} (${formatPctDecimal(item.sat, item.total)})"><span class="csat-label">${formatPctSimple(item.sat, item.total)}</span></div>
+              <div class="csat-segment" style="width:${item.pctInsat}%;background:var(--ulima-orange);" data-label="Insatisfecho" data-value="${formatInteger(item.insat)} (${formatPctDecimal(item.insat, item.total)})"><span class="csat-label">${formatPctSimple(item.insat, item.total)}</span></div>
+              <div class="csat-segment" style="width:${item.pctTotInsat}%;background:var(--ulima-red);" data-label="Totalmente insatisfecho" data-value="${formatInteger(item.totInsat)} (${formatPctDecimal(item.totInsat, item.total)})"><span class="csat-label">${formatPctSimple(item.totInsat, item.total)}</span></div>
+            </div>
           </div>
         </td>
       `;
-      tr.querySelectorAll('.distribution-segment').forEach((seg) => {
+      tr.querySelectorAll('.csat-segment').forEach((seg) => {
         seg.addEventListener('mousemove', (e) =>
           showTooltip(e, `${seg.dataset.label}: ${seg.dataset.value}`),
         );
@@ -1129,6 +1133,10 @@
     });
     tbody.innerHTML = '';
     tbody.appendChild(fragment);
+    // Apply external labels to distribution bars
+    tbody.querySelectorAll('.csat-distribution').forEach((container) => {
+      adjustSegmentLabels(container);
+    });
   }
 
   function renderDetalleCarreras() {
@@ -1267,15 +1275,17 @@
         <td>${formatDimensionName(item.dimension)}</td>
         <td class="text-center">${formatInteger(item.noConozco)} (${formatDecimal(item.pctNoConozco, 2)} %)</td>
         <td class="text-center">${formatInteger(item.noUtilizo)} (${formatDecimal(item.pctNoUtilizo, 2)} %)</td>
-        <td>
-          <div class="visibility-bar animated">
-            <div class="visibility-segment no-conozco" style="width:${item.pctNoConozco}%;" data-label="No conozco" data-value="${formatInteger(item.noConozco)}">${fmtV(item.pctNoConozco)}</div>
-            <div class="visibility-segment no-utilizo" style="width:${item.pctNoUtilizo}%;" data-label="No utilizo" data-value="${formatInteger(item.noUtilizo)}">${fmtV(item.pctNoUtilizo)}</div>
-            <div class="visibility-segment conocido"   style="width:${item.pctConoce}%;"    data-label="Conozco/Utilizo" data-value="${formatInteger(item.conoce)}">${fmtV(item.pctConoce)}</div>
+        <td class="distribution-cell">
+          <div class="csat-distribution">
+            <div class="csat-bar-row animated">
+              <div class="csat-segment" style="width:${item.pctNoConozco}%;background:var(--ulima-orange);" data-label="No conozco" data-value="${formatInteger(item.noConozco)} (${formatPctDecimal(item.noConozco, item.total)})"><span class="csat-label">${formatPctSimple(item.noConozco, item.total)}</span></div>
+              <div class="csat-segment" style="width:${item.pctNoUtilizo}%;background:var(--ulima-red);" data-label="No utilizo" data-value="${formatInteger(item.noUtilizo)} (${formatPctDecimal(item.noUtilizo, item.total)})"><span class="csat-label">${formatPctSimple(item.noUtilizo, item.total)}</span></div>
+              <div class="csat-segment" style="width:${item.pctConoce}%;background:var(--gray-300);color:var(--gray-700);" data-label="Conozco/Utilizo" data-value="${formatInteger(item.conoce)} (${formatPctDecimal(item.conoce, item.total)})"><span class="csat-label">${formatPctSimple(item.conoce, item.total)}</span></div>
+            </div>
           </div>
         </td>
       `;
-      tr.querySelectorAll('.visibility-segment').forEach((seg) => {
+      tr.querySelectorAll('.csat-segment').forEach((seg) => {
         seg.addEventListener('mousemove', (e) =>
           showTooltip(e, `${seg.dataset.label}: ${seg.dataset.value}`),
         );
@@ -1285,6 +1295,9 @@
     });
     tbody.innerHTML = '';
     tbody.appendChild(fragment);
+    tbody.querySelectorAll('.csat-distribution').forEach((container) => {
+      adjustSegmentLabels(container);
+    });
     updateInsightAtencion(data, fac, car, cic);
   }
 
