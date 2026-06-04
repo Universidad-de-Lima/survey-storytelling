@@ -232,6 +232,127 @@
   }
   window.addEventListener('resize', () => scheduleOverflowCheck());
 
+  // ── ▼ MÁS overflow for periods ──
+  let periodMoreBtn = null;
+  let periodMorePanel = null;
+  let hiddenPills = [];
+  let _periodOverflowBusy = false;
+
+  function initPeriodOverflow() {
+    if (!pillsEl || _periodOverflowBusy) return;
+    const pills = Array.from(pillsEl.querySelectorAll('.pill'));
+    if (pills.length < 2) return;
+
+    _periodOverflowBusy = true;
+
+    // Cleanup
+    if (periodMoreBtn) { periodMoreBtn.remove(); periodMoreBtn = null; }
+    if (periodMorePanel) { periodMorePanel.remove(); periodMorePanel = null; }
+    hiddenPills = [];
+
+    // Show all
+    pills.forEach(p => { p.style.display = ''; });
+
+    const containerWidth = pillsEl.clientWidth;
+    if (containerWidth === 0) { _periodOverflowBusy = false; return; }
+
+    const gap = 6;
+    const totalWidth = pills.reduce((sum, p, i) => sum + p.offsetWidth + (i > 0 ? gap : 0), 0);
+    if (totalWidth <= containerWidth) { _periodOverflowBusy = false; return; }
+
+    // Measure ▼ MÁS button
+    const tempBtn = document.createElement('button');
+    tempBtn.className = 'survey-more-btn';
+    tempBtn.textContent = '▼ MÁS';
+    tempBtn.style.position = 'absolute';
+    tempBtn.style.visibility = 'hidden';
+    pillsEl.appendChild(tempBtn);
+    const moreW = tempBtn.offsetWidth || 85;
+    tempBtn.remove();
+
+    let used = 0;
+    let count = 0;
+    for (let i = 0; i < pills.length; i++) {
+      const pw = pills[i].offsetWidth;
+      const addGap = count > 0 ? gap : 0;
+      const needMore = (i < pills.length - 1) ? gap + moreW : 0;
+      if (used + addGap + pw + needMore <= containerWidth) {
+        used += addGap + pw;
+        count++;
+      } else { break; }
+    }
+    if (count < 1) count = 1;
+    if (count >= pills.length) count = pills.length - 1;
+
+    for (let i = count; i < pills.length; i++) {
+      pills[i].style.display = 'none';
+      hiddenPills.push(pills[i]);
+    }
+
+    periodMoreBtn = document.createElement('button');
+    periodMoreBtn.className = 'survey-more-btn';
+    periodMoreBtn.textContent = '▼ MÁS';
+    periodMoreBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (periodMorePanel && !periodMorePanel.hidden) {
+        periodMorePanel.hidden = true;
+        periodMoreBtn.classList.remove('open');
+      } else {
+        if (periodMorePanel) periodMorePanel.hidden = false;
+        periodMoreBtn.classList.add('open');
+      }
+    });
+    pillsEl.appendChild(periodMoreBtn);
+
+    periodMorePanel = document.createElement('div');
+    periodMorePanel.className = 'survey-more-panel';
+    periodMorePanel.hidden = true;
+    periodMorePanel.setAttribute('role', 'listbox');
+    periodMorePanel.style.right = 'auto';
+    periodMorePanel.style.left = '0';
+    const bar = pillsEl.parentElement;
+    if (bar && window.getComputedStyle(bar).position === 'static') {
+      bar.style.position = 'relative';
+    }
+    bar.appendChild(periodMorePanel);
+
+    hiddenPills.forEach(p => {
+      const item = document.createElement('button');
+      item.type = 'button';
+      item.className = 'survey-more-item';
+      item.textContent = p.textContent.replace('nuevo', '').trim();
+      if (p.classList.contains('active')) item.classList.add('active');
+      item.addEventListener('click', () => {
+        p.click();
+        if (periodMorePanel) periodMorePanel.hidden = true;
+        if (periodMoreBtn) periodMoreBtn.classList.remove('open');
+      });
+      periodMorePanel.appendChild(item);
+    });
+
+    _periodOverflowBusy = false;
+  }
+
+  // Close period panel on outside click
+  document.addEventListener('click', (e) => {
+    if (periodMorePanel && !periodMorePanel.hidden) {
+      if (!periodMorePanel.contains(e.target) && e.target !== periodMoreBtn) {
+        periodMorePanel.hidden = true;
+        if (periodMoreBtn) periodMoreBtn.classList.remove('open');
+      }
+    }
+  });
+
+  function schedulePeriodOverflow() {
+    if (_periodOverflowBusy) return;
+    setTimeout(() => initPeriodOverflow(), 100);
+  }
+
+  if (pillsEl && window.ResizeObserver) {
+    const pro = new ResizeObserver(() => schedulePeriodOverflow());
+    pro.observe(pillsEl);
+  }
+
   // ── Select survey type ──
   async function selectSurvey(id) {
     const survey = SURVEY_TYPES.find((s) => s.id === id);
@@ -266,6 +387,7 @@
     // Show period bar
     periodBar.classList.add('visible');
     renderPeriods();
+    schedulePeriodOverflow();
 
     // Load latest period
     const latest = PERIODS[PERIODS.length - 1];
