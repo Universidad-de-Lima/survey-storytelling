@@ -314,16 +314,14 @@
     .topbar-logo {
       width: 100px;
     }
-    .survey-tab {
-      font-size: 11px;
-      padding: 3px 8px;
-    }
+    .survey-tabs { display: none; }
+    .survey-label { display: none; }
+    .survey-select-wrap { display: flex; width: 100%; }
     .pill {
       font-size: 11px;
       padding: 4px 10px;
     }
-    .period-label,
-    .survey-label {
+    .period-label {
       font-size: 11px;
     }
   }
