@@ -118,18 +118,10 @@
 }
 
 /* Etiquetas en barras de distribución (tablas) — visibles aunque el segmento sea estrecho */
-.distribution-segment,
-.visibility-segment {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 0;
-  overflow: hidden;
-}
 .dist-label {
   white-space: nowrap;
   overflow: visible;
+  position: relative;
   z-index: 1;
 }
 
