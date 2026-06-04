@@ -244,7 +244,7 @@
   .pill-badge {
     position: absolute;
     top: calc(100% - 6px);
-    left: 100%;
+    left: 0;
     transform: translateX(-50%);
     white-space: nowrap;
     font-size: 8px;
