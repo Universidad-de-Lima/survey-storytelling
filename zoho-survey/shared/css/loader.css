@@ -104,6 +104,7 @@
     flex-wrap: nowrap;
     overflow: hidden;
     gap: 4px;
+    min-width: 0;
   }
 
   .survey-tab {
