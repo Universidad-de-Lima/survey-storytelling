@@ -97,7 +97,8 @@
   /* ── SURVEY TABS (inside bar-left) ── */
   .survey-tabs {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+    overflow: hidden;
     gap: 4px;
   }
 
