@@ -729,12 +729,13 @@
 
     const ROW_H = 22;
     const rows = [];
-    const BAR_LEFT = barRow.getBoundingClientRect().left;
+    // Use wrapper's left edge (sibling of barRow) for consistent positioning
+    const WRAP_LEFT = wrap.getBoundingClientRect().left;
     smallSegs.sort((a, b) => a.offsetWidth - b.offsetWidth);
 
     const rowAssignments = [];
     smallSegs.forEach((seg) => {
-      const cx = (seg.getBoundingClientRect().left - BAR_LEFT) + seg.getBoundingClientRect().width / 2;
+      const cx = (seg.getBoundingClientRect().left - WRAP_LEFT) + seg.getBoundingClientRect().width / 2;
       const txt = isDistBar ? (seg.textContent || '').trim() : (seg.querySelector('.csat-label')?.textContent || '');
       const temp = document.createElement('div');
       temp.className = 'csat-label-above';
