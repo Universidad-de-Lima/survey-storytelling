@@ -117,6 +117,14 @@
   width: 100%;
 }
 
+/* Etiquetas en barras de distribución (tablas) — visibles aunque el segmento sea estrecho */
+.dist-label {
+  white-space: nowrap;
+  overflow: visible;
+  position: relative;
+  z-index: 1;
+}
+
 .csat-label-above {
   position: absolute;
   font-size: 10px;
