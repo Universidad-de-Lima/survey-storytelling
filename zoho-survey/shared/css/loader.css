@@ -102,7 +102,7 @@
   .survey-tabs {
     display: flex;
     flex-wrap: nowrap;
-    overflow: visible;
+    overflow: hidden;
     gap: 4px;
   }
 
