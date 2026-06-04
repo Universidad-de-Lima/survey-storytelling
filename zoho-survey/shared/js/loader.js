@@ -62,296 +62,141 @@
     surveySelect._customSelect = SurveyCustomSelect.create(surveySelect);
   }
 
-  // ── ▼ MÁS overflow dropdown ──
-  let moreBtn = null;
-  let morePanel = null;
-  let hiddenTabs = [];
-  let _overflowBusy = false;
-  let _overflowPending = false;
+  // ── ▼ MÁS overflow (shared logic for surveys + periods) ──
+  function createOverflowSystem(container, itemSelector, btnClass, panelClass, itemClass, gap) {
+    let busy = false, pending = false, timer = null;
+    let moreBtn = null, morePanel = null, hiddenItems = [];
 
-  function initMoreOverflow() {
-    if (!tabsEl || _overflowBusy) return;
-    const tabs = Array.from(tabsEl.querySelectorAll('.survey-tab'));
-    if (tabs.length < 2) return;
+    function init() {
+      if (!container || busy) return;
+      const items = Array.from(container.querySelectorAll(itemSelector));
+      if (items.length < 2) return;
+      busy = true;
 
-    _overflowBusy = true;
+      // Cleanup
+      if (moreBtn) { moreBtn.remove(); moreBtn = null; }
+      if (morePanel) { morePanel.remove(); morePanel = null; }
+      hiddenItems = [];
 
-    // Cleanup previous
-    if (moreBtn) { moreBtn.remove(); moreBtn = null; }
-    if (morePanel) { morePanel.remove(); morePanel = null; }
-    hiddenTabs = [];
+      items.forEach(el => { el.style.display = ''; });
 
-    // Show all tabs temporarily to measure real widths
-    tabs.forEach(t => { t.style.display = ''; });
-
-    const containerWidth = tabsEl.clientWidth;
-    const gap = 4; // CSS gap between tabs
-
-    // Guard: if tabs haven't been laid out yet, retry later
-    const hasWidth = tabs.some(t => t.offsetWidth > 0);
-    if (!hasWidth || containerWidth === 0) {
-      _overflowBusy = false;
-      scheduleOverflowCheck();
-      return;
-    }
-
-    // Check if all tabs fit without ▼ MÁS
-    const totalWidth = tabs.reduce((sum, t, i) => sum + t.offsetWidth + (i > 0 ? gap : 0), 0);
-    if (totalWidth <= containerWidth) {
-      _overflowBusy = false;
-      return; // All fit — nothing to do
-    }
-
-    // Calculate how many tabs fit + ▼ MÁS button
-    // Create a temporary button to measure its real width
-    const tempBtn = document.createElement('button');
-    tempBtn.className = 'survey-more-btn';
-    tempBtn.textContent = '▼ MÁS';
-    tempBtn.style.position = 'absolute';
-    tempBtn.style.visibility = 'hidden';
-    tabsEl.appendChild(tempBtn);
-    const moreBtnWidth = tempBtn.offsetWidth || 85; // fallback if measurement fails
-    tempBtn.remove();
-
-    let usedWidth = 0;
-    let visibleCount = 0;
-
-    for (let i = 0; i < tabs.length; i++) {
-      const tabWidth = tabs[i].offsetWidth;
-      const addGap = visibleCount > 0 ? gap : 0;
-      const isLastVisible = (i === tabs.length - 1);
-      // If this is the last tab we'd show, we also need space for ▼ MÁS
-      const needMoreSpace = !isLastVisible ? gap + moreBtnWidth : 0;
-
-      if (usedWidth + addGap + tabWidth + needMoreSpace <= containerWidth) {
-        usedWidth += addGap + tabWidth;
-        visibleCount++;
-      } else {
-        break;
+      const cw = container.clientWidth;
+      if (!items.some(el => el.offsetWidth > 0) || cw === 0) {
+        busy = false;
+        schedule();
+        return;
       }
-    }
 
-    // Safety: at least 1 visible tab
-    if (visibleCount < 1) visibleCount = 1;
-    // If we somehow marked all as visible but they don't fit, hide the last one
-    if (visibleCount >= tabs.length) visibleCount = tabs.length - 1;
+      const total = items.reduce((s, el, i) => s + el.offsetWidth + (i > 0 ? gap : 0), 0);
+      if (total <= cw) { busy = false; return; }
 
-    // Hide overflow tabs
-    for (let i = visibleCount; i < tabs.length; i++) {
-      tabs[i].style.display = 'none';
-      hiddenTabs.push(tabs[i]);
-    }
+      const temp = document.createElement('button');
+      temp.className = btnClass;
+      temp.textContent = '▼ MÁS';
+      temp.style.cssText = 'position:absolute;visibility:hidden';
+      container.appendChild(temp);
+      const moreW = temp.offsetWidth || 85;
+      temp.remove();
 
-    // Create ▼ MÁS button
-    moreBtn = document.createElement('button');
-    moreBtn.className = 'survey-more-btn';
-    moreBtn.textContent = '▼ MÁS';
-    moreBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      toggleMorePanel();
-    });
-    tabsEl.appendChild(moreBtn);
+      let used = 0, count = 0;
+      for (let i = 0; i < items.length; i++) {
+        const w = items[i].offsetWidth;
+        const g = count > 0 ? gap : 0;
+        const need = (i < items.length - 1) ? gap + moreW : 0;
+        if (used + g + w + need <= cw) { used += g + w; count++; }
+        else break;
+      }
+      if (count < 1) count = 1;
+      if (count >= items.length) count = items.length - 1;
 
-    // Create dropdown panel
-    morePanel = document.createElement('div');
-    morePanel.className = 'survey-more-panel';
-    morePanel.hidden = true;
-    morePanel.setAttribute('role', 'listbox');
+      for (let i = count; i < items.length; i++) {
+        items[i].style.display = 'none';
+        hiddenItems.push(items[i]);
+      }
 
-    // Make parent relative for absolute positioning
-    const barLeft = tabsEl.parentElement;
-    if (barLeft && window.getComputedStyle(barLeft).position === 'static') {
-      barLeft.style.position = 'relative';
-    }
-    barLeft.appendChild(morePanel);
-
-    // Populate panel
-    hiddenTabs.forEach(t => {
-      const item = document.createElement('button');
-      item.type = 'button';
-      item.className = 'survey-more-item';
-      item.textContent = t.textContent;
-      if (t.classList.contains('active')) item.classList.add('active');
-      if (t.disabled) item.disabled = true;
-      item.addEventListener('click', () => {
-        t.click(); // trigger original tab click
-        closeMorePanel();
+      moreBtn = document.createElement('button');
+      moreBtn.className = btnClass;
+      moreBtn.textContent = '▼ MÁS';
+      moreBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (morePanel && !morePanel.hidden) close();
+        else open();
       });
-      morePanel.appendChild(item);
-    });
+      container.appendChild(moreBtn);
 
-    _overflowBusy = false;
-    if (_overflowPending) {
-      _overflowPending = false;
-      initMoreOverflow();
-    }
-  }
+      morePanel = document.createElement('div');
+      morePanel.className = panelClass;
+      morePanel.hidden = true;
+      morePanel.setAttribute('role', 'listbox');
 
-  function toggleMorePanel() {
-    if (!morePanel) return;
-    if (morePanel.hidden) openMorePanel();
-    else closeMorePanel();
-  }
-
-  function openMorePanel() {
-    if (!morePanel || !moreBtn) return;
-    morePanel.hidden = false;
-    moreBtn.classList.add('open');
-  }
-
-  function closeMorePanel() {
-    if (!morePanel || !moreBtn) return;
-    morePanel.hidden = true;
-    moreBtn.classList.remove('open');
-  }
-
-  // Close panel on outside click
-  document.addEventListener('click', (e) => {
-    if (morePanel && !morePanel.hidden) {
-      if (!morePanel.contains(e.target) && e.target !== moreBtn) {
-        closeMorePanel();
+      const parent = container.parentElement;
+      if (parent && getComputedStyle(parent).position === 'static') {
+        parent.style.position = 'relative';
       }
-    }
-  });
+      parent.appendChild(morePanel);
 
-  // Run overflow detection after tabs render + on resize (debounced)
-  let _overflowTimer = null;
-  function scheduleOverflowCheck() {
-    if (_overflowBusy) {
-      _overflowPending = true;
-      return;
-    }
-    clearTimeout(_overflowTimer);
-    _overflowTimer = setTimeout(() => initMoreOverflow(), 100);
-  }
-
-  // Observe resize
-  if (tabsEl && window.ResizeObserver) {
-    const ro = new ResizeObserver(() => scheduleOverflowCheck());
-    ro.observe(tabsEl);
-  }
-  window.addEventListener('resize', () => scheduleOverflowCheck());
-
-  // ── ▼ MÁS overflow for periods ──
-  let periodMoreBtn = null;
-  let periodMorePanel = null;
-  let hiddenPills = [];
-  let _periodOverflowBusy = false;
-
-  function initPeriodOverflow() {
-    if (!pillsEl || _periodOverflowBusy) return;
-    const pills = Array.from(pillsEl.querySelectorAll('.pill'));
-    if (pills.length < 2) return;
-
-    _periodOverflowBusy = true;
-
-    // Cleanup
-    if (periodMoreBtn) { periodMoreBtn.remove(); periodMoreBtn = null; }
-    if (periodMorePanel) { periodMorePanel.remove(); periodMorePanel = null; }
-    hiddenPills = [];
-
-    // Show all
-    pills.forEach(p => { p.style.display = ''; });
-
-    const containerWidth = pillsEl.clientWidth;
-    if (containerWidth === 0) { _periodOverflowBusy = false; return; }
-
-    const gap = 6;
-    const totalWidth = pills.reduce((sum, p, i) => sum + p.offsetWidth + (i > 0 ? gap : 0), 0);
-    if (totalWidth <= containerWidth) { _periodOverflowBusy = false; return; }
-
-    // Measure ▼ MÁS button
-    const tempBtn = document.createElement('button');
-    tempBtn.className = 'survey-more-btn';
-    tempBtn.textContent = '▼ MÁS';
-    tempBtn.style.position = 'absolute';
-    tempBtn.style.visibility = 'hidden';
-    pillsEl.appendChild(tempBtn);
-    const moreW = tempBtn.offsetWidth || 85;
-    tempBtn.remove();
-
-    let used = 0;
-    let count = 0;
-    for (let i = 0; i < pills.length; i++) {
-      const pw = pills[i].offsetWidth;
-      const addGap = count > 0 ? gap : 0;
-      const needMore = (i < pills.length - 1) ? gap + moreW : 0;
-      if (used + addGap + pw + needMore <= containerWidth) {
-        used += addGap + pw;
-        count++;
-      } else { break; }
-    }
-    if (count < 1) count = 1;
-    if (count >= pills.length) count = pills.length - 1;
-
-    for (let i = count; i < pills.length; i++) {
-      pills[i].style.display = 'none';
-      hiddenPills.push(pills[i]);
-    }
-
-    periodMoreBtn = document.createElement('button');
-    periodMoreBtn.className = 'survey-more-btn';
-    periodMoreBtn.textContent = '▼ MÁS';
-    periodMoreBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      if (periodMorePanel && !periodMorePanel.hidden) {
-        periodMorePanel.hidden = true;
-        periodMoreBtn.classList.remove('open');
-      } else {
-        if (periodMorePanel) periodMorePanel.hidden = false;
-        periodMoreBtn.classList.add('open');
-      }
-    });
-    pillsEl.appendChild(periodMoreBtn);
-
-    periodMorePanel = document.createElement('div');
-    periodMorePanel.className = 'survey-more-panel';
-    periodMorePanel.hidden = true;
-    periodMorePanel.setAttribute('role', 'listbox');
-    periodMorePanel.style.right = 'auto';
-    periodMorePanel.style.left = '0';
-    const bar = pillsEl.parentElement;
-    if (bar && window.getComputedStyle(bar).position === 'static') {
-      bar.style.position = 'relative';
-    }
-    bar.appendChild(periodMorePanel);
-
-    hiddenPills.forEach(p => {
-      const item = document.createElement('button');
-      item.type = 'button';
-      item.className = 'survey-more-item';
-      item.textContent = p.textContent.replace('nuevo', '').trim();
-      if (p.classList.contains('active')) item.classList.add('active');
-      item.addEventListener('click', () => {
-        p.click();
-        if (periodMorePanel) periodMorePanel.hidden = true;
-        if (periodMoreBtn) periodMoreBtn.classList.remove('open');
+      hiddenItems.forEach(el => {
+        const item = document.createElement('button');
+        item.type = 'button';
+        item.className = itemClass;
+        item.textContent = el.textContent.replace('nuevo', '').trim();
+        if (el.classList.contains('active')) item.classList.add('active');
+        if (el.disabled) item.disabled = true;
+        item.addEventListener('click', () => { el.click(); close(); });
+        morePanel.appendChild(item);
       });
-      periodMorePanel.appendChild(item);
+
+      busy = false;
+      if (pending) { pending = false; init(); }
+    }
+
+    function open() {
+      if (!morePanel || !moreBtn) return;
+      morePanel.hidden = false;
+      moreBtn.classList.add('open');
+    }
+
+    function close() {
+      if (!morePanel || !moreBtn) return;
+      morePanel.hidden = true;
+      moreBtn.classList.remove('open');
+    }
+
+    function schedule() {
+      if (busy) { pending = true; return; }
+      clearTimeout(timer);
+      timer = setTimeout(init, 100);
+    }
+
+    // Outside click
+    document.addEventListener('click', (e) => {
+      if (morePanel && !morePanel.hidden && !morePanel.contains(e.target) && e.target !== moreBtn) {
+        close();
+      }
     });
 
-    _periodOverflowBusy = false;
-  }
-
-  // Close period panel on outside click
-  document.addEventListener('click', (e) => {
-    if (periodMorePanel && !periodMorePanel.hidden) {
-      if (!periodMorePanel.contains(e.target) && e.target !== periodMoreBtn) {
-        periodMorePanel.hidden = true;
-        if (periodMoreBtn) periodMoreBtn.classList.remove('open');
-      }
+    // ResizeObserver
+    if (window.ResizeObserver) {
+      new ResizeObserver(() => schedule()).observe(container);
     }
+
+    return { init, schedule, open, close };
+  }
+
+  // Survey overflow
+  const surveyOverflow = tabsEl ? createOverflowSystem(
+    tabsEl, '.survey-tab', 'survey-more-btn', 'survey-more-panel', 'survey-more-item', 4
+  ) : null;
+
+  // Period overflow
+  const periodOverflow = pillsEl ? createOverflowSystem(
+    pillsEl, '.pill', 'survey-more-btn', 'survey-more-panel', 'survey-more-item', 6
+  ) : null;
+
+  window.addEventListener('resize', () => {
+    if (surveyOverflow) surveyOverflow.schedule();
+    if (periodOverflow) periodOverflow.schedule();
   });
-
-  function schedulePeriodOverflow() {
-    if (_periodOverflowBusy) return;
-    setTimeout(() => initPeriodOverflow(), 100);
-  }
-
-  if (pillsEl && window.ResizeObserver) {
-    const pro = new ResizeObserver(() => schedulePeriodOverflow());
-    pro.observe(pillsEl);
-  }
 
   // ── Select survey type ──
   async function selectSurvey(id) {
@@ -387,7 +232,7 @@
     // Show period bar
     periodBar.classList.add('visible');
     renderPeriods();
-    schedulePeriodOverflow();
+    if (periodOverflow) periodOverflow.schedule();
 
     // Load latest period
     const latest = PERIODS[0];
@@ -487,5 +332,7 @@
   });
 
   // ── Init ──
-  selectSurvey('undergraduate').then(() => scheduleOverflowCheck());
+  selectSurvey('undergraduate').then(() => {
+    if (surveyOverflow) surveyOverflow.schedule();
+  });
 })();
