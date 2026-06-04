@@ -90,7 +90,7 @@
   .survey-label-wrap {
     flex-shrink: 0;
     width: 85px;
-    text-align: right;
+    text-align: left;
   }
 
   .topbar-logo {
@@ -185,7 +185,7 @@
     white-space: nowrap;
     display: inline-block;
     width: 85px;
-    text-align: right;
+    text-align: left;
   }
 
   /* Survey label (symmetric with period-label) */
