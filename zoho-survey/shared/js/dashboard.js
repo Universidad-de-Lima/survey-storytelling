@@ -753,7 +753,7 @@
       const el = document.createElement('div');
       el.className = 'csat-label-above';
       el.textContent = txt;
-      el.style.color = segColor;
+      el.style.color = isDistBar ? 'var(--gray-700)' : segColor;
       wrap.appendChild(el);
       el.style.left = cx + 'px';
       el.style.top = (row * ROW_H) + 'px';
