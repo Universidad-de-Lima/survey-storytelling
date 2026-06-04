@@ -406,6 +406,7 @@
         url: p.url || `${currentSurvey.path}/${p.id.trim()}/index.html`,
       }))
       .reverse();
+  }
 
   // ── Render period pills ──
   function renderPeriods() {
