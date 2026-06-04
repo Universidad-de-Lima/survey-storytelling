@@ -645,29 +645,20 @@
   }
 
   // Mide cada segmento: si la etiqueta no cabe, muestra etiqueta externa encima
-  function adjustSegmentLabels(target) {
-    // target can be a CSS selector string or a bar-row DOM element
-    let container, barRow;
-    if (typeof target === 'string') {
-      container = document.querySelector(target);
-      if (!container) return;
-      barRow = container.querySelector('.csat-bar-row');
-    } else {
-      barRow = target;
-      container = barRow.parentElement;
-    }
-    if (!barRow || !container) return;
+  function adjustSegmentLabels(containerSelector) {
+    const container = document.querySelector(containerSelector);
+    if (!container) return;
 
     // Limpiar contenedor previo de etiquetas externas
     const oldWrap = container.querySelector('.csat-labels-above');
     if (oldWrap) oldWrap.remove();
 
     // 1. Identificar segmentos donde el texto no cabe
-    const segSelector = '.csat-segment, .distribution-segment, .visibility-segment';
-    const lblSelector = '.csat-label, .dist-label';
+    const barRow = container.querySelector('.csat-bar-row');
+    if (!barRow) return;
 
     // Restaurar visibilidad de etiquetas internas ocultadas en ejecuciones previas
-    barRow.querySelectorAll(lblSelector).forEach((lbl) => {
+    barRow.querySelectorAll('.csat-label').forEach((lbl) => {
       if (lbl.style.visibility === 'hidden') {
         lbl.style.removeProperty('visibility');
       }
@@ -680,17 +671,17 @@
       // Esperar a que la animación CSS stackedGrow (0.8s) termine completamente
       barRow.addEventListener('animationend', function onEnd() {
         barRow.removeEventListener('animationend', onEnd);
-        adjustSegmentLabels(target);
+        adjustSegmentLabels(containerSelector);
       }, { once: true });
       // Safety net por si animationend nunca se dispara
-      setTimeout(() => adjustSegmentLabels(target), (C.ANIMATION_FALLBACK_MS ?? 1200));
+      setTimeout(() => adjustSegmentLabels(containerSelector), (C.ANIMATION_FALLBACK_MS ?? 1200));
       if (!container.dataset._visListener) {
         container.dataset._visListener = '1';
         document.addEventListener('visibilitychange', function visHandler() {
           if (!document.hidden) {
             document.removeEventListener('visibilitychange', visHandler);
             delete container.dataset._visListener;
-            adjustSegmentLabels(target);
+            adjustSegmentLabels(containerSelector);
           }
         });
       }
@@ -698,8 +689,8 @@
     }
 
     const smallSegs = [];
-    barRow.querySelectorAll(segSelector).forEach((seg) => {
-      const label = seg.querySelector(lblSelector);
+    barRow.querySelectorAll('.csat-segment').forEach((seg) => {
+      const label = seg.querySelector('.csat-label');
       if (!label) return;
       const segPct = seg.offsetWidth / barWidth;
       const tooNarrow = seg.offsetWidth < (C.MIN_SEGMENT_WIDTH ?? 30);
@@ -734,7 +725,7 @@
     const rowAssignments = [];
     smallSegs.forEach((seg) => {
       const cx = (seg.getBoundingClientRect().left - BAR_LEFT) + seg.getBoundingClientRect().width / 2;
-      const txt = seg.querySelector(lblSelector).textContent;
+      const txt = seg.querySelector('.csat-label').textContent;
       // Medir ancho real con temporal en body
       const temp = document.createElement('div');
       temp.className = 'csat-label-above';
@@ -1119,14 +1110,12 @@
         <td class="text-center"><span class="heatmap-cell ${heatClass}">${formatPercent(parseFloat(item.top3box), 2)}</span></td>
         <td class="text-center">${catCorta}</td>
         <td>
-          <div class="csat-distribution">
-            <div class="distribution-bar animated">
-              <div class="distribution-segment" style="width:${item.pctTotSat}%;background:var(--gray-800);" data-label="Totalmente satisfecho" data-value="${formatInteger(item.totSat)}"><span class="dist-label">${item.pctTotSat < 2 ? '' : item.pctTotSat + '%'}</span></div>
-              <div class="distribution-segment" style="width:${item.pctMuySat}%;background:var(--gray-500);" data-label="Muy satisfecho" data-value="${formatInteger(item.muySat)}"><span class="dist-label">${item.pctMuySat < 2 ? '' : item.pctMuySat + '%'}</span></div>
-              <div class="distribution-segment" style="width:${item.pctSat}%;background:var(--gray-300);color:var(--gray-700);" data-label="Satisfecho" data-value="${formatInteger(item.sat)}"><span class="dist-label">${item.pctSat < 2 ? '' : item.pctSat + '%'}</span></div>
-              <div class="distribution-segment" style="width:${item.pctInsat}%;background:var(--ulima-orange);" data-label="Insatisfecho" data-value="${formatInteger(item.insat)}"><span class="dist-label">${item.pctInsat < 2 ? '' : item.pctInsat + '%'}</span></div>
-              <div class="distribution-segment" style="width:${item.pctTotInsat}%;background:var(--ulima-red);" data-label="Totalmente insatisfecho" data-value="${formatInteger(item.totInsat)}"><span class="dist-label">${item.pctTotInsat < 2 ? '' : item.pctTotInsat + '%'}</span></div>
-            </div>
+          <div class="distribution-bar animated">
+            <div class="distribution-segment" style="width:${item.pctTotSat}%;background:var(--gray-800);" data-label="Totalmente satisfecho" data-value="${formatInteger(item.totSat)}"><span class="dist-label">${item.pctTotSat < 2 ? '' : item.pctTotSat + '%'}</span></div>
+            <div class="distribution-segment" style="width:${item.pctMuySat}%;background:var(--gray-500);" data-label="Muy satisfecho" data-value="${formatInteger(item.muySat)}"><span class="dist-label">${item.pctMuySat < 2 ? '' : item.pctMuySat + '%'}</span></div>
+            <div class="distribution-segment" style="width:${item.pctSat}%;background:var(--gray-300);color:var(--gray-700);" data-label="Satisfecho" data-value="${formatInteger(item.sat)}"><span class="dist-label">${item.pctSat < 2 ? '' : item.pctSat + '%'}</span></div>
+            <div class="distribution-segment" style="width:${item.pctInsat}%;background:var(--ulima-orange);" data-label="Insatisfecho" data-value="${formatInteger(item.insat)}"><span class="dist-label">${item.pctInsat < 2 ? '' : item.pctInsat + '%'}</span></div>
+            <div class="distribution-segment" style="width:${item.pctTotInsat}%;background:var(--ulima-red);" data-label="Totalmente insatisfecho" data-value="${formatInteger(item.totInsat)}"><span class="dist-label">${item.pctTotInsat < 2 ? '' : item.pctTotInsat + '%'}</span></div>
           </div>
         </td>
       `;
@@ -1140,10 +1129,6 @@
     });
     tbody.innerHTML = '';
     tbody.appendChild(fragment);
-    // Apply external labels to each distribution bar
-    tbody.querySelectorAll('.distribution-bar').forEach((barRow) => {
-      adjustSegmentLabels(barRow);
-    });
   }
 
   function renderDetalleCarreras() {
