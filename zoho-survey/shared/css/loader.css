@@ -83,7 +83,11 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+  }
+
+  .survey-label-wrap {
+    flex-shrink: 0;
   }
 
   .topbar-logo {
@@ -347,6 +351,7 @@
       gap: 6px 0;
     }
     .survey-tabs { display: none; }
+    .survey-label-wrap { display: none; }
     .survey-label { display: none; }
     .survey-select-wrap { display: flex; width: 100%; }
     .pills { display: none; }
