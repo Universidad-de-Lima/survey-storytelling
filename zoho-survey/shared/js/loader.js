@@ -390,7 +390,7 @@
     schedulePeriodOverflow();
 
     // Load latest period
-    const latest = PERIODS[PERIODS.length - 1];
+    const latest = PERIODS[0];
     if (latest) loadPeriod(latest.id);
   }
 
@@ -404,8 +404,8 @@
         id: p.id.trim(),
         label: p.label || p.id,
         url: p.url || `${currentSurvey.path}/${p.id.trim()}/index.html`,
-      }));
-  }
+      }))
+      .reverse();
 
   // ── Render period pills ──
   function renderPeriods() {
