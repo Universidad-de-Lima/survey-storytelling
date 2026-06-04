@@ -181,6 +181,8 @@
     text-transform: uppercase;
     color: rgba(255,255,255,.55);
     white-space: nowrap;
+    display: inline-block;
+    min-width: 85px;
   }
 
   /* Survey label (symmetric with period-label) */
