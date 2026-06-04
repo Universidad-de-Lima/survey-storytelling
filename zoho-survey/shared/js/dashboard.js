@@ -706,7 +706,7 @@
         ? (textContent.length * 8 + SAFETY_MARGIN > seg.offsetWidth) // rough estimate
         : (() => { const lbl = seg.querySelector('.csat-label'); return lbl ? lbl.scrollWidth + SAFETY_MARGIN > seg.offsetWidth : false; })();
       const selected = textOverflows || tooNarrow || tooSmall;
-      if (segPct < 0) {
+      if (segPct < (C.SEGMENT_LABEL_HIDE_PCT ?? 0.005)) {
         if (!isDistBar) { const lbl = seg.querySelector('.csat-label'); if (lbl) lbl.style.visibility = 'hidden'; }
         return;
       }
