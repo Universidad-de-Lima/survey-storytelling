@@ -364,22 +364,24 @@
       gap: 6px 0;
     }
     .survey-tabs { display: none; }
-    .survey-select-wrap { display: flex; width: 100%; }
+    .survey-select-wrap { display: flex; flex: 1; min-width: 0; }
     .pills { display: none; }
-    .select-wrap { display: flex; width: 100%; }
+    .select-wrap { display: flex; flex: 1; min-width: 0; }
     .bar-left {
       gap: 4px;
       width: 100%;
     }
     .survey-label-wrap {
-      width: auto;
+      width: 80px;
+      flex-shrink: 0;
     }
     .period-bar {
       width: 100%;
       justify-content: flex-start;
     }
     .period-label {
-      width: auto;
+      width: 80px;
+      flex-shrink: 0;
     }
     .period-select {
       padding: 5px 28px 5px 12px;
