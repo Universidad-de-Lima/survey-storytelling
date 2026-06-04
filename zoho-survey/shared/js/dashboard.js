@@ -645,43 +645,50 @@
   }
 
   // Mide cada segmento: si la etiqueta no cabe, muestra etiqueta externa encima
-  function adjustSegmentLabels(containerSelector) {
-    const container = document.querySelector(containerSelector);
-    if (!container) return;
+  function adjustSegmentLabels(target) {
+    // target: CSS selector string or bar-row DOM element
+    let container, barRow;
+    if (typeof target === 'string') {
+      container = document.querySelector(target);
+      if (!container) return;
+      barRow = container.querySelector('.csat-bar-row');
+    } else {
+      barRow = target;
+      container = barRow.parentElement;
+    }
+    if (!barRow || !container) return;
+
+    // Detect bar type
+    const isDistBar = barRow.classList.contains('distribution-bar') || barRow.classList.contains('visibility-bar');
+    const segSelector = isDistBar ? '.distribution-segment, .visibility-segment' : '.csat-segment';
 
     // Limpiar contenedor previo de etiquetas externas
     const oldWrap = container.querySelector('.csat-labels-above');
     if (oldWrap) oldWrap.remove();
 
-    // 1. Identificar segmentos donde el texto no cabe
-    const barRow = container.querySelector('.csat-bar-row');
-    if (!barRow) return;
-
     // Restaurar visibilidad de etiquetas internas ocultadas en ejecuciones previas
-    barRow.querySelectorAll('.csat-label').forEach((lbl) => {
-      if (lbl.style.visibility === 'hidden') {
-        lbl.style.removeProperty('visibility');
-      }
-    });
+    if (!isDistBar) {
+      barRow.querySelectorAll('.csat-label').forEach((lbl) => {
+        if (lbl.style.visibility === 'hidden') lbl.style.removeProperty('visibility');
+      });
+    }
 
     const SAFETY_MARGIN = 16;
-
     const barWidth = barRow.offsetWidth;
+
     if (!barWidth) {
-      // Esperar a que la animación CSS stackedGrow (0.8s) termine completamente
       barRow.addEventListener('animationend', function onEnd() {
         barRow.removeEventListener('animationend', onEnd);
-        adjustSegmentLabels(containerSelector);
+        adjustSegmentLabels(target);
       }, { once: true });
-      // Safety net por si animationend nunca se dispara
-      setTimeout(() => adjustSegmentLabels(containerSelector), (C.ANIMATION_FALLBACK_MS ?? 1200));
+      setTimeout(() => adjustSegmentLabels(target), (C.ANIMATION_FALLBACK_MS ?? 1200));
       if (!container.dataset._visListener) {
         container.dataset._visListener = '1';
         document.addEventListener('visibilitychange', function visHandler() {
           if (!document.hidden) {
             document.removeEventListener('visibilitychange', visHandler);
             delete container.dataset._visListener;
-            adjustSegmentLabels(containerSelector);
+            adjustSegmentLabels(target);
           }
         });
       }
@@ -689,111 +696,84 @@
     }
 
     const smallSegs = [];
-    barRow.querySelectorAll('.csat-segment').forEach((seg) => {
-      const label = seg.querySelector('.csat-label');
-      if (!label) return;
+    barRow.querySelectorAll(segSelector).forEach((seg) => {
       const segPct = seg.offsetWidth / barWidth;
       const tooNarrow = seg.offsetWidth < (C.MIN_SEGMENT_WIDTH ?? 30);
       const tooSmall = segPct < (C.SEGMENT_EXTERNAL_LABEL_PCT ?? 0.02);
-      const textOverflows = label.scrollWidth + SAFETY_MARGIN > seg.offsetWidth;
+      // For dist bars, text is directly in the segment (no .csat-label span)
+      const textContent = (seg.textContent || '').trim();
+      const textOverflows = isDistBar
+        ? (textContent.length * 8 + SAFETY_MARGIN > seg.offsetWidth) // rough estimate
+        : (() => { const lbl = seg.querySelector('.csat-label'); return lbl ? lbl.scrollWidth + SAFETY_MARGIN > seg.offsetWidth : false; })();
       const selected = textOverflows || tooNarrow || tooSmall;
-      // Segmentos menores a 0.5%: ocultar etiqueta y no generar externa
       if (segPct < (C.SEGMENT_LABEL_HIDE_PCT ?? 0.005)) {
-        label.style.visibility = 'hidden';
+        if (!isDistBar) { const lbl = seg.querySelector('.csat-label'); if (lbl) lbl.style.visibility = 'hidden'; }
         return;
       }
-      if (selected) {
-        smallSegs.push(seg);
-      }
+      if (selected) smallSegs.push(seg);
     });
 
-    // 2. Crear contenedor de etiquetas externas sobre la barra
+    if (!smallSegs.length) return;
+
+    // Crear contenedor de etiquetas externas
     const wrap = document.createElement('div');
     wrap.className = 'csat-labels-above';
     container.insertBefore(wrap, container.firstChild);
 
     const ROW_H = 22;
-
-    // 3. Posicionar etiquetas externas, detectar colisiones
     const rows = [];
     const BAR_LEFT = barRow.getBoundingClientRect().left;
-
-    // Ordenar: segmento más pequeño arriba (menor % ocupa fila superior)
     smallSegs.sort((a, b) => a.offsetWidth - b.offsetWidth);
 
-    // Paso 1: asignar filas midiendo etiquetas con temporal fuera del wrap
     const rowAssignments = [];
     smallSegs.forEach((seg) => {
       const cx = (seg.getBoundingClientRect().left - BAR_LEFT) + seg.getBoundingClientRect().width / 2;
-      const txt = seg.querySelector('.csat-label').textContent;
-      // Medir ancho real con temporal en body
+      const txt = isDistBar ? (seg.textContent || '').trim() : (seg.querySelector('.csat-label')?.textContent || '');
       const temp = document.createElement('div');
       temp.className = 'csat-label-above';
       temp.textContent = txt;
-      temp.style.position = 'absolute';
-      temp.style.left = '-9999px';
+      temp.style.cssText = 'position:absolute;left:-9999px';
       document.body.appendChild(temp);
       const labelW = temp.scrollWidth || 30;
       document.body.removeChild(temp);
 
       const labelL = cx - labelW / 2;
-
       let row = 0;
       for (let r = 0; r <= rows.length; r++) {
-        if (!rows[r] || labelL >= rows[r] + 10) {
-          row = r;
-          rows[r] = cx + labelW / 2;
-          break;
-        }
+        if (!rows[r] || labelL >= rows[r] + 10) { row = r; rows[r] = cx + labelW / 2; break; }
       }
       rowAssignments.push({ seg, cx, labelW, row });
     });
 
-    // Ahora rows.length es el final — todas las líneas usan el mismo barTop
     const barTop = rows.length * ROW_H + 2;
-
-    // Paso 2: crear DOM con barTop definitivo
-    rowAssignments.forEach(({ seg, cx, labelW, row }) => {
-      const label = seg.querySelector('.csat-label');
-      const txt = label.textContent;
-
-      // Ocultar etiqueta interna para evitar duplicado
-      label.style.visibility = 'hidden';
-
-      // Obtener color real del segmento
+    rowAssignments.forEach(({ seg, cx, row }) => {
+      const txt = isDistBar ? (seg.textContent || '').trim() : (seg.querySelector('.csat-label')?.textContent || '');
+      if (!isDistBar) { const lbl = seg.querySelector('.csat-label'); if (lbl) lbl.style.visibility = 'hidden'; }
       const segColor = getComputedStyle(seg).backgroundColor;
-
       const el = document.createElement('div');
       el.className = 'csat-label-above';
       el.textContent = txt;
       el.style.color = segColor;
       wrap.appendChild(el);
-
       el.style.left = cx + 'px';
       el.style.top = (row * ROW_H) + 'px';
 
-      const labelBottom = row * ROW_H + 10;
-      const lineH = Math.max(4, barTop - labelBottom);
-
-      // Línea vertical conectora
+      const lineH = Math.max(4, barTop - (row * ROW_H + 10));
       const line = document.createElement('span');
       line.className = 'callout-line';
       line.style.height = lineH + 'px';
       line.style.background = segColor;
       el.appendChild(line);
 
-      // Brazo horizontal tipo codo al pie de la línea
       const arm = document.createElement('span');
       arm.className = 'callout-arm';
       arm.style.background = segColor;
       line.appendChild(arm);
 
-      // Punto de anclaje sobre la barra
       const dot = document.createElement('span');
       dot.className = 'callout-dot';
       dot.style.background = segColor;
       el.appendChild(dot);
-
     });
 
     wrap.style.height = (rows.length * ROW_H + 10) + 'px';
@@ -1129,6 +1109,8 @@
     });
     tbody.innerHTML = '';
     tbody.appendChild(fragment);
+    // External labels for narrow segments
+    tbody.querySelectorAll('.distribution-bar').forEach(bar => adjustSegmentLabels(bar));
   }
 
   function renderDetalleCarreras() {
