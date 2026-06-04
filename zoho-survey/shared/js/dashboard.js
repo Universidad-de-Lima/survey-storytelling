@@ -734,8 +734,24 @@
     smallSegs.sort((a, b) => a.offsetWidth - b.offsetWidth);
 
     const rowAssignments = [];
+    // Precompute segment left offsets for dist bars (getBoundingClientRect unreliable for 1%)
+    let distCumulativePct = 0;
+    const distSegOffsets = isDistBar ? [] : null;
+    if (isDistBar) {
+      barRow.querySelectorAll(segSelector).forEach((seg) => {
+        const pct = parseFloat(seg.style.width) || 0;
+        distSegOffsets.push({ seg, leftPct: distCumulativePct, pct });
+        distCumulativePct += pct;
+      });
+    }
     smallSegs.forEach((seg) => {
-      const cx = (seg.getBoundingClientRect().left - WRAP_LEFT) + seg.getBoundingClientRect().width / 2;
+      let cx;
+      if (isDistBar) {
+        const info = distSegOffsets.find(d => d.seg === seg);
+        cx = info ? ((info.leftPct + info.pct / 2) / 100) * barWidth : 0;
+      } else {
+        cx = (seg.getBoundingClientRect().left - WRAP_LEFT) + seg.getBoundingClientRect().width / 2;
+      }
       const txt = isDistBar ? (seg.textContent || '').trim() : (seg.querySelector('.csat-label')?.textContent || '');
       const temp = document.createElement('div');
       temp.className = 'csat-label-above';
