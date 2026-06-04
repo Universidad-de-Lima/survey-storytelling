@@ -77,35 +77,50 @@
     if (morePanel) { morePanel.remove(); morePanel = null; }
     hiddenTabs = [];
 
-    // Check overflow
-    const containerWidth = tabsEl.clientWidth;
-    const tabsWidth = tabs.reduce((sum, t) => sum + t.offsetWidth, 0);
-    const gap = 4; // matches CSS gap
-    const totalGap = (tabs.length - 1) * gap;
+    // Show all tabs temporarily to measure real widths
+    tabs.forEach(t => { t.style.display = ''; });
 
-    if (tabsWidth + totalGap <= containerWidth) {
-      // All fit — show all
-      tabs.forEach(t => { t.style.display = ''; });
-      return;
+    const containerWidth = tabsEl.clientWidth;
+    const gap = 4; // CSS gap between tabs
+
+    // Check if all tabs fit without ▼ MÁS
+    const totalWidth = tabs.reduce((sum, t, i) => sum + t.offsetWidth + (i > 0 ? gap : 0), 0);
+    if (totalWidth <= containerWidth) {
+      return; // All fit — nothing to do
     }
 
-    // Not all fit — calculate how many + "▼ MÁS"
-    const moreBtnWidth = 85; // approximate width of "▼ MÁS"
-    let visibleWidth = 0;
+    // Calculate how many tabs fit + ▼ MÁS button
+    // Create a temporary button to measure its real width
+    const tempBtn = document.createElement('button');
+    tempBtn.className = 'survey-more-btn';
+    tempBtn.textContent = '▼ MÁS';
+    tempBtn.style.position = 'absolute';
+    tempBtn.style.visibility = 'hidden';
+    tabsEl.appendChild(tempBtn);
+    const moreBtnWidth = tempBtn.offsetWidth;
+    tempBtn.remove();
+
+    let usedWidth = 0;
     let visibleCount = 0;
 
     for (let i = 0; i < tabs.length; i++) {
-      const needed = visibleWidth + tabs[i].offsetWidth + (visibleCount > 0 ? gap : 0) + (i < tabs.length - 1 ? gap + moreBtnWidth : 0);
-      if (i === tabs.length - 1 || visibleWidth + tabs[i].offsetWidth + (visibleCount > 0 ? gap : 0) + gap + moreBtnWidth <= containerWidth) {
-        visibleWidth += tabs[i].offsetWidth + (visibleCount > 0 ? gap : 0);
+      const tabWidth = tabs[i].offsetWidth;
+      const addGap = visibleCount > 0 ? gap : 0;
+      const isLastVisible = (i === tabs.length - 1);
+      // If this is the last tab we'd show, we also need space for ▼ MÁS
+      const needMoreSpace = !isLastVisible ? gap + moreBtnWidth : 0;
+
+      if (usedWidth + addGap + tabWidth + needMoreSpace <= containerWidth) {
+        usedWidth += addGap + tabWidth;
         visibleCount++;
       } else {
         break;
       }
     }
 
-    // At least 1 tab + ▼ MÁS
+    // Safety: at least 1 visible tab
     if (visibleCount < 1) visibleCount = 1;
+    // If we somehow marked all as visible but they don't fit, hide the last one
     if (visibleCount >= tabs.length) visibleCount = tabs.length - 1;
 
     // Hide overflow tabs
