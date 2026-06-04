@@ -90,6 +90,7 @@
     // Check if all tabs fit without ▼ MÁS
     const totalWidth = tabs.reduce((sum, t, i) => sum + t.offsetWidth + (i > 0 ? gap : 0), 0);
     if (totalWidth <= containerWidth) {
+      _overflowBusy = false;
       return; // All fit — nothing to do
     }
 
