@@ -66,11 +66,15 @@
   let moreBtn = null;
   let morePanel = null;
   let hiddenTabs = [];
+  let _overflowBusy = false;
+  let _overflowPending = false;
 
   function initMoreOverflow() {
-    if (!tabsEl) return;
+    if (!tabsEl || _overflowBusy) return;
     const tabs = Array.from(tabsEl.querySelectorAll('.survey-tab'));
     if (tabs.length < 2) return;
+
+    _overflowBusy = true;
 
     // Cleanup previous
     if (moreBtn) { moreBtn.remove(); moreBtn = null; }
@@ -166,6 +170,12 @@
       });
       morePanel.appendChild(item);
     });
+
+    _overflowBusy = false;
+    if (_overflowPending) {
+      _overflowPending = false;
+      initMoreOverflow();
+    }
   }
 
   function toggleMorePanel() {
@@ -195,12 +205,15 @@
     }
   });
 
-  // Run overflow detection after tabs render + on resize
+  // Run overflow detection after tabs render + on resize (debounced)
+  let _overflowTimer = null;
   function scheduleOverflowCheck() {
-    // Wait for DOM layout
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => initMoreOverflow());
-    });
+    if (_overflowBusy) {
+      _overflowPending = true;
+      return;
+    }
+    clearTimeout(_overflowTimer);
+    _overflowTimer = setTimeout(() => initMoreOverflow(), 100);
   }
 
   // Observe resize
