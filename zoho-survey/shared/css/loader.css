@@ -201,6 +201,7 @@
     flex-wrap: nowrap;
     overflow: hidden;
     min-width: 0;
+    padding-bottom: 10px;
   }
 
   .pill {
