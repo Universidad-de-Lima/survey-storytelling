@@ -87,6 +87,14 @@
     const containerWidth = tabsEl.clientWidth;
     const gap = 4; // CSS gap between tabs
 
+    // Guard: if tabs haven't been laid out yet, retry later
+    const hasWidth = tabs.some(t => t.offsetWidth > 0);
+    if (!hasWidth || containerWidth === 0) {
+      _overflowBusy = false;
+      scheduleOverflowCheck();
+      return;
+    }
+
     // Check if all tabs fit without ▼ MÁS
     const totalWidth = tabs.reduce((sum, t, i) => sum + t.offsetWidth + (i > 0 ? gap : 0), 0);
     if (totalWidth <= containerWidth) {
@@ -102,7 +110,7 @@
     tempBtn.style.position = 'absolute';
     tempBtn.style.visibility = 'hidden';
     tabsEl.appendChild(tempBtn);
-    const moreBtnWidth = tempBtn.offsetWidth;
+    const moreBtnWidth = tempBtn.offsetWidth || 85; // fallback if measurement fails
     tempBtn.remove();
 
     let usedWidth = 0;
