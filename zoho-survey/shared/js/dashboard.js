@@ -763,6 +763,9 @@
       // Resolve CSS variable to concrete color for dist bar labels
       if (isDistBar) {
         el.style.color = getComputedStyle(document.documentElement).getPropertyValue('--gray-700').trim() || '#555';
+        el.style.background = 'rgba(255,255,255,0.85)';
+        el.style.padding = '1px 4px';
+        el.style.borderRadius = '2px';
       } else {
         el.style.color = segColor;
       }
