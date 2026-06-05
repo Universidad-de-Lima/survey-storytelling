@@ -811,8 +811,8 @@
         if (isBelow) {
           el.style.top = (row * ROW_H + 4) + 'px';
         } else {
-          const rowFromTop = totalRows - 1 - row;
-          el.style.top = (rowFromTop * ROW_H) + 'px';
+          // Position label close to bar top (matching below spacing)
+          el.style.top = ((totalRows - row) * ROW_H - 16) + 'px';
         }
 
         const line = document.createElement('span');
@@ -823,7 +823,7 @@
           line.style.bottom = '100%';
           line.style.height = Math.max(4, (row * ROW_H + 4)) + 'px';
         } else {
-          line.style.height = Math.max(4, (row + 1) * ROW_H - 16) + 'px';
+          line.style.height = Math.max(4, ROW_H - 12) + 'px';
         }
         el.appendChild(line);
 
@@ -839,7 +839,7 @@
       });
 
       if (!isBelow) {
-        wrap.style.height = (totalRows * ROW_H + 10) + 'px';
+        wrap.style.height = (totalRows * ROW_H) + 'px';
       } else {
         wrap.style.height = (totalRows * ROW_H + 10) + 'px';
       }
