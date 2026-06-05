@@ -31,9 +31,11 @@
   text-align: center !important;
 }
 
-/* ── Top 3 Box y CATEGORÍA en una sola línea ── */
+/* ── Top 3 Box / CATEGORÍA / NO CONOZCO / NO UTILIZO en una sola línea ── */
 #tabla-preguntas td:nth-child(2),
-#tabla-preguntas td:nth-child(3) {
+#tabla-preguntas td:nth-child(3),
+#tabla-visibilidad td:nth-child(2),
+#tabla-visibilidad td:nth-child(3) {
   white-space: nowrap;
 }
 

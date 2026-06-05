@@ -1373,9 +1373,9 @@
         <td class="text-center">${formatInteger(item.noUtilizo)} (${formatDecimal(item.pctNoUtilizo, 2)} %)</td>
         <td>
           <div class="visibility-bar animated">
-            <div class="visibility-segment no-conozco" style="width:${item.pctNoConozco}%;" data-label="No conozco" data-value="${formatInteger(item.noConozco)}">${fmtV(item.pctNoConozco)}</div>
-            <div class="visibility-segment no-utilizo" style="width:${item.pctNoUtilizo}%;" data-label="No utilizo" data-value="${formatInteger(item.noUtilizo)}">${fmtV(item.pctNoUtilizo)}</div>
-            <div class="visibility-segment conocido"   style="width:${item.pctConoce}%;"    data-label="Conozco/Utilizo" data-value="${formatInteger(item.conoce)}">${fmtV(item.pctConoce)}</div>
+            <div class="visibility-segment no-conozco" style="width:${item.pctNoConozco}%;" data-label="No conozco" data-value="${formatInteger(item.noConozco)}"><span class="dist-label">${fmtV(item.pctNoConozco)}</span></div>
+            <div class="visibility-segment no-utilizo" style="width:${item.pctNoUtilizo}%;" data-label="No utilizo" data-value="${formatInteger(item.noUtilizo)}"><span class="dist-label">${fmtV(item.pctNoUtilizo)}</span></div>
+            <div class="visibility-segment conocido"   style="width:${item.pctConoce}%;"    data-label="Conozco/Utilizo" data-value="${formatInteger(item.conoce)}"><span class="dist-label">${fmtV(item.pctConoce)}</span></div>
           </div>
         </td>
       `;
@@ -1389,6 +1389,9 @@
     });
     tbody.innerHTML = '';
     tbody.appendChild(fragment);
+    // External labels for narrow visibility segments
+    tbody.querySelectorAll('.visibility-bar').forEach(bar => adjustSegmentLabels(bar));
+    setTimeout(() => normalizeDistributionHeights(tbody), 800);
     updateInsightAtencion(data, fac, car, cic);
   }
 
@@ -1844,10 +1847,13 @@
         adjustSegmentLabels('#nps-bar');
         adjustSegmentLabels('#csat-bar');
         document.querySelectorAll('.distribution-bar').forEach(bar => adjustSegmentLabels(bar));
-        // Normalize distribution row heights after animations settle
+        document.querySelectorAll('.visibility-bar').forEach(bar => adjustSegmentLabels(bar));
+        // Normalize row heights after animations settle
         setTimeout(() => {
-          const tbody = document.getElementById('tbody-preguntas');
-          if (tbody) normalizeDistributionHeights(tbody);
+          const tPreguntas = document.getElementById('tbody-preguntas');
+          const tVisibilidad = document.getElementById('tbody-visibilidad');
+          if (tPreguntas) normalizeDistributionHeights(tPreguntas);
+          if (tVisibilidad) normalizeDistributionHeights(tVisibilidad);
         }, 800);
       }, 250);
     });
