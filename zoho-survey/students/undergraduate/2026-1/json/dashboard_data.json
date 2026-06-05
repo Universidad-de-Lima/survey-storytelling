@@ -1,25 +1,25 @@
 {
   "version": "2.0",
   "resumen": {
-    "encuestas": 3843,
+    "encuestas": 3972,
     "carreras": 14,
     "facultades": 7,
     "fecha_inicio": "2026-05-11",
-    "fecha_fin": "2026-05-30",
-    "dias": 20,
-    "dias_recoleccion": 16,
+    "fecha_fin": "2026-06-04",
+    "dias": 25,
+    "dias_recoleccion": 20,
     "año": 2026,
     "nps": {
-      "score": 72.68,
-      "promotores": 2935,
-      "pasivos": 766,
-      "detractores": 142,
-      "total": 3843
+      "score": 72.66,
+      "promotores": 3033,
+      "pasivos": 792,
+      "detractores": 147,
+      "total": 3972
     },
     "csat": {
-      "score": 97.79,
-      "t3b": 3758,
-      "total": 3843
+      "score": 97.76,
+      "t3b": 3883,
+      "total": 3972
     }
   },
   "hallazgos": {
@@ -27,9 +27,9 @@
     "nps_score": 72,
     "nps_tipo": "Excelente",
     "nps_etapas": {
-      "Avanzado": 70.41,
+      "Avanzado": 70.29,
       "Inicial": 73.18,
-      "Intermedio": 75.53
+      "Intermedio": 75.67
     },
     "tendencia": "disminuye",
     "delta": 2,
@@ -40,7 +40,7 @@
       },
       {
         "name": "Calidad de la formación académica",
-        "score": 96.77
+        "score": 96.83
       }
     ],
     "top_facultades": [
@@ -49,25 +49,25 @@
         "score": 98.38
       },
       {
-        "name": "Facultad de Derecho",
-        "score": 98.22
+        "name": "Facultad de Arquitectura",
+        "score": 98.15
       }
     ]
   },
   "nps": {
-    "Promotores": 2935,
-    "Pasivos": 766,
-    "Detractores": 142,
-    "score": 72.68
+    "Promotores": 3033,
+    "Pasivos": 792,
+    "Detractores": 147,
+    "score": 72.66
   },
   "csat": {
-    "Totalmente satisfecho": 1647,
-    "Muy satisfecho": 1150,
-    "Satisfecho": 961,
-    "Insatisfecho": 71,
-    "Totalmente insatisfecho": 14,
+    "Totalmente satisfecho": 1697,
+    "Muy satisfecho": 1188,
+    "Satisfecho": 998,
+    "Insatisfecho": 74,
+    "Totalmente insatisfecho": 15,
     "No utilizo": 0,
     "No conozco": 0,
-    "score": 97.79
+    "score": 97.76
   }
 }

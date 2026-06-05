@@ -8,10 +8,10 @@
   },
   {
     "carrera": "Arquitectura",
-    "Promotores": 229,
-    "Pasivos": 65,
+    "Promotores": 248,
+    "Pasivos": 68,
     "Detractores": 8,
-    "score": 73.18
+    "score": 74.07
   },
   {
     "carrera": "Comunicación",
@@ -22,17 +22,17 @@
   },
   {
     "carrera": "Contabilidad y Finanzas",
-    "Promotores": 177,
-    "Pasivos": 34,
+    "Promotores": 181,
+    "Pasivos": 35,
     "Detractores": 6,
-    "score": 78.8
+    "score": 78.83
   },
   {
     "carrera": "Derecho",
-    "Promotores": 350,
-    "Pasivos": 84,
-    "Detractores": 15,
-    "score": 74.61
+    "Promotores": 362,
+    "Pasivos": 93,
+    "Detractores": 17,
+    "score": 73.09
   },
   {
     "carrera": "Economía",
@@ -92,9 +92,9 @@
   },
   {
     "carrera": "Psicología",
-    "Promotores": 231,
-    "Pasivos": 78,
-    "Detractores": 23,
-    "score": 62.65
+    "Promotores": 294,
+    "Pasivos": 91,
+    "Detractores": 26,
+    "score": 65.21
   }
 ]
