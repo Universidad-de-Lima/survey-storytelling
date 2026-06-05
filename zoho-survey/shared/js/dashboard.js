@@ -726,7 +726,21 @@
       if (selected) smallSegs.push(seg);
     });
 
-    if (!smallSegs.length) return;
+    if (!smallSegs.length) {
+      // Distribution bars: always create wrappers for uniform row heights
+      if (isDistBar) {
+        const ROW_H = 22;
+        const wa = document.createElement('div');
+        wa.className = 'csat-labels-above';
+        wa.style.height = (ROW_H + 4) + 'px';
+        container.insertBefore(wa, barRow);
+        const wb = document.createElement('div');
+        wb.className = 'csat-labels-below';
+        wb.style.height = (ROW_H + 4) + 'px';
+        container.appendChild(wb);
+      }
+      return;
+    }
 
     // Interleave: split segments between above and below the bar
     smallSegs.sort((a, b) => a.offsetWidth - b.offsetWidth);
@@ -1198,24 +1212,27 @@
     tbody.querySelectorAll('.distribution-bar').forEach(bar => adjustSegmentLabels(bar));
 
     // Normalize row heights after all async animations complete (stackedGrow = 0.6s)
-    setTimeout(() => {
-      const aboveW = tbody.querySelectorAll('.csat-labels-above');
-      const belowW = tbody.querySelectorAll('.csat-labels-below');
-      let maxH = 0;
-      aboveW.forEach(w => { const h = parseFloat(w.style.height) || 0; if (h > maxH) maxH = h; });
-      belowW.forEach(w => { const h = parseFloat(w.style.height) || 0; if (h > maxH) maxH = h; });
-      if (maxH > 0) {
-        tbody.querySelectorAll('.distribution-bar').forEach(bar => {
-          const td = bar.parentElement;
-          let wa = td.querySelector('.csat-labels-above');
-          let wb = td.querySelector('.csat-labels-below');
-          if (!wa) { wa = document.createElement('div'); wa.className = 'csat-labels-above'; td.insertBefore(wa, bar); }
-          if (!wb) { wb = document.createElement('div'); wb.className = 'csat-labels-below'; td.appendChild(wb); }
-          wa.style.height = maxH + 'px';
-          wb.style.height = maxH + 'px';
-        });
-      }
-    }, 800);
+    setTimeout(() => normalizeDistributionHeights(tbody), 800);
+  }
+
+  // Ensure all distribution rows in a table have identical wrapper heights
+  function normalizeDistributionHeights(tbody) {
+    const aboveW = tbody.querySelectorAll('.csat-labels-above');
+    const belowW = tbody.querySelectorAll('.csat-labels-below');
+    let maxH = 0;
+    aboveW.forEach(w => { const h = parseFloat(w.style.height) || 0; if (h > maxH) maxH = h; });
+    belowW.forEach(w => { const h = parseFloat(w.style.height) || 0; if (h > maxH) maxH = h; });
+    if (maxH > 0) {
+      tbody.querySelectorAll('.distribution-bar').forEach(bar => {
+        const td = bar.parentElement;
+        let wa = td.querySelector('.csat-labels-above');
+        let wb = td.querySelector('.csat-labels-below');
+        if (!wa) { wa = document.createElement('div'); wa.className = 'csat-labels-above'; td.insertBefore(wa, bar); }
+        if (!wb) { wb = document.createElement('div'); wb.className = 'csat-labels-below'; td.appendChild(wb); }
+        wa.style.height = maxH + 'px';
+        wb.style.height = maxH + 'px';
+      });
+    }
   }
 
   function renderDetalleCarreras() {
@@ -1827,6 +1844,11 @@
         adjustSegmentLabels('#nps-bar');
         adjustSegmentLabels('#csat-bar');
         document.querySelectorAll('.distribution-bar').forEach(bar => adjustSegmentLabels(bar));
+        // Normalize distribution row heights after animations settle
+        setTimeout(() => {
+          const tbody = document.getElementById('tbody-preguntas');
+          if (tbody) normalizeDistributionHeights(tbody);
+        }, 800);
       }, 250);
     });
   }
