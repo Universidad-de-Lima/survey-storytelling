@@ -772,7 +772,14 @@
     const barTop = rows.length * ROW_H + 2;
     rowAssignments.forEach(({ seg, cx, row }) => {
       const txt = isDistBar ? (seg.textContent || '').trim() : (seg.querySelector('.csat-label')?.textContent || '');
-      if (!isDistBar) { const lbl = seg.querySelector('.csat-label'); if (lbl) lbl.style.visibility = 'hidden'; }
+      // Hide internal label when showing external
+      if (isDistBar) {
+        const dl = seg.querySelector('.dist-label');
+        if (dl) dl.style.visibility = 'hidden';
+      } else {
+        const lbl = seg.querySelector('.csat-label');
+        if (lbl) lbl.style.visibility = 'hidden';
+      }
       const segColor = getComputedStyle(seg).backgroundColor;
       const el = document.createElement('div');
       el.className = 'csat-label-above';
