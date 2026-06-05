@@ -826,8 +826,8 @@
           line.style.bottom = '100%';
           line.style.height = Math.max(4, (row * ROW_H + 4)) + 'px';
         } else {
-          // Same 4px gap as below, inverted
-          line.style.height = '4px';
+          // Mirror below: line fills from label bottom to wrapper bottom (bar)
+          line.style.height = Math.max(4, (totalRows * ROW_H + 4) - el.offsetTop - el.offsetHeight) + 'px';
         }
         el.appendChild(line);
 
