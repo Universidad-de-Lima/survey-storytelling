@@ -710,9 +710,10 @@
         ? (textContent.length * 8 + SAFETY_MARGIN > seg.offsetWidth) // rough estimate
         : (() => { const lbl = seg.querySelector('.csat-label'); return lbl ? lbl.scrollWidth + SAFETY_MARGIN > seg.offsetWidth : false; })();
       const selected = textOverflows || tooNarrow || tooSmall;
-      // For dist bars: hide only if truly 0% (from style width, not rounded offsetWidth)
+      // Skip zero-value segments (0, 0%, 0,0%, 0.0%, etc.)
+      const numericValue = parseFloat(textContent);
       const isZero = isDistBar ? (parseFloat(seg.style.width) || 0) === 0 : segPct < (C.SEGMENT_LABEL_HIDE_PCT ?? 0.005);
-      if (isZero || textContent === '0' || textContent === '0%') {
+      if (isZero || numericValue === 0) {
         if (!isDistBar) { const lbl = seg.querySelector('.csat-label'); if (lbl) lbl.style.visibility = 'hidden'; }
         return;
       }
@@ -811,8 +812,8 @@
         if (isBelow) {
           el.style.top = (row * ROW_H + 4) + 'px';
         } else {
-          // Mirror below: 4px gap from label bottom to bar top
-          el.style.top = ((totalRows - row) * ROW_H - 16) + 'px';
+          // Position close to bar: wrapper bottom - 4px gap - label height
+          el.style.top = ((totalRows - row) * ROW_H - 12) + 'px';
         }
 
         const line = document.createElement('span');
@@ -839,11 +840,8 @@
         el.appendChild(dot);
       });
 
-      if (!isBelow) {
-        wrap.style.height = (totalRows * ROW_H) + 'px';
-      } else {
-        wrap.style.height = (totalRows * ROW_H + 10) + 'px';
-      }
+      // Both wrappers same height: symmetric above/below
+      wrap.style.height = (totalRows * ROW_H + 4) + 'px';
     }
 
     renderLabelGroup(aboveSegs, wrapAbove, false);
