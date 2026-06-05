@@ -715,7 +715,8 @@
       const belowThreshold = segPct < 0.01;
       const isZero = isDistBar ? (parseFloat(seg.style.width) || 0) === 0 : segPct < (C.SEGMENT_LABEL_HIDE_PCT ?? 0.005);
       if (isZero || numericValue === 0 || belowThreshold) {
-        if (!isDistBar) { const lbl = seg.querySelector('.csat-label'); if (lbl) lbl.style.visibility = 'hidden'; }
+        const lbl = isDistBar ? seg.querySelector('.dist-label') : seg.querySelector('.csat-label');
+        if (lbl) lbl.style.visibility = 'hidden';
         return;
       }
       if (selected) smallSegs.push(seg);
