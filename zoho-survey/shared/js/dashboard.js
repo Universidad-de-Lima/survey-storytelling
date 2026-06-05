@@ -745,8 +745,10 @@
     const wrapAbove = createLabelWrap('csat-labels-above');
     container.insertBefore(wrapAbove, barRow);
 
-    const wrapBelow = belowSegs.length ? createLabelWrap('csat-labels-below') : null;
-    if (wrapBelow) container.appendChild(wrapBelow);
+    // Always create both wrappers so the bar stays vertically centered
+    // even when only one side has external labels
+    const wrapBelow = createLabelWrap('csat-labels-below');
+    container.appendChild(wrapBelow);
 
     const WRAP_LEFT = wrapAbove.getBoundingClientRect().left;
 
@@ -847,7 +849,16 @@
     }
 
     renderLabelGroup(aboveSegs, wrapAbove, false);
-    if (wrapBelow) renderLabelGroup(belowSegs, wrapBelow, true);
+    renderLabelGroup(belowSegs, wrapBelow, true);
+
+    // Equalize wrapper heights: bar stays centered even with one-sided labels
+    const hAbove = parseFloat(wrapAbove.style.height) || 0;
+    const hBelow = parseFloat(wrapBelow.style.height) || 0;
+    const maxH = Math.max(hAbove, hBelow);
+    if (maxH > 0) {
+      wrapAbove.style.height = maxH + 'px';
+      wrapBelow.style.height = maxH + 'px';
+    }
   }
   // ==================== SECCIÓN OPERATIVO ====================
   function dimensionAplica(rows, dimension) {
