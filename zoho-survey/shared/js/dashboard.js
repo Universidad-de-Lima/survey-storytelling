@@ -814,8 +814,8 @@
         if (isBelow) {
           el.style.top = (row * ROW_H + 4) + 'px';
         } else {
-          // Position close to bar: wrapper bottom - 4px gap - label height
-          el.style.top = ((totalRows - row) * ROW_H - 12) + 'px';
+          // 14px offset mirrors below's 4px label offset + 2px wrapper margin-top = 6px total
+          el.style.top = ((totalRows - row) * ROW_H - 14) + 'px';
         }
 
         const line = document.createElement('span');
