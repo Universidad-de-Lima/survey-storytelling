@@ -82,7 +82,7 @@
   animation: stackedGrow 0.8s ease-out forwards;
 }
 
-.csat-bar > div:last-child {
+.csat-bar > .csat-bar-row:last-child {
   display: flex;
   height: 32px;
   border-radius: 4px;
