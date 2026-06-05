@@ -811,7 +811,7 @@
         if (isBelow) {
           el.style.top = (row * ROW_H + 4) + 'px';
         } else {
-          // Position label close to bar top (matching below spacing)
+          // Mirror below: 4px gap from label bottom to bar top
           el.style.top = ((totalRows - row) * ROW_H - 16) + 'px';
         }
 
@@ -823,7 +823,8 @@
           line.style.bottom = '100%';
           line.style.height = Math.max(4, (row * ROW_H + 4)) + 'px';
         } else {
-          line.style.height = Math.max(4, ROW_H - 12) + 'px';
+          // Same 4px gap as below, inverted
+          line.style.height = '4px';
         }
         el.appendChild(line);
 
