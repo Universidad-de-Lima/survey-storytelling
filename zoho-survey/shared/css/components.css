@@ -115,6 +115,7 @@
 .csat-labels-above {
   position: relative;
   width: 100%;
+  margin-bottom: 2px;
 }
 
 /* ── Etiquetas externas debajo de barras ── */
