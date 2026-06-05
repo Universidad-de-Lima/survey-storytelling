@@ -1,10 +1,10 @@
 {
   "version": "2.0",
   "resumen": {
-    "total_con_comentario": 811,
-    "total_analizados": 811,
-    "pasivos": 684,
-    "detractores": 127,
+    "total_con_comentario": 842,
+    "total_analizados": 842,
+    "pasivos": 710,
+    "detractores": 132,
     "nota": "Solo se analizan comentarios de Pasivos (7-8) y Detractores (0-6). Los Promotores (9-10) no responden esta pregunta."
   },
   "topicos": [
@@ -12,18 +12,18 @@
       "topico": "Calidad docente",
       "tipo": "mejora",
       "icono": "📚",
-      "total_comentarios": 168,
-      "detractores": 30,
-      "pasivos": 138,
+      "total_comentarios": 172,
+      "detractores": 32,
+      "pasivos": 140,
       "frases_representativas": [
         "depende de la carrera,a derecho le falta un área donde podamos imprimir gratuitamente los profesores envían lecturas,sería más acuerdo ya que es una carrera donde se lee bastante,que se nos de esa facilidad a los estudiantes,áreas para descansar sin acoso",
         "La universidad en sí es buena,pero en mi carrera la facultad se encuentra desactualizada y  los silábicos en sí, en otros aspectos como infraestructura la universidad es buena y un lugar para estudiar.Sin embargo,los sílabos y enseñanzas no están últimos.",
         "Pareciera que las evaluaciones a los docentes, solamente pasa por manos del docente más no por secretaria académica o algún mando mayor, hay profesores que considero que no son buenos con los alumnos o explicando pero siguen dictando clases de ese curso."
       ],
       "por_carrera": {
+        "Derecho": 21,
         "Administración": 19,
-        "Derecho": 19,
-        "Psicología": 17,
+        "Psicología": 19,
         "Economía": 16,
         "Ingeniería Industrial": 15,
         "Comunicación": 14,
@@ -38,8 +38,8 @@
       "por_facultad": {
         "Facultad de Ciencias Empresariales": 48,
         "Facultad de Ingeniería": 43,
-        "Facultad de Derecho": 19,
-        "Facultad de Psicología": 17,
+        "Facultad de Derecho": 21,
+        "Facultad de Psicología": 19,
         "Facultad de Economía": 16,
         "Facultad de Comunicación": 14,
         "Facultad de Arquitectura": 11
@@ -50,27 +50,29 @@
         "1° Ciclo": 22,
         "7° Ciclo": 22,
         "3° Ciclo": 20,
-        "9° Ciclo": 14,
+        "9° Ciclo": 15,
         "2° Ciclo": 13,
-        "4° Ciclo": 11,
+        "4° Ciclo": 12,
         "10° Ciclo": 8,
-        "8° Ciclo": 7
+        "8° Ciclo": 7,
+        "11° Ciclo": 1,
+        "12° Ciclo": 1
       }
     },
     {
       "topico": "Valoración positiva general",
       "tipo": "positivo",
       "icono": "✅",
-      "total_comentarios": 131,
+      "total_comentarios": 135,
       "detractores": 9,
-      "pasivos": 122,
+      "pasivos": 126,
       "frases_representativas": [
         "Me parece una buena universidad, con una calidad de vida como estudiante estupenda, pero considero que el nivel de dificultad es muy fácil, lo que no permite elevar el nivel. Ademas en mi carrera considero que hay muchos cursos que no son tan relevantes.",
         "La calidad educativa es buena. Solo que algunos cursos podrían omitirse según las necesidades actuales y, en cuanto a psicología, no enfocarse solo en el ámbito organizacional. En ese aspecto pierde mucho a comparación de otras universidades.",
         "Porque es una buena universidad que te podría brindar muchas oportunidades en el futuro y también cuenta con varias formas de aprendizaje, pero podría haber un problema en el ámbito económico al costar mucho o ser muy poco accesible."
       ],
       "por_carrera": {
-        "Derecho": 22,
+        "Derecho": 25,
         "Comunicación": 16,
         "Psicología": 16,
         "Administración": 13,
@@ -78,16 +80,16 @@
         "Ingeniería Industrial": 10,
         "Ingeniería Civil": 9,
         "Ingeniería de Sistemas": 9,
+        "Contabilidad y Finanzas": 7,
         "Marketing": 7,
-        "Contabilidad y Finanzas": 6,
         "Economía": 4,
         "Ingeniería Mecatrónica": 4,
         "Arquitectura": 2
       },
       "por_facultad": {
-        "Facultad de Ciencias Empresariales": 39,
+        "Facultad de Ciencias Empresariales": 40,
         "Facultad de Ingeniería": 32,
-        "Facultad de Derecho": 22,
+        "Facultad de Derecho": 25,
         "Facultad de Comunicación": 16,
         "Facultad de Psicología": 16,
         "Facultad de Economía": 4,
@@ -102,70 +104,70 @@
         "1° Ciclo": 14,
         "4° Ciclo": 13,
         "2° Ciclo": 8,
-        "9° Ciclo": 6,
-        "10° Ciclo": 5,
-        "12° Ciclo": 3,
-        "11° Ciclo": 2
+        "9° Ciclo": 7,
+        "10° Ciclo": 6,
+        "12° Ciclo": 4,
+        "11° Ciclo": 3
       }
     },
     {
       "topico": "Malla curricular y cursos",
       "tipo": "mejora",
       "icono": "📋",
-      "total_comentarios": 123,
-      "detractores": 21,
-      "pasivos": 102,
+      "total_comentarios": 131,
+      "detractores": 22,
+      "pasivos": 109,
       "frases_representativas": [
         "Deberían avisar con tiempo si harán algún cambio en la malla de nuestra carrera para planificarnos y no estar corriendo con los cursos. Por otro lado, quisiera que resolvieran la acústica del salón de pfc, xq no se escucha nada durante horario de clases.",
         "En términos de infraestructuras hay cosas que se podrán mejorar (como aire acondicionado en todos los salones), y en términos de la carrera considero que hay muchos cursos desactualizados y que se sienten de “relleno” como los de generales por ejemplo.",
         "La cantidad de profesores en la facultad de psicología es muy baja. Escogiendo segundo día temprano me he llegado a quedar sin cursos disponibles. A su vez, también es frustrante que con una buena nota de promedio general, no tengas ubicación relativa."
       ],
       "por_carrera": {
-        "Psicología": 18,
+        "Psicología": 23,
         "Ingeniería de Sistemas": 17,
         "Comunicación": 15,
         "Administración": 13,
         "Ingeniería Industrial": 10,
-        "Arquitectura": 8,
+        "Arquitectura": 9,
         "Economía": 8,
         "Marketing": 7,
         "Negocios Internacionales": 7,
         "Contabilidad y Finanzas": 6,
+        "Derecho": 6,
         "Ingeniería Civil": 6,
-        "Derecho": 4,
         "Ingeniería Ambiental": 2,
         "Ingeniería Mecatrónica": 2
       },
       "por_facultad": {
         "Facultad de Ingeniería": 37,
         "Facultad de Ciencias Empresariales": 33,
-        "Facultad de Psicología": 18,
+        "Facultad de Psicología": 23,
         "Facultad de Comunicación": 15,
-        "Facultad de Arquitectura": 8,
+        "Facultad de Arquitectura": 9,
         "Facultad de Economía": 8,
-        "Facultad de Derecho": 4
+        "Facultad de Derecho": 6
       },
       "por_ciclo": {
-        "7° Ciclo": 19,
+        "7° Ciclo": 20,
+        "5° Ciclo": 15,
         "8° Ciclo": 15,
-        "5° Ciclo": 14,
-        "3° Ciclo": 13,
-        "9° Ciclo": 13,
+        "3° Ciclo": 14,
+        "9° Ciclo": 14,
         "6° Ciclo": 12,
+        "10° Ciclo": 11,
         "2° Ciclo": 11,
         "1° Ciclo": 10,
-        "10° Ciclo": 8,
         "4° Ciclo": 7,
-        "11° Ciclo": 1
+        "11° Ciclo": 2
       }
     },
     {
       "topico": "Infraestructura y espacios",
       "tipo": "mejora",
       "icono": "🏛️",
-      "total_comentarios": 108,
+      "total_comentarios": 111,
       "detractores": 12,
-      "pasivos": 96,
+      "pasivos": 99,
       "frases_representativas": [
         "En lo particular, me incomoda que la infraestructura de nuestra facultad sea la mas antigua, como el elevador que tenemos, que nuestros espacios para maquetas estén en los sótanos, que los lugares de impresión dentro de la universidad estén tan lejos.",
         "Poca falta de apoyo a ciertas carreras, dejar de lado recursos como los círculos. Poca visión: construir/inhabilitar espacios al mismo tiempo que desean ampliar la cantidad de alumnos DURANTE un desborde humano en la infraestructura. DO BETTER",
@@ -173,7 +175,7 @@
       ],
       "por_carrera": {
         "Arquitectura": 21,
-        "Psicología": 17,
+        "Psicología": 19,
         "Ingeniería Civil": 13,
         "Administración": 10,
         "Comunicación": 7,
@@ -182,7 +184,7 @@
         "Ingeniería Industrial": 6,
         "Ingeniería de Sistemas": 6,
         "Negocios Internacionales": 6,
-        "Derecho": 4,
+        "Derecho": 5,
         "Contabilidad y Finanzas": 3,
         "Ingeniería Ambiental": 1,
         "Ingeniería Mecatrónica": 1
@@ -191,31 +193,32 @@
         "Facultad de Ingeniería": 27,
         "Facultad de Ciencias Empresariales": 26,
         "Facultad de Arquitectura": 21,
-        "Facultad de Psicología": 17,
+        "Facultad de Psicología": 19,
         "Facultad de Comunicación": 7,
         "Facultad de Economía": 6,
-        "Facultad de Derecho": 4
+        "Facultad de Derecho": 5
       },
       "por_ciclo": {
         "5° Ciclo": 22,
+        "3° Ciclo": 15,
         "8° Ciclo": 15,
-        "3° Ciclo": 14,
         "7° Ciclo": 14,
         "6° Ciclo": 11,
         "2° Ciclo": 9,
-        "9° Ciclo": 8,
+        "9° Ciclo": 9,
         "4° Ciclo": 6,
         "1° Ciclo": 5,
-        "10° Ciclo": 4
+        "10° Ciclo": 4,
+        "11° Ciclo": 1
       }
     },
     {
       "topico": "Servicios administrativos",
       "tipo": "negativo",
       "icono": "⚙️",
-      "total_comentarios": 31,
-      "detractores": 5,
-      "pasivos": 26,
+      "total_comentarios": 34,
+      "detractores": 6,
+      "pasivos": 28,
       "frases_representativas": [
         "Muy flexible en cuanto a cursos y especialidades, además de servicios que valen el precio. Sin embargo, la asistencia al tener problemas suele ser limitada y se reducen a pedir usar el sistema o mandar correos en su mayoría ante cualquier problema.",
         "Segregación de estudiantes. Meritocracia inconsistente. Universidades como la UP o la PUCP exigen un poco mas a los estudiantes que examenes periodicos. No existe fomentacion de critica, debate, pensamiento suficiente. Servicio psicológico debil.",
@@ -223,34 +226,35 @@
       ],
       "por_carrera": {
         "Comunicación": 5,
+        "Derecho": 5,
         "Negocios Internacionales": 5,
         "Administración": 4,
         "Arquitectura": 4,
-        "Derecho": 4,
         "Ingeniería Industrial": 3,
+        "Psicología": 3,
         "Contabilidad y Finanzas": 2,
         "Ingeniería Civil": 2,
-        "Ingeniería Ambiental": 1,
-        "Psicología": 1
+        "Ingeniería Ambiental": 1
       },
       "por_facultad": {
         "Facultad de Ciencias Empresariales": 11,
         "Facultad de Ingeniería": 6,
         "Facultad de Comunicación": 5,
+        "Facultad de Derecho": 5,
         "Facultad de Arquitectura": 4,
-        "Facultad de Derecho": 4,
-        "Facultad de Psicología": 1
+        "Facultad de Psicología": 3
       },
       "por_ciclo": {
-        "3° Ciclo": 7,
+        "3° Ciclo": 8,
         "8° Ciclo": 5,
         "2° Ciclo": 3,
         "4° Ciclo": 3,
         "5° Ciclo": 3,
         "7° Ciclo": 3,
         "9° Ciclo": 3,
+        "10° Ciclo": 2,
         "1° Ciclo": 2,
-        "10° Ciclo": 1,
+        "11° Ciclo": 1,
         "6° Ciclo": 1
       }
     },
@@ -258,17 +262,17 @@
       "topico": "Bienestar y servicios al estudiante",
       "tipo": "mejora",
       "icono": "🌱",
-      "total_comentarios": 25,
+      "total_comentarios": 27,
       "detractores": 5,
-      "pasivos": 20,
+      "pasivos": 22,
       "frases_representativas": [
         "Hay DEMASIADAS persona, hay edificios como el D3 que son HORRIBLES. Los baños apestan siempre. Nunca hay en donde comer. No dan ayuda financiera a menos que seas primero de la carrera o sea tus buenas notas no cuentan para nada más que para tu horario.",
         "Recomendaría la Universidad de Lima, ya que cuenta con una infraestructura adecuada y cuenta con materiales tanto digitales como físicos. Además, posee diversos talleres y actividades relacionadas al medio ambiente y los intereses de los estudiantes.",
         "Considero que en lo académico es muy buena, pero en cuánto a relaciones sociales les falta más integración estudiantil entre estudiantes del mismo ciclo de la facultad, ya que no existen actividades recreativas"
       ],
       "por_carrera": {
-        "Psicología": 9,
-        "Arquitectura": 4,
+        "Psicología": 10,
+        "Arquitectura": 5,
         "Derecho": 4,
         "Administración": 3,
         "Ingeniería de Sistemas": 2,
@@ -277,8 +281,8 @@
         "Negocios Internacionales": 1
       },
       "por_facultad": {
-        "Facultad de Psicología": 9,
-        "Facultad de Arquitectura": 4,
+        "Facultad de Psicología": 10,
+        "Facultad de Arquitectura": 5,
         "Facultad de Ciencias Empresariales": 4,
         "Facultad de Derecho": 4,
         "Facultad de Ingeniería": 3,
@@ -289,11 +293,11 @@
         "8° Ciclo": 5,
         "10° Ciclo": 3,
         "1° Ciclo": 3,
+        "5° Ciclo": 3,
         "2° Ciclo": 2,
+        "3° Ciclo": 2,
         "4° Ciclo": 2,
-        "5° Ciclo": 2,
         "11° Ciclo": 1,
-        "3° Ciclo": 1,
         "6° Ciclo": 1
       }
     },
@@ -301,16 +305,16 @@
       "topico": "Oportunidades laborales",
       "tipo": "mejora",
       "icono": "💼",
-      "total_comentarios": 11,
+      "total_comentarios": 12,
       "detractores": 5,
-      "pasivos": 6,
+      "pasivos": 7,
       "frases_representativas": [
         "Porque no te prepara para el campo de manera técnica, hoy en dia en las practicas piden muchos mas programas y el nivel de estos,mucho mas que lo que se enseña y nos situa en desventaja",
         "Bueno, el compañerismo es horrible en mi carrera y no me gusta los trabajos grupales, ya que usan chatgpt o son vagos y lo hacen al ultimo momento, algo muy estresante",
         "No nos dan muchas oportunidades siendo de Psicología clínica, no tenemos convenios como otras universidades. Eso nos quita empleabilidad.."
       ],
       "por_carrera": {
-        "Derecho": 3,
+        "Derecho": 4,
         "Ingeniería Industrial": 2,
         "Psicología": 2,
         "Arquitectura": 1,
@@ -319,7 +323,7 @@
         "Negocios Internacionales": 1
       },
       "por_facultad": {
-        "Facultad de Derecho": 3,
+        "Facultad de Derecho": 4,
         "Facultad de Ingeniería": 2,
         "Facultad de Psicología": 2,
         "Facultad de Arquitectura": 1,
@@ -329,10 +333,10 @@
       },
       "por_ciclo": {
         "7° Ciclo": 3,
+        "12° Ciclo": 2,
         "3° Ciclo": 2,
         "10° Ciclo": 1,
         "11° Ciclo": 1,
-        "12° Ciclo": 1,
         "1° Ciclo": 1,
         "6° Ciclo": 1,
         "9° Ciclo": 1
@@ -377,16 +381,16 @@
     {
       "carrera": "Psicología",
       "facultad": "Facultad de Psicología",
-      "total": 95,
-      "pasivos": 72,
-      "detractores": 23
+      "total": 111,
+      "pasivos": 85,
+      "detractores": 26
     },
     {
       "carrera": "Derecho",
       "facultad": "Facultad de Derecho",
-      "total": 86,
-      "pasivos": 74,
-      "detractores": 12
+      "total": 97,
+      "pasivos": 83,
+      "detractores": 14
     },
     {
       "carrera": "Administración",
@@ -405,8 +409,8 @@
     {
       "carrera": "Arquitectura",
       "facultad": "Facultad de Arquitectura",
-      "total": 68,
-      "pasivos": 60,
+      "total": 71,
+      "pasivos": 63,
       "detractores": 8
     },
     {
@@ -454,8 +458,8 @@
     {
       "carrera": "Contabilidad y Finanzas",
       "facultad": "Facultad de Ciencias Empresariales",
-      "total": 37,
-      "pasivos": 31,
+      "total": 38,
+      "pasivos": 32,
       "detractores": 6
     },
     {
@@ -488,20 +492,20 @@
     },
     {
       "ciclo": "3° Ciclo",
-      "total": 92,
-      "pasivos": 84,
-      "detractores": 8
+      "total": 96,
+      "pasivos": 87,
+      "detractores": 9
     },
     {
       "ciclo": "4° Ciclo",
-      "total": 62,
+      "total": 63,
       "pasivos": 50,
-      "detractores": 12
+      "detractores": 13
     },
     {
       "ciclo": "5° Ciclo",
-      "total": 110,
-      "pasivos": 95,
+      "total": 113,
+      "pasivos": 98,
       "detractores": 15
     },
     {
@@ -512,39 +516,39 @@
     },
     {
       "ciclo": "7° Ciclo",
-      "total": 115,
-      "pasivos": 96,
+      "total": 116,
+      "pasivos": 97,
       "detractores": 19
     },
     {
       "ciclo": "8° Ciclo",
-      "total": 88,
-      "pasivos": 68,
+      "total": 89,
+      "pasivos": 69,
       "detractores": 20
     },
     {
       "ciclo": "9° Ciclo",
-      "total": 67,
-      "pasivos": 55,
+      "total": 71,
+      "pasivos": 59,
       "detractores": 12
     },
     {
       "ciclo": "10° Ciclo",
-      "total": 38,
-      "pasivos": 31,
-      "detractores": 7
+      "total": 46,
+      "pasivos": 37,
+      "detractores": 9
     },
     {
       "ciclo": "11° Ciclo",
-      "total": 7,
-      "pasivos": 5,
+      "total": 13,
+      "pasivos": 11,
       "detractores": 2
     },
     {
       "ciclo": "12° Ciclo",
-      "total": 5,
-      "pasivos": 5,
-      "detractores": 0
+      "total": 8,
+      "pasivos": 7,
+      "detractores": 1
     }
   ]
 }

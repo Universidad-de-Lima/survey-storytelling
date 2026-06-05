@@ -27,19 +27,19 @@
     "facultad": "Facultad de Arquitectura",
     "carrera": "Arquitectura",
     "ciclo": "4° Ciclo",
-    "count": 13
+    "count": 15
   },
   {
     "facultad": "Facultad de Arquitectura",
     "carrera": "Arquitectura",
     "ciclo": "5° Ciclo",
-    "count": 61
+    "count": 79
   },
   {
     "facultad": "Facultad de Arquitectura",
     "carrera": "Arquitectura",
     "ciclo": "6° Ciclo",
-    "count": 14
+    "count": 16
   },
   {
     "facultad": "Facultad de Arquitectura",
@@ -123,7 +123,7 @@
     "facultad": "Facultad de Ciencias Empresariales",
     "carrera": "Contabilidad y Finanzas",
     "ciclo": "10° Ciclo",
-    "count": 9
+    "count": 10
   },
   {
     "facultad": "Facultad de Ciencias Empresariales",
@@ -159,7 +159,7 @@
     "facultad": "Facultad de Ciencias Empresariales",
     "carrera": "Contabilidad y Finanzas",
     "ciclo": "6° Ciclo",
-    "count": 26
+    "count": 27
   },
   {
     "facultad": "Facultad de Ciencias Empresariales",
@@ -171,13 +171,13 @@
     "facultad": "Facultad de Ciencias Empresariales",
     "carrera": "Contabilidad y Finanzas",
     "ciclo": "8° Ciclo",
-    "count": 33
+    "count": 34
   },
   {
     "facultad": "Facultad de Ciencias Empresariales",
     "carrera": "Contabilidad y Finanzas",
     "ciclo": "9° Ciclo",
-    "count": 22
+    "count": 24
   },
   {
     "facultad": "Facultad de Ciencias Empresariales",
@@ -363,19 +363,19 @@
     "facultad": "Facultad de Derecho",
     "carrera": "Derecho",
     "ciclo": "10° Ciclo",
-    "count": 24
+    "count": 27
   },
   {
     "facultad": "Facultad de Derecho",
     "carrera": "Derecho",
     "ciclo": "11° Ciclo",
-    "count": 28
+    "count": 38
   },
   {
     "facultad": "Facultad de Derecho",
     "carrera": "Derecho",
     "ciclo": "12° Ciclo",
-    "count": 42
+    "count": 48
   },
   {
     "facultad": "Facultad de Derecho",
@@ -411,7 +411,7 @@
     "facultad": "Facultad de Derecho",
     "carrera": "Derecho",
     "ciclo": "6° Ciclo",
-    "count": 37
+    "count": 38
   },
   {
     "facultad": "Facultad de Derecho",
@@ -429,7 +429,7 @@
     "facultad": "Facultad de Derecho",
     "carrera": "Derecho",
     "ciclo": "9° Ciclo",
-    "count": 13
+    "count": 16
   },
   {
     "facultad": "Facultad de Economía",
@@ -717,13 +717,13 @@
     "facultad": "Facultad de Psicología",
     "carrera": "Psicología",
     "ciclo": "10° Ciclo",
-    "count": 21
+    "count": 50
   },
   {
     "facultad": "Facultad de Psicología",
     "carrera": "Psicología",
     "ciclo": "11° Ciclo",
-    "count": 14
+    "count": 16
   },
   {
     "facultad": "Facultad de Psicología",
@@ -747,42 +747,42 @@
     "facultad": "Facultad de Psicología",
     "carrera": "Psicología",
     "ciclo": "3° Ciclo",
-    "count": 39
+    "count": 49
   },
   {
     "facultad": "Facultad de Psicología",
     "carrera": "Psicología",
     "ciclo": "4° Ciclo",
-    "count": 15
+    "count": 26
   },
   {
     "facultad": "Facultad de Psicología",
     "carrera": "Psicología",
     "ciclo": "5° Ciclo",
-    "count": 47
+    "count": 55
   },
   {
     "facultad": "Facultad de Psicología",
     "carrera": "Psicología",
     "ciclo": "6° Ciclo",
-    "count": 44
+    "count": 45
   },
   {
     "facultad": "Facultad de Psicología",
     "carrera": "Psicología",
     "ciclo": "7° Ciclo",
-    "count": 47
+    "count": 48
   },
   {
     "facultad": "Facultad de Psicología",
     "carrera": "Psicología",
     "ciclo": "8° Ciclo",
-    "count": 36
+    "count": 37
   },
   {
     "facultad": "Facultad de Psicología",
     "carrera": "Psicología",
     "ciclo": "9° Ciclo",
-    "count": 30
+    "count": 46
   }
 ]

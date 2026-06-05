@@ -14,14 +14,14 @@
   {
     "carrera": "Arquitectura",
     "facultad": "Facultad de Arquitectura",
-    "Totalmente satisfecho": 112,
-    "Muy satisfecho": 87,
-    "Satisfecho": 97,
+    "Totalmente satisfecho": 125,
+    "Muy satisfecho": 92,
+    "Satisfecho": 101,
     "Insatisfecho": 5,
     "Totalmente insatisfecho": 1,
     "No utilizo": 0,
     "No conozco": 0,
-    "score": 98.01
+    "score": 98.15
   },
   {
     "carrera": "Comunicación",
@@ -38,26 +38,26 @@
   {
     "carrera": "Contabilidad y Finanzas",
     "facultad": "Facultad de Ciencias Empresariales",
-    "Totalmente satisfecho": 101,
-    "Muy satisfecho": 62,
-    "Satisfecho": 49,
+    "Totalmente satisfecho": 104,
+    "Muy satisfecho": 63,
+    "Satisfecho": 50,
     "Insatisfecho": 4,
     "Totalmente insatisfecho": 1,
     "No utilizo": 0,
     "No conozco": 0,
-    "score": 97.7
+    "score": 97.75
   },
   {
     "carrera": "Derecho",
     "facultad": "Facultad de Derecho",
-    "Totalmente satisfecho": 198,
-    "Muy satisfecho": 121,
-    "Satisfecho": 122,
+    "Totalmente satisfecho": 205,
+    "Muy satisfecho": 127,
+    "Satisfecho": 131,
     "Insatisfecho": 7,
-    "Totalmente insatisfecho": 1,
+    "Totalmente insatisfecho": 2,
     "No utilizo": 0,
     "No conozco": 0,
-    "score": 98.22
+    "score": 98.09
   },
   {
     "carrera": "Economía",
@@ -158,13 +158,13 @@
   {
     "carrera": "Psicología",
     "facultad": "Facultad de Psicología",
-    "Totalmente satisfecho": 120,
-    "Muy satisfecho": 120,
-    "Satisfecho": 83,
-    "Insatisfecho": 7,
+    "Totalmente satisfecho": 147,
+    "Muy satisfecho": 146,
+    "Satisfecho": 106,
+    "Insatisfecho": 10,
     "Totalmente insatisfecho": 2,
     "No utilizo": 0,
     "No conozco": 0,
-    "score": 97.29
+    "score": 97.08
   }
 ]
