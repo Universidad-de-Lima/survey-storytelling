@@ -666,7 +666,11 @@
     container.querySelectorAll('.csat-labels-above, .csat-labels-below').forEach(el => el.remove());
 
     // Restaurar visibilidad de etiquetas internas ocultadas en ejecuciones previas
-    if (!isDistBar) {
+    if (isDistBar) {
+      barRow.querySelectorAll('.dist-label').forEach((lbl) => {
+        if (lbl.style.visibility === 'hidden') lbl.style.removeProperty('visibility');
+      });
+    } else {
       barRow.querySelectorAll('.csat-label').forEach((lbl) => {
         if (lbl.style.visibility === 'hidden') lbl.style.removeProperty('visibility');
       });
