@@ -722,19 +722,33 @@
 
     if (!smallSegs.length) return;
 
-    // Crear contenedor de etiquetas externas
-    const wrap = document.createElement('div');
-    wrap.className = 'csat-labels-above';
-    container.insertBefore(wrap, container.firstChild);
+    // Interleave: split segments between above and below the bar
+    smallSegs.sort((a, b) => a.offsetWidth - b.offsetWidth);
+    const aboveSegs = [];
+    const belowSegs = [];
+    smallSegs.forEach((seg, i) => {
+      if (i % 2 === 0) aboveSegs.push(seg);
+      else belowSegs.push(seg);
+    });
 
     const ROW_H = 22;
-    const rows = [];
-    // Use wrapper's left edge (sibling of barRow) for consistent positioning
-    const WRAP_LEFT = wrap.getBoundingClientRect().left;
-    smallSegs.sort((a, b) => a.offsetWidth - b.offsetWidth);
 
-    const rowAssignments = [];
-    // Precompute segment left offsets for dist bars (getBoundingClientRect unreliable for 1%)
+    // Helper: create label wrapper
+    function createLabelWrap(className) {
+      const w = document.createElement('div');
+      w.className = className;
+      return w;
+    }
+
+    const wrapAbove = createLabelWrap('csat-labels-above');
+    container.insertBefore(wrapAbove, barRow);
+
+    const wrapBelow = belowSegs.length ? createLabelWrap('csat-labels-below') : null;
+    if (wrapBelow) container.appendChild(wrapBelow);
+
+    const WRAP_LEFT = wrapAbove.getBoundingClientRect().left;
+
+    // Precompute segment positions for dist bars
     let distCumulativePct = 0;
     const distSegOffsets = isDistBar ? [] : null;
     if (isDistBar) {
@@ -744,70 +758,95 @@
         distCumulativePct += pct;
       });
     }
-    smallSegs.forEach((seg) => {
-      let cx;
-      if (isDistBar) {
-        const info = distSegOffsets.find(d => d.seg === seg);
-        cx = info ? ((info.leftPct + info.pct / 2) / 100) * barWidth : 0;
-      } else {
-        cx = (seg.getBoundingClientRect().left - WRAP_LEFT) + seg.getBoundingClientRect().width / 2;
+
+    // Helper: render labels for a group (above or below)
+    function renderLabelGroup(segs, wrap, isBelow) {
+      if (!segs.length) return;
+      const rows = [];
+      const assignments = [];
+
+      segs.forEach((seg) => {
+        let cx;
+        if (isDistBar) {
+          const info = distSegOffsets.find(d => d.seg === seg);
+          cx = info ? ((info.leftPct + info.pct / 2) / 100) * barWidth : 0;
+        } else {
+          cx = (seg.getBoundingClientRect().left - WRAP_LEFT) + seg.getBoundingClientRect().width / 2;
+        }
+        const txt = isDistBar ? (seg.textContent || '').trim() : (seg.querySelector('.csat-label')?.textContent || '');
+        const temp = document.createElement('div');
+        temp.className = 'csat-label-above';
+        temp.textContent = txt;
+        temp.style.cssText = 'position:absolute;left:-9999px';
+        document.body.appendChild(temp);
+        const labelW = temp.scrollWidth || 30;
+        document.body.removeChild(temp);
+
+        const labelL = cx - labelW / 2;
+        let row = 0;
+        for (let r = 0; r <= rows.length; r++) {
+          if (!rows[r] || labelL >= rows[r] + 10) { row = r; rows[r] = cx + labelW / 2; break; }
+        }
+        assignments.push({ seg, cx, labelW, row, txt });
+      });
+
+      const totalRows = rows.length || 1;
+
+      assignments.forEach(({ seg, cx, row, txt }) => {
+        // Hide internal label
+        if (isDistBar) {
+          const dl = seg.querySelector('.dist-label');
+          if (dl) dl.style.visibility = 'hidden';
+        } else {
+          const lbl = seg.querySelector('.csat-label');
+          if (lbl) lbl.style.visibility = 'hidden';
+        }
+        const segColor = getComputedStyle(seg).backgroundColor;
+        const el = document.createElement('div');
+        el.className = 'csat-label-above';
+        el.textContent = txt;
+        el.style.color = segColor;
+        wrap.appendChild(el);
+        el.style.left = cx + 'px';
+
+        if (isBelow) {
+          el.style.top = (row * ROW_H + 4) + 'px';
+        } else {
+          const rowFromTop = totalRows - 1 - row;
+          el.style.top = (rowFromTop * ROW_H) + 'px';
+        }
+
+        const line = document.createElement('span');
+        line.className = 'callout-line';
+        line.style.background = segColor;
+        if (isBelow) {
+          line.style.top = 'auto';
+          line.style.bottom = '100%';
+          line.style.height = Math.max(4, (row * ROW_H + 4)) + 'px';
+        } else {
+          const aboveH = Math.max(4, (totalRows - row) * ROW_H);
+          line.style.height = aboveH + 'px';
+        }
+        el.appendChild(line);
+
+        const arm = document.createElement('span');
+        arm.className = 'callout-arm';
+        arm.style.background = segColor;
+        line.appendChild(arm);
+
+        const dot = document.createElement('span');
+        dot.className = 'callout-dot';
+        dot.style.background = segColor;
+        el.appendChild(dot);
+      });
+
+      if (!isBelow) {
+        wrap.style.height = (totalRows * ROW_H + 10) + 'px';
       }
-      const txt = isDistBar ? (seg.textContent || '').trim() : (seg.querySelector('.csat-label')?.textContent || '');
-      const temp = document.createElement('div');
-      temp.className = 'csat-label-above';
-      temp.textContent = txt;
-      temp.style.cssText = 'position:absolute;left:-9999px';
-      document.body.appendChild(temp);
-      const labelW = temp.scrollWidth || 30;
-      document.body.removeChild(temp);
+    }
 
-      const labelL = cx - labelW / 2;
-      let row = 0;
-      for (let r = 0; r <= rows.length; r++) {
-        if (!rows[r] || labelL >= rows[r] + 10) { row = r; rows[r] = cx + labelW / 2; break; }
-      }
-      rowAssignments.push({ seg, cx, labelW, row });
-    });
-
-    const barTop = rows.length * ROW_H + 2;
-    rowAssignments.forEach(({ seg, cx, row }) => {
-      const txt = isDistBar ? (seg.textContent || '').trim() : (seg.querySelector('.csat-label')?.textContent || '');
-      // Hide internal label when showing external
-      if (isDistBar) {
-        const dl = seg.querySelector('.dist-label');
-        if (dl) dl.style.visibility = 'hidden';
-      } else {
-        const lbl = seg.querySelector('.csat-label');
-        if (lbl) lbl.style.visibility = 'hidden';
-      }
-      const segColor = getComputedStyle(seg).backgroundColor;
-      const el = document.createElement('div');
-      el.className = 'csat-label-above';
-      el.textContent = txt;
-      el.style.color = segColor;
-      wrap.appendChild(el);
-      el.style.left = cx + 'px';
-      el.style.top = (row * ROW_H) + 'px';
-
-      const lineH = Math.max(4, barTop - (row * ROW_H + 10));
-      const line = document.createElement('span');
-      line.className = 'callout-line';
-      line.style.height = lineH + 'px';
-      line.style.background = segColor;
-      el.appendChild(line);
-
-      const arm = document.createElement('span');
-      arm.className = 'callout-arm';
-      arm.style.background = segColor;
-      line.appendChild(arm);
-
-      const dot = document.createElement('span');
-      dot.className = 'callout-dot';
-      dot.style.background = segColor;
-      el.appendChild(dot);
-    });
-
-    wrap.style.height = (rows.length * ROW_H + 10) + 'px';
+    renderLabelGroup(aboveSegs, wrapAbove, false);
+    if (wrapBelow) renderLabelGroup(belowSegs, wrapBelow, true);
   }
   // ==================== SECCIÓN OPERATIVO ====================
   function dimensionAplica(rows, dimension) {
