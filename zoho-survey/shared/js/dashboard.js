@@ -1753,6 +1753,7 @@
       resizeTimer = setTimeout(() => {
         adjustSegmentLabels('#nps-bar');
         adjustSegmentLabels('#csat-bar');
+        document.querySelectorAll('.distribution-bar').forEach(bar => adjustSegmentLabels(bar));
       }, 250);
     });
   }
