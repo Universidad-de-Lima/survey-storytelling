@@ -710,10 +710,11 @@
         ? (textContent.length * 8 + SAFETY_MARGIN > seg.offsetWidth) // rough estimate
         : (() => { const lbl = seg.querySelector('.csat-label'); return lbl ? lbl.scrollWidth + SAFETY_MARGIN > seg.offsetWidth : false; })();
       const selected = textOverflows || tooNarrow || tooSmall;
-      // Skip zero-value segments (0, 0%, 0,0%, 0.0%, etc.)
+      // Skip zero-value and sub-1% segments (too small to be meaningful)
       const numericValue = parseFloat(textContent);
+      const belowThreshold = segPct < 0.01;
       const isZero = isDistBar ? (parseFloat(seg.style.width) || 0) === 0 : segPct < (C.SEGMENT_LABEL_HIDE_PCT ?? 0.005);
-      if (isZero || numericValue === 0) {
+      if (isZero || numericValue === 0 || belowThreshold) {
         if (!isDistBar) { const lbl = seg.querySelector('.csat-label'); if (lbl) lbl.style.visibility = 'hidden'; }
         return;
       }
