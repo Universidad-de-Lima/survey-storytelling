@@ -1196,6 +1196,24 @@
     tbody.appendChild(fragment);
     // External labels for narrow segments
     tbody.querySelectorAll('.distribution-bar').forEach(bar => adjustSegmentLabels(bar));
+
+    // Normalize row heights: all distribution cells get the same wrapper height
+    const allAbove = tbody.querySelectorAll('.csat-labels-above');
+    const allBelow = tbody.querySelectorAll('.csat-labels-below');
+    let maxH = 0;
+    allAbove.forEach(w => { const h = parseFloat(w.style.height) || 0; if (h > maxH) maxH = h; });
+    allBelow.forEach(w => { const h = parseFloat(w.style.height) || 0; if (h > maxH) maxH = h; });
+    if (maxH > 0) {
+      tbody.querySelectorAll('.distribution-bar').forEach(bar => {
+        const td = bar.parentElement;
+        let wa = td.querySelector('.csat-labels-above');
+        let wb = td.querySelector('.csat-labels-below');
+        if (!wa) { wa = document.createElement('div'); wa.className = 'csat-labels-above'; td.insertBefore(wa, bar); }
+        if (!wb) { wb = document.createElement('div'); wb.className = 'csat-labels-below'; td.appendChild(wb); }
+        wa.style.height = maxH + 'px';
+        wb.style.height = maxH + 'px';
+      });
+    }
   }
 
   function renderDetalleCarreras() {
