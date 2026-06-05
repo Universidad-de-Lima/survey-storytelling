@@ -777,12 +777,7 @@
       const el = document.createElement('div');
       el.className = 'csat-label-above';
       el.textContent = txt;
-      // Resolve CSS variable to concrete color for dist bar labels
-      if (isDistBar) {
-        el.style.color = getComputedStyle(document.documentElement).getPropertyValue('--gray-700').trim() || '#555';
-      } else {
-        el.style.color = segColor;
-      }
+      el.style.color = segColor;
       wrap.appendChild(el);
       el.style.left = cx + 'px';
       el.style.top = (row * ROW_H) + 'px';
