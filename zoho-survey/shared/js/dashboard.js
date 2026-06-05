@@ -729,7 +729,7 @@
     if (!smallSegs.length) {
       // Distribution bars: always create wrappers for uniform row heights
       if (isDistBar) {
-        const ROW_H = 8;
+        const ROW_H = 6;
         const wa = document.createElement('div');
         wa.className = 'csat-labels-above';
         wa.style.height = (ROW_H + 4) + 'px';
@@ -751,7 +751,7 @@
       else belowSegs.push(seg);
     });
 
-    const ROW_H = 8;
+    const ROW_H = 6;
 
     // Helper: create label wrapper
     function createLabelWrap(className) {
