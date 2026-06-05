@@ -823,8 +823,7 @@
           line.style.bottom = '100%';
           line.style.height = Math.max(4, (row * ROW_H + 4)) + 'px';
         } else {
-          const aboveH = Math.max(4, (totalRows - row) * ROW_H);
-          line.style.height = aboveH + 'px';
+          line.style.height = Math.max(4, (row + 1) * ROW_H - 16) + 'px';
         }
         el.appendChild(line);
 
