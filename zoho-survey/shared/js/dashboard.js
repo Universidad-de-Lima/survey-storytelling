@@ -754,8 +754,6 @@
     const wrapBelow = createLabelWrap('csat-labels-below');
     container.appendChild(wrapBelow);
 
-    const WRAP_LEFT = wrapAbove.getBoundingClientRect().left;
-
     // Precompute segment positions for dist bars
     let distCumulativePct = 0;
     const distSegOffsets = isDistBar ? [] : null;
@@ -772,6 +770,7 @@
       if (!segs.length) return;
       const rows = [];
       const assignments = [];
+      const wrapLeft = wrap.getBoundingClientRect().left;
 
       segs.forEach((seg) => {
         let cx;
@@ -779,7 +778,7 @@
           const info = distSegOffsets.find(d => d.seg === seg);
           cx = info ? ((info.leftPct + info.pct / 2) / 100) * barWidth : 0;
         } else {
-          cx = (seg.getBoundingClientRect().left - WRAP_LEFT) + seg.getBoundingClientRect().width / 2;
+          cx = (seg.getBoundingClientRect().left - wrapLeft) + seg.getBoundingClientRect().width / 2;
         }
         const txt = isDistBar ? (seg.textContent || '').trim() : (seg.querySelector('.csat-label')?.textContent || '');
         const temp = document.createElement('div');
