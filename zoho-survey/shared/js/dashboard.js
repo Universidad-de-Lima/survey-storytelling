@@ -712,7 +712,7 @@
       const selected = textOverflows || tooNarrow || tooSmall;
       // For dist bars: hide only if truly 0% (from style width, not rounded offsetWidth)
       const isZero = isDistBar ? (parseFloat(seg.style.width) || 0) === 0 : segPct < (C.SEGMENT_LABEL_HIDE_PCT ?? 0.005);
-      if (isZero) {
+      if (isZero || textContent === '0%') {
         if (!isDistBar) { const lbl = seg.querySelector('.csat-label'); if (lbl) lbl.style.visibility = 'hidden'; }
         return;
       }
