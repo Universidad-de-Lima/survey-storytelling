@@ -662,9 +662,8 @@
     const isDistBar = barRow.classList.contains('distribution-bar') || barRow.classList.contains('visibility-bar');
     const segSelector = isDistBar ? '.distribution-segment, .visibility-segment' : '.csat-segment';
 
-    // Limpiar contenedor previo de etiquetas externas
-    const oldWrap = container.querySelector('.csat-labels-above');
-    if (oldWrap) oldWrap.remove();
+    // Limpiar contenedores previos de etiquetas externas
+    container.querySelectorAll('.csat-labels-above, .csat-labels-below').forEach(el => el.remove());
 
     // Restaurar visibilidad de etiquetas internas ocultadas en ejecuciones previas
     if (!isDistBar) {
