@@ -682,9 +682,9 @@
     if (!barWidth) {
       barRow.addEventListener('animationend', function onEnd() {
         barRow.removeEventListener('animationend', onEnd);
-        adjustSegmentLabels(target);
+        requestAnimationFrame(() => adjustSegmentLabels(target));
       }, { once: true });
-      setTimeout(() => adjustSegmentLabels(target), (C.ANIMATION_FALLBACK_MS ?? 1200));
+      setTimeout(() => requestAnimationFrame(() => adjustSegmentLabels(target)), (C.ANIMATION_FALLBACK_MS ?? 1200));
       if (!container.dataset._visListener) {
         container.dataset._visListener = '1';
         document.addEventListener('visibilitychange', function visHandler() {
