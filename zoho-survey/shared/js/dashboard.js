@@ -842,6 +842,8 @@
 
       if (!isBelow) {
         wrap.style.height = (totalRows * ROW_H + 10) + 'px';
+      } else {
+        wrap.style.height = (totalRows * ROW_H + 10) + 'px';
       }
     }
 
