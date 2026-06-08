@@ -1260,8 +1260,14 @@
       conteo[r.carrera] = (conteo[r.carrera] || 0) + r.count;
     });
 
+    // Graduate surveys have no ciclo: fall back to carrera-level JSONs
+    const hasCiclo = cache.nps_ciclo_carrera?.length > 0;
+    const npsSource = hasCiclo ? cache.nps_ciclo_carrera : cache.nps_carrera;
+    const csatSource = hasCiclo ? cache.csat_ciclo_carrera : cache.csat_carrera;
+
     const npsMap = {};
-    filtrarDatos(cache.nps_ciclo_carrera, fac, null, cic).forEach((r) => {
+    (npsSource || []).forEach((r) => {
+      if (fac && r.facultad && r.facultad !== fac) return;
       if (!npsMap[r.carrera]) npsMap[r.carrera] = { prom: 0, pas: 0, det: 0 };
       npsMap[r.carrera].prom += r.Promotores;
       npsMap[r.carrera].pas += r.Pasivos || 0;
@@ -1269,7 +1275,8 @@
     });
 
     const csatMap = {};
-    filtrarDatos(cache.csat_ciclo_carrera, fac, null, cic).forEach((r) => {
+    (csatSource || []).forEach((r) => {
+      if (fac && r.facultad && r.facultad !== fac) return;
       if (!csatMap[r.carrera]) csatMap[r.carrera] = { t3b: 0, total: 0 };
       const t3b = sumKeys(r, SAT_TOP3_KEYS);
       const total = t3b + (r['Insatisfecho'] || 0) + (r['Totalmente insatisfecho'] || 0);
