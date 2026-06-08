@@ -1230,7 +1230,9 @@
     data.forEach((item) => {
       const tr = document.createElement('tr');
       const catCorta =
-        item.categoria === 'Administrativo y Bienestar' ? 'Servicios' : item.categoria;
+        item.categoria === 'Administrativo y Bienestar' ? 'Servicios' :
+        item.categoria === 'Desarrollo Profesional' ? 'Desarrollo' :
+        item.categoria;
       const heatClass =
         parseFloat(item.top3box) >= META_CSAT
           ? 'heat-high'
