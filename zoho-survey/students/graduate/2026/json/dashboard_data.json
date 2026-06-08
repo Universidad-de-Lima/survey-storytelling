@@ -31,11 +31,11 @@
     "delta": 0,
     "top_dimensiones": [
       {
-        "name": "Calidad de la formación académica",
-        "score": 99.61
+        "name": "Habilidades para aportar nuevas ideas",
+        "score": 100.0
       },
       {
-        "name": "Aulas de clase",
+        "name": "Calidad de la formación académica",
         "score": 99.61
       }
     ],
