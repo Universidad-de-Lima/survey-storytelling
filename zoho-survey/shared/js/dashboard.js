@@ -1858,19 +1858,18 @@
     // Si la encuesta no tiene columna Ciclo (ej: graduados, egresados),
     // ocultar todos los filtros de ciclo en el DOM.
     // Si la encuesta no tiene columna Ciclo, ocultar el grupo de filtro de ciclo
-    // y redistribuir el espacio a los filtros de facultad y carrera
     if (!cache.filtros.has_ciclo) {
       document.querySelectorAll('.filter-ciclo-actions').forEach((el) => {
         const grp = el.querySelector('.filter-group');
         if (grp) grp.style.display = 'none';
         el.style.flex = 'none';
       });
-      // Evitar que los filtros restantes se estiren excesivamente
-      document.querySelectorAll('.filter-container > .filter-group').forEach((el) => {
-        el.style.flex = '0 1 auto';
-        el.style.minWidth = '180px';
-      });
     }
+    // Filtros compactos: que no se estiren para llenar espacio vacío
+    document.querySelectorAll('.filter-container > .filter-group').forEach((el) => {
+      el.style.flex = '0 1 auto';
+      el.style.minWidth = '180px';
+    });
 
     if (!tieneDatosCualitativos) {
       // Ocultar sección del DOM
