@@ -26,14 +26,14 @@
   {
     "carrera": "Comunicación",
     "facultad": "Facultad de Comunicación",
-    "Totalmente satisfecho": 146,
+    "Totalmente satisfecho": 152,
     "Muy satisfecho": 107,
-    "Satisfecho": 86,
+    "Satisfecho": 91,
     "Insatisfecho": 13,
-    "Totalmente insatisfecho": 2,
+    "Totalmente insatisfecho": 3,
     "No utilizo": 0,
     "No conozco": 0,
-    "score": 95.76
+    "score": 95.63
   },
   {
     "carrera": "Contabilidad y Finanzas",
@@ -50,14 +50,14 @@
   {
     "carrera": "Derecho",
     "facultad": "Facultad de Derecho",
-    "Totalmente satisfecho": 205,
-    "Muy satisfecho": 127,
+    "Totalmente satisfecho": 210,
+    "Muy satisfecho": 129,
     "Satisfecho": 131,
     "Insatisfecho": 7,
     "Totalmente insatisfecho": 2,
     "No utilizo": 0,
     "No conozco": 0,
-    "score": 98.09
+    "score": 98.12
   },
   {
     "carrera": "Economía",
@@ -98,14 +98,14 @@
   {
     "carrera": "Ingeniería Industrial",
     "facultad": "Facultad de Ingeniería",
-    "Totalmente satisfecho": 190,
-    "Muy satisfecho": 125,
-    "Satisfecho": 71,
+    "Totalmente satisfecho": 198,
+    "Muy satisfecho": 140,
+    "Satisfecho": 74,
     "Insatisfecho": 4,
     "Totalmente insatisfecho": 1,
     "No utilizo": 0,
     "No conozco": 0,
-    "score": 98.72
+    "score": 98.8
   },
   {
     "carrera": "Ingeniería Mecatrónica",
@@ -158,13 +158,13 @@
   {
     "carrera": "Psicología",
     "facultad": "Facultad de Psicología",
-    "Totalmente satisfecho": 147,
+    "Totalmente satisfecho": 151,
     "Muy satisfecho": 146,
-    "Satisfecho": 106,
+    "Satisfecho": 109,
     "Insatisfecho": 10,
     "Totalmente insatisfecho": 2,
     "No utilizo": 0,
     "No conozco": 0,
-    "score": 97.08
+    "score": 97.13
   }
 ]
