@@ -987,36 +987,36 @@
     const cic = getSelectedValues($('filter-ciclo-radar'));
     const filtered = filtrarDatos(cache.dimensiones, fac, car, cic);
 
-    // ── Dimension filter setup ──
-    const selDim = $('filter-dimension-radar');
-    if (selDim && selDim.options.length <= 1) {
-      // Populate dimension dropdown once with all available dimensions
-      const allDimNames = [...new Set(cache.dimensiones.map(r => r.dimension))].sort();
-      allDimNames.forEach(d => {
+    // ── Category filter setup ──
+    const selCat = $('filter-categoria-radar');
+    if (selCat && selCat.options.length <= 1) {
+      // Populate with categories actually present in the data
+      const cats = [...new Set(cache.dimensiones.map(r => r.categoria))].sort();
+      cats.forEach(c => {
         const opt = document.createElement('option');
-        opt.value = d;
-        opt.textContent = cortarTexto(d, 60);
-        selDim.appendChild(opt);
+        opt.value = c;
+        opt.textContent = c;
+        selCat.appendChild(opt);
       });
       // Init multiselect
-      if (!selDim.__multiselect) {
-        selDim.__multiselect = createMultiselectDropdown(selDim, () => renderRadarIndependiente());
+      if (!selCat.__multiselect) {
+        selCat.__multiselect = createMultiselectDropdown(selCat, () => renderRadarIndependiente());
       }
-      // Hook into reset button to also clear dimension filter
+      // Hook into reset button to also clear category filter
       const resetBtn = $('reset-radar');
-      if (resetBtn && !resetBtn.dataset._dimHooked) {
-        resetBtn.dataset._dimHooked = '1';
+      if (resetBtn && !resetBtn.dataset._catHooked) {
+        resetBtn.dataset._catHooked = '1';
         resetBtn.addEventListener('click', () => {
           setTimeout(() => {
-            if (selDim.__multiselect) {
-              Array.from(selDim.options).forEach(o => { if (o.value) o.selected = false; });
-              selDim.__multiselect.update();
+            if (selCat.__multiselect) {
+              Array.from(selCat.options).forEach(o => { if (o.value) o.selected = false; });
+              selCat.__multiselect.update();
             }
           }, 50);
         });
       }
     }
-    const selectedDims = selDim ? getSelectedValues(selDim) : null;
+    const selectedCats = selCat ? getSelectedValues(selCat) : null;
 
     const dims = {};
     filtered.forEach((r) => {
@@ -1028,7 +1028,7 @@
     const allDims = Object.entries(dims)
       .filter(([, v]) => v.total > 0)
       .map(([dim, v]) => ({ dim, pct: (v.top3 / v.total) * 100, categoria: v.categoria }))
-      .filter(d => !selectedDims || selectedDims.length === 0 || selectedDims.includes(d.dim));
+      .filter(d => !selectedCats || selectedCats.length === 0 || selectedCats.includes(d.categoria));
 
     if (!allDims.length) {
       DOM.radarChart.innerHTML = '<text x="300" y="250" text-anchor="middle">Sin datos</text>';
