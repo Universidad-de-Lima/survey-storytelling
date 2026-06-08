@@ -30,11 +30,11 @@ window.SurveyMultiselect = (() => {
     sel.dispatchEvent(new Event('change', { bubbles: true }));
   }
 
-  function formatMultiselectLabel(values, placeholder) {
-    if (_dh) return _dh.formatMultiselectLabel(values, placeholder);
+  function formatMultiselectLabel(values, placeholder, itemName = 'ciclos') {
+    if (_dh) return _dh.formatMultiselectLabel(values, placeholder, itemName);
     if (!values || !values.length) return placeholder;
     if (values.length === 1) return values[0];
-    return `${values.length} ciclos seleccionados`;
+    return `${values.length} ${itemName} seleccionados`;
   }
 
   // ── Factory ──
@@ -46,7 +46,7 @@ window.SurveyMultiselect = (() => {
    * @param {Function} [onChangeCallback] - Callback opcional al cambiar selección
    * @returns {HTMLElement} El elemento wrapper (tiene método .update())
    */
-  function create(selCic, onChangeCallback) {
+  function create(selCic, onChangeCallback, defaultLabel = 'Todos los ciclos', itemName = 'ciclos') {
     if (!selCic) return null;
 
     const wrapper = document.createElement('div');
@@ -58,7 +58,7 @@ window.SurveyMultiselect = (() => {
     button.className = 'filter-select filter-multiselect-toggle';
     button.setAttribute('aria-haspopup', 'listbox');
     button.setAttribute('aria-expanded', 'false');
-    button.textContent = formatMultiselectLabel(getSelectedValues(selCic), 'Todos los ciclos');
+    button.textContent = formatMultiselectLabel(getSelectedValues(selCic), defaultLabel, itemName);
     wrapper.appendChild(button);
 
     const panel = document.createElement('div');
@@ -85,7 +85,7 @@ window.SurveyMultiselect = (() => {
             panel.querySelectorAll('input[type="checkbox"]:checked'),
           ).map((i) => i.value);
           setSelectedValues(selCic, checkedValues);
-          button.textContent = formatMultiselectLabel(checkedValues, 'Todos los ciclos');
+          button.textContent = formatMultiselectLabel(checkedValues, defaultLabel, itemName);
           selCic.classList.toggle('filter-active', checkedValues.length > 0);
           button.classList.toggle('filter-active', checkedValues.length > 0);
           if (onChangeCallback) onChangeCallback();
@@ -140,7 +140,7 @@ window.SurveyMultiselect = (() => {
       renderOptions();
       const vals = getSelectedValues(selCic);
       const any = Array.isArray(vals) ? vals.length > 0 : !!vals;
-      button.textContent = formatMultiselectLabel(vals, 'Todos los ciclos');
+      button.textContent = formatMultiselectLabel(vals, defaultLabel, itemName);
       button.classList.toggle('filter-active', any);
     };
 
