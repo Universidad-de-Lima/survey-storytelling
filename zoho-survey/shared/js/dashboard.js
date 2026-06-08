@@ -1860,9 +1860,7 @@
     // Si la encuesta no tiene columna Ciclo, ocultar el grupo de filtro de ciclo
     if (!cache.filtros.has_ciclo) {
       document.querySelectorAll('.filter-ciclo-actions').forEach((el) => {
-        const grp = el.querySelector('.filter-group');
-        if (grp) grp.style.display = 'none';
-        el.style.flex = '0 0 auto';
+        el.style.display = 'none';
       });
     }
 
