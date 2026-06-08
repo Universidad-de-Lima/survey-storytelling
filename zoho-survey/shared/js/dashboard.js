@@ -1862,14 +1862,9 @@
       document.querySelectorAll('.filter-ciclo-actions').forEach((el) => {
         const grp = el.querySelector('.filter-group');
         if (grp) grp.style.display = 'none';
-        el.style.flex = 'none';
+        el.style.flex = '0 0 auto';
       });
     }
-    // Filtros compactos: que no se estiren para llenar espacio vacío
-    document.querySelectorAll('.filter-container > .filter-group').forEach((el) => {
-      el.style.flex = '0 1 auto';
-      el.style.minWidth = '180px';
-    });
 
     if (!tieneDatosCualitativos) {
       // Ocultar sección del DOM
