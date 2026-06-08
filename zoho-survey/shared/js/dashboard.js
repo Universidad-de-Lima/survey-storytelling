@@ -1865,6 +1865,11 @@
         if (grp) grp.style.display = 'none';
         el.style.flex = 'none';
       });
+      // Evitar que los filtros restantes se estiren excesivamente
+      document.querySelectorAll('.filter-container > .filter-group').forEach((el) => {
+        el.style.flex = '0 1 auto';
+        el.style.minWidth = '180px';
+      });
     }
 
     if (!tieneDatosCualitativos) {
