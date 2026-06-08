@@ -1012,12 +1012,11 @@
       if (resetBtn && !resetBtn.dataset._catHooked) {
         resetBtn.dataset._catHooked = '1';
         resetBtn.addEventListener('click', () => {
-          setTimeout(() => {
-            if (selCat.__multiselect) {
-              Array.from(selCat.options).forEach(o => { if (o.value) o.selected = false; });
-              selCat.__multiselect.update();
-            }
-          }, 50);
+          if (selCat.__multiselect) {
+            Array.from(selCat.options).forEach(o => { if (o.value) o.selected = false; });
+            selCat.__multiselect.update();
+            renderRadarIndependiente();
+          }
         });
       }
     }
