@@ -942,6 +942,8 @@
       infraestructura: 'Infraestructura',
       tecnologia: 'Tecnología',
       adminBienestar: 'Administrativo y Bienestar',
+      docencia: 'Docencia',
+      desarrollo: 'Desarrollo Profesional',
     };
     const top3Data = {};
     Object.entries(categorias).forEach(([key, nombre]) => {
@@ -962,6 +964,8 @@
     renderTop3Bars('chart-infraestructura', top3Data.infraestructura);
     renderTop3Bars('chart-tecnologia', top3Data.tecnologia);
     renderTop3Bars('chart-admin-bienestar', top3Data.adminBienestar);
+    renderTop3Bars('chart-docencia', top3Data.docencia);
+    renderTop3Bars('chart-desarrollo', top3Data.desarrollo);
   }
 
   // Gráfico radar
