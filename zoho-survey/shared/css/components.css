@@ -265,8 +265,12 @@
 
 .filter-ciclo-actions .filter-group {
   flex: 1 1 0;
-  min-width: 0;
+  min-width: 130px;
   max-width: none;
+}
+
+.filter-ciclo-actions .filter-multiselect {
+  min-width: 130px;
 }
 
 .filter-ciclo-actions .filter-reset {
