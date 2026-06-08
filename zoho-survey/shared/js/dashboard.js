@@ -272,10 +272,13 @@
     sel.dispatchEvent(new Event('change', { bubbles: true }));
   }
 
-  function formatMultiselectLabel(values, placeholder) {
+  function formatMultiselectLabel(values, placeholder, itemName = 'ciclos') {
     if (!values || !values.length) return placeholder;
-    if (values.length === 1) return formatCicloText(values[0]) || values[0];
-    return `${values.length} ciclos seleccionados`;
+    if (values.length === 1) {
+      const v = values[0];
+      return itemName === 'ciclos' ? (formatCicloText(v) || v) : v;
+    }
+    return `${values.length} ${itemName} seleccionados`;
   }
 
   const getPlaceholderText = (sel) => {
@@ -404,8 +407,8 @@
   // ── Multiselect: delegar a SurveyMultiselect si disponible ──
   const _ms = window.SurveyMultiselect;
   const createMultiselectDropdown = _ms
-    ? (sel, cb) => _ms.create(sel, cb)
-    : (function(selCic, onChangeCallback) {
+    ? (sel, cb, lbl, item) => _ms.create(sel, cb, lbl, item)
+    : (function(selCic, onChangeCallback, defaultLabel = 'Todos los ciclos', itemName = 'ciclos') {
     const wrapper = document.createElement('div');
     wrapper.className = 'filter-multiselect';
     wrapper.style.position = 'relative';
@@ -415,7 +418,7 @@
     button.className = 'filter-select filter-multiselect-toggle';
     button.setAttribute('aria-haspopup', 'listbox');
     button.setAttribute('aria-expanded', 'false');
-    button.textContent = formatMultiselectLabel(getSelectedValues(selCic), 'Todos los ciclos');
+    button.textContent = formatMultiselectLabel(getSelectedValues(selCic), defaultLabel, itemName);
     wrapper.appendChild(button);
 
     const panel = document.createElement('div');
@@ -442,7 +445,7 @@
             panel.querySelectorAll('input[type="checkbox"]:checked'),
           ).map((i) => i.value);
           setSelectedValues(selCic, checkedValues);
-          button.textContent = formatMultiselectLabel(checkedValues, 'Todos los ciclos');
+          button.textContent = formatMultiselectLabel(checkedValues, defaultLabel, itemName);
           selCic.classList.toggle('filter-active', checkedValues.length > 0);
           button.classList.toggle('filter-active', checkedValues.length > 0);
         });
@@ -499,7 +502,7 @@
       renderOptions();
       const vals = getSelectedValues(selCic);
       const any = Array.isArray(vals) ? vals.length > 0 : !!vals;
-      button.textContent = formatMultiselectLabel(vals, 'Todos los ciclos');
+      button.textContent = formatMultiselectLabel(vals, defaultLabel, itemName);
       button.classList.toggle('filter-active', any);
     };
 
@@ -1001,7 +1004,8 @@
       });
       // Init multiselect
       if (!selCat.__multiselect) {
-        selCat.__multiselect = createMultiselectDropdown(selCat, () => renderRadarIndependiente());
+        selCat.__multiselect = createMultiselectDropdown(selCat, () => renderRadarIndependiente(), 'Todas las categorías', 'categorías');
+        selCat.__multiselect.update();
       }
       // Hook into reset button to also clear category filter
       const resetBtn = $('reset-radar');
