@@ -966,6 +966,18 @@
     renderTop3Bars('chart-admin-bienestar', top3Data.adminBienestar);
     renderTop3Bars('chart-docencia', top3Data.docencia);
     renderTop3Bars('chart-desarrollo', top3Data.desarrollo);
+
+    // Hide cards with no data (e.g. Docencia/Desarrollo Profesional in pregrado)
+    ['chart-docencia', 'chart-desarrollo'].forEach(id => {
+      const chart = document.getElementById(id);
+      if (chart && chart.children.length === 0) {
+        const card = chart.closest('.card');
+        if (card) card.style.display = 'none';
+      } else if (chart) {
+        const card = chart.closest('.card');
+        if (card) card.style.display = '';
+      }
+    });
   }
 
   // Gráfico radar
