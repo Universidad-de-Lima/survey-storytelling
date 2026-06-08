@@ -986,6 +986,38 @@
     const car = $('filter-carrera-radar').value;
     const cic = getSelectedValues($('filter-ciclo-radar'));
     const filtered = filtrarDatos(cache.dimensiones, fac, car, cic);
+
+    // ── Dimension filter setup ──
+    const selDim = $('filter-dimension-radar');
+    if (selDim && selDim.options.length <= 1) {
+      // Populate dimension dropdown once with all available dimensions
+      const allDimNames = [...new Set(cache.dimensiones.map(r => r.dimension))].sort();
+      allDimNames.forEach(d => {
+        const opt = document.createElement('option');
+        opt.value = d;
+        opt.textContent = cortarTexto(d, 60);
+        selDim.appendChild(opt);
+      });
+      // Init multiselect
+      if (!selDim.__multiselect) {
+        selDim.__multiselect = createMultiselectDropdown(selDim, () => renderRadarIndependiente());
+      }
+      // Hook into reset button to also clear dimension filter
+      const resetBtn = $('reset-radar');
+      if (resetBtn && !resetBtn.dataset._dimHooked) {
+        resetBtn.dataset._dimHooked = '1';
+        resetBtn.addEventListener('click', () => {
+          setTimeout(() => {
+            if (selDim.__multiselect) {
+              Array.from(selDim.options).forEach(o => { if (o.value) o.selected = false; });
+              selDim.__multiselect.update();
+            }
+          }, 50);
+        });
+      }
+    }
+    const selectedDims = selDim ? getSelectedValues(selDim) : null;
+
     const dims = {};
     filtered.forEach((r) => {
       if (!dimensionAplica(filtered, r.dimension)) return;
@@ -995,7 +1027,8 @@
     });
     const allDims = Object.entries(dims)
       .filter(([, v]) => v.total > 0)
-      .map(([dim, v]) => ({ dim, pct: (v.top3 / v.total) * 100, categoria: v.categoria }));
+      .map(([dim, v]) => ({ dim, pct: (v.top3 / v.total) * 100, categoria: v.categoria }))
+      .filter(d => !selectedDims || selectedDims.length === 0 || selectedDims.includes(d.dim));
 
     if (!allDims.length) {
       DOM.radarChart.innerHTML = '<text x="300" y="250" text-anchor="middle">Sin datos</text>';
