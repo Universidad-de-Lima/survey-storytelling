@@ -992,10 +992,11 @@
     if (selCat && selCat.options.length <= 1) {
       // Populate with categories actually present in the data
       const cats = [...new Set(cache.dimensiones.map(r => r.categoria))].sort();
+      const catDisplay = { 'Administrativo y Bienestar': 'Servicios al estudiante' };
       cats.forEach(c => {
         const opt = document.createElement('option');
         opt.value = c;
-        opt.textContent = c;
+        opt.textContent = catDisplay[c] || c;
         selCat.appendChild(opt);
       });
       // Init multiselect
