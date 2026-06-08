@@ -259,7 +259,7 @@
   align-items: center;
   gap: 8px;
   flex: 1 1 0;
-  min-width: 228px;
+  min-width: 130px;
   overflow: visible;
 }
 
@@ -267,10 +267,6 @@
   flex: 1 1 0;
   min-width: 130px;
   max-width: none;
-}
-
-.filter-ciclo-actions .filter-multiselect {
-  min-width: 130px;
 }
 
 .filter-ciclo-actions .filter-reset {
