@@ -15,10 +15,10 @@
   },
   {
     "carrera": "Comunicación",
-    "Promotores": 264,
-    "Pasivos": 75,
-    "Detractores": 15,
-    "score": 70.34
+    "Promotores": 272,
+    "Pasivos": 78,
+    "Detractores": 16,
+    "score": 69.95
   },
   {
     "carrera": "Contabilidad y Finanzas",
@@ -29,10 +29,10 @@
   },
   {
     "carrera": "Derecho",
-    "Promotores": 362,
+    "Promotores": 369,
     "Pasivos": 93,
     "Detractores": 17,
-    "score": 73.09
+    "score": 73.49
   },
   {
     "carrera": "Economía",
@@ -57,10 +57,10 @@
   },
   {
     "carrera": "Ingeniería Industrial",
-    "Promotores": 324,
-    "Pasivos": 56,
+    "Promotores": 343,
+    "Pasivos": 63,
     "Detractores": 11,
-    "score": 80.05
+    "score": 79.62
   },
   {
     "carrera": "Ingeniería Mecatrónica",
@@ -92,9 +92,9 @@
   },
   {
     "carrera": "Psicología",
-    "Promotores": 294,
-    "Pasivos": 91,
+    "Promotores": 300,
+    "Pasivos": 92,
     "Detractores": 26,
-    "score": 65.21
+    "score": 65.55
   }
 ]

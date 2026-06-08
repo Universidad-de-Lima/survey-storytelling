@@ -1,10 +1,10 @@
 {
   "version": "2.0",
   "resumen": {
-    "total_con_comentario": 842,
-    "total_analizados": 842,
-    "pasivos": 710,
-    "detractores": 132,
+    "total_con_comentario": 853,
+    "total_analizados": 853,
+    "pasivos": 720,
+    "detractores": 133,
     "nota": "Solo se analizan comentarios de Pasivos (7-8) y Detractores (0-6). Los Promotores (9-10) no responden esta pregunta."
   },
   "topicos": [
@@ -12,9 +12,9 @@
       "topico": "Calidad docente",
       "tipo": "mejora",
       "icono": "📚",
-      "total_comentarios": 172,
-      "detractores": 32,
-      "pasivos": 140,
+      "total_comentarios": 174,
+      "detractores": 33,
+      "pasivos": 141,
       "frases_representativas": [
         "depende de la carrera,a derecho le falta un área donde podamos imprimir gratuitamente los profesores envían lecturas,sería más acuerdo ya que es una carrera donde se lee bastante,que se nos de esa facilidad a los estudiantes,áreas para descansar sin acoso",
         "La universidad en sí es buena,pero en mi carrera la facultad se encuentra desactualizada y  los silábicos en sí, en otros aspectos como infraestructura la universidad es buena y un lugar para estudiar.Sin embargo,los sílabos y enseñanzas no están últimos.",
@@ -25,8 +25,8 @@
         "Administración": 19,
         "Psicología": 19,
         "Economía": 16,
-        "Ingeniería Industrial": 15,
-        "Comunicación": 14,
+        "Ingeniería Industrial": 16,
+        "Comunicación": 15,
         "Ingeniería Civil": 14,
         "Ingeniería de Sistemas": 12,
         "Arquitectura": 11,
@@ -37,19 +37,19 @@
       },
       "por_facultad": {
         "Facultad de Ciencias Empresariales": 48,
-        "Facultad de Ingeniería": 43,
+        "Facultad de Ingeniería": 44,
         "Facultad de Derecho": 21,
         "Facultad de Psicología": 19,
         "Facultad de Economía": 16,
-        "Facultad de Comunicación": 14,
+        "Facultad de Comunicación": 15,
         "Facultad de Arquitectura": 11
       },
       "por_ciclo": {
         "5° Ciclo": 27,
-        "6° Ciclo": 24,
+        "6° Ciclo": 25,
         "1° Ciclo": 22,
         "7° Ciclo": 22,
-        "3° Ciclo": 20,
+        "3° Ciclo": 21,
         "9° Ciclo": 15,
         "2° Ciclo": 13,
         "4° Ciclo": 12,
@@ -63,9 +63,9 @@
       "topico": "Valoración positiva general",
       "tipo": "positivo",
       "icono": "✅",
-      "total_comentarios": 135,
+      "total_comentarios": 138,
       "detractores": 9,
-      "pasivos": 126,
+      "pasivos": 129,
       "frases_representativas": [
         "Me parece una buena universidad, con una calidad de vida como estudiante estupenda, pero considero que el nivel de dificultad es muy fácil, lo que no permite elevar el nivel. Ademas en mi carrera considero que hay muchos cursos que no son tan relevantes.",
         "La calidad educativa es buena. Solo que algunos cursos podrían omitirse según las necesidades actuales y, en cuanto a psicología, no enfocarse solo en el ámbito organizacional. En ese aspecto pierde mucho a comparación de otras universidades.",
@@ -73,11 +73,11 @@
       ],
       "por_carrera": {
         "Derecho": 25,
-        "Comunicación": 16,
+        "Comunicación": 17,
         "Psicología": 16,
         "Administración": 13,
         "Negocios Internacionales": 13,
-        "Ingeniería Industrial": 10,
+        "Ingeniería Industrial": 12,
         "Ingeniería Civil": 9,
         "Ingeniería de Sistemas": 9,
         "Contabilidad y Finanzas": 7,
@@ -88,22 +88,22 @@
       },
       "por_facultad": {
         "Facultad de Ciencias Empresariales": 40,
-        "Facultad de Ingeniería": 32,
+        "Facultad de Ingeniería": 34,
         "Facultad de Derecho": 25,
-        "Facultad de Comunicación": 16,
+        "Facultad de Comunicación": 17,
         "Facultad de Psicología": 16,
         "Facultad de Economía": 4,
         "Facultad de Arquitectura": 2
       },
       "por_ciclo": {
         "3° Ciclo": 20,
+        "6° Ciclo": 16,
         "5° Ciclo": 15,
-        "6° Ciclo": 15,
         "7° Ciclo": 15,
         "8° Ciclo": 15,
         "1° Ciclo": 14,
-        "4° Ciclo": 13,
-        "2° Ciclo": 8,
+        "4° Ciclo": 14,
+        "2° Ciclo": 9,
         "9° Ciclo": 7,
         "10° Ciclo": 6,
         "12° Ciclo": 4,
@@ -346,13 +346,13 @@
       "topico": "Tecnología y plataformas",
       "tipo": "mejora",
       "icono": "💻",
-      "total_comentarios": 7,
+      "total_comentarios": 8,
       "detractores": 0,
-      "pasivos": 7,
+      "pasivos": 8,
       "frases_representativas": [
+        "Dan una educación muy buena por el precio de la cuota y su atención hacia el alumno de acuerdo a su bienestar es buena. Blackboard, zoom no, son muy lentos y muchas veces se pierden tiempo en clase virtual por caída del sistema",
         "Más estacionamientos en los sótanos debido a que se llena muy rápido. Asimismo, colocar más restaurantes para una mayor variedad y colocar en todas las entradas registro facial para dejar de usar el carnet virtual.",
-        "Faltaría mejorar la transitabilidad , conexiones WiFi, mejorar actividades deportivas y mas visitas de campo con respecto a la carrera",
-        "Es una muy buena universidad, bonita infraestructura y buena enseñanza, lo único a mejorar la señal a internet y el soporte técnico"
+        "Faltaría mejorar la transitabilidad , conexiones WiFi, mejorar actividades deportivas y mas visitas de campo con respecto a la carrera"
       ],
       "por_carrera": {
         "Derecho": 1,
@@ -361,16 +361,19 @@
         "Ingeniería Industrial": 1,
         "Ingeniería Mecatrónica": 1,
         "Ingeniería de Sistemas": 1,
-        "Negocios Internacionales": 1
+        "Negocios Internacionales": 1,
+        "Psicología": 1
       },
       "por_facultad": {
         "Facultad de Ingeniería": 5,
         "Facultad de Ciencias Empresariales": 1,
-        "Facultad de Derecho": 1
+        "Facultad de Derecho": 1,
+        "Facultad de Psicología": 1
       },
       "por_ciclo": {
         "1° Ciclo": 2,
         "7° Ciclo": 2,
+        "2° Ciclo": 1,
         "3° Ciclo": 1,
         "4° Ciclo": 1,
         "9° Ciclo": 1
@@ -381,8 +384,8 @@
     {
       "carrera": "Psicología",
       "facultad": "Facultad de Psicología",
-      "total": 111,
-      "pasivos": 85,
+      "total": 112,
+      "pasivos": 86,
       "detractores": 26
     },
     {
@@ -393,6 +396,13 @@
       "detractores": 14
     },
     {
+      "carrera": "Comunicación",
+      "facultad": "Facultad de Comunicación",
+      "total": 89,
+      "pasivos": 73,
+      "detractores": 16
+    },
+    {
       "carrera": "Administración",
       "facultad": "Facultad de Ciencias Empresariales",
       "total": 85,
@@ -400,18 +410,18 @@
       "detractores": 9
     },
     {
-      "carrera": "Comunicación",
-      "facultad": "Facultad de Comunicación",
-      "total": 85,
-      "pasivos": 70,
-      "detractores": 15
-    },
-    {
       "carrera": "Arquitectura",
       "facultad": "Facultad de Arquitectura",
       "total": 71,
       "pasivos": 63,
       "detractores": 8
+    },
+    {
+      "carrera": "Ingeniería Industrial",
+      "facultad": "Facultad de Ingeniería",
+      "total": 68,
+      "pasivos": 59,
+      "detractores": 9
     },
     {
       "carrera": "Ingeniería de Sistemas",
@@ -426,13 +436,6 @@
       "total": 63,
       "pasivos": 58,
       "detractores": 5
-    },
-    {
-      "carrera": "Ingeniería Industrial",
-      "facultad": "Facultad de Ingeniería",
-      "total": 62,
-      "pasivos": 53,
-      "detractores": 9
     },
     {
       "carrera": "Negocios Internacionales",
@@ -486,32 +489,32 @@
     },
     {
       "ciclo": "2° Ciclo",
-      "total": 58,
-      "pasivos": 51,
+      "total": 61,
+      "pasivos": 54,
       "detractores": 7
     },
     {
       "ciclo": "3° Ciclo",
-      "total": 96,
+      "total": 97,
       "pasivos": 87,
-      "detractores": 9
+      "detractores": 10
     },
     {
       "ciclo": "4° Ciclo",
-      "total": 63,
-      "pasivos": 50,
+      "total": 65,
+      "pasivos": 52,
       "detractores": 13
     },
     {
       "ciclo": "5° Ciclo",
-      "total": 113,
-      "pasivos": 98,
+      "total": 116,
+      "pasivos": 101,
       "detractores": 15
     },
     {
       "ciclo": "6° Ciclo",
-      "total": 90,
-      "pasivos": 74,
+      "total": 92,
+      "pasivos": 76,
       "detractores": 16
     },
     {

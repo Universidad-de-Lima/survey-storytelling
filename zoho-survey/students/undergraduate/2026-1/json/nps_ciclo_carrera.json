@@ -471,37 +471,37 @@
     "facultad": "Facultad de Comunicación",
     "carrera": "Comunicación",
     "ciclo": "2° Ciclo",
-    "Promotores": 19,
-    "Pasivos": 6,
+    "Promotores": 21,
+    "Pasivos": 8,
     "Detractores": 2,
-    "score": 62.96
+    "score": 61.29
   },
   {
     "facultad": "Facultad de Comunicación",
     "carrera": "Comunicación",
     "ciclo": "3° Ciclo",
-    "Promotores": 36,
+    "Promotores": 41,
     "Pasivos": 10,
-    "Detractores": 2,
-    "score": 70.83
+    "Detractores": 3,
+    "score": 70.37
   },
   {
     "facultad": "Facultad de Comunicación",
     "carrera": "Comunicación",
     "ciclo": "4° Ciclo",
-    "Promotores": 22,
+    "Promotores": 23,
     "Pasivos": 7,
     "Detractores": 0,
-    "score": 75.86
+    "score": 76.67
   },
   {
     "facultad": "Facultad de Comunicación",
     "carrera": "Comunicación",
     "ciclo": "5° Ciclo",
     "Promotores": 41,
-    "Pasivos": 6,
+    "Pasivos": 7,
     "Detractores": 2,
-    "score": 79.59
+    "score": 78.0
   },
   {
     "facultad": "Facultad de Comunicación",
@@ -579,19 +579,19 @@
     "facultad": "Facultad de Derecho",
     "carrera": "Derecho",
     "ciclo": "2° Ciclo",
-    "Promotores": 29,
+    "Promotores": 33,
     "Pasivos": 7,
     "Detractores": 0,
-    "score": 80.56
+    "score": 82.5
   },
   {
     "facultad": "Facultad de Derecho",
     "carrera": "Derecho",
     "ciclo": "3° Ciclo",
-    "Promotores": 29,
+    "Promotores": 31,
     "Pasivos": 2,
     "Detractores": 0,
-    "score": 93.55
+    "score": 93.94
   },
   {
     "facultad": "Facultad de Derecho",
@@ -606,10 +606,10 @@
     "facultad": "Facultad de Derecho",
     "carrera": "Derecho",
     "ciclo": "5° Ciclo",
-    "Promotores": 28,
+    "Promotores": 29,
     "Pasivos": 9,
     "Detractores": 3,
-    "score": 62.5
+    "score": 63.41
   },
   {
     "facultad": "Facultad de Derecho",
@@ -894,37 +894,37 @@
     "facultad": "Facultad de Ingeniería",
     "carrera": "Ingeniería Industrial",
     "ciclo": "4° Ciclo",
-    "Promotores": 8,
-    "Pasivos": 1,
+    "Promotores": 12,
+    "Pasivos": 3,
     "Detractores": 0,
-    "score": 88.89
+    "score": 80.0
   },
   {
     "facultad": "Facultad de Ingeniería",
     "carrera": "Ingeniería Industrial",
     "ciclo": "5° Ciclo",
-    "Promotores": 36,
-    "Pasivos": 6,
+    "Promotores": 45,
+    "Pasivos": 9,
     "Detractores": 2,
-    "score": 77.27
+    "score": 76.79
   },
   {
     "facultad": "Facultad de Ingeniería",
     "carrera": "Ingeniería Industrial",
     "ciclo": "6° Ciclo",
-    "Promotores": 17,
-    "Pasivos": 3,
+    "Promotores": 21,
+    "Pasivos": 5,
     "Detractores": 2,
-    "score": 68.18
+    "score": 67.86
   },
   {
     "facultad": "Facultad de Ingeniería",
     "carrera": "Ingeniería Industrial",
     "ciclo": "7° Ciclo",
-    "Promotores": 42,
+    "Promotores": 44,
     "Pasivos": 5,
     "Detractores": 2,
-    "score": 81.63
+    "score": 82.35
   },
   {
     "facultad": "Facultad de Ingeniería",
@@ -1110,28 +1110,28 @@
     "facultad": "Facultad de Psicología",
     "carrera": "Psicología",
     "ciclo": "2° Ciclo",
-    "Promotores": 10,
-    "Pasivos": 3,
+    "Promotores": 12,
+    "Pasivos": 4,
     "Detractores": 1,
-    "score": 64.29
+    "score": 64.71
   },
   {
     "facultad": "Facultad de Psicología",
     "carrera": "Psicología",
     "ciclo": "3° Ciclo",
-    "Promotores": 38,
+    "Promotores": 41,
     "Pasivos": 10,
     "Detractores": 1,
-    "score": 75.51
+    "score": 76.92
   },
   {
     "facultad": "Facultad de Psicología",
     "carrera": "Psicología",
     "ciclo": "4° Ciclo",
-    "Promotores": 18,
+    "Promotores": 19,
     "Pasivos": 5,
     "Detractores": 3,
-    "score": 57.69
+    "score": 59.26
   },
   {
     "facultad": "Facultad de Psicología",

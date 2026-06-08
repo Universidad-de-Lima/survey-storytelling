@@ -1,25 +1,25 @@
 {
   "version": "2.0",
   "resumen": {
-    "encuestas": 3972,
+    "encuestas": 4024,
     "carreras": 14,
     "facultades": 7,
     "fecha_inicio": "2026-05-11",
-    "fecha_fin": "2026-06-04",
-    "dias": 25,
-    "dias_recoleccion": 20,
+    "fecha_fin": "2026-06-08",
+    "dias": 29,
+    "dias_recoleccion": 21,
     "año": 2026,
     "nps": {
-      "score": 72.66,
-      "promotores": 3033,
-      "pasivos": 792,
-      "detractores": 147,
-      "total": 3972
+      "score": 72.69,
+      "promotores": 3073,
+      "pasivos": 803,
+      "detractores": 148,
+      "total": 4024
     },
     "csat": {
       "score": 97.76,
-      "t3b": 3883,
-      "total": 3972
+      "t3b": 3934,
+      "total": 4024
     }
   },
   "hallazgos": {
@@ -27,8 +27,8 @@
     "nps_score": 72,
     "nps_tipo": "Excelente",
     "nps_etapas": {
-      "Avanzado": 70.29,
-      "Inicial": 73.18,
+      "Avanzado": 70.31,
+      "Inicial": 73.17,
       "Intermedio": 75.67
     },
     "tendencia": "disminuye",
@@ -36,17 +36,17 @@
     "top_dimensiones": [
       {
         "name": "Perfil del egreso de la carrera",
-        "score": 96.93
+        "score": 96.91
       },
       {
         "name": "Calidad de la formación académica",
-        "score": 96.83
+        "score": 96.82
       }
     ],
     "top_facultades": [
       {
         "name": "Facultad de Ingeniería",
-        "score": 98.38
+        "score": 98.42
       },
       {
         "name": "Facultad de Arquitectura",
@@ -55,17 +55,17 @@
     ]
   },
   "nps": {
-    "Promotores": 3033,
-    "Pasivos": 792,
-    "Detractores": 147,
-    "score": 72.66
+    "Promotores": 3073,
+    "Pasivos": 803,
+    "Detractores": 148,
+    "score": 72.69
   },
   "csat": {
-    "Totalmente satisfecho": 1697,
-    "Muy satisfecho": 1188,
-    "Satisfecho": 998,
+    "Totalmente satisfecho": 1720,
+    "Muy satisfecho": 1205,
+    "Satisfecho": 1009,
     "Insatisfecho": 74,
-    "Totalmente insatisfecho": 15,
+    "Totalmente insatisfecho": 16,
     "No utilizo": 0,
     "No conozco": 0,
     "score": 97.76
