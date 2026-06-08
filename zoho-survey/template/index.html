@@ -104,6 +104,10 @@
       <h3 class="subsection-title">Radar General - Nivel de satisfacción</h3>
       <div class="filter-container" role="group" aria-label="Filtros del radar">
         <div class="filter-group">
+          <label class="filter-label" for="filter-categoria-radar">Categoría:</label>
+          <select class="filter-select" id="filter-categoria-radar" data-multiselect="true" multiple><option value="">Todas las categorías</option></select>
+        </div>
+        <div class="filter-group">
           <label class="filter-label" for="filter-facultad-radar">Facultad:</label>
           <select class="filter-select" id="filter-facultad-radar"><option value="">Todas las facultades / programas</option></select>
         </div>
@@ -117,10 +121,6 @@
             <select class="filter-select" id="filter-ciclo-radar" data-multiselect="true"><option value="">Todos los ciclos</option></select>
           </div>
           <button class="filter-reset" id="reset-radar" type="button">Limpiar</button>
-        </div>
-        <div class="filter-group" style="flex:1 1 100%;">
-          <label class="filter-label" for="filter-dimension-radar">Dimensión:</label>
-          <select class="filter-select" id="filter-dimension-radar" data-multiselect="true" multiple><option value="">Todas las dimensiones</option></select>
         </div>
       </div>
       <div class="card radar-container">
