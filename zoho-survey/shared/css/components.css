@@ -444,7 +444,7 @@
 
 .filter-multiselect-toggle {
   width: 100%;
-  min-width: 0;
+  min-width: 130px;
   text-align: left;
   display: inline-flex;
   align-items: center;
