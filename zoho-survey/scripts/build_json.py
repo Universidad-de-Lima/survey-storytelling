@@ -563,7 +563,7 @@ for INPUT_FILE in files:
                 "Trabajador dependiente",
                 "Prácticas profesionales",
                 "Trabajador independiente",
-                "Prácticas pre-profesionales"
+                "Prácticas pre - profesionales"
             ]).sum())
             empleabilidad = {
                 "score": round((empleados / total_emp) * 100, 2),
