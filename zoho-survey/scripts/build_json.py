@@ -22,6 +22,16 @@ respuestas_texto = [
     "No conozco"
 ]
 
+# ── Categorías de empleabilidad (solo graduados) ──
+# Define qué opciones de "Situación laboral" cuentan como empleado.
+# Si Zoho Survey cambia estas etiquetas, editar solo aquí.
+EMPLEABILIDAD_CATEGORIAS = [
+    "Trabajador dependiente",
+    "Prácticas profesionales",
+    "Trabajador independiente",
+    "Prácticas pre - profesionales"
+]
+
 COLUMN_RENAME_PREGRADO = {
     "ID de respuesta": "ID",
     "Start time": "Inicio",
@@ -559,12 +569,7 @@ for INPUT_FILE in files:
         serie_emp = df["Situación laboral"].dropna()
         total_emp = len(serie_emp)
         if total_emp > 0:
-            empleados = int(serie_emp.isin([
-                "Trabajador dependiente",
-                "Prácticas profesionales",
-                "Trabajador independiente",
-                "Prácticas pre - profesionales"
-            ]).sum())
+            empleados = int(serie_emp.isin(EMPLEABILIDAD_CATEGORIAS).sum())
             empleabilidad = {
                 "score": round((empleados / total_emp) * 100, 2),
                 "empleados": empleados,

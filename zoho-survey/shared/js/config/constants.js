@@ -17,6 +17,7 @@ window.SURVEY_CONFIG = {
   // ── Metas institucionales ──
   META_NPS: 50,
   META_CSAT: 93,
+  META_EMPLEABILIDAD: 85,
 
   // ── Carreras y facultades con 12 ciclos (en lugar de 10) ──
   CARRERAS_12_CICLOS: ['Derecho', 'Psicología'],

@@ -8,6 +8,7 @@
   const BASE_URL = './json';
   const META_NPS = C.META_NPS ?? 50;
   const META_CSAT = C.META_CSAT ?? 93;
+  const META_EMPLEABILIDAD = C.META_EMPLEABILIDAD ?? 85;
   const CARRERAS_12_CICLOS = C.CARRERAS_12_CICLOS ?? ['Derecho', 'Psicología'];
   const FACULTADES_12_CICLOS = C.FACULTADES_12_CICLOS ?? ['Facultad de Derecho', 'Facultad de Psicología'];
   const PROGRAMA_ESTUDIOS_GENERALES = C.PROGRAMA_ESTUDIOS_GENERALES ?? 'Programa de Estudios Generales';
@@ -591,7 +592,7 @@
       DOM.kpiEmpleaCard.style.display = '';
       DOM.kpiEmpleaValue.textContent = formatPercent(r.empleabilidad.score);
       DOM.kpiEmpleaBar.style.width = `${r.empleabilidad.score}%`;
-      DOM.kpiEmpleaMeta.textContent = `Meta 85 %`;
+      DOM.kpiEmpleaMeta.textContent = `Meta ${META_EMPLEABILIDAD} %`;
     } else if (DOM.kpiEmpleaCard) {
       DOM.kpiEmpleaCard.style.display = 'none';
     }
