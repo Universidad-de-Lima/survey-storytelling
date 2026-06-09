@@ -578,7 +578,7 @@
 
   function renderEjecutivo() {
     const { resumen: r, hallazgos: h, nps, csat } = cache.dashboard;
-    DOM.footerAnio.textContent = r.año;
+    if (DOM.footerAnio) DOM.footerAnio.textContent = r.año;
     DOM.footerPeriodo.textContent = `Periodo: ${formatDate(r.fecha_inicio)} - ${formatDate(r.fecha_fin)} · Dirección de Planificación y Acreditación`;
     if (DOM.footerFuenteTexto) {
       const nivel = r.empleabilidad ? 'GRADUADOS - PREGRADO' : 'ESTUDIANTIL- PREGRADO';
