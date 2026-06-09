@@ -45,6 +45,10 @@
     kpiCsatValue: document.getElementById('kpi-csat-value'),
     kpiCsatBar: document.getElementById('kpi-csat-bar'),
     kpiCsatMeta: document.getElementById('kpi-csat-meta'),
+    kpiEmpleaValue: document.getElementById('kpi-emplea-value'),
+    kpiEmpleaBar: document.getElementById('kpi-emplea-bar'),
+    kpiEmpleaMeta: document.getElementById('kpi-emplea-meta'),
+    kpiEmpleaCard: document.getElementById('kpi-emplea-card'),
     npsBar: document.getElementById('nps-bar'),
     npsLegend: document.getElementById('nps-legend'),
     csatBar: document.getElementById('csat-bar'),
@@ -582,6 +586,15 @@
     DOM.kpiCsatValue.textContent = formatPercent(r.csat.score);
     DOM.kpiCsatBar.style.width = `${r.csat.score}%`;
     DOM.kpiCsatMeta.textContent = `Meta ${formatPercent(META_CSAT)}`;
+
+    if (DOM.kpiEmpleaCard && r.empleabilidad) {
+      DOM.kpiEmpleaCard.style.display = '';
+      DOM.kpiEmpleaValue.textContent = formatPercent(r.empleabilidad.score);
+      DOM.kpiEmpleaBar.style.width = `${r.empleabilidad.score}%`;
+      DOM.kpiEmpleaMeta.textContent = `Meta 80 %`;
+    } else if (DOM.kpiEmpleaCard) {
+      DOM.kpiEmpleaCard.style.display = 'none';
+    }
 
     renderNPSBar(nps);
     renderCSATBar(csat);
