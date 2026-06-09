@@ -591,7 +591,7 @@
       DOM.kpiEmpleaCard.style.display = '';
       DOM.kpiEmpleaValue.textContent = formatPercent(r.empleabilidad.score);
       DOM.kpiEmpleaBar.style.width = `${r.empleabilidad.score}%`;
-      DOM.kpiEmpleaMeta.textContent = `Meta 80 %`;
+      DOM.kpiEmpleaMeta.textContent = `Meta 85 %`;
     } else if (DOM.kpiEmpleaCard) {
       DOM.kpiEmpleaCard.style.display = 'none';
     }
@@ -600,7 +600,15 @@
     renderCSATBar(csat);
 
     const { nps_etapas: etapas } = h;
-    DOM.insightHallazgos.innerHTML = `
+    const empleaPct = r.empleabilidad ? formatInteger(r.empleabilidad.score) : '';
+    DOM.insightHallazgos.innerHTML = r.empleabilidad
+      ? `
+      Actualmente, <strong>+${formatInteger(h.csat_pct)} %</strong> de graduados están satisfechos con la Universidad de Lima.
+      El Índice de Promotores Netos, que es de <strong>+${formatInteger(h.nps_score)}</strong>, posiciona a la institución en el rango
+      "<strong>${h.nps_tipo}</strong>" a nivel global.
+      La empleabilidad es de <strong>+${empleaPct}%</strong> respecto a la meta trazada para este año.
+    `
+      : `
       Actualmente, <strong>+${formatInteger(h.csat_pct)} %</strong> de estudiantes están satisfechos con la Universidad de Lima.
       El Índice de Promotores Netos, que es de <strong>+${formatInteger(h.nps_score)}</strong>, posiciona a la institución en el rango
       "<strong>${h.nps_tipo}</strong>" a nivel global,
