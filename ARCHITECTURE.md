@@ -117,7 +117,17 @@ Infraestructura de tests en `tests/`:
 - `run-tests.html`: Runner HTML
 - `unit/test-config.js`, `test-formatters.js`, `test-sanitizer.js`: 34 tests
 
-### 7.6 Deuda Técnica Resuelta
+### 7.6 Feature: Empleabilidad (Graduados Pregrado)
+
+- **KPI card**: Tarjeta "Empleabilidad" en `kpi-grid` (3 columnas vía `repeat(auto-fit, minmax(220px, 1fr))`)
+- **Color**: Negro (`--black`) para diferenciar de CSAT (verde) y NPS (naranja)
+- **Cálculo**: `(Trabajador dependiente + Prácticas profesionales + Trabajador independiente + Prácticas pre - profesionales) / Total "Situación laboral" × 100`
+- **Meta**: 85% (`META_EMPLEABILIDAD` en `config/constants.js`)
+- **Condicional**: Solo se renderiza si `resumen.empleabilidad` existe en `dashboard_data.json` (graduate); en undergraduate la card se oculta con `display: none`
+- **Hallazgos**: Texto adaptado — en graduate reemplaza el análisis de etapas/ciclos por "La empleabilidad es de +X% respecto a la meta trazada para este año"
+- **Categorías**: Externalizadas en `build_json.py` como `EMPLEABILIDAD_CATEGORIAS`
+
+### 7.7 Deuda Técnica Resuelta
 
 - ✅ Constantes hardcodeadas → `config/constants.js` (`window.SURVEY_CONFIG`)
 - ✅ CSS monolítico → 5 capas modulares

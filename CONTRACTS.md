@@ -38,11 +38,14 @@ Contiene los agregados globales de la encuesta.
   ```json
   {
     "version": "2.0",
-    "resumen": { "nps": { "score": 65.4 }, "csat": { "score": 92.1 } },
+    "resumen": { "nps": { "score": 65.4 }, "csat": { "score": 92.1 }, "empleabilidad": { "score": 85.49 } },
     "nps": { "Promotores": 2669, "Pasivos": 1111, "Detractores": 218 },
     "csat": { "Totalmente satisfecho": 1626, "Muy satisfecho": 1135 }
   }
   ```
+
+  **Nota**: `resumen.empleabilidad` solo está presente en encuestas de graduados (`LEVEL === "graduate"`).
+  Contiene `score` (porcentaje), `empleados` (total de encuestados empleados) y `total` (total de respuestas a "Situación laboral").
   }
   ```
 
