@@ -20,6 +20,11 @@
       "score": 99.22,
       "t3b": 253,
       "total": 255
+    },
+    "empleabilidad": {
+      "score": 83.53,
+      "empleados": 213,
+      "total": 255
     }
   },
   "hallazgos": {
