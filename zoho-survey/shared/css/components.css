@@ -54,8 +54,10 @@
 
 .color-nps { color: var(--ulima-orange); }
 .color-csat { color: var(--success-text); }
+.color-emplea { color: var(--info-text, #2563eb); }
 .bg-nps { background: var(--ulima-orange); }
 .bg-csat { background: var(--success-text); }
+.bg-emplea { background: var(--info-text, #2563eb); }
 .bg-dias { background: var(--gray-700); }
 
 /* ── CSAT / NPS Distribution Bars ── */

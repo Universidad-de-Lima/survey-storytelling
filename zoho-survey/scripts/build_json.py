@@ -553,6 +553,24 @@ for INPUT_FILE in files:
     csat_total = int(serie_csat.isin(respuestas_texto[:5]).sum())
     csat_score = calc_csat(csat_t3b, csat_total)
 
+    # ── Empleabilidad (solo graduados, si existe columna Situación laboral) ──
+    empleabilidad = None
+    if "Situación laboral" in df.columns:
+        serie_emp = df["Situación laboral"].dropna()
+        total_emp = len(serie_emp)
+        if total_emp > 0:
+            empleados = int(serie_emp.isin([
+                "Trabajador dependiente",
+                "Prácticas profesionales",
+                "Trabajador independiente",
+                "Prácticas pre-profesionales"
+            ]).sum())
+            empleabilidad = {
+                "score": round((empleados / total_emp) * 100, 2),
+                "empleados": empleados,
+                "total": total_emp
+            }
+
     resumen = {
         "encuestas": int(len(df)),
         "carreras": int(df["Carrera"].nunique()),
@@ -575,6 +593,8 @@ for INPUT_FILE in files:
             "total": csat_total
         }
     }
+    if empleabilidad:
+        resumen["empleabilidad"] = empleabilidad
 
     # ── resumen.json ELIMINADO (v2.0): datos redundantes con dashboard_data.resumen ──
 
