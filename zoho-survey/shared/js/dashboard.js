@@ -601,7 +601,7 @@
     renderCSATBar(csat);
 
     const { nps_etapas: etapas } = h;
-    const empleaPct = r.empleabilidad ? formatInteger(r.empleabilidad.score) : '';
+    const empleaPct = r.empleabilidad ? formatInteger(Math.round(r.empleabilidad.score)) : '';
     DOM.insightHallazgos.innerHTML = r.empleabilidad
       ? `
       Actualmente, <strong>+${formatInteger(h.csat_pct)} %</strong> de graduados están satisfechos con la Universidad de Lima.
