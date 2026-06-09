@@ -40,6 +40,7 @@
     tooltip: document.getElementById('tooltip'),
     footerAnio: document.getElementById('footer-anio'),
     footerPeriodo: document.getElementById('footer-periodo'),
+    footerNivel: document.getElementById('footer-nivel'),
     kpiNpsValue: document.getElementById('kpi-nps-value'),
     kpiNpsBar: document.getElementById('kpi-nps-bar'),
     kpiNpsMeta: document.getElementById('kpi-nps-meta'),
@@ -579,6 +580,9 @@
     const { resumen: r, hallazgos: h, nps, csat } = cache.dashboard;
     DOM.footerAnio.textContent = r.año;
     DOM.footerPeriodo.textContent = `Periodo: ${formatDate(r.fecha_inicio)} - ${formatDate(r.fecha_fin)} · Dirección de Planificación y Acreditación`;
+    if (DOM.footerNivel) {
+      DOM.footerNivel.textContent = r.empleabilidad ? ' - Graduados' : ' - Estudios Generales / Pregrado';
+    }
 
     DOM.kpiNpsValue.textContent = formatDecimal(r.nps.score);
     DOM.kpiNpsBar.style.width = `${Math.min(100, Math.max(0, r.nps.score))}%`;

@@ -5,9 +5,9 @@
     "carreras": 14,
     "facultades": 7,
     "fecha_inicio": "2026-05-11",
-    "fecha_fin": "2026-06-08",
-    "dias": 29,
-    "dias_recoleccion": 21,
+    "fecha_fin": "2026-05-30",
+    "dias": 20,
+    "dias_recoleccion": 14,
     "año": 2026,
     "nps": {
       "score": 72.69,

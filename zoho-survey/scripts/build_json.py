@@ -542,6 +542,16 @@ for INPUT_FILE in files:
     # =========================================================
     # 1. resumen.json
     # =========================================================
+    # Reemplazar meses en español → inglés para parseo correcto de fechas
+    # Zoho Survey exporta fechas en locale español (ej. "abr. 16, 2026")
+    MESES_ES = {
+        "ene.": "Jan", "feb.": "Feb", "mar.": "Mar", "abr.": "Apr",
+        "may.": "May", "jun.": "Jun", "jul.": "Jul", "ago.": "Aug",
+        "sep.": "Sep", "oct.": "Oct", "nov.": "Nov", "dic.": "Dec"
+    }
+    for col in ["Inicio", "Fin"]:
+        for es, en in MESES_ES.items():
+            df[col] = df[col].str.replace(es, en, regex=False)
     df["Inicio"] = pd.to_datetime(df["Inicio"], dayfirst=True, errors="coerce")
     df["Fin"]    = pd.to_datetime(df["Fin"],    dayfirst=True, errors="coerce")
 

@@ -4,10 +4,10 @@
     "encuestas": 255,
     "carreras": 5,
     "facultades": 3,
-    "fecha_inicio": "2026-05-14",
+    "fecha_inicio": "2026-04-16",
     "fecha_fin": "2026-05-15",
-    "dias": 1,
-    "dias_recoleccion": 2,
+    "dias": 29,
+    "dias_recoleccion": 6,
     "año": 2026,
     "nps": {
       "score": 85.88,
