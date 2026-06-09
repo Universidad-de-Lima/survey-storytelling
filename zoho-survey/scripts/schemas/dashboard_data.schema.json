@@ -23,6 +23,7 @@
         "dias": { "type": "integer", "minimum": 0 },
         "dias_recoleccion": { "type": "integer", "minimum": 0 },
         "año": { "type": "integer" },
+        "periodo": { "type": "string", "description": "Identificador del periodo (ej. '2026-1', '2026')" },
         "nps": {
           "type": "object",
           "required": ["score", "promotores", "pasivos", "detractores", "total"],

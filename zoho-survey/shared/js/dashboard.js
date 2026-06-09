@@ -40,7 +40,7 @@
     tooltip: document.getElementById('tooltip'),
     footerAnio: document.getElementById('footer-anio'),
     footerPeriodo: document.getElementById('footer-periodo'),
-    footerNivel: document.getElementById('footer-nivel'),
+    footerFuenteTexto: document.getElementById('footer-fuente-texto'),
     kpiNpsValue: document.getElementById('kpi-nps-value'),
     kpiNpsBar: document.getElementById('kpi-nps-bar'),
     kpiNpsMeta: document.getElementById('kpi-nps-meta'),
@@ -580,8 +580,10 @@
     const { resumen: r, hallazgos: h, nps, csat } = cache.dashboard;
     DOM.footerAnio.textContent = r.año;
     DOM.footerPeriodo.textContent = `Periodo: ${formatDate(r.fecha_inicio)} - ${formatDate(r.fecha_fin)} · Dirección de Planificación y Acreditación`;
-    if (DOM.footerNivel) {
-      DOM.footerNivel.textContent = r.empleabilidad ? ' - Graduados' : ' - Estudios Generales / Pregrado';
+    if (DOM.footerFuenteTexto) {
+      const nivel = r.empleabilidad ? 'GRADUADOS - PREGRADO' : 'ESTUDIANTIL- PREGRADO';
+      const periodo = r.periodo || r.año;
+      DOM.footerFuenteTexto.textContent = `ENCUESTA DE SATISFACCIÓN ${nivel} - ${periodo}`;
     }
 
     DOM.kpiNpsValue.textContent = formatDecimal(r.nps.score);

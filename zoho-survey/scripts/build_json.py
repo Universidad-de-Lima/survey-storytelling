@@ -542,21 +542,25 @@ for INPUT_FILE in files:
     # =========================================================
     # 1. resumen.json
     # =========================================================
-    # Reemplazar meses en español → inglés para parseo correcto de fechas
-    # Zoho Survey exporta fechas en locale español (ej. "abr. 16, 2026")
+    # Normalizar fechas en español → inglés para parseo correcto
+    # Zoho Survey exporta fechas en locale español (ej. "abr. 16, 2026 05:54:43 p. m.")
     MESES_ES = {
-        "ene.": "Jan", "feb.": "Feb", "mar.": "Mar", "abr.": "Apr",
-        "may.": "May", "jun.": "Jun", "jul.": "Jul", "ago.": "Aug",
-        "sep.": "Sep", "oct.": "Oct", "nov.": "Nov", "dic.": "Dec"
+        "ene.": "January", "feb.": "February", "mar.": "March", "abr.": "April",
+        "may.": "May", "jun.": "June", "jul.": "July", "ago.": "August",
+        "sep.": "September", "oct.": "October", "nov.": "November", "dic.": "December"
     }
     for col in ["Inicio", "Fin"]:
+        # Reemplazar meses español → inglés
         for es, en in MESES_ES.items():
             df[col] = df[col].str.replace(es, en, regex=False)
+        # Normalizar AM/PM: "p. m." → "PM", "a. m." → "AM" (con o sin non-breaking spaces)
+        df[col] = df[col].str.replace(r"p.\s*m\.", "PM", regex=True)
+        df[col] = df[col].str.replace(r"a.\s*m\.", "AM", regex=True)
     df["Inicio"] = pd.to_datetime(df["Inicio"], dayfirst=True, errors="coerce")
     df["Fin"]    = pd.to_datetime(df["Fin"],    dayfirst=True, errors="coerce")
 
     inicio = df["Inicio"].min()
-    fin    = df["Fin"].max()
+    fin    = max(df["Inicio"].max(), df["Fin"].max())
     anio_encuesta  = df["Inicio"].dt.year.mode()[0]
     fechas_unicas  = df["Inicio"].dt.date.nunique()
 
@@ -595,6 +599,7 @@ for INPUT_FILE in files:
         "dias": int((fin - inicio).days + 1),
         "dias_recoleccion": fechas_unicas,
         "año": int(anio_encuesta),
+        "periodo": YEAR,
         "nps": {
             "score": nps_score,
             "promotores": promotores_total,
