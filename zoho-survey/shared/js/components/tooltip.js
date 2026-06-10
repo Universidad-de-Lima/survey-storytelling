@@ -22,9 +22,9 @@ window.SurveyTooltip = (() => {
     if (!el) {
       el = document.createElement('div');
       el.id = TOOLTIP_ID;
+      el.className = 'tooltip';
       el.setAttribute('role', 'tooltip');
       el.setAttribute('aria-hidden', 'true');
-      el.style.cssText = 'position:fixed;background:var(--gray-900,#1F2937);color:white;padding:8px 12px;border-radius:4px;font-size:12px;pointer-events:none;z-index:1001;display:none;box-shadow:0 4px 12px rgba(0,0,0,0.2);white-space:nowrap;will-change:left,top;';
       document.body.appendChild(el);
     }
     return el;

@@ -105,4 +105,14 @@
   --shadow-dropdown: 0 8px 20px rgba(15, 23, 42, 0.08);
   --shadow-dropdown-dark: 0 8px 24px rgba(0, 0, 0, 0.4);
   --shadow-tooltip: 0 4px 12px rgba(0, 0, 0, 0.2);
+
+  /* ── Niveles de satisfacción (Radar y KPIs) ── */
+  --satisfaction-high: var(--gray-700);
+  --satisfaction-medium: var(--gray-400);
+  --satisfaction-low: var(--ulima-red);
+
+  /* ── Fondos semánticos de sentimiento ── */
+  --sentiment-neg-bg: var(--danger-pastel);
+  --sentiment-pos-bg: var(--success-pastel);
+  --sentiment-neu-bg: var(--warning-pastel);
 }

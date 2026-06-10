@@ -15,26 +15,19 @@
 window.SurveyMultiselect = (() => {
   'use strict';
 
-  // ── Utilidades: delegar a SurveyDOMHelpers si disponible ──
+  // ── Utilidades: delegar a SurveyDOMHelpers ──
   const _dh = window.SurveyDOMHelpers;
 
   function getSelectedValues(sel) {
-    return _dh ? _dh.getSelectedValues(sel) : ((!sel) ? '' : sel.multiple ? (() => { const v = Array.from(sel.selectedOptions).map(o => o.value).filter(Boolean); return v.length ? v : ''; })() : (sel.options[sel.selectedIndex] ? sel.options[sel.selectedIndex].value : ''));
+    return _dh.getSelectedValues(sel);
   }
 
   function setSelectedValues(sel, values) {
-    if (_dh) return _dh.setSelectedValues(sel, values);
-    if (!sel) return;
-    if (!sel.multiple) { sel.value = Array.isArray(values) ? values[0] || '' : values || ''; }
-    else { const n = new Set((Array.isArray(values) ? values : [values]).filter(Boolean)); Array.from(sel.options).forEach(o => { o.selected = n.has(o.value); }); }
-    sel.dispatchEvent(new Event('change', { bubbles: true }));
+    _dh.setSelectedValues(sel, values);
   }
 
   function formatMultiselectLabel(values, placeholder, itemName = 'ciclos') {
-    if (_dh) return _dh.formatMultiselectLabel(values, placeholder, itemName);
-    if (!values || !values.length) return placeholder;
-    if (values.length === 1) return values[0];
-    return `${values.length} ${itemName} seleccionados`;
+    return _dh.formatMultiselectLabel(values, placeholder, itemName);
   }
 
   // ── Factory ──

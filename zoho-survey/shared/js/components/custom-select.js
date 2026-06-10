@@ -15,33 +15,23 @@
 window.SurveyCustomSelect = (() => {
   'use strict';
 
-  // ── Utilidades: delegar a SurveyDOMHelpers si disponible ──
+  // ── Utilidades: delegar a SurveyDOMHelpers ──
   const _dh = window.SurveyDOMHelpers;
 
   function getSelectedValues(sel) {
-    return _dh ? _dh.getSelectedValues(sel) : ((!sel) ? '' : sel.multiple ? (() => { const v = Array.from(sel.selectedOptions).map(o => o.value).filter(Boolean); return v.length ? v : ''; })() : (sel.options[sel.selectedIndex] ? sel.options[sel.selectedIndex].value : ''));
+    return _dh.getSelectedValues(sel);
   }
 
   function setSelectedValues(sel, values) {
-    if (_dh) return _dh.setSelectedValues(sel, values);
-    if (!sel) return;
-    if (!sel.multiple) { sel.value = Array.isArray(values) ? values[0] || '' : values || ''; }
-    else { const n = new Set((Array.isArray(values) ? values : [values]).filter(Boolean)); Array.from(sel.options).forEach(o => { o.selected = n.has(o.value); }); }
-    sel.dispatchEvent(new Event('change', { bubbles: true }));
+    _dh.setSelectedValues(sel, values);
   }
 
   function getPlaceholderText(sel) {
-    if (_dh) return _dh.getPlaceholderText(sel);
-    const eo = sel.querySelector('option[value=""]');
-    return eo ? eo.textContent : 'Seleccione';
+    return _dh.getPlaceholderText(sel);
   }
 
   function formatCustomLabel(sel) {
-    if (_dh) return _dh.formatCustomLabel(sel);
-    const s = getSelectedValues(sel);
-    if (!s) return getPlaceholderText(sel);
-    const so = Array.from(sel.options).find(o => o.value === s);
-    return so ? so.textContent : s;
+    return _dh.formatCustomLabel(sel);
   }
 
   // ── Factory ──
