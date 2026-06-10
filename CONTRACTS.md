@@ -61,9 +61,9 @@ Ejemplo minimo:
     "delta": 0
   },
   "nps": {
-    "Promotores": 2669,
-    "Pasivos": 1111,
-    "Detractores": 218
+    "promotores": 2669,
+    "pasivos": 1111,
+    "detractores": 218
   },
   "csat": {
     "Totalmente satisfecho": 1626,
@@ -113,9 +113,9 @@ Cada fila debe incluir:
 - `facultad`
 - `carrera`
 - `ciclo`
-- `count`
+- `total`
 
-La suma total de `count` debe ser mayor a 0.
+La suma total de `total` debe ser mayor a 0.
 
 ## `sentimiento.json`
 
@@ -154,9 +154,9 @@ Cada fila requiere `facultad`, `carrera` y `ciclo`.
 
 NPS requiere:
 
-- `Promotores`
-- `Pasivos`
-- `Detractores`
+- `promotores`
+- `pasivos`
+- `detractores`
 
 CSAT requiere:
 

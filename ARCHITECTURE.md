@@ -20,7 +20,7 @@ El repositorio se organiza según el siguiente esquema de componentes y director
 
 ```text
 survey-storytelling/
-├── .github/workflows/       # Build de JSON, validacion y deploy de CI/CD.
+├── .github/workflows/       # Workflows de CI/CD (build_students.yml, deploy-legacy.yml, validate-survey-json.yml).
 ├── data/                    # CSVs fuente exportados desde Zoho Survey.
 ├── docs/                    # Documentación y guías del proyecto.
 ├── tests/                   # Mini-framework de pruebas unitarias en navegador.
@@ -32,6 +32,7 @@ survey-storytelling/
 │   │   └── js/              # Módulos JS IIFE expuestos en window.Survey*.
 │   ├── template/            # Plantilla HTML para nuevos periodos de encuesta.
 │   ├── scripts/             # ETL en Python, validación de esquemas y schemas JSON.
+│   │   └── lib/             # Módulos ETL modularizados (config, metrics, nlp, io_helper).
 │   └── students/            # Dashboards y JSONs generados por nivel y periodo.
 ├── AGENTS.md                # Reglas y principios operativos para IA.
 ├── ARCHITECTURE.md          # Arquitectura técnica global (este documento).
@@ -44,6 +45,7 @@ Para mayor detalle de responsabilidades:
 | --- | --- |
 | `data/` | CSVs fuente exportados desde Zoho Survey. |
 | `zoho-survey/scripts/` | Scripts ETL, validación de contratos y schemas de datos. |
+| `zoho-survey/scripts/lib/` | Biblioteca de utilidades modularizadas del ETL (métricas, NLP, config, I/O). |
 | `zoho-survey/shared/js/` | Módulos compartidos del loader y dashboard (IIFE). |
 | `zoho-survey/shared/css/` | Capas CSS modulares e imports del dashboard. |
 | `zoho-survey/template/` | Template base HTML para la generación automática de periodos. |
@@ -54,6 +56,11 @@ Para mayor detalle de responsabilidades:
 ## Pipeline De Datos
 
 `zoho-survey/scripts/build_json.py` transforma CSVs en contratos JSON estaticos.
+Para organizar el procesamiento, delega en los siguientes submódulos en `scripts/lib/`:
+- `lib/config.py`: Mapeos de columnas, diccionarios de tópicos y catálogos de negocio.
+- `lib/metrics.py`: Funciones puras de cálculo de NPS y CSAT.
+- `lib/nlp.py`: Clasificación semántica de comentarios abiertos.
+- `lib/io_helper.py`: I/O seguro con encodings alternativos y formateo de fechas.
 
 Responsabilidades:
 
@@ -84,7 +91,14 @@ La aplicacion es una SPA estatica en Vanilla JS, sin backend ni dependencias run
 - `zoho-survey/shared/js/utils/formatters.js`: funciones de formateo.
 - `zoho-survey/shared/js/utils/sanitizer.js`: `escapeHTML` y `sanitizeHTML`.
 - `zoho-survey/shared/js/utils/dom-helpers.js`: utilidades DOM compartidas.
-- `zoho-survey/shared/js/components/*.js`: tooltip, progress bar, custom select y multiselect.
+- `zoho-survey/shared/js/components/`:
+  - `tooltip.js`: Globos interactivos flotantes.
+  - `progress-bar.js`: Barra superior de scroll de página.
+  - `custom-select.js`: Selectores desplegables personalizados.
+  - `multiselect.js`: Listas de selección múltiple móvil.
+  - `filter-controller.js`: Coordinación de filtros en cascada (Facultad/Carrera/Ciclo).
+  - `radar-chart.js`: Gráfico radar dinámico en SVG.
+  - `sentiment-view.js`: Renders cualitativos y comentarios NPS.
 
 Los modulos usan IIFE y exponen APIs globales `window.Survey*`. No usan ES Modules.
 

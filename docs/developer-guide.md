@@ -37,6 +37,11 @@ Antes de realizar cambios, familiarízate con los siguientes documentos según t
 | [zoho-survey/scripts/build_json.py](file:///q:/ANALISTA%20DE%20DATOS/6.%20Encuesta%20de%20Satisfacci%C3%B3n/6.11%20GitHub/survey-storytelling/zoho-survey/scripts/build_json.py) | Transformación CSV -> JSON. |
 | [zoho-survey/scripts/validate_generated_json.py](file:///q:/ANALISTA%20DE%20DATOS/6.%20Encuesta%20de%20Satisfacci%C3%B3n/6.11%20GitHub/survey-storytelling/zoho-survey/scripts/validate_generated_json.py) | Validación estructural de JSON y HTML. |
 
+> [!IMPORTANT]
+> **Orden de carga de dependencias JS:**
+> En los archivos HTML (`zoho-survey/index.html` y la plantilla `zoho-survey/template/index.html`), las dependencias de scripts deben importarse en un orden específico. Particularmente, `dom-helpers.js` debe cargarse **siempre antes** que `custom-select.js` para evitar errores en tiempo de ejecución (`TypeError: window.SurveyDomHelpers is undefined`) que bloqueen el loader del portal.
+
+
 ---
 
 ## Tareas Comunes
