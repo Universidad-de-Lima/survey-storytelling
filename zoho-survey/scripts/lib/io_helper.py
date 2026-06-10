@@ -6,9 +6,11 @@ de CSVs (con detección específica de encoding) y normalización de campos fech
 """
 
 import json
-import pandas as pd
 from pathlib import Path
-from typing import List
+from typing import List, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    import pandas as pd
 
 
 def load_json(path: Path) -> any:
@@ -30,11 +32,13 @@ def load_json(path: Path) -> any:
         raise ValueError(f"formato JSON inválido: {exc}") from exc
 
 
-def read_csv_robust(path: Path) -> pd.DataFrame:
+def read_csv_robust(path: Path) -> "pd.DataFrame":
     """
     Intenta leer un archivo CSV en UTF-8 y hace fallback a latin-1
     específicamente en caso de fallos de decodificación (UnicodeDecodeError).
     """
+    import pandas as pd  # Lazy import para desacoplar dependencias en validadores
+    
     if not path.is_file():
         raise FileNotFoundError(f"El archivo CSV no existe en la ruta: {path}")
         
@@ -45,11 +49,13 @@ def read_csv_robust(path: Path) -> pd.DataFrame:
         return pd.read_csv(path, encoding="latin-1")
 
 
-def normalize_dates(df: pd.DataFrame, columns: List[str]) -> pd.DataFrame:
+def normalize_dates(df: "pd.DataFrame", columns: List[str]) -> "pd.DataFrame":
     """
     Normaliza formatos de fecha localizados de Zoho Survey (español) a Datetime.
     Mapea meses en español a inglés y corrige el formato de AM/PM.
     """
+    import pandas as pd  # Lazy import para desacoplar dependencias en validadores
+    
     meses_es = {
         "ene.": "January", "feb.": "February", "mar.": "March", "abr.": "April",
         "may.": "May", "jun.": "June", "jul.": "July", "ago.": "August",
