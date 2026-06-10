@@ -104,10 +104,12 @@ def validate_dashboard(value: dict) -> None:
     require_numeric(resumen["csat"], {"score"}, "dashboard_data.resumen.csat")
     require_numeric(hallazgos, {"csat_pct", "nps_score", "delta"}, "dashboard_data.hallazgos")
 
-    for key in ("Promotores", "Pasivos", "Detractores"):
-        if key not in value["nps"]:
-            raise ValueError(f"dashboard_data.nps no contiene la llave requerida: {key}")
-            
+    nps_keys = value["nps"].keys()
+    has_upper = all(k in nps_keys for k in ("Promotores", "Pasivos", "Detractores"))
+    has_lower = all(k in nps_keys for k in ("promotores", "pasivos", "detractores"))
+    if not has_upper and not has_lower:
+        raise ValueError("dashboard_data.nps no contiene las llaves NPS requeridas (mayúsculas o minúsculas)")
+        
     missing_csat = SAT_KEYS - value["csat"].keys()
     if missing_csat:
         raise ValueError(f"dashboard_data.csat no contiene las llaves requeridas: {sorted(missing_csat)}")
@@ -164,9 +166,10 @@ def validate_id_rows(value: List[dict], filename: str) -> None:
     for index, row in enumerate(value):
         if not isinstance(row, dict):
             raise ValueError(f"{filename}[{index}] debe ser un objeto")
-        require_keys(row, REQUIRED_ID_KEYS, f"{filename}[{index}]")
-        require_numeric(row, {"count"}, f"{filename}[{index}]")
-        total += row.get("count", 0)
+        key = "total" if "total" in row else "count"
+        require_keys(row, {"facultad", "carrera", "ciclo", key}, f"{filename}[{index}]")
+        require_numeric(row, {key}, f"{filename}[{index}]")
+        total += row.get(key, 0)
     if total <= 0:
         raise ValueError(f"{filename} no contiene conteos acumulados positivos")
 
@@ -250,7 +253,9 @@ def validate_json_file(json_dir: Path, filename: str, spec: Dict[str, any]) -> a
     elif filename == "ids.json":
         validate_id_rows(value, filename)
     elif filename == "nps_ciclo_carrera.json":
-        validate_cross_rows(value, filename, {"Promotores", "Pasivos", "Detractores"})
+        first_row = value[0] if value else {}
+        keys = {"promotores", "pasivos", "detractores"} if "promotores" in first_row else {"Promotores", "Pasivos", "Detractores"}
+        validate_cross_rows(value, filename, keys)
     elif filename == "csat_ciclo_carrera.json":
         validate_cross_rows(value, filename, SAT_KEYS)
     elif filename == "sentimiento.json":

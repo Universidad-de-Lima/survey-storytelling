@@ -163,13 +163,13 @@
    */
   function renderEjecutivo() {
     const { resumen, hallazgos, nps, csat } = cache.dashboard;
-    if (DOM.footerAnio) DOM.footerAnio.textContent = resumen.año;
+    if (DOM.footerAnio) DOM.footerAnio.textContent = resumen.año ?? resumen.ano;
     if (DOM.footerPeriodo) {
       DOM.footerPeriodo.textContent = `Periodo: ${_fmt.formatDate(resumen.fecha_inicio)} - ${_fmt.formatDate(resumen.fecha_fin)} · Dirección de Planificación y Acreditación`;
     }
     if (DOM.footerFuenteTexto) {
       const nivel = resumen.empleabilidad ? 'GRADUADOS - PREGRADO' : 'ESTUDIANTIL- PREGRADO';
-      const periodo = resumen.periodo || resumen.año;
+      const periodo = resumen.periodo || (resumen.año ?? resumen.ano);
       DOM.footerFuenteTexto.textContent = `ENCUESTA DE SATISFACCIÓN ${nivel} - ${periodo}`;
     }
 
@@ -215,19 +215,22 @@
   }
 
   function renderNPSBar(nps) {
-    const total = nps.Promotores + nps.Pasivos + nps.Detractores;
+    const prom = nps.Promotores ?? nps.promotores ?? 0;
+    const pas = nps.Pasivos ?? nps.pasivos ?? 0;
+    const det = nps.Detractores ?? nps.detractores ?? 0;
+    const total = prom + pas + det;
     DOM.npsBar.innerHTML = `<div class="csat-bar-row">`
-      + `<div class="csat-segment" style="width:${pct(nps.Promotores, total)}%; background:var(--gray-700);"
-           data-label="Promotores (9-10)" data-value="${_fmt.formatInteger(nps.Promotores)} (${_fmt.formatPctDecimal(nps.Promotores, total)})"><span class="csat-label">${_fmt.formatPctSimple(nps.Promotores, total)}</span></div>`
-      + `<div class="csat-segment" style="width:${pct(nps.Pasivos, total)}%; background:var(--gray-400);"
-           data-label="Pasivos (7-8)" data-value="${_fmt.formatInteger(nps.Pasivos)} (${_fmt.formatPctDecimal(nps.Pasivos, total)})"><span class="csat-label">${_fmt.formatPctSimple(nps.Pasivos, total)}</span></div>`
-      + `<div class="csat-segment" style="width:${pct(nps.Detractores, total)}%; background:var(--ulima-orange);"
-           data-label="Detractores (0-6)" data-value="${_fmt.formatInteger(nps.Detractores)} (${_fmt.formatPctDecimal(nps.Detractores, total)})"><span class="csat-label">${_fmt.formatPctSimple(nps.Detractores, total)}</span></div>`
+      + `<div class="csat-segment" style="width:${pct(prom, total)}%; background:var(--gray-700);"
+           data-label="Promotores (9-10)" data-value="${_fmt.formatInteger(prom)} (${_fmt.formatPctDecimal(prom, total)})"><span class="csat-label">${_fmt.formatPctSimple(prom, total)}</span></div>`
+      + `<div class="csat-segment" style="width:${pct(pas, total)}%; background:var(--gray-400);"
+           data-label="Pasivos (7-8)" data-value="${_fmt.formatInteger(pas)} (${_fmt.formatPctDecimal(pas, total)})"><span class="csat-label">${_fmt.formatPctSimple(pas, total)}</span></div>`
+      + `<div class="csat-segment" style="width:${pct(det, total)}%; background:var(--ulima-orange);"
+           data-label="Detractores (0-6)" data-value="${_fmt.formatInteger(det)} (${_fmt.formatPctDecimal(det, total)})"><span class="csat-label">${_fmt.formatPctSimple(det, total)}</span></div>`
       + `</div>`;
     DOM.npsLegend.innerHTML = _san.sanitizeHTML(`
-      <div class="legend-item"><div class="legend-dot" style="background:var(--gray-700);"></div>Promotores: ${_fmt.formatInteger(nps.Promotores)}</div>
-      <div class="legend-item"><div class="legend-dot" style="background:var(--gray-400);"></div>Pasivos: ${_fmt.formatInteger(nps.Pasivos)}</div>
-      <div class="legend-item"><div class="legend-dot" style="background:var(--ulima-orange);"></div>Detractores: ${_fmt.formatInteger(nps.Detractores)}</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--gray-700);"></div>Promotores: ${_fmt.formatInteger(prom)}</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--gray-400);"></div>Pasivos: ${_fmt.formatInteger(pas)}</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--ulima-orange);"></div>Detractores: ${_fmt.formatInteger(det)}</div>
     `);
     if (_ttp) _ttp.bindToSegments('#nps-bar .csat-segment');
     adjustSegmentLabels('#nps-bar');
@@ -537,7 +540,7 @@
       filtered
         .filter((r) => r.categoria === nombre)
         .forEach((r) => {
-          if (!dimensionAplica(filtered, r.dimension)) return;
+          if (!_rc.dimensionAplica(filtered, r.dimension)) return;
           if (!dims[r.dimension]) dims[r.dimension] = { total: 0, top3: 0 };
           dims[r.dimension].total += sumKeys(r, SAT_KEYS);
           dims[r.dimension].top3 += sumKeys(r, SAT_TOP3_KEYS);
@@ -705,7 +708,7 @@
     const filteredIds = filtrarDatos(cache.ids, fac, null, cic);
     const countsMap = {};
     filteredIds.forEach((r) => {
-      countsMap[r.carrera] = (countsMap[r.carrera] || 0) + r.count;
+      countsMap[r.carrera] = (countsMap[r.carrera] || 0) + (r.total ?? r.count);
     });
 
     const hasCiclo = cache.npsCicloCarrera?.length > 0;
@@ -716,9 +719,9 @@
     (npsSource || []).forEach((r) => {
       if (fac && r.facultad && r.facultad !== fac) return;
       if (!npsMap[r.carrera]) npsMap[r.carrera] = { prom: 0, pas: 0, det: 0 };
-      npsMap[r.carrera].prom += r.Promotores;
-      npsMap[r.carrera].pas += r.Pasivos || 0;
-      npsMap[r.carrera].det += r.Detractores;
+      npsMap[r.carrera].prom += r.Promotores ?? r.promotores ?? 0;
+      npsMap[r.carrera].pas += r.Pasivos ?? r.pasivos ?? 0;
+      npsMap[r.carrera].det += r.Detractores ?? r.detractores ?? 0;
     });
 
     const csatMap = {};

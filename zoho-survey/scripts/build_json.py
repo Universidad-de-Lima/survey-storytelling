@@ -144,7 +144,7 @@ def main() -> None:
         # Asignación de Facultad
         df["Facultad"] = df["Carrera"].map(CARRERA_FACULTAD)
         # Fallback genérico si alguna carrera no tiene mapeo
-        df["Facultad"] = df["Facultad"].fillna("Facultad de Estudios Generales" if nivel == "undergraduate" else "Otra")
+        df["Facultad"] = df["Facultad"].fillna("Programa de Estudios Generales" if nivel == "undergraduate" else "Otra")
 
         # Normalización de fechas de Inicio y Fin
         df = normalize_dates(df, ["Inicio", "Fin"])
@@ -196,9 +196,9 @@ def main() -> None:
             d = int((sub[nps_col] <= 6).sum())
             nps_carrera.append({
                 "carrera": carrera,
-                "Promotores": p,
-                "Pasivos": pa,
-                "Detractores": d,
+                "promotores": p,
+                "pasivos": pa,
+                "detractores": d,
                 "score": calc_nps(p, pa, d)
             })
         with open(ruta_salida / "nps_carrera.json", "w", encoding="utf-8") as f:
@@ -215,9 +215,9 @@ def main() -> None:
                     "facultad": fac,
                     "carrera": car,
                     "ciclo": cic,
-                    "Promotores": p,
-                    "Pasivos": pa,
-                    "Detractores": d,
+                    "promotores": p,
+                    "pasivos": pa,
+                    "detractores": d,
                     "score": calc_nps(p, pa, d)
                 })
         with open(ruta_salida / "nps_ciclo_carrera.json", "w", encoding="utf-8") as f:
@@ -288,7 +288,7 @@ def main() -> None:
                 "facultad": fac,
                 "carrera": car,
                 "ciclo": cic,
-                "count": int(len(sub))
+                "total": int(len(sub))
             })
         with open(ruta_salida / "ids.json", "w", encoding="utf-8") as f:
             json.dump(ids_conteo, f, ensure_ascii=False, indent=2)
@@ -380,9 +380,9 @@ def main() -> None:
                 "top_facultades": top_facs
             },
             "nps": {
-                "Promotores": promotores_total,
-                "Pasivos": pasivos_total,
-                "Detractores": detractores_total,
+                "promotores": promotores_total,
+                "pasivos": pasivos_total,
+                "detractores": detractores_total,
                 "score": nps_score
             },
             "csat": {r: int((serie_csat == r).sum()) for r in RESPUESTAS_TEXTO}

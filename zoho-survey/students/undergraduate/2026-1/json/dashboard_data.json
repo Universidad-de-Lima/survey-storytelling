@@ -56,9 +56,9 @@
     ]
   },
   "nps": {
-    "Promotores": 3073,
-    "Pasivos": 803,
-    "Detractores": 148,
+    "promotores": 3073,
+    "pasivos": 803,
+    "detractores": 148,
     "score": 72.69
   },
   "csat": {

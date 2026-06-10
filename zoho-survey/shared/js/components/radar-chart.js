@@ -199,8 +199,8 @@ window.SurveyRadarChart = (() => {
 
       parts.push(`<text x="${lx}" y="${ly}" font-size="10" font-weight="500" fill="#6B7280" style="cursor:pointer;"
                   text-anchor="${anchor}" dominant-baseline="middle"
-                  onmousemove="showTooltip(event,'${_fmt.formatDimensionNameForAttr(d.dim)}: ${_fmt.formatPercent(d.pct, 2)}')"
-                  onmouseleave="hideTooltip()">${_fmt.formatDimensionNameSVG(d.dim, RADAR_LABEL_MAXLEN)}</text>`);
+                  onmousemove="window.SurveyTooltip.show(event,'${_fmt.formatDimensionNameForAttr(d.dim)}: ${_fmt.formatPercent(d.pct, 2)}')"
+                  onmouseleave="window.SurveyTooltip.hide()">${_fmt.formatDimensionNameSVG(d.dim, RADAR_LABEL_MAXLEN)}</text>`);
     });
 
     // Puntos del polígono de datos
@@ -255,5 +255,5 @@ window.SurveyRadarChart = (() => {
     updateInsightFortaleza(allDims, fac, car, cic);
   }
 
-  return { render };
+  return { render, dimensionAplica };
 })();

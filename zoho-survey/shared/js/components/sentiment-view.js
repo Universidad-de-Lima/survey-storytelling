@@ -43,7 +43,7 @@ window.SurveySentimentView = (() => {
 
     const filtroTipo = $('filter-sentimiento')?.value || 'todos';
     const filtroFac = $('filter-facultad-sent')?.value || '';
-    const filtroCarr = $('filter-carrera-sent')?.value || '';
+    const filtroCar = $('filter-carrera-sent')?.value || '';
     const filtroCiclo = _dh.getSelectedValues($('filter-ciclo-sent')) || '';
 
     let topicos = sentimentCache.topicos || [];
@@ -52,10 +52,10 @@ window.SurveySentimentView = (() => {
       topicos = topicos.filter((t) => t.tipo === filtroTipo);
     }
 
-    if (filtroCarr) {
+    if (filtroCar) {
       topicos = topicos
         .map((t) => {
-          const count = t.por_carrera[filtroCarr] || 0;
+          const count = t.por_carrera[filtroCar] || 0;
           return { ...t, _filteredCount: count };
         })
         .filter((t) => t._filteredCount > 0);
@@ -135,12 +135,12 @@ window.SurveySentimentView = (() => {
     if (!tbody || !sentimentCache) return;
 
     const filtroFac = $('filter-facultad-sent')?.value || '';
-    const filtroCarr = $('filter-carrera-sent')?.value || '';
+    const filtroCar = $('filter-carrera-sent')?.value || '';
 
     let data = sentimentCache.por_carrera || [];
 
     if (filtroFac) data = data.filter((r) => r.facultad === filtroFac);
-    if (filtroCarr) data = data.filter((r) => r.carrera === filtroCarr);
+    if (filtroCar) data = data.filter((r) => r.carrera === filtroCar);
 
     const fragment = document.createDocumentFragment();
     data.forEach((item) => {
