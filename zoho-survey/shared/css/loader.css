@@ -1,21 +1,8 @@
-  :root {
-    --brand: #FF5117;
-    --brand-dark: #cc3e0e;
-    --brand-light: #ff7a4d;
-    --ink: #1a1410;
-    --deep: #F37021;
-    --muted: #6b5e55;
-    --surface: #faf8f6;
-    --panel-bg: #2a221c;
-    --font-family: 'Roboto', sans-serif;
-    --white: #FFFFFF;
-  }
-
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  /* Estilos específicos de la barra y contenedor del loader */
 
   html, body {
     height: 100%;
-    font-family: var(--font-family);
+    font-family: var(--font-family-primary);
     background: var(--ink);
     overflow: hidden;
   }
@@ -57,7 +44,7 @@
     grid-template-rows: auto auto;
     padding: 12px 28px;
     z-index: 9999; /* topbar */  
-    border-bottom: 1px solid rgba(255,81,23,.18);  
+    border-bottom: 1px solid rgba(var(--ulima-orange-rgb),.18);  
     gap: 8px 14px;
     color: var(--white);
   }
@@ -129,9 +116,9 @@
   }
 
   .survey-tab:hover {
-    border-color: rgba(255,81,23,.4);
+    border-color: rgba(var(--ulima-orange-rgb),.4);
     color: rgba(255,255,255,.8);
-    background: rgba(255,81,23,.06);
+    background: rgba(var(--ulima-orange-rgb),.06);
   }
 
   .survey-tab.active {
@@ -154,7 +141,7 @@
     background: rgba(255,255,255,.07);
     border: 1.5px solid rgba(255,255,255,.16);
     color: var(--white);
-    font-family: 'Roboto', sans-serif;
+    font-family: var(--font-family-primary);
     font-size: 13px;
     font-weight: 500;
     padding: 7px 36px 7px 14px;
@@ -229,16 +216,16 @@
   }
 
   .pill:hover {
-    border-color: rgba(255,81,23,.5);
+    border-color: rgba(var(--ulima-orange-rgb),.5);
     color: rgba(255,255,255,.85);
-    background: rgba(255,81,23,.07);
+    background: rgba(var(--ulima-orange-rgb),.07);
   }
 
   .pill.active {
     background: var(--brand);
     border-color: var(--brand);
     color: var(--white);
-    box-shadow: 0 0 18px rgba(255,81,23,.45);
+    box-shadow: 0 0 18px rgba(var(--ulima-orange-rgb),.45);
   }
 
   /* Badge "nuevo" */
@@ -272,7 +259,7 @@
     background: rgba(255,255,255,.07);
     border: 1.5px solid rgba(255,255,255,.16);
     color: var(--white);
-    font-family: 'Roboto', sans-serif;
+    font-family: var(--font-family-primary);
     font-size: 13px;
     font-weight: 500;
     padding: 7px 36px 7px 14px;
@@ -294,7 +281,7 @@
 
   /* ── RESPONSIVE ── */
 
-  @media (max-width: 960px) {
+  @media (max-width: 1100px) {
     #topbar {
       padding: 10px 16px;
       gap: 6px 10px;
@@ -322,7 +309,7 @@
     }
   }
 
-  @media (max-width: 820px) {
+  @media (max-width: 768px) {
     #topbar {
       padding: 8px 14px;
       gap: 4px 10px;
@@ -347,7 +334,7 @@
     }
   }
 
-  @media (max-width: 640px) {
+  @media (max-width: 480px) {
     #topbar {
       grid-template-columns: 1fr;
       grid-template-rows: auto auto auto;
@@ -422,7 +409,7 @@
   .spinner {
     width: 36px;
     height: 36px;
-    border: 3px solid rgba(255,81,23,.25);
+    border: 3px solid rgba(var(--ulima-orange-rgb),.25);
     border-top-color: var(--brand);
     border-radius: 50%;
     animation: spin .7s linear infinite;
@@ -468,7 +455,7 @@
     background: rgba(255,255,255,.07);
     border: 1.5px solid rgba(255,255,255,.16);
     color: var(--white);
-    font-family: var(--font-family);
+    font-family: var(--font-family-primary);
     font-size: 13px;
     font-weight: 500;
     padding: 7px 36px 7px 14px;
@@ -512,7 +499,7 @@
     width: 100%;
     padding: 10px 16px;
     font-size: 13px;
-    font-family: var(--font-family);
+    font-family: var(--font-family-primary);
     color: rgba(255,255,255,.7);
     background: transparent;
     border: none;
@@ -522,12 +509,12 @@
   }
 
   .filter-custom-item:hover {
-    background: rgba(255,81,23,.12);
+    background: rgba(var(--ulima-orange-rgb),.12);
     color: var(--white);
   }
 
   .filter-custom-item.active {
-    background: rgba(255,81,23,.18);
+    background: rgba(var(--ulima-orange-rgb),.18);
     color: var(--brand);
     font-weight: 600;
   }
@@ -568,13 +555,13 @@
     white-space: nowrap;
     user-select: none;
     outline: none;
-    font-family: var(--font-family);
+    font-family: var(--font-family-primary);
   }
 
   .survey-more-btn:hover {
-    border-color: rgba(255,81,23,.4);
+    border-color: rgba(var(--ulima-orange-rgb),.4);
     color: rgba(255,255,255,.8);
-    background: rgba(255,81,23,.06);
+    background: rgba(var(--ulima-orange-rgb),.06);
   }
 
   .survey-more-btn.open {
@@ -606,7 +593,7 @@
     width: 100%;
     padding: 10px 16px;
     font-size: 13px;
-    font-family: var(--font-family);
+    font-family: var(--font-family-primary);
     color: rgba(255,255,255,.7);
     background: transparent;
     border: none;
@@ -617,18 +604,18 @@
   }
 
   .survey-more-item:hover {
-    background: rgba(255,81,23,.12);
+    background: rgba(var(--ulima-orange-rgb),.12);
     color: var(--white);
   }
 
   .survey-more-item.active {
-    background: rgba(255,81,23,.18);
+    background: rgba(var(--ulima-orange-rgb),.18);
     color: var(--brand);
     font-weight: 600;
   }
 
   /* Responsive ▼ MÁS */
-  @media (max-width: 960px) {
+  @media (max-width: 1100px) {
     .survey-more-btn {
       font-size: 12px;
       padding: 4px 10px;
@@ -638,7 +625,7 @@
     }
   }
 
-  @media (max-width: 820px) {
+  @media (max-width: 768px) {
     .survey-more-btn {
       font-size: 11px;
       padding: 3px 8px;

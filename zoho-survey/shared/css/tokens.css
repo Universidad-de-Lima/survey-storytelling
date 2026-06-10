@@ -6,7 +6,8 @@
 :root {
   /* ── Colores institucionales ── */
   --ulima-orange: #FF5117;
-  --ulima-orange-soft: rgba(241, 90, 34, 0.15);
+  --ulima-orange-rgb: 255, 81, 23;
+  --ulima-orange-soft: rgba(var(--ulima-orange-rgb), 0.15);
   --ulima-red: #FF0000;
   --ulima-blue: #2563EB;
   --ulima-blue-soft: rgba(37, 99, 235, 0.12);
@@ -60,4 +61,25 @@
   --z-overlay: 9998;
   --z-skip-link: 9999;
   --z-splash: 99999;
+
+  /* ── Espaciado Utilitario ── */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 12px;
+  --space-lg: 16px;
+  --space-xl: 20px;
+  --space-2xl: 24px;
+  --space-3xl: 32px;
+  --space-4xl: 48px;
+  --space-5xl: 68px;
+
+  /* ── Loader & Shell Tokens ── */
+  --brand: var(--ulima-orange);
+  --brand-dark: #cc3e0e;
+  --brand-light: #ff7a4d;
+  --ink: #1a1410;
+  --deep: #F37021;
+  --muted: #6b5e55;
+  --surface: #faf8f6;
+  --panel-bg: #2a221c;
 }
