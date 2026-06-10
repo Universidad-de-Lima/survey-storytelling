@@ -107,9 +107,8 @@ def main() -> None:
         periodo_dir: Path = survey_dir / periodo
         index_file: Path = periodo_dir / "index.html"
         template_index: Path = ZOHO_DIR / "template" / "index.html"
-        if not index_file.exists():
-            copyfile(template_index, index_file)
-            logging.info(f"Plantilla HTML copiada para {nivel}/{periodo}")
+        copyfile(template_index, index_file)
+        logging.info(f"Plantilla HTML copiada para {nivel}/{periodo}")
 
         # Lectura robusta de CSV
         try:
@@ -138,8 +137,8 @@ def main() -> None:
         df.rename(columns=column_rename, inplace=True)
 
         # Manejo de Ciclo
-        has_ciclo: bool = "Ciclo" in df.columns
-        if not has_ciclo:
+        tiene_ciclo: bool = "Ciclo" in df.columns
+        if not tiene_ciclo:
             df["Ciclo"] = "NA"
 
         # Asignación de Facultad
@@ -156,7 +155,7 @@ def main() -> None:
         if pd.isnull(fin):
             fin = pd.Timestamp.now()
 
-        anio_encuesta = df["Inicio"].dt.year.mode()[0] if not df["Inicio"].empty else inicio.year
+        anio = df["Inicio"].dt.year.mode()[0] if not df["Inicio"].empty else inicio.year
         fechas_unicas = df["Inicio"].dt.date.nunique() if not df["Inicio"].empty else 1
 
         # metricas NPS y CSAT globales
@@ -207,7 +206,7 @@ def main() -> None:
 
         # NPS Ciclo Carrera
         nps_ciclo_carrera: List[Dict[str, any]] = []
-        if has_ciclo:
+        if tiene_ciclo:
             for (fac, car, cic), sub in df_nps.groupby(["Facultad", "Carrera", "Ciclo"]):
                 p = int((sub[nps_col] >= 9).sum())
                 pa = int(((sub[nps_col] >= 7) & (sub[nps_col] <= 8)).sum())
@@ -240,7 +239,7 @@ def main() -> None:
 
         # CSAT Ciclo Carrera
         csat_ciclo_carrera: List[Dict[str, any]] = []
-        if has_ciclo:
+        if tiene_ciclo:
             for (fac, car, cic), sub in df.groupby(["Facultad", "Carrera", "Ciclo"]):
                 serie = sub[csat_col].dropna()
                 row = {"facultad": fac, "carrera": car, "ciclo": cic}
@@ -296,7 +295,7 @@ def main() -> None:
 
         # Agrupamiento NPS etapas (inicial, intermedio, avanzado)
         etapas: Dict[str, Dict[str, int]] = {}
-        if has_ciclo:
+        if tiene_ciclo:
             for ciclo, sub in df_nps.groupby("Ciclo"):
                 p = int((sub[nps_col] >= 9).sum())
                 pa = int(((sub[nps_col] >= 7) & (sub[nps_col] <= 8)).sum())
@@ -346,7 +345,7 @@ def main() -> None:
             "fecha_fin": fin.strftime("%Y-%m-%d"),
             "dias": int((fin - inicio).days + 1),
             "dias_recoleccion": fechas_unicas,
-            "año": int(anio_encuesta),
+            "año": int(anio),
             "periodo": periodo,
             "nps": {
                 "score": nps_score,
@@ -394,11 +393,11 @@ def main() -> None:
         # Generar filtros.json
         filtros = {
             "version": "2.0",
-            "has_ciclo": has_ciclo,
+            "has_ciclo": tiene_ciclo,
             "facultades": sorted(df["Facultad"].dropna().unique().tolist()),
             "carreras": sorted(df["Carrera"].dropna().unique().tolist()),
             "ciclos": sorted(df["Ciclo"].dropna().unique().tolist(),
-                             key=lambda x: int("".join(filter(str.isdigit, x)) or 0)) if has_ciclo else [],
+                             key=lambda x: int("".join(filter(str.isdigit, x)) or 0)) if tiene_ciclo else [],
             "facultad_carrera": {
                 fac: sorted(df[df["Facultad"] == fac]["Carrera"].unique().tolist())
                 for fac in df["Facultad"].dropna().unique()

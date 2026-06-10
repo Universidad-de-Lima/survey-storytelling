@@ -26,7 +26,7 @@ window.SurveyProgressBar = (() => {
   function init(options = {}) {
     const fillSelector = options.fillSelector || '#progress-fill';
     const navSelector = options.navSelector || '.nav-links a';
-    const sectionIds = options.sectionIds || ['ejecutivo', 'operativo', 'analitico', 'sentimiento'];
+    const sectionIds = options.sectionIds || ['ejecutivo', 'operativo', 'detallado', 'cualitativo'];
 
     const fill = document.querySelector(fillSelector);
     const navLinks = document.querySelectorAll(navSelector);

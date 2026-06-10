@@ -1,4 +1,4 @@
-﻿(() => {
+(() => {
   'use strict';
 
   // ── Constantes de negocio ──
@@ -28,10 +28,10 @@
     dashboard: null,
     dimensiones: null,
     ids: null,
-    nps_ciclo_carrera: null,
-    csat_ciclo_carrera: null,
-    nps_carrera: null,
-    csat_carrera: null,
+    npsCicloCarrera: null,
+    csatCicloCarrera: null,
+    npsCarrera: null,
+    csatCarrera: null,
     filtros: null,
     sentimiento: null,
   };
@@ -561,10 +561,10 @@
         dashboard,
         dimensiones,
         ids,
-        nps_ciclo_carrera: nps_cc,
-        csat_ciclo_carrera: csat_cc,
-        nps_carrera: nps_car,
-        csat_carrera: csat_car,
+        npsCicloCarrera: nps_cc,
+        csatCicloCarrera: csat_cc,
+        npsCarrera: nps_car,
+        csatCarrera: csat_car,
         filtros,
         sentimiento,
       });
@@ -1328,9 +1328,9 @@
     });
 
     // Graduate surveys have no ciclo: fall back to carrera-level JSONs
-    const hasCiclo = cache.nps_ciclo_carrera?.length > 0;
-    const npsSource = hasCiclo ? cache.nps_ciclo_carrera : cache.nps_carrera;
-    const csatSource = hasCiclo ? cache.csat_ciclo_carrera : cache.csat_carrera;
+    const hasCiclo = cache.npsCicloCarrera?.length > 0;
+    const npsSource = hasCiclo ? cache.npsCicloCarrera : cache.npsCarrera;
+    const csatSource = hasCiclo ? cache.csatCicloCarrera : cache.csatCarrera;
 
     const npsMap = {};
     (npsSource || []).forEach((r) => {
@@ -1735,7 +1735,7 @@
     tbody.innerHTML = '';
     tbody.appendChild(fragment);
 
-    const insightEl = $('insight-sentimiento');
+    const insightEl = $('insight-cualitativo');
     if (!insightEl || !data.length) return;
     const topCarrera = [...data].sort((a, b) => b.total - a.total)[0];
     const totalGlobal = data.reduce((s, r) => s + r.total, 0);
@@ -1838,7 +1838,7 @@
     }
     // Fallback inline (compatibilidad backward)
     const navLinks = document.querySelectorAll('.nav-links a');
-    const sections = ['ejecutivo', 'operativo', 'analitico', 'sentimiento']
+    const sections = ['ejecutivo', 'operativo', 'detallado', 'cualitativo']
       .map((id) => document.getElementById(id))
       .filter((el) => el && el.style.display !== 'none');
 
@@ -1896,12 +1896,12 @@
 
     if (!tieneDatosCualitativos) {
       // Ocultar sección del DOM
-      const secSentimiento = document.getElementById('sentimiento');
+      const secSentimiento = document.getElementById('cualitativo');
       if (secSentimiento) {
         secSentimiento.style.display = 'none';
       }
       // Ocultar enlace de navegación en header
-      const navLinkSentimiento = document.querySelector('.nav-links a[href="#sentimiento"]');
+      const navLinkSentimiento = document.querySelector('.nav-links a[href="#cualitativo"]');
       if (navLinkSentimiento) {
         const liSentimiento = navLinkSentimiento.closest('li');
         if (liSentimiento) {

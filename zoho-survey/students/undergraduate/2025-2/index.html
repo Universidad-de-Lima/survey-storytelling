@@ -8,7 +8,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../../../shared/css/dashboard.css">
+  <link rel="stylesheet" href="../../../shared/css/tokens.css">
+  <link rel="stylesheet" href="../../../shared/css/reset.css">
+  <link rel="stylesheet" href="../../../shared/css/layout.css">
+  <link rel="stylesheet" href="../../../shared/css/components.css">
+  <link rel="stylesheet" href="../../../shared/css/sections.css">
 </head>
 <body>
   <div class="main-wrapper visible">
@@ -19,8 +23,8 @@
       <ul class="nav-links">
         <li><a href="#ejecutivo">Ejecutivo</a></li>
         <li><a href="#operativo">Operativo</a></li>
-        <li><a href="#analitico">Detallado</a></li>
-        <li><a href="#sentimiento">Cualitativo</a></li>
+        <li><a href="#detallado">Detallado</a></li>
+        <li><a href="#cualitativo">Cualitativo</a></li>
       </ul>
     </nav>
   </header>
@@ -141,9 +145,9 @@
     </section>
 
     <!-- ============================================================ DETALLADO -->
-    <section id="analitico" class="section" aria-labelledby="analitico-heading">
+    <section id="detallado" class="section" aria-labelledby="detallado-heading">
       <div class="section-header">
-        <h2 class="section-title" id="analitico-heading">ANÁLISIS DETALLADO</h2>
+        <h2 class="section-title" id="detallado-heading">ANÁLISIS DETALLADO</h2>
       </div>
       <h3 class="subsection-title">Nivel de satisfacción detallado</h3>
       <div class="filter-container" role="group" aria-label="Filtros de nivel de satisfacción detallado">
@@ -164,7 +168,7 @@
         <button class="filter-reset" id="reset-preguntas" type="button">Limpiar</button>
       </div>
       <div class="table-scroll">
-      <table class="visibility-table" id="tabla-preguntas">
+      <table class="survey-table" id="tabla-preguntas">
         <thead>
           <tr>
             <th scope="col" style="width: 24%;">DIMENSIÓN</th>
@@ -206,7 +210,7 @@
         <button class="filter-reset" id="reset-detalle" type="button">Limpiar</button>
       </div>
       <div class="table-scroll">
-      <table class="visibility-table" id="tabla-detalle">
+      <table class="survey-table" id="tabla-detalle">
         <thead>
           <tr>
             <th scope="col" style="width: 24%;">CARRERA</th>
@@ -239,7 +243,7 @@
         <button class="filter-reset" id="reset-visibilidad" type="button">Limpiar</button>
       </div>
       <div class="table-scroll">
-      <table class="visibility-table" id="tabla-visibilidad">
+      <table class="survey-table" id="tabla-visibilidad">
         <thead>
           <tr>
             <th scope="col" style="width: 24%;">DIMENSIÓN</th>
@@ -263,9 +267,9 @@
     </section>
 
     <!-- ============================================================ CUALITATIVO -->
-    <section id="sentimiento" class="section" aria-labelledby="sentimiento-heading">
+    <section id="cualitativo" class="section" aria-labelledby="cualitativo-heading">
       <div class="section-header">
-        <h2 class="section-title" id="sentimiento-heading">ANÁLISIS CUALITATIVO</h2>
+        <h2 class="section-title" id="cualitativo-heading">ANÁLISIS CUALITATIVO</h2>
       </div>
       <p style="color:var(--gray-500); font-size:13px; margin-bottom:20px; line-height:1.7;">
         Basado en los comentarios abiertos de estudiantes <strong>Pasivos (7–8)</strong> y
@@ -313,7 +317,7 @@
 
       <h3 class="subsection-title" style="margin-top:28px;">Comentarios por carrera</h3>
       <div class="table-scroll">
-      <table class="visibility-table" id="tabla-sentimiento-carrera">
+      <table class="survey-table" id="tabla-sentimiento-carrera">
         <thead>
           <tr>
             <th scope="col" style="width:40%;">CARRERA</th>
@@ -328,7 +332,7 @@
 
       <div class="insight-box info" aria-live="polite" style="margin-top:20px;">
         <div class="insight-title">Análisis</div>
-        <p class="insight-text" id="insight-sentimiento">Cargando...</p>
+        <p class="insight-text" id="insight-cualitativo">Cargando...</p>
       </div>
     </section>
 

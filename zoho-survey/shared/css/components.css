@@ -646,13 +646,13 @@
   background: var(--ulima-orange);
 }
 
-.visibility-table {
+.survey-table {
   width: 100%;
   border-collapse: collapse;
   font-size: 11px;
 }
 
-.visibility-table th {
+.survey-table th {
   background: var(--gray-700);
   color: white;
   padding: 10px 12px;
@@ -662,13 +662,13 @@
   text-transform: uppercase;
 }
 
-.visibility-table td {
+.survey-table td {
   padding: 10px 12px;
   border-bottom: 1px solid var(--gray-200);
   font-weight: var(--font-regular);
 }
 
-.visibility-table tr:hover {
+.survey-table tr:hover {
   background: var(--gray-50);
 }
 

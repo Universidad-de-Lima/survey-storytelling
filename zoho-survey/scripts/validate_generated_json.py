@@ -214,10 +214,10 @@ def validate_period_html(period_dir: Path) -> List[str]:
         return [f"{path}: no se pudo leer el archivo: {exc}"]
 
     required_fragments = [
-        '<a href="#sentimiento">Cualitativo</a>',
+        '<a href="#cualitativo">Cualitativo</a>',
         'ANALISIS CUALITATIVO',
-        'id="sentimiento"',
-        'id="sentimiento-heading"',
+        'id="cualitativo"',
+        'id="cualitativo-heading"',
     ]
     normalized = (
         html.replace("Á", "A")
