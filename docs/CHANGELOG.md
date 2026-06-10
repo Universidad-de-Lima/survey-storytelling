@@ -17,7 +17,7 @@ Historial de cambios significativos del proyecto. Basado en [Keep a Changelog](h
 - Definición de propiedad en `ids.json` de [CONTRACTS.md](file:///q:/ANALISTA%20DE%20DATOS/6.%20Encuesta%20de%20Satisfacci%C3%B3n/6.11%20GitHub/survey-storytelling/CONTRACTS.md): Corrección de `count` a `total` para reflejar la salida del backend.
 - Carga de dependencias en el portal principal `index.html` (importación de `dom-helpers.js` añadida para solventar error de carga en `custom-select`).
 - Referencias de espacio de nombres en `radar-chart.js` (añadido alias `_dh` para métodos utilitarios de DOM).
-- Centrado del gráfico de radar general: Ajuste dinámico de `viewBox` (`-100 -150 800 800`) en SVG para evitar desalineamiento horizontal.
+- Centrado y redimensión del gráfico de radar general: Ajuste dinámico de `viewBox` (`-80 0 760 500`) en SVG y `aspect-ratio` (`76 / 50`) en CSS para maximizar su tamaño (un 60% más grande) y eliminar el espacio vacío superior/inferior.
 
 ---
 

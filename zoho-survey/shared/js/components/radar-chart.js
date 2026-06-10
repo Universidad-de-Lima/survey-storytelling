@@ -122,7 +122,7 @@ window.SurveyRadarChart = (() => {
     const svg = $(svgId);
     if (!svg) return;
 
-    svg.setAttribute('viewBox', '-100 -150 800 800');
+    svg.setAttribute('viewBox', '-80 0 760 500');
 
     // Inicializar filtro de categorías en el radar (si existe el select)
     const selCat = $('filter-categoria-radar');
