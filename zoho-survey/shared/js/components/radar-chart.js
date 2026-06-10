@@ -182,6 +182,7 @@ window.SurveyRadarChart = (() => {
     const cx = 300;
     const cy = 250;
     const maxR = 200;
+    const R_label = maxR + 26;
     const n = allDims.length;
     const parts = [];
 
@@ -190,21 +191,87 @@ window.SurveyRadarChart = (() => {
       parts.push(`<circle cx="${cx}" cy="${cy}" r="${maxR * f}" fill="none" stroke="#E5E7EB" stroke-width="1"/>`),
     );
 
-    // Ejes radiales y etiquetas de dimensiones
-    allDims.forEach((d, i) => {
+    // 1. Calcular posiciones iniciales y dibujar ejes radiales
+    const labels = allDims.map((d, i) => {
       const angle = (Math.PI * 2 * i) / n - Math.PI / 2;
       const x2 = cx + maxR * Math.cos(angle);
       const y2 = cy + maxR * Math.sin(angle);
       parts.push(`<line x1="${cx}" y1="${cy}" x2="${x2}" y2="${y2}" stroke="#E5E7EB" stroke-width="1"/>`);
 
-      const lx = cx + (maxR + 26) * Math.cos(angle);
-      const ly = cy + (maxR + 26) * Math.sin(angle);
-      const anchor = angle > Math.PI / 2 || angle < -Math.PI / 2 ? 'end' : 'start';
+      const lx = cx + R_label * Math.cos(angle);
+      const ly = cy + R_label * Math.sin(angle);
 
-      parts.push(`<text x="${lx}" y="${ly}" font-size="10" font-weight="500" fill="#6B7280" style="cursor:pointer;"
-                  text-anchor="${anchor}" dominant-baseline="middle"
-                  onmousemove="window.SurveyTooltip.show(event,'${_fmt.formatDimensionNameForAttr(d.dim)}: ${_fmt.formatPercent(d.pct, 2)}')"
-                  onmouseleave="window.SurveyTooltip.hide()">${_fmt.formatDimensionNameSVG(d.dim, RADAR_LABEL_MAXLEN)}</text>`);
+      // Determinar alineación de texto base según posición horizontal
+      const cosA = Math.cos(angle);
+      let anchor = 'middle';
+      if (cosA > 0.15) {
+        anchor = 'start';
+      } else if (cosA < -0.15) {
+        anchor = 'end';
+      }
+
+      return {
+        dim: d.dim,
+        pct: d.pct,
+        angle: angle,
+        x: lx,
+        y: ly,
+        rawY: ly,
+        anchor: anchor,
+        isRight: cosA >= 0
+      };
+    });
+
+    // 2. Separar por lados (derecho e izquierdo) para resolver colisiones verticales
+    const rightLabels = labels.filter(l => l.isRight);
+    const leftLabels = labels.filter(l => !l.isRight);
+
+    const minY = 20;
+    const maxY = 480;
+    const gap = 15; // separación vertical mínima de 15px entre textos
+
+    const adjustSpacing = (list) => {
+      const len = list.length;
+      if (len <= 1) return;
+
+      // Ordenar por coordenada Y inicial (de arriba a abajo)
+      list.sort((a, b) => a.rawY - b.rawY);
+
+      // Paso 1: Empujar hacia abajo
+      list[0].y = Math.max(list[0].y, minY);
+      for (let i = 1; i < len; i++) {
+        if (list[i].y < list[i - 1].y + gap) {
+          list[i].y = list[i - 1].y + gap;
+        }
+      }
+
+      // Paso 2: Empujar hacia arriba si sobrepasa el límite inferior
+      if (list[len - 1].y > maxY) {
+        list[len - 1].y = maxY;
+        for (let i = len - 2; i >= 0; i--) {
+          if (list[i].y > list[i + 1].y - gap) {
+            list[i].y = list[i + 1].y - gap;
+          }
+        }
+      }
+    };
+
+    adjustSpacing(rightLabels);
+    adjustSpacing(leftLabels);
+
+    // 3. Proyección circular de etiquetas laterales y renderizado de textos SVG
+    labels.forEach((l) => {
+      // Para etiquetas laterales, recalculamos X para adaptarla a la curva del radar
+      if (l.anchor !== 'middle') {
+        const dy = Math.min(Math.abs(l.y - cy), R_label - 1);
+        const signX = Math.cos(l.angle) >= 0 ? 1 : -1;
+        l.x = cx + signX * Math.sqrt(R_label * R_label - dy * dy);
+      }
+
+      parts.push(`<text x="${l.x}" y="${l.y}" font-size="10" font-weight="500" fill="#6B7280" style="cursor:pointer;"
+                  text-anchor="${l.anchor}" dominant-baseline="middle"
+                  onmousemove="window.SurveyTooltip.show(event,'${_fmt.formatDimensionNameForAttr(l.dim)}: ${_fmt.formatPercent(l.pct, 2)}')"
+                  onmouseleave="window.SurveyTooltip.hide()">${_fmt.formatDimensionNameSVG(l.dim, RADAR_LABEL_MAXLEN)}</text>`);
     });
 
     // Puntos del polígono de datos
