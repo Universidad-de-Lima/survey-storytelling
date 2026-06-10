@@ -204,9 +204,9 @@ window.SurveyRadarChart = (() => {
       // Determinar alineación de texto base según posición horizontal
       const cosA = Math.cos(angle);
       let anchor = 'middle';
-      if (cosA > 0.15) {
+      if (cosA > 0.0001) {
         anchor = 'start';
-      } else if (cosA < -0.15) {
+      } else if (cosA < -0.0001) {
         anchor = 'end';
       }
 
@@ -218,13 +218,14 @@ window.SurveyRadarChart = (() => {
         y: ly,
         rawY: ly,
         anchor: anchor,
-        isRight: cosA >= 0
+        cosA: cosA
       };
     });
 
     // 2. Separar por lados (derecho e izquierdo) para resolver colisiones verticales
-    const rightLabels = labels.filter(l => l.isRight);
-    const leftLabels = labels.filter(l => !l.isRight);
+    // Las etiquetas en los ejes polares exactos se incluyen en ambos grupos para empujar a sus vecinos simétricamente.
+    const rightLabels = labels.filter(l => l.cosA >= -0.001);
+    const leftLabels = labels.filter(l => l.cosA <= 0.001);
 
     const minY = 20;
     const maxY = 480;
