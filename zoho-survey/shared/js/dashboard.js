@@ -227,11 +227,11 @@
       + `<div class="csat-segment" style="width:${pct(det, total)}%; background:var(--ulima-orange);"
            data-label="Detractores (0-6)" data-value="${_fmt.formatInteger(det)} (${_fmt.formatPctDecimal(det, total)})"><span class="csat-label">${_fmt.formatPctSimple(det, total)}</span></div>`
       + `</div>`;
-    DOM.npsLegend.innerHTML = _san.sanitizeHTML(`
+    DOM.npsLegend.innerHTML = `
       <div class="legend-item"><div class="legend-dot" style="background:var(--gray-700);"></div>Promotores: ${_fmt.formatInteger(prom)}</div>
       <div class="legend-item"><div class="legend-dot" style="background:var(--gray-400);"></div>Pasivos: ${_fmt.formatInteger(pas)}</div>
       <div class="legend-item"><div class="legend-dot" style="background:var(--ulima-orange);"></div>Detractores: ${_fmt.formatInteger(det)}</div>
-    `);
+    `;
     if (_ttp) _ttp.bindToSegments('#nps-bar .csat-segment');
     adjustSegmentLabels('#nps-bar');
   }
@@ -257,7 +257,7 @@
       + `</div>`;
     DOM.csatLegend.innerHTML = visibleLabels
       .map((item) =>
-        _san.sanitizeHTML(`<div class="legend-item"><div class="legend-dot" style="background:${item.color};"></div>${item.key}: ${_fmt.formatInteger(csat[item.key])}</div>`)
+        `<div class="legend-item"><div class="legend-dot" style="background:${item.color};"></div>${item.key}: ${_fmt.formatInteger(csat[item.key])}</div>`
       )
       .join('');
     if (_ttp) _ttp.bindToSegments('#csat-bar .csat-segment');
@@ -880,12 +880,13 @@
     });
     const hayFiltro = fac || car || (Array.isArray(cic) ? cic.length > 0 : cic);
     const contexto = hayFiltro ? [fac, car, Array.isArray(cic) ? cic.join(', ') : cic].filter(Boolean).join(' · ') : '';
+    const cleanContexto = _san.escapeHTML(contexto);
     const fmtP = (v) => _fmt.formatDecimal(v, 2) + ' %';
-    const fmtD = (d) => _fmt.formatDimensionName(d);
+    const fmtD = (d) => _san.escapeHTML(_fmt.formatDimensionName(d));
     let txt = '';
 
     if (hayFiltro) {
-      txt += `<strong style="font-size:11px;text-transform:uppercase;letter-spacing:0.5px;">${contexto}</strong><br>`;
+      txt += `<strong style="font-size:11px;text-transform:uppercase;letter-spacing:0.5px;">${cleanContexto}</strong><br>`;
       if (criticos.length) {
         txt += `${criticos.length === 1 ? 'El servicio con <strong>menor visibilidad</strong> es' : 'Los servicios con <strong>menor visibilidad</strong> son'} `;
         txt += criticos
@@ -922,7 +923,7 @@
         txt += `<strong>${fmtD(first.dimension)}</strong> (${fmtP(first.pctNoConozco)} · No conozco + ${fmtP(first.pctNoUtilizo)} · No utilizo) es la que presenta <strong>menor visibilidad</strong>.`;
       }
     }
-    DOM.insightAtencion.innerHTML = _san.sanitizeHTML(txt);
+    DOM.insightAtencion.innerHTML = txt;
   }
 
   // ==================== SECCIÓN SENTIMIENTO ====================

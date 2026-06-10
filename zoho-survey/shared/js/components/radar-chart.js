@@ -16,6 +16,7 @@ window.SurveyRadarChart = (() => {
   const _fmt = window.SurveyFormatters;
   const _san = window.SurveySanitizer;
   const _ms = window.SurveyMultiselect;
+  const _dh = window.SurveyDOMHelpers;
 
   const C = window.SURVEY_CONFIG || {};
   const META_CSAT = C.META_CSAT ?? 93;
@@ -52,12 +53,13 @@ window.SurveyRadarChart = (() => {
 
     const hayFiltro = fac || car || (Array.isArray(cic) ? cic.length > 0 : cic);
     const contexto = hayFiltro ? [fac, car, Array.isArray(cic) ? cic.join(', ') : cic].filter(Boolean).join(' · ') : '';
+    const cleanContexto = _san.escapeHTML(contexto);
     const fmtP = (v) => _fmt.formatPercent(v, 2);
-    const fmtD = (d) => _fmt.formatDimensionName(d);
+    const fmtD = (d) => _san.escapeHTML(_fmt.formatDimensionName(d));
     let txt = '';
 
     if (hayFiltro) {
-      txt += `<strong style="font-size:11px;text-transform:uppercase;letter-spacing:0.5px;">${contexto}</strong><br>`;
+      txt += `<strong style="font-size:11px;text-transform:uppercase;letter-spacing:0.5px;">${cleanContexto}</strong><br>`;
       if (fortalezas.length) {
         txt += `${fortalezas.length === 1 ? 'La dimensión mejor evaluada es' : 'Las dimensiones mejor evaluadas son'} `;
         txt += fortalezas
@@ -101,7 +103,7 @@ window.SurveyRadarChart = (() => {
         txt += ` ${atencion.length === 1 ? 'requiere' : 'requieren'} atención prioritaria.`;
       }
     }
-    insightEl.innerHTML = _san.sanitizeHTML(txt);
+    insightEl.innerHTML = txt;
   }
 
   /**
