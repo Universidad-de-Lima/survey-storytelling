@@ -1,31 +1,40 @@
 # Tests
 
-Infraestructura de tests unitarios para `survey-storytelling`. Cero dependencias, ejecutable en cualquier navegador.
+Infraestructura de tests unitarios para `survey-storytelling`. No usa dependencias npm ni Vitest; se ejecuta en navegador con un mini-framework propio.
 
-## Quick Start
+## Ejecutar Tests
 
-Abrir `tests/run-tests.html` en el navegador:
+Abrir directamente:
 
+```text
+tests/run-tests.html
 ```
-tests/run-tests.html → Carga módulos + tests → Muestra resultados ✓/✗
+
+O servir el repositorio y abrir la ruta en navegador:
+
+```bash
+npm start
+# http://localhost:8080/tests/run-tests.html
 ```
 
 ## Estructura
 
-```
+```text
 tests/
-├── run-tests.html           ← Runner HTML (abrir en navegador)
-├── test-framework.js        ← assert, describe, it, renderTo
+├── run-tests.html        # Runner HTML
+├── test-framework.js     # assert, describe, it, renderTo
 └── unit/
-    ├── test-config.js       ← SURVEY_CONFIG (9 tests)
-    ├── test-formatters.js   ← SurveyFormatters (13 tests)
-    └── test-sanitizer.js    ← SurveySanitizer (12 tests)
+    ├── test-config.js      # SURVEY_CONFIG
+    ├── test-formatters.js  # SurveyFormatters
+    └── test-sanitizer.js   # SurveySanitizer
 ```
 
-## Cómo agregar un nuevo test
+## Agregar Un Test
 
-1. Crear `tests/unit/test-<nombre>.js`
-2. Usar el patrón:
+1. Crear `tests/unit/test-<nombre>.js`.
+2. Usar el patron IIFE y `window.TestFramework`.
+3. Registrar el archivo con `<script>` en `tests/run-tests.html`.
+4. Abrir el runner y verificar el resultado.
 
 ```javascript
 (() => {
@@ -34,20 +43,19 @@ tests/
   const modulo = window.SurveyMiModulo;
 
   describe('miModulo', () => {
-    it('debe hacer X', () => {
+    it('hace X', () => {
       assert.equal(modulo.miFuncion('input'), 'expected');
     });
   });
 })();
 ```
 
-3. Agregar el `<script>` en `tests/run-tests.html`
-4. Abrir `run-tests.html` en el navegador
+## Cobertura Actual
 
-## Tests actuales: 34
-
-| Archivo | Tests | Módulo bajo prueba |
-|---------|-------|--------------------|
+| Archivo | Tests | Modulo bajo prueba |
+| --- | --- | --- |
 | `test-config.js` | 9 | `SURVEY_CONFIG` |
 | `test-formatters.js` | 13 | `SurveyFormatters` |
 | `test-sanitizer.js` | 12 | `SurveySanitizer` |
+
+Total: 34 tests.

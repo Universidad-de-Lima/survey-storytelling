@@ -1,17 +1,38 @@
-# Proyecto
+# Reglas Para Agentes IA
+
+Este archivo define reglas operativas obligatorias para agentes que inspeccionan o modifican el repositorio.
+
+## Fuentes Canonicas
+
+- `README.md`: entrada general y mapa documental.
+- `ARCHITECTURE.md`: arquitectura tecnica, capas, modulos y deuda vigente.
+- `CONTRACTS.md`: contratos CSV/JSON e invariantes de datos.
+- `docs/ai-agent-guide.md`: guia operativa corta para cambios comunes.
+- `tests/README.md`: ejecucion y extension de tests.
+
+No duplicar estas fuentes en nuevos documentos.
+
+## Principios Del Proyecto
 
 Priorizar:
 
-- delegación de eventos
-- reutilización de componentes
-- separación entre datos y renderizado
-- separación entre configuración y lógica
+- delegacion de eventos
+- reutilizacion de componentes
+- separacion entre datos y renderizado
+- separacion entre configuracion y logica
+- cambios incrementales y verificables
 
----
+Evitar:
 
-# Reglas JSON
+- reescrituras completas sin necesidad critica
+- breaking changes innecesarios
+- abstracciones prematuras
+- sobreingenieria
+- documentos nuevos si uno existente puede actualizarse
 
-Los JSON deben:
+## Reglas JSON
+
+Los JSON generados deben:
 
 - permanecer compactos
 - minimizar redundancia
@@ -22,73 +43,51 @@ Los JSON deben:
 
 Nunca:
 
+- modificar manualmente JSON generados
 - generar payloads innecesariamente grandes
 - duplicar metadata repetitiva
-- acoplar JSON a implementaciones visuales específicas
+- acoplar JSON a implementaciones visuales especificas
 
----
+## Reglas ETL
 
-# Reglas ETL
+`zoho-survey/scripts/build_json.py` es la unica fuente oficial de transformacion.
 
-build_json.py:
+Debe:
 
-- es la única fuente oficial de transformación
-- debe permanecer idempotente
-- debe validar columnas esperadas
-- debe fallar explícitamente ante CSV inválidos
-- debe minimizar procesamiento redundante
-- debe generar estructuras consistentes
+- permanecer idempotente
+- validar columnas esperadas
+- fallar explicitamente ante CSV invalidos
+- minimizar procesamiento redundante
+- generar estructuras consistentes con `CONTRACTS.md`
 
-Nunca modificar manualmente JSON generados.
+## Reglas Frontend
 
----
+- Mantener Vanilla JS e IIFE con APIs `window.Survey*`.
+- No introducir frameworks frontend ni dependencias runtime sin decision explicita.
+- Sanitizar contenido externo antes de usar `innerHTML`.
+- Mantener compatibilidad con GitHub Pages y navegadores modernos.
 
-# Reglas GitHub Actions
+## Reglas GitHub Actions
 
 Los workflows deben:
 
 - minimizar commits innecesarios
-- evitar loops automáticos
+- evitar loops automaticos
 - evitar regeneraciones redundantes
 - validar paths antes de commit
-- minimizar tiempo de ejecución
-- minimizar uso innecesario de runners
+- minimizar tiempo de ejecucion y uso de runners
 
----
+## Respuestas Tecnicas
 
-# Estrategia de refactor
+Antes de recomendar cambios, inspeccionar el repositorio cuando sea posible.
 
-No realizar reescrituras completas salvo necesidad crítica.
+Toda respuesta tecnica debe incluir, cuando aplique:
 
-Priorizar:
-
-- refactors incrementales
-- modularización progresiva
-- extracción de utilidades compartidas
-- reducción de duplicación
-- estabilización de contratos
-- desacoplamiento progresivo
-
-Evitar:
-
-- breaking changes innecesarios
-- abstracciones prematuras
-- sobreingeniería
-- cambios masivos innecesarios
-
----
-
-# Estándares de respuesta
-
-Toda respuesta técnica debe incluir:
-
-- diagnóstico
-- causa raíz
-- impacto técnico
+- diagnostico
+- causa raiz
+- impacto tecnico
 - riesgos
 - archivos afectados
 - compatibilidad backward
-- solución concreta
+- solucion concreta
 - rutas reales
-
-Nunca responder con recomendaciones genéricas si el repositorio puede inspeccionarse primero.

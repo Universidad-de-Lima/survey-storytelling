@@ -1,139 +1,105 @@
-# Arquitectura del Sistema de Encuestas de Satisfacción (AI-First)
+# Arquitectura Del Sistema De Encuestas De Satisfaccion
 
-Este documento describe la arquitectura técnica del sistema de visualización de encuestas. Está diseñado para ser interpretado de forma determinista por agentes de IA y desarrolladores humanos.
+Este documento es la fuente canonica para entender la estructura tecnica de `survey-storytelling`. Los contratos de datos viven en `CONTRACTS.md`; las reglas para agentes viven en `AGENTS.md`.
 
-## 1. Mapa de Componentes y Dependencias
+## Mapa De Componentes
 
 ```mermaid
 graph TD
-    CSV[CSV de Zoho Survey] -->|Input| ETL[build_json.py]
-    ETL -->|Genera| JSON[Contratos JSON]
-    JSON -->|Carga| JS[dashboard.js]
-    CSS[Estilos Dashboard] -->|Presentación| HTML[index.html]
-    JS -->|Manipulación DOM| HTML
+    CSV[CSV de Zoho Survey] --> ETL[zoho-survey/scripts/build_json.py]
+    ETL --> JSON[Contratos JSON por periodo]
+    JSON --> DASH[zoho-survey/shared/js/dashboard.js]
+    LOADER[zoho-survey/index.html + loader.js] --> DASH
+    CSS[zoho-survey/shared/css] --> HTML[index.html de periodo]
+    DASH --> HTML
 ```
 
-### 1.1 Directorios Clave
+## Directorios Clave
 
-- `zoho-survey/shared/`: Lógica y estilos reutilizables entre todas las encuestas.
-- `zoho-survey/students/`: Datos y scripts específicos para encuestas estudiantiles.
-- `zoho-survey/students/undergraduate/{periodo}/`: Implementación de una instancia específica de encuesta.
+| Ruta | Responsabilidad |
+| --- | --- |
+| `data/` | CSVs fuente exportados desde Zoho Survey. |
+| `zoho-survey/scripts/` | ETL, validacion y esquemas JSON. |
+| `zoho-survey/shared/js/` | Modulos compartidos del loader y dashboard. |
+| `zoho-survey/shared/css/` | Tokens, reset, layout, componentes y secciones. |
+| `zoho-survey/template/` | Template HTML para nuevos periodos. |
+| `zoho-survey/students/` | Dashboards y JSONs por nivel academico y periodo. |
+| `tests/` | Tests unitarios ejecutados en navegador. |
+| `.github/workflows/` | Build de JSON, validacion y deploy. |
 
-## 2. Pipeline de Datos (ETL)
+## Pipeline De Datos
 
-El proceso de transformación es gestionado por `zoho-survey/scripts/build_json.py`.
+`zoho-survey/scripts/build_json.py` transforma CSVs en contratos JSON estaticos.
 
-### Responsabilidades Técnicas:
+Responsabilidades:
 
-- **Normalización**: Renombrado de columnas de Zoho Survey a nombres internos estandarizados (ver `COLUMN_RENAME` en el script).
-- **Agregación**: Cálculo de NPS (Net Promoter Score) y CSAT (Customer Satisfaction Score) por carrera, facultad y ciclo.
-- **Análisis Semántico**: Extracción de tópicos basada en palabras clave para comentarios NPS (detractores y pasivos).
-- **Idempotencia**: El script procesa los CSV en `data/` y genera archivos JSON en la carpeta del periodo correspondiente sin efectos secundarios acumulativos.
+- Normalizar columnas de Zoho Survey a nombres internos definidos en el ETL.
+- Calcular agregados NPS, CSAT y empleabilidad cuando corresponde.
+- Generar datos por facultad, carrera, ciclo y dimension.
+- Extraer topicos de comentarios NPS usando reglas deterministicas.
+- Copiar el template del periodo y actualizar `periodos.json`.
+- Mantener idempotencia: correr el script dos veces con la misma entrada debe producir el mismo resultado.
 
-## 3. Capa de Visualización (Frontend)
+Los esquemas, archivos requeridos e invariantes estan definidos en `CONTRACTS.md`.
 
-El frontend es una aplicación de una sola página (SPA) estática diseñada para alto rendimiento.
+## Frontend
 
-### 3.1 `dashboard.js` (Lógica Central)
+La aplicacion es una SPA estatica en Vanilla JS, sin backend ni dependencias runtime.
 
-- **Estado**: Gestionado a través de un objeto `cache` para evitar re-peticiones de red.
-- **Filtrado**: Lógica de filtrado multidimensional (Facultad -> Carrera -> Ciclo) implementada en `filtrarDatos()`.
-- **Renderizado**: Manipulación directa del DOM basada en eventos de cambio en los selectores.
-- **Dependencias Externas**: Ninguna (Vanilla JS), excepto Chart.js (si se añade) o SVGs inline para gráficos de radar.
+### Loader
 
-### 3.2 `dashboard.css` (Diseño)
+- `zoho-survey/index.html`: entrada publicada en GitHub Pages.
+- `zoho-survey/shared/js/loader.js`: detecta tipos de encuesta, niveles y periodos disponibles via `periodos.json`.
+- Carga cada dashboard de periodo en iframe.
 
-- Basado en variables CSS para facilitar cambios de tema.
-- Layout responsivo utilizando Flexbox y CSS Grid.
+### Dashboard
 
-## 4. Patrones Arquitectónicos Identificados
+- `zoho-survey/template/index.html`: estructura HTML base de cada periodo.
+- `zoho-survey/shared/js/dashboard.js`: orquestador principal.
+- `zoho-survey/shared/js/config/constants.js`: metas, ciclos y constantes compartidas.
+- `zoho-survey/shared/js/utils/formatters.js`: funciones de formateo.
+- `zoho-survey/shared/js/utils/sanitizer.js`: `escapeHTML` y `sanitizeHTML`.
+- `zoho-survey/shared/js/utils/dom-helpers.js`: utilidades DOM compartidas.
+- `zoho-survey/shared/js/components/*.js`: tooltip, progress bar, custom select y multiselect.
 
-- **Separación de Datos y Vista**: Los datos residen exclusivamente en archivos JSON; el JavaScript solo consume estos contratos.
-- **Delegación de Eventos**: El sistema de filtrado utiliza listeners en los elementos raíz para optimizar el rendimiento.
-- **Registry de DOM**: Referencias centralizadas a elementos del DOM en el objeto `DOM` para evitar búsquedas repetitivas (`document.getElementById`).
+Los modulos usan IIFE y exponen APIs globales `window.Survey*`. No usan ES Modules.
 
-## 5. Deuda Técnica y Fragilidad (Advertencia para IA)
+## CSS
 
-- **Acoplamiento de Columnas**: El script ETL depende de que los nombres de las columnas en el CSV de Zoho Survey sean idénticos a los definidos en `COLUMN_RENAME`. Cualquier cambio en Zoho Survey romperá el pipeline.
-- **Lógica de Ciclos Hardcoded**: `dashboard.js` contiene lógica específica para "Estudios Generales" y carreras de 12 ciclos (`CARRERAS_12_CICLOS`). Esta lógica debería migrarse a un archivo de configuración (`periodos.json`).
-- **Escalabilidad del JSON**: Actualmente se cargan múltiples archivos JSON pequeños. Para conjuntos de datos masivos, esto podría causar problemas de latencia de red en conexiones lentas.
+`zoho-survey/shared/css/` contiene:
 
-## 6. Convenciones de Desarrollo
+- `tokens.css`: design tokens y variables CSS.
+- `reset.css`: reset y utilidades base.
+- `layout.css`: header, navegacion, grid y footer.
+- `components.css`: KPIs, filtros, barras, tooltips y tablas.
+- `sections.css`: secciones, responsive y ajustes visuales.
+- `dashboard.css`: entry point con `@import` para la capa dashboard.
+- `loader.css`: estilos especificos del navegador de encuestas.
 
-- **Nomenclatura**: CamelCase para variables JS, kebab-case para clases CSS e IDs de HTML.
-- **Compatibilidad**: Debe funcionar en navegadores modernos sin necesidad de transpiler (ES6+).
-- **Estado Estático**: La arquitectura debe permitir el despliegue en GitHub Pages sin servidor dinámico.
+## Patrones Arquitectonicos
 
-## 7. Estado Actual (v2.0 — Junio 2026)
+- Datos precomputados: el frontend consume JSON, no recalcula agregados que pertenecen al ETL.
+- Separacion de datos y vista: los JSON no deben depender del layout visual.
+- Delegacion progresiva: `dashboard.js` delega en modulos compartidos cuando existen.
+- Compatibilidad backward: los contratos legacy se conservan cuando todavia hay consumidores.
+- Degradacion controlada: errores de carga JSON deben tratarse sin romper toda la pagina.
 
-### 7.1 Modularización JS
+## Seguridad
 
-`dashboard.js` fue modularizado en 8 archivos independientes con fallback inline:
+- Cualquier contenido externo usado en HTML debe pasar por `escapeHTML()` o `sanitizeHTML()`.
+- `sanitizeHTML()` permite solo una lista reducida de etiquetas necesarias para tooltips y textos enriquecidos.
+- No introducir dependencias runtime para sanitizacion sin justificar el costo operacional.
 
-```
-shared/js/
-├── config/constants.js       ← Metas, ciclos, placeholders
-├── utils/formatters.js       ← 13 funciones de formateo
-├── utils/sanitizer.js        ← escapeHTML + sanitizeHTML
-├── components/tooltip.js     ← Tooltip flotante
-├── components/progress-bar.js← Barra de progreso scroll
-├── components/custom-select.js← Dropdown personalizado
-├── components/multiselect.js ← Dropdown multiselección
-├── dashboard.js              ← Orquestador (delega a módulos)
-└── loader.js                 ← Navegador de encuestas
-```
+## Deuda Tecnica Vigente
 
-Cada módulo expone su API en `window.Survey*`. `dashboard.js` delega en ellos si están disponibles, con fallback a implementaciones inline para compatibilidad backward.
+- La logica de ciclos esta externalizada en `SURVEY_CONFIG`, pero todavia no es dinamica por periodo.
+- `nps_carrera.json` y `csat_carrera.json` son legacy; el frontend usa las versiones `_ciclo_carrera`.
+- `posgraduate/` existe como placeholder sin datos procesados.
+- El template `zoho-survey/template/index.html` no tiene version de contrato propia.
 
-### 7.2 Modularización CSS
+## Convenciones
 
-`dashboard.css` (antes 1,176 líneas monolíticas) fue dividido en 5 capas + entry point:
-
-```
-shared/css/
-├── tokens.css        ← Design tokens (variables CSS)
-├── reset.css         ← Reset + utilidades atómicas
-├── layout.css        ← Header, nav, grid, footer
-├── components.css    ← KPIs, filtros, barras, tooltips, tablas
-├── sections.css      ← Splash, media queries, scrollbars
-└── dashboard.css     ← Entry point (@import, 16 líneas)
-```
-
-### 7.3 Seguridad
-
-- `showTooltip()` sanitiza contenido vía `sanitizeHTML()` (whitelist: `<br>`, `<strong>`, `<em>`, `<i>`, `<span>`)
-- Las funciones `escapeHTML()` y `sanitizeHTML()` están disponibles como `window.SurveySanitizer`
-
-### 7.4 Datos
-
-- Reducción de 14 → 9 archivos JSON por periodo (eliminados: `resumen.json`, `nps.json`, `csat.json`, `nps_ciclo.json`, `csat_ciclo.json`)
-- Contratos versionados: `dashboard_data.json`, `filtros.json` y `sentimiento.json` incluyen `"version": "2.0"`
-- Configuración ETL externalizada en `scripts/lib/config.py` (documentación y migración futura)
-
-### 7.5 Tests
-
-Infraestructura de tests en `tests/`:
-- `test-framework.js`: Mini-framework (assert, describe, it)
-- `run-tests.html`: Runner HTML
-- `unit/test-config.js`, `test-formatters.js`, `test-sanitizer.js`: 34 tests
-
-### 7.6 Feature: Empleabilidad (Graduados Pregrado)
-
-- **KPI card**: Tarjeta "Empleabilidad" en `kpi-grid` (3 columnas vía `repeat(auto-fit, minmax(220px, 1fr))`)
-- **Color**: Negro (`--black`) para diferenciar de CSAT (verde) y NPS (naranja)
-- **Cálculo**: `(Trabajador dependiente + Prácticas profesionales + Trabajador independiente + Prácticas pre - profesionales) / Total "Situación laboral" × 100`
-- **Meta**: 85% (`META_EMPLEABILIDAD` en `config/constants.js`)
-- **Condicional**: Solo se renderiza si `resumen.empleabilidad` existe en `dashboard_data.json` (graduate); en undergraduate la card se oculta con `display: none`
-- **Hallazgos**: Texto adaptado — en graduate reemplaza el análisis de etapas/ciclos por "La empleabilidad es de +X% respecto a la meta trazada para este año"
-- **Categorías**: Externalizadas en `build_json.py` como `EMPLEABILIDAD_CATEGORIAS`
-
-### 7.7 Deuda Técnica Resuelta
-
-- ✅ Constantes hardcodeadas → `config/constants.js` (`window.SURVEY_CONFIG`)
-- ✅ CSS monolítico → 5 capas modulares
-- ✅ JS monolítico → 8 módulos + orquestador
-- ✅ XSS en tooltips → sanitización con whitelist
-- ✅ Archivos JSON redundantes → eliminados 5 de 14
-- ✅ Sin versionado de contratos → `"version": "2.0"` en objetos
-- ⚠️ Lógica de ciclos: externalizada a `SURVEY_CONFIG` pero aún no dinámica por periodo
-- ⚠️ Migración ETL a `lib/config.py`: archivo creado, pendiente integración completa
+- JavaScript: camelCase para variables y funciones; APIs compartidas bajo `window.Survey*`.
+- CSS: kebab-case para clases e IDs; usar tokens antes que valores hardcodeados.
+- Python: snake_case para funciones y variables; constantes en UPPER_SNAKE_CASE.
+- Compatibilidad: GitHub Pages, navegadores modernos y Python para ETL.
