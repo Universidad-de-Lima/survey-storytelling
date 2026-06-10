@@ -1,201 +1,94 @@
-# AI Agent Guide — survey-storytelling v2.0
+# AI Agent Guide
 
-Guía de referencia rápida para agentes de IA (DeepSeek, Claude, GitHub Copilot)
-que necesiten comprender, modificar o extender este proyecto.
+Guia operativa corta para agentes IA que necesitan modificar `survey-storytelling`.
 
----
+## Leer Primero
+
+| Necesidad | Documento |
+| --- | --- |
+| Reglas obligatorias de edicion | `AGENTS.md` |
+| Arquitectura y modulos | `ARCHITECTURE.md` |
+| Contratos CSV/JSON | `CONTRACTS.md` |
+| Tests en navegador | `tests/README.md` |
+| Cambios historicos | `docs/CHANGELOG.md` |
+
+No crear documentos nuevos si una de estas fuentes puede actualizarse.
 
 ## Quick Facts
 
 | Dato | Valor |
-|------|-------|
-| Tipo | Static Site Generator (SPA) |
-| Stack | HTML5 + CSS3 + Vanilla JS (ES6+) + Python 3.11 |
-| Deploy | GitHub Pages |
+| --- | --- |
+| Tipo | SPA estatica para GitHub Pages |
+| Stack | HTML, CSS, Vanilla JS, Python |
 | Backend | No |
-| Base de datos | No (CSV → JSON estáticos) |
-| Dependencias runtime | 0 (cero) |
-| Dependencias build | pandas (Python) |
-| Tests | 34 unit tests (navegador) |
-
----
+| Base de datos | No |
+| Runtime dependencies | 0 |
+| Build data dependency | pandas |
+| Tests | Mini-framework propio en navegador |
 
 ## Entry Points
 
-| Archivo | Rol | Cuándo modificarlo |
-|---------|-----|--------------------|
-| `zoho-survey/index.html` | Navegador/loader de encuestas | Nuevos tipos de encuesta |
-| `zoho-survey/template/index.html` | Template para dashboards | Cambios de layout/UI |
-| `zoho-survey/shared/js/dashboard.js` | Orquestador del dashboard | Cambios en lógica de renderizado |
-| `zoho-survey/shared/js/loader.js` | Lógica del navegador | Cambios en flujo de selección |
-| `zoho-survey/scripts/build_json.py` | ETL: CSV → JSON | Cambios en el pipeline de datos |
-| `zoho-survey/scripts/validate_generated_json.py` | Validador de contratos | Nuevos contratos o reglas |
-| `tests/run-tests.html` | Runner de tests | Abrir en navegador para validar |
+| Archivo | Cuando tocarlo |
+| --- | --- |
+| `zoho-survey/index.html` | Navegacion entre tipos de encuesta y periodos. |
+| `zoho-survey/template/index.html` | Layout base de dashboards por periodo. |
+| `zoho-survey/shared/js/loader.js` | Flujo del navegador de encuestas. |
+| `zoho-survey/shared/js/dashboard.js` | Orquestacion del dashboard. |
+| `zoho-survey/shared/js/config/constants.js` | Metas, ciclos y constantes compartidas. |
+| `zoho-survey/scripts/build_json.py` | Transformacion CSV -> JSON. |
+| `zoho-survey/scripts/validate_generated_json.py` | Validacion estructural de JSON y HTML. |
+| `tests/run-tests.html` | Runner de tests unitarios. |
 
----
+## Reglas De Cambio
 
-## Architecture Decision Records
+Hacer:
 
-### ¿Por qué no React/Vue/Svelte?
+- Inspeccionar archivos reales antes de responder o editar.
+- Mantener Vanilla JS con IIFE y APIs `window.Survey*`.
+- Usar `escapeHTML()` o `sanitizeHTML()` antes de insertar contenido externo con `innerHTML`.
+- Agregar o actualizar tests cuando cambien utilidades compartidas.
+- Mantener cambios de contratos sincronizados entre ETL, validadores, frontend y `CONTRACTS.md`.
 
-- GitHub Pages no soporta SSR ni build steps complejos
-- El proyecto debe ser mantenible por analistas de datos, no solo developers
-- Cero costo operativo es un requisito no negociable
-- Vanilla JS es suficiente para la complejidad actual
+No hacer:
 
-### ¿Por qué IIFE y no ES Modules?
+- No modificar manualmente JSON generados.
+- No introducir React, Vue, Svelte ni dependencias runtime sin decision explicita.
+- No asumir que existe `npm test`; los tests se ejecutan con `tests/run-tests.html`.
+- No usar rutas `surveys/...`; la aplicacion vive en `zoho-survey/...`.
+- No duplicar en guias operativas el contenido canonico de `ARCHITECTURE.md` o `CONTRACTS.md`.
 
-- Compatibilidad con navegadores sin necesidad de `type="module"`
-- Los módulos se cargan como `<script>` normales
-- Cada módulo expone su API en `window.Survey*`
-- `dashboard.js` usa delegación con fallback inline (backward compatible)
+## Tareas Comunes
 
-### ¿Por qué múltiples archivos JSON y no uno solo?
+### Cambiar una meta
 
-- Carga paralela (Promise.all) → más rápido que un archivo grande
-- Cada visualización consume solo los datos que necesita
-- Facilita la validación independiente de cada contrato
-- Si un archivo falla, los demás siguen funcionando (graceful degradation)
+Editar `zoho-survey/shared/js/config/constants.js` y validar visualmente el dashboard afectado.
 
----
+### Agregar un topico semantico
 
-## How to Add a New Survey Period
+Editar la configuracion usada por `zoho-survey/scripts/build_json.py`, regenerar JSON y validar con:
 
-1. Colocar el CSV en `data/` con naming: `ENCUESTA DE SATISFACCIÓN {TIPO} - {PERIODO}.csv`
-2. Ejecutar `python zoho-survey/scripts/build_json.py`
-3. El script detecta automáticamente tipo y periodo
-4. Genera `json/` con 9 archivos en el directorio correspondiente
-5. Copia `template/index.html` como `{periodo}/index.html`
-6. Actualiza `periodos.json` automáticamente
-
-**No modificar manualmente los JSON generados.**
-
----
-
-## How to Add a New Visualization
-
-1. Crear el módulo en `shared/js/visualizations/` (o `components/`)
-2. Exponer la API en `window.SurveyMiVisualizacion`
-3. Agregar la función de renderizado en `dashboard.js`
-4. Agregar el `<script>` en `template/index.html`
-5. Agregar el HTML necesario en `template/index.html`
-6. Agregar estilos en `shared/css/components.css`
-
-Patrón:
-```javascript
-// shared/js/visualizations/mi-chart.js
-window.SurveyMiChart = (() => {
-  'use strict';
-  function render(containerId, data) { /* ... */ }
-  return { render };
-})();
+```bash
+python zoho-survey/scripts/validate_generated_json.py undergraduate
 ```
 
----
+### Agregar un periodo
 
-## Module Dependency Graph
+1. Colocar el CSV en `data/`.
+2. Ejecutar `python zoho-survey/scripts/build_json.py`.
+3. Revisar que se generen los JSON del periodo y que `periodos.json` quede actualizado.
+4. Ejecutar el validador correspondiente.
+5. Abrir `http://localhost:8080/zoho-survey/` con `npm start`.
 
-```
-loader.js
-  └── periodos.json (fetch dinámico)
+### Probar utilidades JS
 
-dashboard.js
-  ├── config/constants.js        (window.SURVEY_CONFIG)
-  ├── utils/formatters.js        (window.SurveyFormatters)
-  ├── utils/sanitizer.js         (window.SurveySanitizer)
-  ├── components/tooltip.js      (window.SurveyTooltip)
-  ├── components/progress-bar.js (window.SurveyProgressBar)
-  ├── components/custom-select.js(window.SurveyCustomSelect)
-  ├── components/multiselect.js  (window.SurveyMultiselect)
-  └── json/*.json (9 endpoints)
+1. Abrir `tests/run-tests.html` directamente o servir el repo con `npm start`.
+2. Agregar el test en `tests/unit/`.
+3. Registrar el script en `tests/run-tests.html`.
 
-build_json.py
-  ├── lib/config.py              (COLUMN_RENAME, mappings, TOPICOS)
-  └── data/*.csv
-```
+## Checklist Antes De Cerrar Un Cambio
 
----
-
-## Data Flow
-
-```
-data/*.csv
-  → build_json.py (COLUMN_RENAME, aggregations, topic analysis)
-    → json/dashboard_data.json  ← KPIs, NPS, CSAT, hallazgos
-    → json/dimensiones.json     ← datos granulares por facultad/carrera/ciclo
-    → json/ids.json             ← conteos por segmento
-    → json/nps_ciclo_carrera.json
-    → json/csat_ciclo_carrera.json
-    → json/nps_carrera.json     ← legacy
-    → json/csat_carrera.json    ← legacy
-    → json/filtros.json         ← metadatos para cascada de filtros
-    → json/sentimiento.json     ← análisis cualitativo (tópicos)
-      → dashboard.js (loadAllData → filtrarDatos → render*)
-        → index.html (iframe en loader)
-```
-
----
-
-## Safety Rules for AI Agents
-
-### ✅ DO
-
-- Modificar `config/constants.js` para cambiar metas o listas
-- Agregar nuevos módulos en `utils/`, `components/`, o `visualizations/`
-- Extender `build_json.py` con nuevas agregaciones
-- Agregar tests en `tests/unit/`
-- Usar `escapeHTML()` o `sanitizeHTML()` antes de cualquier `innerHTML`
-- Mantener el patrón de delegación con fallback inline
-
-### ❌ DON'T
-
-- NO introducir frameworks (React, Vue, etc.)
-- NO agregar dependencias npm runtime
-- NO modificar manualmente archivos JSON generados
-- NO romper la compatibilidad backward de los contratos JSON
-- NO usar `innerHTML` sin sanitizar contenido externo
-- NO hacer refactors masivos sin tests que los respalden
-
----
-
-## Common Tasks
-
-### Cambiar la meta de CSAT
-
-Editar `shared/js/config/constants.js`:
-```javascript
-window.SURVEY_CONFIG = {
-  META_CSAT: 95,  // antes 93
-  // ...
-};
-```
-
-### Agregar una nueva carrera al catálogo
-
-Editar `scripts/lib/config.py` y agregar la entrada en `CARRERA_FACULTAD`.
-
-### Agregar un nuevo tópico al análisis semántico
-
-Editar `scripts/lib/config.py` y agregar la entrada en `TOPICOS`.
-
-### Depurar el dashboard
-
-1. Abrir `tests/run-tests.html` → verificar que los 34 tests pasan
-2. Abrir el dashboard en el navegador → F12 → Console
-3. Verificar que `window.SURVEY_CONFIG`, `window.SurveyFormatters`, etc. existen
-4. Verificar que los 9 JSONs cargan sin errores 404
-
----
-
-## File Size Reference
-
-| Archivo | Líneas | Rol |
-|---------|--------|-----|
-| `dashboard.js` | ~1,700 | Orquestador principal |
-| `loader.js` | ~200 | Navegador de encuestas |
-| `build_json.py` | ~770 | ETL pipeline |
-| `components.css` | ~520 | Estilos de componentes |
-| `sections.css` | ~170 | Media queries + secciones |
-| `layout.css` | ~170 | Header, nav, grid, footer |
-| `tokens.css` | ~50 | Variables CSS |
-| `reset.css` | ~60 | Reset + utilidades |
+- Rutas verificadas contra el arbol real.
+- Documentacion canonica actualizada, sin duplicar contenido.
+- JSON generados no editados manualmente.
+- Contratos actualizados si cambio la forma de datos.
+- Tests o validacion manual reportados en el PR o respuesta final.
