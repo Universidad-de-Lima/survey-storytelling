@@ -7,7 +7,7 @@ Este archivo define reglas operativas obligatorias para agentes que inspeccionan
 - `README.md`: entrada general y mapa documental.
 - `ARCHITECTURE.md`: arquitectura tecnica, capas, modulos y deuda vigente.
 - `CONTRACTS.md`: contratos CSV/JSON e invariantes de datos.
-- `docs/ai-agent-guide.md`: guia operativa corta para cambios comunes.
+- `docs/developer-guide.md`: guia operativa corta para cambios comunes.
 - `tests/README.md`: ejecucion y extension de tests.
 
 No duplicar estas fuentes en nuevos documentos.

@@ -14,18 +14,42 @@ graph TD
     DASH --> HTML
 ```
 
-## Directorios Clave
+## Estructura De Directorios
+
+El repositorio se organiza según el siguiente esquema de componentes y directorios clave:
+
+```text
+survey-storytelling/
+├── .github/workflows/       # Build de JSON, validacion y deploy de CI/CD.
+├── data/                    # CSVs fuente exportados desde Zoho Survey.
+├── docs/                    # Documentación y guías del proyecto.
+├── tests/                   # Mini-framework de pruebas unitarias en navegador.
+├── zoho-survey/             # Aplicación estática principal.
+│   ├── index.html           # Loader publicado en GitHub Pages.
+│   ├── underconstruction.html # Página de mantenimiento.
+│   ├── shared/              # Recursos compartidos (CSS, JS, imágenes).
+│   │   ├── css/             # Capas CSS (tokens, reset, layout, components).
+│   │   └── js/              # Módulos JS IIFE expuestos en window.Survey*.
+│   ├── template/            # Plantilla HTML para nuevos periodos de encuesta.
+│   ├── scripts/             # ETL en Python, validación de esquemas y schemas JSON.
+│   └── students/            # Dashboards y JSONs generados por nivel y periodo.
+├── AGENTS.md                # Reglas y principios operativos para IA.
+├── ARCHITECTURE.md          # Arquitectura técnica global (este documento).
+└── CONTRACTS.md             # Contratos CSV/JSON e invariantes de datos.
+```
+
+Para mayor detalle de responsabilidades:
 
 | Ruta | Responsabilidad |
 | --- | --- |
 | `data/` | CSVs fuente exportados desde Zoho Survey. |
-| `zoho-survey/scripts/` | ETL, validacion y esquemas JSON. |
-| `zoho-survey/shared/js/` | Modulos compartidos del loader y dashboard. |
-| `zoho-survey/shared/css/` | Tokens, reset, layout, componentes y secciones. |
-| `zoho-survey/template/` | Template HTML para nuevos periodos. |
-| `zoho-survey/students/` | Dashboards y JSONs por nivel academico y periodo. |
-| `tests/` | Tests unitarios ejecutados en navegador. |
-| `.github/workflows/` | Build de JSON, validacion y deploy. |
+| `zoho-survey/scripts/` | Scripts ETL, validación de contratos y schemas de datos. |
+| `zoho-survey/shared/js/` | Módulos compartidos del loader y dashboard (IIFE). |
+| `zoho-survey/shared/css/` | Capas CSS modulares e imports del dashboard. |
+| `zoho-survey/template/` | Template base HTML para la generación automática de periodos. |
+| `zoho-survey/students/` | Dashboards y datos JSON generados de estudiantes. |
+| `tests/` | Infraestructura y tests unitarios de navegador. |
+| `.github/workflows/` | Automatización de build, validación y deploy en GitHub Pages. |
 
 ## Pipeline De Datos
 

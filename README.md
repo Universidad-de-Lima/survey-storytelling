@@ -1,78 +1,36 @@
 # survey-storytelling v2.0
 
-Sistema estatico de visualizacion de encuestas de satisfaccion para la Universidad de Lima. Convierte CSV exportados desde Zoho Survey en dashboards interactivos, sin backend, sin base de datos y desplegables en GitHub Pages.
+Sistema estático de visualización de encuestas de satisfacción para la Universidad de Lima. Convierte CSV exportados desde Zoho Survey en dashboards interactivos, sin backend ni base de datos, desplegables en GitHub Pages.
 
 ## Quick Start
 
+Para inicializar y probar el proyecto localmente, ejecuta los siguientes comandos desde la raíz del repositorio:
+
 ```bash
-# 1. Colocar CSV en data/
-# 2. Generar JSONs
-python zoho-survey/scripts/build_json.py
+# 1. Colocar los archivos CSV de Zoho Survey en la carpeta data/
 
-# 3. Validar contratos
-python zoho-survey/scripts/validate_generated_json.py undergraduate
+# 2. Instalar dependencias locales (si es la primera vez)
+npm install
 
-# 4. Iniciar servidor local
+# 3. Generar los JSONs agregados del periodo
+npm run build:json
+
+# 4. Validar la estructura de los JSONs y contratos HTML generados
+npm run validate:json
+
+# 5. Iniciar el servidor local
 npm start
 # Abrir http://localhost:8080/zoho-survey/
 ```
 
-## Flujo Del Sistema
+## Documentación del Proyecto
 
-```text
-CSV de Zoho Survey
-  -> zoho-survey/scripts/build_json.py
-  -> contratos JSON por periodo
-  -> zoho-survey/shared/js/dashboard.js
-  -> HTML/CSS estatico en GitHub Pages
-```
+Este repositorio sigue una estructura de documentación modularizada con responsabilidades únicas para evitar duplicación de contenido:
 
-## Documentacion Canonica
-
-| Documento | Responsabilidad |
-| --- | --- |
-| `AGENTS.md` | Reglas obligatorias para agentes IA y cambios automatizados. |
-| `ARCHITECTURE.md` | Arquitectura tecnica, capas, modulos, patrones y deuda vigente. |
-| `CONTRACTS.md` | Unica fuente para contratos CSV/JSON, invariantes y validacion. |
-| `docs/ai-agent-guide.md` | Guia operativa corta para agentes que van a modificar el repo. |
-| `docs/CHANGELOG.md` | Historial de cambios relevantes por version. |
-| `tests/README.md` | Como ejecutar y extender los tests del navegador. |
-| `zoho-survey/README.md` | Guia local del subdirectorio de la aplicacion. |
-
-Evitar duplicar en nuevos documentos informacion que ya pertenece a estas fuentes.
-
-## Estructura Principal
-
-```text
-survey-storytelling/
-├── data/                    # CSVs fuente
-├── docs/                    # Guias de soporte y changelog
-├── tests/                   # Mini-framework y tests unitarios en navegador
-├── .github/workflows/       # Build JSON, validacion y deploy GitHub Pages
-├── zoho-survey/             # Aplicacion estatica, ETL, contratos y dashboards
-├── AGENTS.md
-├── ARCHITECTURE.md
-├── CONTRACTS.md
-└── package.json
-```
-
-## Capas
-
-| Capa | Ruta | Responsabilidad |
-| --- | --- | --- |
-| Fuente | `data/` | CSVs exportados desde Zoho Survey. |
-| ETL | `zoho-survey/scripts/` | Transformar, agregar, validar y generar JSON. |
-| Contratos | `zoho-survey/students/{level}/{period}/json/` | Datos precomputados para el frontend. |
-| Loader | `zoho-survey/index.html`, `zoho-survey/shared/js/loader.js` | Navegacion entre encuestas y periodos. |
-| Dashboard | `zoho-survey/shared/js/` | SPA interactiva en Vanilla JS. |
-| Estilos | `zoho-survey/shared/css/` | Tokens, layout, componentes y secciones. |
-| Tests | `tests/` | Tests unitarios ejecutados en navegador. |
-| CI/CD | `.github/workflows/` | Build, validacion y deploy. |
-
-## Reglas De Mantenimiento
-
-- No modificar manualmente JSON generados.
-- No introducir frameworks ni dependencias runtime sin una decision explicita.
-- Mantener `CONTRACTS.md` como fuente unica de la forma de los datos.
-- Mantener `ARCHITECTURE.md` como fuente unica de estructura tecnica.
-- Mantener `AGENTS.md` como fuente unica de reglas para IA.
+* **Reglas Operativas:** [AGENTS.md](file:///q:/ANALISTA%20DE%20DATOS/6.%20Encuesta%20de%20Satisfacci%C3%B3n/6.11%20GitHub/survey-storytelling/AGENTS.md) contiene las directivas obligatorias de codificación para agentes de IA y desarrolladores.
+* **Diseño Técnico:** [ARCHITECTURE.md](file:///q:/ANALISTA%20DE%20DATOS/6.%20Encuesta%20de%20Satisfacci%C3%B3n/6.11%20GitHub/survey-storytelling/ARCHITECTURE.md) describe la arquitectura del sistema, el mapa de componentes, la estructura física de directorios (incluyendo la aplicación `zoho-survey/`) y el registro único de deuda técnica del código.
+* **Contratos de Datos:** [CONTRACTS.md](file:///q:/ANALISTA%20DE%20DATOS/6.%20Encuesta%20de%20Satisfacci%C3%B3n/6.11%20GitHub/survey-storytelling/CONTRACTS.md) especifica las entradas CSV, salidas JSON, schemas estructurados, invariantes matemáticas y deuda técnica de datos.
+* **Guías de Procedimiento:** [docs/developer-guide.md](file:///q:/ANALISTA%20DE%20DATOS/6.%20Encuesta%20de%20Satisfacci%C3%B3n/6.11%20GitHub/survey-storytelling/docs/developer-guide.md) detalla flujos comunes como la adición de periodos, cambio de metas u otros tópicos.
+* **Lógica del Dashboard:** [docs/filter-logic.md](file:///q:/ANALISTA%20DE%20DATOS/6.%20Encuesta%20de%20Satisfacci%C3%B3n/6.11%20GitHub/survey-storytelling/docs/filter-logic.md) describe las reglas del negocio aplicadas a los filtros en cascada del frontend.
+* **Pruebas de Unidad:** [tests/README.md](file:///q:/ANALISTA%20DE%20DATOS/6.%20Encuesta%20de%20Satisfacci%C3%B3n/6.11%20GitHub/survey-storytelling/tests/README.md) detalla cómo ejecutar y extender los tests unitarios.
+* **Changelog:** [docs/CHANGELOG.md](file:///q:/ANALISTA%20DE%20DATOS/6.%20Encuesta%20de%20Satisfacci%C3%B3n/6.11%20GitHub/survey-storytelling/docs/CHANGELOG.md) contiene el historial de cambios del proyecto.
