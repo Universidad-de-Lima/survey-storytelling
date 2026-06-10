@@ -73,7 +73,6 @@
   --space-4xl: 48px;
   --space-5xl: 68px;
 
-  /* ── Loader & Shell Tokens ── */
   --brand: var(--ulima-orange);
   --brand-dark: #cc3e0e;
   --brand-light: #ff7a4d;
@@ -82,4 +81,28 @@
   --muted: #6b5e55;
   --surface: #faf8f6;
   --panel-bg: #2a221c;
+
+  /* ── Escala Tipográfica ── */
+  --text-xxs: 8px;
+  --text-xs: 10px;
+  --text-sm: 11px;
+  --text-md: 12px;
+  --text-lg: 13px;
+  --text-xl: 14px;
+  --text-2xl: 18px;
+  --text-3xl: 24px;
+  --text-4xl: 36px;
+
+  /* ── Radios de Borde ── */
+  --radius-xs: 2px;
+  --radius-sm: 3px;
+  --radius-md: 4px;
+  --radius-lg: 8px;
+  --radius-full: 9999px;
+
+  /* ── Sombras ── */
+  --shadow-light: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow-dropdown: 0 8px 20px rgba(15, 23, 42, 0.08);
+  --shadow-dropdown-dark: 0 8px 24px rgba(0, 0, 0, 0.4);
+  --shadow-tooltip: 0 4px 12px rgba(0, 0, 0, 0.2);
 }

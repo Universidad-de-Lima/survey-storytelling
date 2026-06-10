@@ -20,7 +20,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 100000; /* splash */
+    z-index: var(--z-splash);
     transition:
       opacity .8s ease,
       visibility .8s ease;
@@ -43,7 +43,7 @@
     grid-template-columns: auto 1fr;
     grid-template-rows: auto auto;
     padding: 12px 28px;
-    z-index: 9999; /* topbar */  
+    z-index: var(--z-skip-link);  
     border-bottom: 1px solid rgba(var(--ulima-orange-rgb),.18);  
     gap: 8px 14px;
     color: var(--white);
@@ -101,8 +101,8 @@
   .survey-tab {
     flex-shrink: 0;
     padding: 5px 12px;
-    border-radius: 100px;
-    font-size: 13px;
+    border-radius: var(--radius-full);
+    font-size: var(--text-lg);
     font-weight: 500;
     letter-spacing: .02em;
     cursor: pointer;
@@ -142,10 +142,10 @@
     border: 1.5px solid rgba(255,255,255,.16);
     color: var(--white);
     font-family: var(--font-family-primary);
-    font-size: 13px;
+    font-size: var(--text-lg);
     font-weight: 500;
     padding: 7px 36px 7px 14px;
-    border-radius: 100px;
+    border-radius: var(--radius-full);
     cursor: pointer;
     outline: none;
     width: 100%;
@@ -165,7 +165,7 @@
   }
 
   .period-label {
-    font-size: 13px;
+    font-size: var(--text-lg);
     font-weight: 500;
     letter-spacing: .06em;
     text-transform: uppercase;
@@ -179,7 +179,7 @@
 
   /* Survey label (symmetric with period-label) */
   .survey-label {
-    font-size: 13px;
+    font-size: var(--text-lg);
     font-weight: 500;
     letter-spacing: .06em;
     text-transform: uppercase;
@@ -201,8 +201,8 @@
   .pill {
     position: relative;
     padding: 6px 16px;
-    border-radius: 100px;
-    font-size: 13px;
+    border-radius: var(--radius-full);
+    font-size: var(--text-lg);
     font-weight: 500;
     cursor: pointer;
     border: 1.5px solid rgba(255,255,255,.14);
@@ -235,14 +235,14 @@
     left: 0;
     transform: translateX(-50%);
     white-space: nowrap;
-    font-size: 8px;
+    font-size: var(--text-xxs);
     font-weight: 700;
     letter-spacing: .06em;
     text-transform: uppercase;
     background: var(--brand-light);
     color: var(--white);
     padding: 1px 5px;
-    border-radius: 4px;
+    border-radius: var(--radius-md);
     line-height: 1.4;
   }
 
@@ -260,10 +260,10 @@
     border: 1.5px solid rgba(255,255,255,.16);
     color: var(--white);
     font-family: var(--font-family-primary);
-    font-size: 13px;
+    font-size: var(--text-lg);
     font-weight: 500;
     padding: 7px 36px 7px 14px;
-    border-radius: 100px;
+    border-radius: var(--radius-full);
     cursor: pointer;
     outline: none;
     transition: border-color .2s;
@@ -276,7 +276,7 @@
     right: 14px;
     pointer-events: none;
     color: rgba(255,255,255,.5);
-    font-size: 10px;
+    font-size: var(--text-xs);
   }
 
   /* ── RESPONSIVE ── */
@@ -296,16 +296,16 @@
       gap: 5px;
     }
     .survey-tab {
-      font-size: 12px;
+      font-size: var(--text-md);
       padding: 4px 10px;
     }
     .pill {
-      font-size: 12px;
+      font-size: var(--text-md);
       padding: 5px 13px;
     }
     .period-label,
     .survey-label {
-      font-size: 12px;
+      font-size: var(--text-md);
     }
   }
 
@@ -321,16 +321,16 @@
       width: 100px;
     }
     .survey-tab {
-      font-size: 11px;
+      font-size: var(--text-sm);
       padding: 3px 8px;
     }
     .pill {
-      font-size: 11px;
+      font-size: var(--text-sm);
       padding: 4px 10px;
     }
     .period-label,
     .survey-label {
-      font-size: 11px;
+      font-size: var(--text-sm);
     }
   }
 
@@ -373,7 +373,7 @@
     }
     .period-select {
       padding: 5px 28px 5px 12px;
-      font-size: 12px;
+      font-size: var(--text-md);
     }
     .select-arrow {
       right: 12px;
@@ -385,7 +385,7 @@
     position: fixed;
     inset: 0;
     background: var(--ink);
-    z-index: 9998; /* overlay */
+    z-index: var(--z-overlay);
     opacity: 0;
     pointer-events: none;
     transition: opacity .25s ease;
@@ -418,7 +418,7 @@
   @keyframes spin { to { transform: rotate(360deg); } }
 
   .overlay-text {
-    font-size: 13px;
+    font-size: var(--text-lg);
     color: rgba(255,255,255,.45);
     letter-spacing: .08em;
     text-transform: uppercase;
@@ -456,10 +456,10 @@
     border: 1.5px solid rgba(255,255,255,.16);
     color: var(--white);
     font-family: var(--font-family-primary);
-    font-size: 13px;
+    font-size: var(--text-lg);
     font-weight: 500;
     padding: 7px 36px 7px 14px;
-    border-radius: 100px;
+    border-radius: var(--radius-full);
     cursor: pointer;
     outline: none;
     text-align: left;
@@ -481,11 +481,11 @@
     top: calc(100% + 6px);
     left: 0;
     right: 0;
-    z-index: 1060;
+    z-index: var(--z-filter-panel);
     background: var(--panel-bg);
     border: 1px solid rgba(255,255,255,.12);
-    border-radius: 8px;
-    box-shadow: 0 8px 24px rgba(0,0,0,.4);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-dropdown-dark);
     overflow: hidden;
     padding: 4px 0;
   }
@@ -498,7 +498,7 @@
     display: block;
     width: 100%;
     padding: 10px 16px;
-    font-size: 13px;
+    font-size: var(--text-lg);
     font-family: var(--font-family-primary);
     color: rgba(255,255,255,.7);
     background: transparent;
@@ -543,8 +543,8 @@
   .survey-more-btn {
     flex-shrink: 0;
     padding: 5px 12px;
-    border-radius: 100px;
-    font-size: 13px;
+    border-radius: var(--radius-full);
+    font-size: var(--text-lg);
     font-weight: 500;
     letter-spacing: .02em;
     cursor: pointer;
@@ -573,11 +573,11 @@
     position: absolute;
     top: 100%;
     right: 0;
-    z-index: 1060;
+    z-index: var(--z-filter-panel);
     background: var(--panel-bg);
     border: 1px solid rgba(255,255,255,.12);
-    border-radius: 8px;
-    box-shadow: 0 8px 24px rgba(0,0,0,.4);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-dropdown-dark);
     overflow: hidden;
     padding: 4px 0;
     min-width: 200px;
@@ -592,7 +592,7 @@
     display: block;
     width: 100%;
     padding: 10px 16px;
-    font-size: 13px;
+    font-size: var(--text-lg);
     font-family: var(--font-family-primary);
     color: rgba(255,255,255,.7);
     background: transparent;
@@ -617,20 +617,20 @@
   /* Responsive ▼ MÁS */
   @media (max-width: 1100px) {
     .survey-more-btn {
-      font-size: 12px;
+      font-size: var(--text-md);
       padding: 4px 10px;
     }
     .survey-more-item {
-      font-size: 12px;
+      font-size: var(--text-md);
     }
   }
 
   @media (max-width: 768px) {
     .survey-more-btn {
-      font-size: 11px;
+      font-size: var(--text-sm);
       padding: 3px 8px;
     }
     .survey-more-item {
-      font-size: 11px;
+      font-size: var(--text-sm);
     }
   }
