@@ -153,6 +153,13 @@
   .footer-logo-img { width: 180px; }
   .splash img { max-width: 200px; }
   .subsection-title { font-size: 13px; }
+  .table-scroll {
+    max-height: 380px;
+    overflow-y: auto;
+  }
+  .survey-table th {
+    top: 0;
+  }
   :root {
     --sticky-header-h: 38px; /* Taller vertical menu in tablet */
   }
@@ -183,6 +190,9 @@
   .legend { font-size: 9px; }
   .footer-logo-img { width: 140px; }
   .splash img { max-width: 160px; }
+  .table-scroll {
+    max-height: 300px;
+  }
   :root {
     --sticky-header-h: 26px; /* Compact mobile menu */
   }

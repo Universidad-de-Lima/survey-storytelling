@@ -13,7 +13,7 @@ Historial de cambios significativos del proyecto. Basado en [Keep a Changelog](h
 - `layout.css`: Definido el token de altura `--sticky-header-h: 45px;` en `:root` y configurado `.sticky-header` con `height: var(--sticky-header-h)` para garantizar una altura fija y uniforme libre de variaciones por renderizado tipográfico.
 - `components.css`: Configurado `.survey-table th` con `position: sticky`, `top: calc(var(--sticky-header-h) - 1px)` y `z-index: 10`, aplicando un solapamiento de seguridad de 1px para evitar filtraciones de texto.
 - `components.css`: Ajustado el breakpoint de desktop en `.table-scroll` de `821px` a `769px` para alinear con el sistema de breakpoints.
-- `sections.css`: Redefinida la variable `--sticky-header-h` en media queries de tablet (`38px` en `max-width: 768px`) y mobile (`26px` en `max-width: 480px`), logrando alineación milimétrica en todo el rango responsivo sin brechas visuales.
+- `sections.css`: Redefinida la variable `--sticky-header-h` en media queries de tablet y mobile. Configurado `.table-scroll` con `max-height` (`380px` en tablet, `300px` en mobile) y `overflow-y: auto`, y reajustado `.survey-table th` a `top: 0` para mantener las cabeceras fijas dentro de su propio contenedor de scroll en dispositivos móviles y evitar que se desactiven por el `overflow-x: auto`.
 
 ---
 
