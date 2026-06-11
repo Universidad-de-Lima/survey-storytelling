@@ -2,6 +2,10 @@
    LAYOUT — Estructura principal, header, footer, grid system
    ============================================================ */
 
+:root {
+  --sticky-header-h: 45px;
+}
+
 /* ── Header sticky ── */
 .sticky-header {
   display: flex;

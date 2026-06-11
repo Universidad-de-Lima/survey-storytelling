@@ -657,7 +657,7 @@
   font-size: var(--text-xs);
   text-transform: uppercase;
   position: sticky;
-  top: 47px;
+  top: calc(var(--sticky-header-h) - 1px);
   z-index: 10;
 }
 
