@@ -153,6 +153,9 @@
   .footer-logo-img { width: 180px; }
   .splash img { max-width: 200px; }
   .subsection-title { font-size: 13px; }
+  .survey-table th {
+    top: 57px; /* Account for the taller vertical menu */
+  }
 }
 
 /* ── ≤480px: Mobile ── */
@@ -180,4 +183,7 @@
   .legend { font-size: 9px; }
   .footer-logo-img { width: 140px; }
   .splash img { max-width: 160px; }
+  .survey-table th {
+    top: 38px; /* Account for the compact mobile menu */
+  }
 }

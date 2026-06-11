@@ -621,6 +621,11 @@
   width: 100%;
   margin: var(--space-lg) 0;
 }
+@media (min-width: 769px) {
+  .table-scroll {
+    overflow: visible;
+  }
+}
 .table-scroll::-webkit-scrollbar {
   height: 6px;
 }
@@ -651,6 +656,9 @@
   font-weight: var(--font-medium);
   font-size: var(--text-xs);
   text-transform: uppercase;
+  position: sticky;
+  top: 47px;
+  z-index: 10;
 }
 
 .survey-table td {
