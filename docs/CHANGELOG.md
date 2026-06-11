@@ -13,6 +13,9 @@ Historial de cambios significativos del proyecto. Basado en [Keep a Changelog](h
 ### Changed
 - `loader.js`: Se invocan los métodos `.schedule()` de reordenamiento de los objetos de overflow tras cambiar de encuesta o periodo académico para asegurar la reevaluación inmediata de anchos y visibilidad.
 
+### Fixed
+- Corrección de grosor asimétrico en barras de desplazamiento de `.table-scroll`: unificados los grosores horizontal (`height: 6px`) y vertical (`width: 6px`) en selectores webkit y añadidas propiedades estándar `scrollbar-*` de grosor delgado (`thin`) y combinación de color institucional como fallback para Firefox.
+
 ---
 
 ## [2.0.2] — 2026-06-11

@@ -620,6 +620,8 @@
   overflow-x: auto;
   width: 100%;
   margin: var(--space-lg) 0;
+  scrollbar-width: thin;
+  scrollbar-color: var(--gray-400) var(--gray-100);
 }
 @media (min-width: 769px) {
   .table-scroll {
@@ -627,6 +629,7 @@
   }
 }
 .table-scroll::-webkit-scrollbar {
+  width: 6px;
   height: 6px;
 }
 .table-scroll::-webkit-scrollbar-track {
