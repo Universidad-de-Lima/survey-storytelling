@@ -1,120 +1,321 @@
 """
-SURVEY ETL NLP — Módulo de procesamiento de lenguaje natural y tópicos semánticos.
+SURVEY ETL NLP — Módulo de procesamiento de lenguaje natural y tópicos semánticos por IA local.
 
-Procesa y agrupa comentarios de encuestas libres (Pasivos y Detractores)
-asociando términos semánticamente relacionados a tópicos configurados.
+Clasifica comentarios de encuestas libres (pasivos, detractores y promotores)
+usando embeddings multilingües locales y cálculo de similitud de coseno
+frente a anclas vectoriales de sentimiento y tópicos, con costo cero y sin APIs de pago.
 """
 
 import re
+import numpy as np
 import pandas as pd
-from typing import List, Dict, Optional
-from .config import TOPICOS, STOPWORDS
+from typing import List, Dict, Tuple, Optional
+from sentence_transformers import SentenceTransformer
+from sklearn.metrics.pairwise import cosine_similarity
+from .config import STOPWORDS
 
+# ── 1. Anclas Semánticas para Sentimiento ──
+ANCHORS_SENTIMENT = {
+    "positivo": "excelente bueno contento satisfecho recomendado gran calidad muy buena enseñanza todo muy bien felicitaciones me gusta",
+    "negativo": "malo pésimo insatisfecho disconforme queja mala atención desactualizado lento demora mal servicio pésima metodología no me gusta"
+}
+
+# ── 2. Anclas Semánticas para Tópicos ──
+ANCHORS_TOPICS = {
+    "Calidad docente": "profesores docentes enseñanza clases metodologías didáctica explicaciones dictado de cursos docentes de carrera",
+    "Malla curricular y cursos": "malla curricular materias cursos plan de estudios asignaturas temas de relleno electivos plan curricular",
+    "Infraestructura y espacios": "infraestructura campus aulas laboratorios biblioteca edificios salones de clase pabellones áreas comunes",
+    "Servicios administrativos": "trámites secretaría atención administrativa horarios procesos de matrícula récord académico demora burocracia",
+    "Tecnología y plataformas": "wifi internet blackboard zoom portal mi ulima herramientas virtuales conexión a internet sistemas",
+    "Oportunidades laborales": "empleabilidad bolsa de trabajo prácticas preprofesionales egresados convenios empleo egreso profesional",
+    "Bienestar y servicios al estudiante": "servicio médico psicología talleres actividades extracurriculares deporte arte música becas ayuda financiera",
+    "Valoración positiva general": "excelente calidad prestigio recomendado gran universidad buen servicio orgullo institucional me gusta"
+}
+
+# ── 3. Categorías Padre (Estructura de Negocio) ──
+CATEGORIAS_PADRES = {
+    "Calidad docente": "Académico",
+    "Malla curricular y cursos": "Académico",
+    "Infraestructura y espacios": "Infraestructura",
+    "Servicios administrativos": "Administrativo y Bienestar",
+    "Tecnología y plataformas": "Infraestructura",
+    "Oportunidades laborales": "Administrativo y Bienestar",
+    "Bienestar y servicios al estudiante": "Administrativo y Bienestar",
+    "Valoración positiva general": "Valoración General",
+    "Otros": "Otros"
+}
+
+# Diccionario de modismos y abreviaciones comunes
+ABREVIACIONES = {
+    r"\bprofe\b": "docente",
+    r"\bprofes\b": "docentes",
+    r"\bu\b": "universidad",
+    r"\bmate\b": "matemáticas",
+    r"\bwifi\b": "Wi-Fi",
+    r"\bwi-fi\b": "Wi-Fi",
+    r"\bfacu\b": "facultad",
+    r"\bblackboard\b": "Blackboard",
+    r"\bzoom\b": "Zoom",
+}
 
 def normalizar_texto(texto: str) -> str:
     """
-    Limpia y normaliza texto en español para facilitar el matching de palabras.
-    Remueve tildes, caracteres especiales y convierte a minúsculas.
+    Limpia y normaliza texto en español para facilitar el matching y embeddings.
     """
     if not isinstance(texto, str) or not texto.strip():
         return ""
     texto = texto.lower().strip()
-    
-    # Normalizar tildes comunes
     reemplazos = {
         "á": "a", "é": "e", "í": "i", "ó": "o", "ú": "u",
         "ü": "u", "ñ": "n"
     }
     for orig, rep in reemplazos.items():
         texto = texto.replace(orig, rep)
-        
-    # Eliminar caracteres especiales excepto letras, números y espacios
+    
     texto = re.sub(r"[^a-z0-9\s]", " ", texto)
     texto = re.sub(r"\s+", " ", texto).strip()
     return texto
 
-
-def clasificar_en_topico(comentario_norm: str) -> Optional[str]:
+def corregir_slang(texto: str) -> str:
     """
-    Determina qué tópico semántico coincide mejor con el comentario normalizado.
-    Retorna el nombre del tópico o None si no alcanza el umbral mínimo (0.5).
+    Reemplaza modismos, jergas y abreviaturas comunes para mejorar la legibilidad en la UI.
     """
-    mejor_topico: Optional[str] = None
-    mejor_score: float = 0.0
+    if not isinstance(texto, str):
+        return ""
+    # Capitalizar inicial
+    t = texto.strip()
+    if not t:
+        return ""
+    t = t[0].upper() + t[1:]
     
-    # Separar palabras excluyendo stopwords configuradas para reducir ruido
-    palabras_comentario = {w for w in comentario_norm.split() if w not in STOPWORDS}
+    # Reemplazar abreviaciones usando expresiones regulares insensibles a mayúsculas
+    for pattern, replacement in ABREVIACIONES.items():
+        t = re.sub(pattern, replacement, t, flags=re.IGNORECASE)
+    
+    # Asegurar puntuación final
+    if not t.endswith((".", "!", "?")):
+        t += "."
+    return t
 
-    for topico_nombre, config in TOPICOS.items():
-        palabras_clave_norm = [normalizar_texto(p) for p in config["palabras"]]
-        coincidencias: float = 0.0
-        for pk in palabras_clave_norm:
-            # Coincidencia exacta o como subcadena en palabras largas
-            if pk in palabras_comentario:
-                coincidencias += 1.0
-            elif any(pk in palabra for palabra in palabras_comentario if len(pk) > 4):
-                coincidencias += 0.5
-                
-        if coincidencias > mejor_score:
-            mejor_score = coincidencias
-            mejor_topico = topico_nombre
+def sanitizar_comentario(texto: str) -> Tuple[bool, Optional[str]]:
+    """
+    Evalúa la calidad del comentario.
+    Retorna (es_valido, motivo_invalidez)
+    """
+    if not isinstance(texto, str) or not texto.strip():
+        return False, "mensaje_vacio"
+    
+    txt_clean = texto.strip()
+    if len(txt_clean) <= 3:
+        return False, "mensaje_demasiado_corto"
+    
+    # Detectar spam de letras repetidas exageradas (ej: "aaaaaaaa", "xxxxxxx")
+    if re.search(r"(.)\1{4,}", txt_clean.lower()):
+        return False, "spam_o_ruido"
+    
+    # Expresiones de descarte comunes que no aportan valor semántico
+    noise_patterns = [
+        r"^ninguno$", r"^ninguna$", r"^nada$", r"^todo ok$", r"^todo bien$", r"^ninguno\.$",
+        r"^no$", r"^si$", r"^ningun comentario$", r"^ningun comentario\.$", r"^ninguno por el momento$"
+    ]
+    for pattern in noise_patterns:
+        if re.match(pattern, txt_clean.lower().strip()):
+            return False, "sin_opinion_valida"
+            
+    return True, None
 
-    return mejor_topico if mejor_score >= 0.5 else None
-
-
-def agrupar_comentarios_por_topico(df_comentarios: pd.DataFrame) -> List[Dict[str, any]]:
+def agrupar_comentarios_por_topico(df_comentarios: pd.DataFrame) -> Tuple[List[Dict[str, any]], List[Dict[str, any]]]:
     """
     Toma un DataFrame con columnas [comentario, nps_score, carrera, facultad, ciclo]
-    y agrupa los comentarios en tópicos semánticos estructurados.
-    Solo procesa comentarios de Pasivos (NPS 7-8) y Detractores (NPS 0-6).
+    y realiza la clasificación semántica local (sentimiento y tópicos).
+    Retorna (topicos_resultado, comentarios_detallados).
     """
-    # REGLA CRÍTICA: Solo Pasivos y Detractores (NPS < 9)
-    df_filtrado = df_comentarios[df_comentarios["nps_score"] < 9].copy()
+    # 1. Cargar el modelo SentenceTransformer local
+    # paraphrase-multilingual-MiniLM-L12-v2 es ligero (~118MB) y rápido en CPU
+    model = SentenceTransformer('paraphrase-multilingual-MiniLM-L12-v2')
 
-    if df_filtrado.empty:
-        return []
+    # Precalcular embeddings de las anclas de sentimiento
+    sent_labels = list(ANCHORS_SENTIMENT.keys())
+    sent_embeddings = model.encode(list(ANCHORS_SENTIMENT.values()))
 
-    df_filtrado["comentario_norm"] = df_filtrado["comentario"].apply(normalizar_texto)
-    df_filtrado = df_filtrado[df_filtrado["comentario_norm"].str.len() > 10]
+    # Precalcular embeddings de las anclas de tópicos
+    topic_labels = list(ANCHORS_TOPICS.keys())
+    topic_embeddings = model.encode(list(ANCHORS_TOPICS.values()))
 
-    # Clasificar cada comentario en un tópico
-    df_filtrado["topico"] = df_filtrado["comentario_norm"].apply(clasificar_en_topico)
+    comentarios_detallados: List[Dict[str, any]] = []
+    topicos_con_embeddings: Dict[str, List[np.ndarray]] = {t: [] for t in topic_labels}
+    topicos_con_comentarios: Dict[str, List[Dict[str, any]]] = {t: [] for t in topic_labels}
+    topicos_con_comentarios["Otros"] = []
+    topicos_con_embeddings["Otros"] = []
 
-    topicos_resultado: List[Dict[str, any]] = []
+    # Procesar fila por fila
+    for idx, row in df_comentarios.iterrows():
+        orig_text = str(row["comentario"])
+        es_valido, motivo = sanitizar_comentario(orig_text)
+        
+        # Mapear datos
+        nps = int(row["nps_score"])
+        carrera = str(row["carrera"])
+        facultad = str(row["facultad"])
+        ciclo = str(row["ciclo"])
+        
+        # Asignar id único si no existe
+        res_id = str(row.get("ID", f"R_{idx}"))
 
-    for topico_nombre, config in TOPICOS.items():
-        subset = df_filtrado[df_filtrado["topico"] == topico_nombre]
-        if len(subset) < 2:  # Umbral mínimo de relevancia
+        if not es_valido:
+            # Comentario inválido: guardar en detalle para auditoría
+            comentarios_detallados.append({
+                "id": res_id,
+                "carrera": carrera,
+                "facultad": facultad,
+                "ciclo": ciclo,
+                "nps_score": nps,
+                "sentimiento": "neutro",
+                "intensidad": 0.0,
+                "categoria": "Otros",
+                "categoria_padre": "Otros",
+                "fragmento_original": orig_text,
+                "fragmento_mostrar": orig_text,
+                "es_valido": False,
+                "motivo_invalidez": motivo
+            })
             continue
 
-        # Extraer frases más largas y descriptivas
-        frases_candidatas = subset["comentario"].dropna().tolist()
-        frases_candidatas = [f.strip() for f in frases_candidatas if len(f.strip()) > 20]
-        frases_candidatas.sort(key=len, reverse=True)
-        frases_representativas = frases_candidatas[:3]
+        # Generar fragmento para visualización
+        clean_text = corregir_slang(orig_text)
 
-        # Conteos por tipo NPS
-        detractores = int((subset["nps_score"] <= 6).sum())
-        pasivos = int(subset["nps_score"].between(7, 8).sum())
+        # Generar embedding del comentario normalizado
+        norm_txt = normalizar_texto(orig_text)
+        emb = model.encode([norm_txt])
 
-        # Agrupaciones por dimensiones geográficas/académicas del negocio
-        por_carrera = subset.groupby("carrera").size().to_dict()
-        por_facultad = subset.groupby("facultad").size().to_dict()
-        por_ciclo = subset.groupby("ciclo").size().to_dict()
+        # 1. Similitud de Sentimiento
+        sim_sent = cosine_similarity(emb, sent_embeddings)[0]
+        sim_pos, sim_neg = sim_sent[0], sim_sent[1]
+        
+        # Regla de calibración matemática (anclas vectoriales)
+        diff = sim_pos - sim_neg
+        if abs(diff) < 0.20 or (sim_pos < 0.25 and sim_neg < 0.25):
+            sentiment = "neutro"
+            intensity = 0.5
+        else:
+            if diff > 0:
+                sentiment = "positivo"
+                intensity = float(sim_pos)
+            else:
+                sentiment = "negativo"
+                intensity = float(sim_neg)
+
+        # 2. Similitud de Tópico
+        sim_topic = cosine_similarity(emb, topic_embeddings)[0]
+        idx_topic = np.argmax(sim_topic)
+        score_topic = sim_topic[idx_topic]
+
+        if score_topic < 0.38:
+            topic_assigned = "Otros"
+        else:
+            topic_assigned = topic_labels[idx_topic]
+
+        parent_cat = CATEGORIAS_PADRES[topic_assigned]
+
+        comment_obj = {
+            "id": res_id,
+            "carrera": carrera,
+            "facultad": facultad,
+            "ciclo": ciclo,
+            "nps_score": nps,
+            "sentimiento": sentiment,
+            "intensidad": round(intensity, 3),
+            "categoria": topic_assigned,
+            "categoria_padre": parent_cat,
+            "fragmento_original": orig_text,
+            "fragmento_mostrar": clean_text,
+            "es_valido": True
+        }
+        comentarios_detallados.append(comment_obj)
+
+        # Agrupar para cálculo de centroides y agregados
+        topicos_con_embeddings[topic_assigned].append(emb[0])
+        topicos_con_comentarios[topic_assigned].append(comment_obj)
+
+    # 3. Compilar tópicos agregados y seleccionar frases representativas
+    topicos_resultado: List[Dict[str, any]] = []
+
+    # Configuración de iconos para tópicos dinámicos
+    iconos = {
+        "Calidad docente": "📚",
+        "Malla curricular y cursos": "📋",
+        "Infraestructura y espacios": "🏛️",
+        "Servicios administrativos": "⚙️",
+        "Tecnología y plataformas": "💻",
+        "Oportunidades laborales": "💼",
+        "Bienestar y servicios al estudiante": "🌱",
+        "Valoración positiva general": "✅",
+        "Otros": "💬"
+    }
+
+    for t_name, comm_list in topicos_con_comentarios.items():
+        if t_name == "Otros" and not comm_list:
+            continue
+        
+        total_comm = len(comm_list)
+        if total_comm == 0:
+            continue
+
+        # Seleccionar frases representativas mediante centroide (distancia coseno)
+        embeddings_list = topicos_con_embeddings[t_name]
+        centroide = np.mean(embeddings_list, axis=0)
+        
+        # Calcular similitud al centroide para cada comentario
+        similaridades = cosine_similarity([centroide], embeddings_list)[0]
+        
+        # Emparejar comentarios con sus scores de similitud al centroide
+        sorted_comments = sorted(
+            zip(comm_list, similaridades),
+            key=lambda x: x[1],
+            reverse=True
+        )
+
+        # Seleccionar las 3 frases más representativas (máximo de 3)
+        # Filtramos para no duplicar fragmentos idénticos
+        frases_representativas = []
+        seen_texts = set()
+        for c_obj, sim_score in sorted_comments:
+            fmt_txt = c_obj["fragmento_mostrar"]
+            if fmt_txt not in seen_texts:
+                frases_representativas.append(fmt_txt)
+                seen_texts.add(fmt_txt)
+            if len(frases_representativas) >= 3:
+                break
+
+        # Contadores por segmento NPS
+        detractores = sum(1 for c in comm_list if c["nps_score"] <= 6)
+        pasivos = sum(1 for c in comm_list if 7 <= c["nps_score"] <= 8)
+        promotores = sum(1 for c in comm_list if c["nps_score"] >= 9)
+
+        # Sentiment predominante
+        sent_counts = pd.Series([c["sentimiento"] for c in comm_list]).value_counts()
+        sent_pred = sent_counts.index[0] if not sent_counts.empty else "neutro"
+
+        # Agregaciones geográficas
+        por_carrera = pd.Series([c["carrera"] for c in comm_list]).value_counts().to_dict()
+        por_facultad = pd.Series([c["facultad"] for c in comm_list]).value_counts().to_dict()
+        por_ciclo = pd.Series([c["ciclo"] for c in comm_list]).value_counts().to_dict()
 
         topicos_resultado.append({
-            "topico": topico_nombre,
-            "tipo": config["tipo"],
-            "icono": config["icono"],
-            "total_comentarios": int(len(subset)),
+            "topico": t_name,
+            "categoria_padre": CATEGORIAS_PADRES[t_name],
+            "tipo": "positivo" if sent_pred == "positivo" else ("negativo" if sent_pred == "negativo" else "mejora"),
+            "icono": iconos.get(t_name, "💬"),
+            "total_comentarios": total_comm,
             "detractores": detractores,
             "pasivos": pasivos,
+            "sentimiento_predominante": sent_pred,
+            "intensidad_promedio": round(float(np.mean([c["intensidad"] for c in comm_list])), 2),
             "frases_representativas": frases_representativas,
             "por_carrera": {k: int(v) for k, v in sorted(por_carrera.items(), key=lambda x: x[1], reverse=True)},
             "por_facultad": {k: int(v) for k, v in sorted(por_facultad.items(), key=lambda x: x[1], reverse=True)},
             "por_ciclo": {k: int(v) for k, v in sorted(por_ciclo.items(), key=lambda x: x[1], reverse=True)}
         })
 
-    # Ordenar de mayor a menor cantidad de comentarios
     topicos_resultado.sort(key=lambda x: x["total_comentarios"], reverse=True)
-    return topicos_resultado
+    return topicos_resultado, comentarios_detallados

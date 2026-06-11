@@ -771,3 +771,80 @@
   from { max-width: 0%; }
   to   { max-width: 100%; }
 }
+
+/* ── Switch Slider (Original vs Corregido) ── */
+.switch input:checked + .slider {
+  background-color: var(--ulima-orange) !important;
+}
+.switch input:focus + .slider {
+  box-shadow: 0 0 1px var(--ulima-orange);
+}
+.switch input:checked + .slider:before {
+  transform: translateX(22px);
+}
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+}
+.slider.round {
+  border-radius: 34px;
+}
+.slider.round:before {
+  border-radius: 50%;
+}
+
+/* ── SVG Doughnut Chart ── */
+.doughnut-segment {
+  fill: none;
+  stroke-width: 14;
+  transition: stroke-width 0.2s, opacity 0.2s;
+  cursor: pointer;
+}
+.doughnut-segment:hover {
+  stroke-width: 16;
+  opacity: 0.95;
+}
+
+/* ── Category Horizontal Bars ── */
+.category-row {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+.category-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--dark);
+}
+.category-bar-wrapper {
+  background: var(--gray-100);
+  height: 10px;
+  border-radius: 5px;
+  overflow: hidden;
+  width: 100%;
+}
+.category-bar-fill {
+  height: 100%;
+  border-radius: 5px;
+  transition: width 0.8s ease-out;
+  animation: barGrow 0.8s ease-out forwards;
+}
+.category-intensity {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--gray);
+}
+
