@@ -2,6 +2,17 @@
 
 Historial de cambios significativos del proyecto. Basado en [Keep a Changelog](https://keepachangelog.com/).
 
+## [2.0.3] — 2026-06-11
+
+### Added
+- Persistencia del estado de navegación mediante `localStorage`, almacenando el tipo de encuesta (`ulima_selected_survey`) y el período seleccionado por tipo de encuesta (`ulima_selected_period_[survey_id]`).
+- Navegación dinámica y adaptativa en la barra superior (`loader.js`): al seleccionar un elemento oculto dentro del menú desplegable "MÁS", este se fuerza a ser visible intercambiándose por el último elemento visible.
+- Atributos semánticos ARIA en el menú desplegable "MÁS" (`aria-haspopup`, `aria-expanded`, `role="menu"`, `role="menuitem"`) para mejorar la accesibilidad de lectores de pantalla.
+- Lógica de preservación y transferencia de foco para que al interactuar mediante teclado en el menú "MÁS", el foco se reasigne correctamente en lugar de perderse por la reestructuración del DOM.
+
+### Changed
+- `loader.js`: Se invocan los métodos `.schedule()` de reordenamiento de los objetos de overflow tras cambiar de encuesta o periodo académico para asegurar la reevaluación inmediata de anchos y visibilidad.
+
 ---
 
 ## [2.0.2] — 2026-06-11

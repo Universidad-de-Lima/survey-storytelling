@@ -73,6 +73,13 @@
       if (items.length < 2) return;
       busy = true;
 
+      // Guardar el elemento enfocado para restaurar foco
+      const activeElement = document.activeElement;
+      let activeElementIdx = -1;
+      if (activeElement && container.contains(activeElement)) {
+        activeElementIdx = items.indexOf(activeElement);
+      }
+
       // Cleanup
       if (moreBtn) { moreBtn.remove(); moreBtn = null; }
       if (morePanel) { morePanel.remove(); morePanel = null; }
@@ -83,12 +90,22 @@
       const cw = container.clientWidth;
       if (!items.some(el => el.offsetWidth > 0) || cw === 0) {
         busy = false;
-        schedule();
+        // Si el elemento enfocado antes del cálculo sigue visible, restaurar foco
+        if (activeElementIdx !== -1) {
+          items[activeElementIdx].focus();
+        }
         return;
       }
 
       const total = items.reduce((s, el, i) => s + el.offsetWidth + (i > 0 ? gap : 0), 0);
-      if (total <= cw) { busy = false; return; }
+      if (total <= cw) {
+        busy = false;
+        // Si el elemento enfocado antes del cálculo sigue visible, restaurar foco
+        if (activeElementIdx !== -1) {
+          items[activeElementIdx].focus();
+        }
+        return;
+      }
 
       const temp = document.createElement('button');
       temp.className = btnClass;
@@ -109,14 +126,60 @@
       if (count < 1) count = 1;
       if (count >= items.length) count = items.length - 1;
 
-      for (let i = count; i < items.length; i++) {
-        items[i].style.display = 'none';
-        hiddenItems.push(items[i]);
+      // Determinar qué índices serán visibles priorizando el elemento activo
+      const activeIdx = items.findIndex(el => el.classList.contains('active'));
+      const visibleSet = new Set();
+
+      if (activeIdx === -1 || activeIdx < count) {
+        // El elemento activo ya es visible o no hay elemento activo
+        for (let i = 0; i < count; i++) {
+          visibleSet.add(i);
+        }
+      } else {
+        // El elemento activo está en la sección oculta; forzar su visibilidad y desplazar otros
+        visibleSet.add(activeIdx);
+        let currentBound = count - 1;
+
+        while (currentBound >= 0) {
+          const testVisible = [];
+          for (let i = 0; i < currentBound; i++) {
+            testVisible.push(items[i]);
+          }
+          testVisible.push(items[activeIdx]);
+
+          let testUsed = 0;
+          const testCount = testVisible.length;
+          for (let i = 0; i < testCount; i++) {
+            testUsed += testVisible[i].offsetWidth;
+            if (i > 0) testUsed += gap;
+          }
+          testUsed += gap + moreW;
+
+          if (testUsed <= cw || currentBound === 0) {
+            for (let i = 0; i < currentBound; i++) {
+              visibleSet.add(i);
+            }
+            break;
+          }
+          currentBound--;
+        }
+      }
+
+      // Aplicar visibilidad y poblar hiddenItems
+      for (let i = 0; i < items.length; i++) {
+        if (visibleSet.has(i)) {
+          items[i].style.display = '';
+        } else {
+          items[i].style.display = 'none';
+          hiddenItems.push(items[i]);
+        }
       }
 
       moreBtn = document.createElement('button');
       moreBtn.className = btnClass;
       moreBtn.textContent = '▼ MÁS';
+      moreBtn.setAttribute('aria-haspopup', 'true');
+      moreBtn.setAttribute('aria-expanded', 'false');
       moreBtn.addEventListener('click', (e) => {
         e.stopPropagation();
         if (morePanel && !morePanel.hidden) close();
@@ -127,7 +190,7 @@
       morePanel = document.createElement('div');
       morePanel.className = panelClass;
       morePanel.hidden = true;
-      morePanel.setAttribute('role', 'listbox');
+      morePanel.setAttribute('role', 'menu');
 
       const parent = container.parentElement;
       if (parent && getComputedStyle(parent).position === 'static') {
@@ -139,12 +202,22 @@
         const item = document.createElement('button');
         item.type = 'button';
         item.className = itemClass;
+        item.setAttribute('role', 'menuitem');
         item.textContent = el.textContent.replace('nuevo', '').trim();
         if (el.classList.contains('active')) item.classList.add('active');
         if (el.disabled) item.disabled = true;
         item.addEventListener('click', () => { el.click(); close(); });
         morePanel.appendChild(item);
       });
+
+      // Restaurar foco si el elemento enfocado antes del recálculo quedó oculto
+      if (activeElementIdx !== -1) {
+        if (!visibleSet.has(activeElementIdx)) {
+          if (moreBtn) moreBtn.focus();
+        } else {
+          items[activeElementIdx].focus();
+        }
+      }
 
       busy = false;
       if (pending) { pending = false; init(); }
@@ -154,12 +227,14 @@
       if (!morePanel || !moreBtn) return;
       morePanel.hidden = false;
       moreBtn.classList.add('open');
+      moreBtn.setAttribute('aria-expanded', 'true');
     }
 
     function close() {
       if (!morePanel || !moreBtn) return;
       morePanel.hidden = true;
       moreBtn.classList.remove('open');
+      moreBtn.setAttribute('aria-expanded', 'false');
     }
 
     function schedule() {
@@ -207,12 +282,14 @@
 
     currentSurvey = survey;
     currentPeriod = null;
+    localStorage.setItem('ulima_selected_survey', id);
 
     // Update tabs
     document.querySelectorAll('.survey-tab').forEach((b) => {
       b.classList.toggle('active', b.textContent === survey.label);
     });
     if (surveySelect) surveySelect.value = survey.id;
+    surveyOverflow?.schedule();
 
     // Fetch periods
     try {
@@ -234,9 +311,10 @@
     renderPeriods();
     if (periodOverflow) periodOverflow.schedule();
 
-    // Load latest period
-    const latest = PERIODS[0];
-    if (latest) loadPeriod(latest.id);
+    // Load saved period or fallback to latest
+    const savedPeriod = localStorage.getItem('ulima_selected_period_' + survey.id);
+    const targetPeriod = savedPeriod && PERIODS.some(p => p.id === savedPeriod) ? savedPeriod : (PERIODS[0]?.id || null);
+    if (targetPeriod) loadPeriod(targetPeriod);
   }
 
   // ── Normalize periods ──
@@ -293,11 +371,13 @@
     if (!p || id === currentPeriod) return;
 
     currentPeriod = id;
+    localStorage.setItem('ulima_selected_period_' + currentSurvey.id, id);
 
     document.querySelectorAll('.pill').forEach((b) => {
       b.classList.toggle('active', b.dataset.id === p.id);
     });
     if (periodSelect) periodSelect.value = id;
+    periodOverflow?.schedule();
 
     ovMsg.textContent = `Cargando ${p.label}...`;
     overlay?.classList.add('show');
@@ -332,7 +412,9 @@
   });
 
   // ── Init ──
-  selectSurvey('undergraduate').then(() => {
+  const savedSurvey = localStorage.getItem('ulima_selected_survey');
+  const initialSurveyId = savedSurvey && SURVEY_TYPES.some(s => s.id === savedSurvey) ? savedSurvey : 'undergraduate';
+  selectSurvey(initialSurveyId).then(() => {
     if (surveyOverflow) surveyOverflow.schedule();
   });
 })();
