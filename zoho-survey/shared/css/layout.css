@@ -18,6 +18,7 @@
   align-items: center;
   justify-content: flex-end;
   box-shadow: var(--shadow-light);
+  height: var(--sticky-header-h);
 }
 
 .header-brand {
