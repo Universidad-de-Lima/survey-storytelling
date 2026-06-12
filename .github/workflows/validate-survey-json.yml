@@ -26,5 +26,5 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Validate undergraduate JSON and HTML contracts
-        run: python zoho-survey/scripts/validate_generated_json.py undergraduate
+      - name: Validate survey JSON and HTML contracts
+        run: python zoho-survey/scripts/validate_generated_json.py

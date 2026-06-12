@@ -49,8 +49,7 @@ CATEGORIAS_PADRES = {
 ABREVIACIONES = {
     r"\bprofe\b": "docente",
     r"\bprofes\b": "docentes",
-    r"\bu\b": "universidad",
-    r"\bmate\b": "matemáticas",
+    r"\b(la|en la|de la|a la)\s+u\b": r"\1 universidad",
     r"\bwifi\b": "Wi-Fi",
     r"\bwi-fi\b": "Wi-Fi",
     r"\bfacu\b": "facultad",
@@ -61,18 +60,13 @@ ABREVIACIONES = {
 def normalizar_texto(texto: str) -> str:
     """
     Limpia y normaliza texto en español para facilitar el matching y embeddings.
+    Conserva tildes, diacríticos y la letra ñ para no dañar la precisión del modelo multilingüe.
     """
     if not isinstance(texto, str) or not texto.strip():
         return ""
     texto = texto.lower().strip()
-    reemplazos = {
-        "á": "a", "é": "e", "í": "i", "ó": "o", "ú": "u",
-        "ü": "u", "ñ": "n"
-    }
-    for orig, rep in reemplazos.items():
-        texto = texto.replace(orig, rep)
-    
-    texto = re.sub(r"[^a-z0-9\s]", " ", texto)
+    # Remover puntuación y caracteres especiales no alfanuméricos en español, conservando letras con tilde y ñ
+    texto = re.sub(r"[^a-z0-9áéíóúüñ\s]", " ", texto)
     texto = re.sub(r"\s+", " ", texto).strip()
     return texto
 
@@ -95,6 +89,28 @@ def corregir_slang(texto: str) -> str:
     # Asegurar puntuación final
     if not t.endswith((".", "!", "?")):
         t += "."
+    return t
+
+def enmascarar_pii(texto: str) -> str:
+    """
+    Detecta y enmascara información de identificación personal (PII) en el texto
+    tales como correos electrónicos, números telefónicos y códigos estudiantiles.
+    """
+    if not isinstance(texto, str) or not texto.strip():
+        return ""
+    
+    # 1. Enmascarar correos electrónicos
+    patron_correo = r"[\w\.-]+@[\w\.-]+\.\w+"
+    t = re.sub(patron_correo, "[CORREO ENMASCARADO]", texto)
+    
+    # 2. Enmascarar números telefónicos (Perú, 9 dígitos con o sin prefijo +51 y espacios/guiones)
+    patron_telefono = r"\b(?:\+?51\s*)?9\d{2}[-\s]?\d{3}[-\s]?\d{3}\b"
+    t = re.sub(patron_telefono, "[TELÉFONO ENMASCARADO]", t)
+    
+    # 3. Enmascarar códigos de estudiante de 8 dígitos (típicamente inician con 20 o 19)
+    patron_codigo = r"\b(?:20|19)\d{6}\b"
+    t = re.sub(patron_codigo, "[CÓDIGO ENMASCARADO]", t)
+    
     return t
 
 def sanitizar_comentario(texto: str) -> Tuple[bool, Optional[str]]:
@@ -124,15 +140,24 @@ def sanitizar_comentario(texto: str) -> Tuple[bool, Optional[str]]:
             
     return True, None
 
+# Caché global para el modelo SentenceTransformer (Singleton Pattern)
+_MODEL_INSTANCE = None
+
+def obtener_modelo() -> SentenceTransformer:
+    global _MODEL_INSTANCE
+    if _MODEL_INSTANCE is None:
+        # paraphrase-multilingual-MiniLM-L12-v2 es ligero (~118MB) y rápido en CPU
+        _MODEL_INSTANCE = SentenceTransformer('paraphrase-multilingual-MiniLM-L12-v2')
+    return _MODEL_INSTANCE
+
 def agrupar_comentarios_por_topico(df_comentarios: pd.DataFrame) -> Tuple[List[Dict[str, any]], List[Dict[str, any]]]:
     """
     Toma un DataFrame con columnas [comentario, nps_score, carrera, facultad, ciclo]
     y realiza la clasificación semántica local (sentimiento y tópicos).
     Retorna (topicos_resultado, comentarios_detallados).
     """
-    # 1. Cargar el modelo SentenceTransformer local
-    # paraphrase-multilingual-MiniLM-L12-v2 es ligero (~118MB) y rápido en CPU
-    model = SentenceTransformer('paraphrase-multilingual-MiniLM-L12-v2')
+    # 1. Obtener el modelo SentenceTransformer desde el caché global
+    model = obtener_modelo()
 
     # Precalcular embeddings de las anclas de sentimiento
     sent_labels = list(ANCHORS_SENTIMENT.keys())
@@ -151,6 +176,9 @@ def agrupar_comentarios_por_topico(df_comentarios: pd.DataFrame) -> Tuple[List[D
     # Procesar fila por fila
     for idx, row in df_comentarios.iterrows():
         orig_text = str(row["comentario"])
+        # Enmascarar información personal (PII) de inmediato antes de cualquier procesamiento
+        orig_text = enmascarar_pii(orig_text)
+        
         es_valido, motivo = sanitizar_comentario(orig_text)
         
         # Mapear datos

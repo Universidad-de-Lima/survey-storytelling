@@ -6,26 +6,26 @@
     "total_analizados": 30,
     "comentarios_invalidos": 1,
     "distribucion_sentimiento": {
-      "positivo": 7,
+      "positivo": 8,
       "neutro": 21,
-      "negativo": 2
+      "negativo": 1
     },
     "distribucion_intensidad": {
       "alta": 1,
-      "media": 27,
-      "baja": 2
+      "media": 28,
+      "baja": 1
     },
     "pasivos": 25,
     "detractores": 5,
     "nota": "Se analizan y clasifican semánticamente todos los comentarios libres ingresados en la encuesta."
   },
   "insights_ia": {
-    "global": "El análisis cualitativo revela que el tema más relevante en este período es 'Valoración positiva general' con un total de 10 menciones. La distribución general muestra 7 comentarios positivos y 2 comentarios negativos.",
+    "global": "El análisis cualitativo revela que el tema más relevante en este período es 'Valoración positiva general' con un total de 9 menciones. La distribución general muestra 8 comentarios positivos y 1 comentarios negativos.",
     "por_categoria_padre": {
-      "Académico": "Los comentarios sobre aspectos académicos destacan la necesidad de alinear las metodologías de los docentes y la actualización del plan de estudios.",
-      "Administrativo y Bienestar": "Se reportan demoras en trámites administrativos y solicitudes de mejor soporte de atención al alumno.",
-      "Infraestructura": "Se registran solicitudes de mejora en la conexión de red inalámbrica Wi-Fi del campus y equipamiento en laboratorios.",
-      "Valoración General": "La valoración general destaca el prestigio institucional como uno de los principales motivos de recomendación."
+      "Académico": "Aspectos académicos concentran 5 menciones, con predominancia de opiniones favorables (2 positivas). El tema más comentado es 'Calidad docente'.",
+      "Administrativo y Bienestar": "Se registran 2 comentarios sobre servicios administrativos, principalmente relacionados a 'Oportunidades laborales' con una opinión mayormente balanceada o positiva.",
+      "Infraestructura": "La infraestructura recibe 5 comentarios, enfocados en 'Infraestructura y espacios'. Predominan opiniones positivas o sugerencias de mejora (1 menciones positivas).",
+      "Valoración General": "La valoración general de la institución cuenta con 9 opiniones (con 4 valoraciones positivas), reflejando un sólido prestigio institucional y recomendación de calidad."
     }
   },
   "topicos": [
@@ -34,11 +34,11 @@
       "categoria_padre": "Valoración General",
       "tipo": "mejora",
       "icono": "✅",
-      "total_comentarios": 10,
+      "total_comentarios": 9,
       "detractores": 0,
-      "pasivos": 10,
+      "pasivos": 9,
       "sentimiento_predominante": "neutro",
-      "intensidad_promedio": 0.51,
+      "intensidad_promedio": 0.52,
       "frases_representativas": [
         "Es un buen lugar para educación superior sin embargo siento que puede avanzar mucho más en cuanto a metodologías y temas de enseñanza.",
         "Muy buena universidad con recursos, espacio, tecnología y cursos interesantes.",
@@ -46,14 +46,14 @@
       ],
       "por_carrera": {
         "Comunicación": 7,
-        "Administración": 3
+        "Administración": 2
       },
       "por_facultad": {
         "Facultad de Comunicación": 7,
-        "Facultad de Ciencias Empresariales": 3
+        "Facultad de Ciencias Empresariales": 2
       },
       "por_ciclo": {
-        "NA": 10
+        "NA": 9
       }
     },
     {
@@ -61,28 +61,28 @@
       "categoria_padre": "Otros",
       "tipo": "mejora",
       "icono": "💬",
-      "total_comentarios": 8,
+      "total_comentarios": 9,
       "detractores": 4,
-      "pasivos": 4,
+      "pasivos": 5,
       "sentimiento_predominante": "neutro",
-      "intensidad_promedio": 0.47,
+      "intensidad_promedio": 0.48,
       "frases_representativas": [
         "Porque no toman en cuenta los problemas sociales.",
         "Porque no les importa lo social <3.",
-        "Le falta áreas verdes."
+        "Pudo haber sido mejor."
       ],
       "por_carrera": {
         "Comunicación": 5,
-        "Ingeniería Industrial": 2,
-        "Administración": 1
+        "Administración": 2,
+        "Ingeniería Industrial": 2
       },
       "por_facultad": {
         "Facultad de Comunicación": 5,
-        "Facultad de Ingeniería": 2,
-        "Facultad de Ciencias Empresariales": 1
+        "Facultad de Ciencias Empresariales": 2,
+        "Facultad de Ingeniería": 2
       },
       "por_ciclo": {
-        "NA": 8
+        "NA": 9
       }
     },
     {
@@ -94,7 +94,7 @@
       "detractores": 1,
       "pasivos": 4,
       "sentimiento_predominante": "neutro",
-      "intensidad_promedio": 0.46,
+      "intensidad_promedio": 0.49,
       "frases_representativas": [
         "En temas académicos siento que se quedan atrás de universidades como la ESAN. Infraestructura de primera, pero llena de gente.",
         "Hay muchos alumnos y poco espacios en el campus.",
@@ -127,7 +127,7 @@
       "frases_representativas": [
         "Buenos profesores.",
         "Tienen buenos profesores que enseñan lo idoneo para la carrera de comunicación.",
-        "Buena enseñanza pero a veces dejan pasar a alumnos flojos solo por su amistad o confianza."
+        "Si bien la enseñanza es buena, podrían haber algunos talleres extra como Excel y habilidades blandas."
       ],
       "por_carrera": {
         "Comunicación": 3,
@@ -226,8 +226,8 @@
       "facultad": "Facultad de Ciencias Empresariales",
       "ciclo": "NA",
       "nps_score": 8,
-      "sentimiento": "negativo",
-      "intensidad": 0.361,
+      "sentimiento": "neutro",
+      "intensidad": 0.5,
       "categoria": "Infraestructura y espacios",
       "categoria_padre": "Infraestructura",
       "fragmento_original": "En temas académicos siento que se quedan atrás de universidades como la ESAN. Infraestructura de primera, pero llena de gente.",
@@ -241,7 +241,7 @@
       "ciclo": "NA",
       "nps_score": 8,
       "sentimiento": "positivo",
-      "intensidad": 0.477,
+      "intensidad": 0.489,
       "categoria": "Valoración positiva general",
       "categoria_padre": "Valoración General",
       "fragmento_original": "Muy buena universidad con recursos, espacio, tecnología y cursos interesantes",
@@ -255,9 +255,9 @@
       "ciclo": "NA",
       "nps_score": 8,
       "sentimiento": "positivo",
-      "intensidad": 0.465,
-      "categoria": "Valoración positiva general",
-      "categoria_padre": "Valoración General",
+      "intensidad": 0.504,
+      "categoria": "Otros",
+      "categoria_padre": "Otros",
       "fragmento_original": "Porque cumplió con mis espectativas",
       "fragmento_mostrar": "Porque cumplió con mis espectativas.",
       "es_valido": true
@@ -311,7 +311,7 @@
       "ciclo": "NA",
       "nps_score": 7,
       "sentimiento": "positivo",
-      "intensidad": 0.565,
+      "intensidad": 0.571,
       "categoria": "Calidad docente",
       "categoria_padre": "Académico",
       "fragmento_original": "Tienen buenos profesores que enseñan lo idoneo para la carrera de comunicación",
@@ -352,8 +352,8 @@
       "facultad": "Facultad de Comunicación",
       "ciclo": "NA",
       "nps_score": 8,
-      "sentimiento": "neutro",
-      "intensidad": 0.5,
+      "sentimiento": "positivo",
+      "intensidad": 0.514,
       "categoria": "Valoración positiva general",
       "categoria_padre": "Valoración General",
       "fragmento_original": "Es un buen lugar para educación superior sin embargo siento que puede avanzar mucho más en cuanto a metodologías y temas de enseñanza",

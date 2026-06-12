@@ -45,6 +45,30 @@ window.SurveySentimentView = (() => {
     return { border: 'var(--ulima-orange)', bg: 'var(--sentiment-neu-bg, var(--warning-pastel))', label: 'Oportunidad de mejora' };
   }
 
+  // Helper to create legend items with CSP-friendly event listeners
+  function createLegendItem(colorVar, label, pct, valLower) {
+    const span = document.createElement('span');
+    span.style.cssText = `color:${colorVar}; display:inline-flex; align-items:center; gap:4px; cursor:pointer;`;
+
+    const dot = document.createElement('span');
+    dot.style.cssText = `display:inline-block; width:8px; height:8px; background:${colorVar}; border-radius:50%;`;
+
+    span.appendChild(dot);
+    span.appendChild(document.createTextNode(`${label}: ${pct}%`));
+
+    span.addEventListener('click', () => {
+      const select = $('explorador-sentimiento');
+      if (select) {
+        select.value = valLower;
+        applyExploradorFilters();
+        const explSec = $('tabla-explorador-comentarios');
+        if (explSec) explSec.scrollIntoView({ behavior: 'smooth' });
+      }
+    });
+
+    return span;
+  }
+
   // Draw the SVG Doughnut Chart
   function drawSVGDoughnut(pos, neu, neg) {
     const svg = $('svg-sentimiento');
@@ -55,7 +79,11 @@ window.SurveySentimentView = (() => {
     const centerVal = $('doughnut-center-val');
     if (centerVal) centerVal.textContent = _fmt.formatInteger(total);
 
-    if (total === 0) return;
+    const legend = $('sentimiento-legend');
+    if (total === 0) {
+      if (legend) legend.innerHTML = '';
+      return;
+    }
 
     const data = [
       { label: 'Positivo', value: pos, color: 'var(--success-text)' },
@@ -112,16 +140,15 @@ window.SurveySentimentView = (() => {
     });
 
     // Draw legends
-    const legend = $('sentimiento-legend');
     if (legend) {
+      legend.innerHTML = '';
       const pPct = Math.round((pos / total) * 100);
       const nPct = Math.round((neu / total) * 100);
       const negPct = Math.round((neg / total) * 100);
-      legend.innerHTML = `
-        <span style="color:var(--success-text); display:inline-flex; align-items:center; gap:4px; cursor:pointer;" onclick="document.getElementById('explorador-sentimiento').value='positivo'; window.SurveySentimentView.applyExploradorFilters(); document.getElementById('tabla-explorador-comentarios').scrollIntoView({behavior:'smooth'});"><span style="display:inline-block;width:8px;height:8px;background:var(--success-text);border-radius:50%;"></span>Positivo: ${pPct}%</span>
-        <span style="color:var(--ulima-orange); display:inline-flex; align-items:center; gap:4px; cursor:pointer;" onclick="document.getElementById('explorador-sentimiento').value='neutro'; window.SurveySentimentView.applyExploradorFilters(); document.getElementById('tabla-explorador-comentarios').scrollIntoView({behavior:'smooth'});"><span style="display:inline-block;width:8px;height:8px;background:var(--ulima-orange);border-radius:50%;"></span>Neutro: ${nPct}%</span>
-        <span style="color:var(--ulima-red); display:inline-flex; align-items:center; gap:4px; cursor:pointer;" onclick="document.getElementById('explorador-sentimiento').value='negativo'; window.SurveySentimentView.applyExploradorFilters(); document.getElementById('tabla-explorador-comentarios').scrollIntoView({behavior:'smooth'});"><span style="display:inline-block;width:8px;height:8px;background:var(--ulima-red);border-radius:50%;"></span>Negativo: ${negPct}%</span>
-      `;
+      
+      legend.appendChild(createLegendItem('var(--success-text)', 'Positivo', pPct, 'positivo'));
+      legend.appendChild(createLegendItem('var(--ulima-orange)', 'Neutro', nPct, 'neutro'));
+      legend.appendChild(createLegendItem('var(--ulima-red)', 'Negativo', negPct, 'negativo'));
     }
   }
 

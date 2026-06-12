@@ -848,3 +848,30 @@
   color: var(--gray);
 }
 
+/* ── Qualitative Section Layout ── */
+.cualitativo-layout {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 24px;
+  margin-top: 28px;
+}
+.cualitativo-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+.cualitativo-card.center-items {
+  align-items: center;
+}
+
+@media (max-width: 768px) {
+  .cualitativo-layout {
+    grid-template-columns: 1fr !important;
+    gap: 16px;
+  }
+}
+
+

@@ -8,11 +8,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../../../shared/css/tokens.css">
-  <link rel="stylesheet" href="../../../shared/css/reset.css">
-  <link rel="stylesheet" href="../../../shared/css/layout.css">
-  <link rel="stylesheet" href="../../../shared/css/components.css">
-  <link rel="stylesheet" href="../../../shared/css/sections.css">
+  <link rel="stylesheet" href="{{SHARED_PATH}}/css/tokens.css">
+  <link rel="stylesheet" href="{{SHARED_PATH}}/css/reset.css">
+  <link rel="stylesheet" href="{{SHARED_PATH}}/css/layout.css">
+  <link rel="stylesheet" href="{{SHARED_PATH}}/css/components.css">
+  <link rel="stylesheet" href="{{SHARED_PATH}}/css/sections.css">
 </head>
 <body>
   <div class="main-wrapper visible">
@@ -307,9 +307,9 @@
       </div>
 
       <!-- Métricas Macro y Distribuciones -->
-      <div class="cualitativo-layout" style="display: grid; grid-template-columns: 1fr 1.2fr; gap: 24px; margin-top: 28px;">
+      <div class="cualitativo-layout">
         <!-- Gráfico de Sentimiento -->
-        <div class="cualitativo-card" style="background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 20px; display: flex; flex-direction: column; align-items: center;">
+        <div class="cualitativo-card center-items">
           <h4 style="font-size: 14px; font-weight: 700; color: var(--dark); margin-bottom: 16px; width: 100%; text-align: left;">Distribución de Sentimiento</h4>
           <div style="position: relative; width: 180px; height: 180px;">
             <svg id="svg-sentimiento" viewBox="0 0 100 100" style="width: 100%; height: 100%; transform: rotate(-90deg);"></svg>
@@ -324,7 +324,7 @@
         </div>
 
         <!-- Menciones por Categoría Semántica -->
-        <div class="cualitativo-card" style="background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 20px; display: flex; flex-direction: column;">
+        <div class="cualitativo-card">
           <h4 style="font-size: 14px; font-weight: 700; color: var(--dark); margin-bottom: 16px;">Menciones por Categoría Semántica</h4>
           <div id="categorias-barras-container" style="display: flex; flex-direction: column; gap: 12px; flex: 1; justify-content: center;">
             <!-- Category bars dynamic -->
@@ -428,7 +428,7 @@
   <footer class="footer">
     <div class="footer-logo">
       <img class="footer-logo-img"
-           src="../../../shared/img/logo-isotipo.png"
+           src="{{SHARED_PATH}}/img/logo-isotipo.png"
            alt="Universidad de Lima, isotipo"
            loading="lazy" width="250" height="84">
     </div>
@@ -436,17 +436,17 @@
     <div class="mt-4" id="footer-periodo">Periodo: Cargando... · Dirección de Planificación y Acreditación</div>
   </footer>
   </div>
-  <script src="../../../shared/js/config/constants.js"></script>
-  <script src="../../../shared/js/utils/formatters.js"></script>
-  <script src="../../../shared/js/utils/sanitizer.js"></script>
-  <script src="../../../shared/js/utils/dom-helpers.js"></script>
-  <script src="../../../shared/js/components/tooltip.js"></script>
-  <script src="../../../shared/js/components/progress-bar.js"></script>
-  <script src="../../../shared/js/components/custom-select.js"></script>
-  <script src="../../../shared/js/components/multiselect.js"></script>
-  <script src="../../../shared/js/components/filter-controller.js"></script>
-  <script src="../../../shared/js/components/radar-chart.js"></script>
-  <script src="../../../shared/js/components/sentiment-view.js"></script>
-  <script src="../../../shared/js/dashboard.js"></script>
+  <script src="{{SHARED_PATH}}/js/config/constants.js"></script>
+  <script src="{{SHARED_PATH}}/js/utils/formatters.js"></script>
+  <script src="{{SHARED_PATH}}/js/utils/sanitizer.js"></script>
+  <script src="{{SHARED_PATH}}/js/utils/dom-helpers.js"></script>
+  <script src="{{SHARED_PATH}}/js/components/tooltip.js"></script>
+  <script src="{{SHARED_PATH}}/js/components/progress-bar.js"></script>
+  <script src="{{SHARED_PATH}}/js/components/custom-select.js"></script>
+  <script src="{{SHARED_PATH}}/js/components/multiselect.js"></script>
+  <script src="{{SHARED_PATH}}/js/components/filter-controller.js"></script>
+  <script src="{{SHARED_PATH}}/js/components/radar-chart.js"></script>
+  <script src="{{SHARED_PATH}}/js/components/sentiment-view.js"></script>
+  <script src="{{SHARED_PATH}}/js/dashboard.js"></script>
 </body>
 </html>

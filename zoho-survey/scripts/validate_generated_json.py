@@ -25,6 +25,7 @@ REQUIRED_PERIOD_FILES: Dict[str, Dict[str, any]] = {
     "csat_ciclo_carrera.json": dict(type=list, non_empty=True),
     "filtros.json": dict(type=dict, non_empty=True),
     "sentimiento.json": dict(type=dict, non_empty=True),
+    "sentimiento_v3.json": dict(type=dict, non_empty=True),
 }
 
 # Archivos legacy: validados si existen, pero su ausencia no genera error
@@ -51,13 +52,15 @@ REQUIRED_DIMENSION_KEYS: Set[str] = (
 )
 REQUIRED_ID_KEYS: Set[str] = {"facultad", "carrera", "ciclo", "count"}
 REQUIRED_CROSS_KEYS: Set[str] = {"facultad", "carrera", "ciclo"}
-REQUIRED_SENTIMIENTO_KEYS: Set[str] = {"resumen", "topicos", "por_carrera", "por_ciclo"}
+REQUIRED_SENTIMIENTO_KEYS: Set[str] = {"version", "resumen", "insights_ia", "topicos", "comentarios", "por_carrera", "por_ciclo"}
 REQUIRED_SENTIMIENTO_RESUMEN_KEYS: Set[str] = {
-    "total_con_comentario", "total_analizados", "pasivos", "detractores", "nota",
+    "total_respuestas", "total_con_comentario", "total_analizados", "comentarios_invalidos", "distribucion_sentimiento", "distribucion_intensidad", "pasivos", "detractores", "nota",
 }
 REQUIRED_TOPICO_KEYS: Set[str] = {
-    "topico", "tipo", "icono", "total_comentarios", "por_facultad",
-    "por_carrera", "por_ciclo", "frases_representativas",
+    "topico", "categoria_padre", "tipo", "icono", "total_comentarios", "detractores", "pasivos", "sentimiento_predominante", "intensidad_promedio", "frases_representativas", "por_facultad", "por_carrera", "por_ciclo",
+}
+REQUIRED_COMENTARIO_KEYS: Set[str] = {
+    "id", "carrera", "facultad", "ciclo", "nps_score", "sentimiento", "intensidad", "categoria", "categoria_padre", "fragmento_original", "fragmento_mostrar", "es_valido",
 }
 
 
@@ -185,14 +188,29 @@ def validate_cross_rows(value: List[dict], filename: str, response_keys: Set[str
 
 
 def validate_sentimiento(value: dict) -> None:
-    """Valida la estructura de tópicos del archivo sentimiento.json."""
+    """Valida la estructura de tópicos del archivo sentimiento.json y sentimiento_v3.json."""
     require_keys(value, REQUIRED_SENTIMIENTO_KEYS, "sentimiento.json")
     require_keys(value.get("resumen") or {}, REQUIRED_SENTIMIENTO_RESUMEN_KEYS, "sentimiento.resumen")
-    require_numeric(value["resumen"], {"total_con_comentario", "total_analizados", "pasivos", "detractores"}, "sentimiento.resumen")
+    require_numeric(value["resumen"], {"total_respuestas", "total_con_comentario", "total_analizados", "comentarios_invalidos", "pasivos", "detractores"}, "sentimiento.resumen")
 
-    for key in ("topicos", "por_carrera", "por_ciclo"):
+    # Validar distribución de sentimiento e intensidad
+    resumen = value["resumen"]
+    for dist_key in ("distribucion_sentimiento", "distribucion_intensidad"):
+        if not isinstance(resumen.get(dist_key), dict):
+            raise ValueError(f"sentimiento.resumen.{dist_key} debe ser un objeto")
+
+    for key in ("topicos", "comentarios", "por_carrera", "por_ciclo"):
         if not isinstance(value.get(key), list):
             raise ValueError(f"sentimiento.{key} debe ser una lista")
+
+    # Validar comentarios individuales
+    for index, comentario in enumerate(value["comentarios"]):
+        if not isinstance(comentario, dict):
+            raise ValueError(f"sentimiento.comentarios[{index}] debe ser un objeto")
+        require_keys(comentario, REQUIRED_COMENTARIO_KEYS, f"sentimiento.comentarios[{index}]")
+        require_numeric(comentario, {"nps_score", "intensidad"}, f"sentimiento.comentarios[{index}]")
+        if not isinstance(comentario.get("es_valido"), bool):
+            raise ValueError(f"sentimiento.comentarios[{index}].es_valido debe ser booleano")
 
     for index, topico in enumerate(value["topicos"]):
         if not isinstance(topico, dict):
@@ -200,7 +218,7 @@ def validate_sentimiento(value: dict) -> None:
         require_keys(topico, REQUIRED_TOPICO_KEYS, f"sentimiento.topicos[{index}]")
         if topico.get("tipo") not in {"negativo", "mejora", "positivo"}:
             raise ValueError(f"sentimiento.topicos[{index}].tipo tiene un valor inválido: {topico.get('tipo')}")
-        require_numeric(topico, {"total_comentarios"}, f"sentimiento.topicos[{index}]")
+        require_numeric(topico, {"total_comentarios", "detractores", "pasivos", "intensidad_promedio"}, f"sentimiento.topicos[{index}]")
         for map_key in ("por_facultad", "por_carrera", "por_ciclo"):
             if not isinstance(topico.get(map_key), dict):
                 raise ValueError(f"sentimiento.topicos[{index}].{map_key} debe ser un objeto")
@@ -258,7 +276,7 @@ def validate_json_file(json_dir: Path, filename: str, spec: Dict[str, any]) -> a
         validate_cross_rows(value, filename, keys)
     elif filename == "csat_ciclo_carrera.json":
         validate_cross_rows(value, filename, SAT_KEYS)
-    elif filename == "sentimiento.json":
+    elif filename in ("sentimiento.json", "sentimiento_v3.json"):
         validate_sentimiento(value)
 
     return value

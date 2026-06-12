@@ -107,8 +107,20 @@ def main() -> None:
         periodo_dir: Path = survey_dir / periodo
         index_file: Path = periodo_dir / "index.html"
         template_index: Path = ZOHO_DIR / "template" / "index.html"
-        copyfile(template_index, index_file)
-        logging.info(f"Plantilla HTML copiada para {nivel}/{periodo}")
+        
+        # Inyección dinámica de la ruta a la carpeta shared según la profundidad (H-01)
+        try:
+            rel_parent = periodo_dir.relative_to(ZOHO_DIR)
+            depth = len(rel_parent.parts)
+            shared_path = "/".join([".."] * depth) + "/shared"
+            
+            html_content = template_index.read_text(encoding="utf-8")
+            html_content = html_content.replace("{{SHARED_PATH}}", shared_path)
+            index_file.write_text(html_content, encoding="utf-8")
+            logging.info(f"Plantilla HTML copiada e inyectada con shared_path '{shared_path}' para {nivel}/{periodo}")
+        except Exception as html_err:
+            logging.error(f"Error al escribir index.html con shared_path para {nivel}/{periodo}: {html_err}")
+            copyfile(template_index, index_file)
 
         # Lectura robusta de CSV
         try:
@@ -481,14 +493,58 @@ def main() -> None:
 
             # Generar Insights Narrativos Dinámicos locales (Fase de Fallback local)
             top_t = topicos_globales[0]["topico"] if topicos_globales else "Calidad docente"
+            
+            # Cálculo dinámico de insights por categoría padre (H-04)
+            cat_parent_insights = {}
+            for cat_padre in ["Académico", "Administrativo y Bienestar", "Infraestructura", "Valoración General"]:
+                cat_coms = [c for c in valid_comments if c["categoria_padre"] == cat_padre]
+                total_cat = len(cat_coms)
+                
+                if total_cat > 0:
+                    pos_cat = sum(1 for c in cat_coms if c["sentimiento"] == "positivo")
+                    neg_cat = sum(1 for c in cat_coms if c["sentimiento"] == "negativo")
+                    
+                    # Encontrar el sub-tópico específico más mencionado en esta categoría padre
+                    topico_freq_dict = defaultdict(int)
+                    for c in cat_coms:
+                        topico_freq_dict[c["categoria"]] += 1
+                    sub_topico_top = max(topico_freq_dict, key=topico_freq_dict.get)
+                    
+                    if cat_padre == "Académico":
+                        if neg_cat > pos_cat:
+                            acad_desc = f"Se registran {total_cat} menciones enfocadas principalmente en '{sub_topico_top}'. Se observa un volumen de opiniones críticas ({neg_cat} comentarios negativos) sobre la didáctica docente o el contenido de la malla curricular."
+                        else:
+                            acad_desc = f"Aspectos académicos concentran {total_cat} menciones, con predominancia de opiniones favorables ({pos_cat} positivas). El tema más comentado es '{sub_topico_top}'."
+                        cat_parent_insights[cat_padre] = acad_desc
+                    elif cat_padre == "Administrativo y Bienestar":
+                        if neg_cat > 0:
+                            adm_desc = f"Los servicios administrativos y de bienestar registran {total_cat} opiniones, con foco en '{sub_topico_top}'. Se reportan {neg_cat} quejas asociadas a la agilidad de los trámites o la atención brindada."
+                        else:
+                            adm_desc = f"Se registran {total_cat} comentarios sobre servicios administrativos, principalmente relacionados a '{sub_topico_top}' con una opinión mayormente balanceada o positiva."
+                        cat_parent_insights[cat_padre] = adm_desc
+                    elif cat_padre == "Infraestructura":
+                        if neg_cat > pos_cat:
+                            inf_desc = f"Se registran {total_cat} solicitudes en infraestructura, centradas en '{sub_topico_top}'. Se identifican {neg_cat} quejas puntuales sobre mantenimiento, equipamiento o conexión inalámbrica."
+                        else:
+                            inf_desc = f"La infraestructura recibe {total_cat} comentarios, enfocados en '{sub_topico_top}'. Predominan opiniones positivas o sugerencias de mejora ({pos_cat} menciones positivas)."
+                        cat_parent_insights[cat_padre] = inf_desc
+                    elif cat_padre == "Valoración General":
+                        val_desc = f"La valoración general de la institución cuenta con {total_cat} opiniones (con {pos_cat} valoraciones positivas), reflejando un sólido prestigio institucional y recomendación de calidad."
+                        cat_parent_insights[cat_padre] = val_desc
+                else:
+                    # Fallback si no hay comentarios para esa categoría en el periodo
+                    if cat_padre == "Académico":
+                        cat_parent_insights[cat_padre] = "No se registraron comentarios significativos sobre aspectos académicos en este período."
+                    elif cat_padre == "Administrativo y Bienestar":
+                        cat_parent_insights[cat_padre] = "No se reportan incidencias ni comentarios sobre procesos administrativos en este período."
+                    elif cat_padre == "Infraestructura":
+                        cat_parent_insights[cat_padre] = "La infraestructura física y tecnológica no registra menciones en las respuestas libres de este período."
+                    elif cat_padre == "Valoración General":
+                        cat_parent_insights[cat_padre] = "No se registran comentarios de valoración institucional general en este período."
+
             insights_ia = {
                 "global": f"El análisis cualitativo revela que el tema más relevante en este período es '{top_t}' con un total de {topicos_globales[0]['total_comentarios'] if topicos_globales else 0} menciones. La distribución general muestra {dist_sent['positivo']} comentarios positivos y {dist_sent['negativo']} comentarios negativos.",
-                "por_categoria_padre": {
-                    "Académico": "Los comentarios sobre aspectos académicos destacan la necesidad de alinear las metodologías de los docentes y la actualización del plan de estudios.",
-                    "Administrativo y Bienestar": "Se reportan demoras en trámites administrativos y solicitudes de mejor soporte de atención al alumno.",
-                    "Infraestructura": "Se registran solicitudes de mejora en la conexión de red inalámbrica Wi-Fi del campus y equipamiento en laboratorios.",
-                    "Valoración General": "La valoración general destaca el prestigio institucional como uno de los principales motivos de recomendación."
-                }
+                "por_categoria_padre": cat_parent_insights
             }
 
             sentimiento = {
