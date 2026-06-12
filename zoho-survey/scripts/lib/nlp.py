@@ -173,7 +173,10 @@ def agrupar_comentarios_por_topico(df_comentarios: pd.DataFrame) -> Tuple[List[D
     topicos_con_comentarios["Otros"] = []
     topicos_con_embeddings["Otros"] = []
 
-    # Procesar fila por fila
+    registros_validos: List[Dict[str, any]] = []
+    textos_a_codificar: List[str] = []
+
+    # Pasada 1: Clasificación de calidad, enmascaramiento de PII y filtro de válidos
     for idx, row in df_comentarios.iterrows():
         orig_text = str(row["comentario"])
         # Enmascarar información personal (PII) de inmediato antes de cualquier procesamiento
@@ -191,7 +194,7 @@ def agrupar_comentarios_por_topico(df_comentarios: pd.DataFrame) -> Tuple[List[D
         res_id = str(row.get("ID", f"R_{idx}"))
 
         if not es_valido:
-            # Comentario inválido: guardar en detalle para auditoría
+            # Comentario inválido: guardar en detalle para la UI
             comentarios_detallados.append({
                 "id": res_id,
                 "carrera": carrera,
@@ -207,63 +210,82 @@ def agrupar_comentarios_por_topico(df_comentarios: pd.DataFrame) -> Tuple[List[D
                 "es_valido": False,
                 "motivo_invalidez": motivo
             })
-            continue
+        else:
+            clean_text = corregir_slang(orig_text)
+            norm_txt = normalizar_texto(orig_text)
+            
+            textos_a_codificar.append(norm_txt)
+            registros_validos.append({
+                "id": res_id,
+                "carrera": carrera,
+                "facultad": facultad,
+                "ciclo": ciclo,
+                "nps_score": nps,
+                "fragmento_original": orig_text,
+                "fragmento_mostrar": clean_text
+            })
 
-        # Generar fragmento para visualización
-        clean_text = corregir_slang(orig_text)
-
-        # Generar embedding del comentario normalizado
-        norm_txt = normalizar_texto(orig_text)
-        emb = model.encode([norm_txt])
-
-        # 1. Similitud de Sentimiento
-        sim_sent = cosine_similarity(emb, sent_embeddings)[0]
-        sim_pos, sim_neg = sim_sent[0], sim_sent[1]
+    # Inferencia por lotes sobre todos los comentarios válidos
+    if textos_a_codificar:
+        embeddings_validos = model.encode(textos_a_codificar, batch_size=32)
         
-        # Regla de calibración matemática (anclas vectoriales)
-        diff = sim_pos - sim_neg
-        if abs(diff) < 0.20 or (sim_pos < 0.25 and sim_neg < 0.25):
-            sentiment = "neutro"
-            intensity = 0.5
-        else:
-            if diff > 0:
-                sentiment = "positivo"
-                intensity = float(sim_pos)
+        # Pasada 2: Procesar similitudes sobre embeddings precalculados en lote
+        for val_idx, reg in enumerate(registros_validos):
+            # Obtener el vector del comentario y asegurar forma 2D para similitud
+            emb = embeddings_validos[val_idx].reshape(1, -1)
+            
+            # 1. Similitud de Sentimiento
+            sim_sent = cosine_similarity(emb, sent_embeddings)[0]
+            sim_pos, sim_neg = sim_sent[0], sim_sent[1]
+            
+            # Regla de calibración matemática (anclas vectoriales)
+            diff = sim_pos - sim_neg
+            if abs(diff) < 0.20 or (sim_pos < 0.25 and sim_neg < 0.25):
+                sentiment = "neutro"
+                intensity = 0.5
             else:
-                sentiment = "negativo"
-                intensity = float(sim_neg)
+                if diff > 0:
+                    sentiment = "positivo"
+                    intensity = float(sim_pos)
+                else:
+                    sentiment = "negativo"
+                    intensity = float(sim_neg)
 
-        # 2. Similitud de Tópico
-        sim_topic = cosine_similarity(emb, topic_embeddings)[0]
-        idx_topic = np.argmax(sim_topic)
-        score_topic = sim_topic[idx_topic]
+            # 2. Similitud de Tópico
+            sim_topic = cosine_similarity(emb, topic_embeddings)[0]
+            idx_topic = np.argmax(sim_topic)
+            score_topic = sim_topic[idx_topic]
 
-        if score_topic < 0.38:
-            topic_assigned = "Otros"
-        else:
-            topic_assigned = topic_labels[idx_topic]
+            if score_topic < 0.38:
+                topic_assigned = "Otros"
+            else:
+                topic_assigned = topic_labels[idx_topic]
 
-        parent_cat = CATEGORIAS_PADRES[topic_assigned]
+            parent_cat = CATEGORIAS_PADRES[topic_assigned]
 
-        comment_obj = {
-            "id": res_id,
-            "carrera": carrera,
-            "facultad": facultad,
-            "ciclo": ciclo,
-            "nps_score": nps,
-            "sentimiento": sentiment,
-            "intensidad": round(intensity, 3),
-            "categoria": topic_assigned,
-            "categoria_padre": parent_cat,
-            "fragmento_original": orig_text,
-            "fragmento_mostrar": clean_text,
-            "es_valido": True
-        }
-        comentarios_detallados.append(comment_obj)
+            comment_obj = {
+                "id": reg["id"],
+                "carrera": reg["carrera"],
+                "facultad": reg["facultad"],
+                "ciclo": reg["ciclo"],
+                "nps_score": reg["nps_score"],
+                "sentimiento": sentiment,
+                "intensidad": round(intensity, 3),
+                "categoria": topic_assigned,
+                "categoria_padre": parent_cat,
+                "fragmento_original": reg["fragmento_original"],
+                "fragmento_mostrar": reg["fragmento_mostrar"],
+                "es_valido": True
+            }
+            comentarios_detallados.append(comment_obj)
 
-        # Agrupar para cálculo de centroides y agregados
-        topicos_con_embeddings[topic_assigned].append(emb[0])
-        topicos_con_comentarios[topic_assigned].append(comment_obj)
+            # Agrupar para cálculo de centroides y agregados
+            topicos_con_embeddings[topic_assigned].append(emb[0])
+            topicos_con_comentarios[topic_assigned].append(comment_obj)
+
+    # Ordenar comentarios_detallados para preservar la secuencia original del dataframe
+    id_posiciones = {str(row.get("ID", f"R_{idx}")): idx for idx, row in df_comentarios.iterrows()}
+    comentarios_detallados.sort(key=lambda x: id_posiciones.get(x["id"], 99999))
 
     # 3. Compilar tópicos agregados y seleccionar frases representativas
     topicos_resultado: List[Dict[str, any]] = []

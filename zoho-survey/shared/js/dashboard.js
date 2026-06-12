@@ -1,8 +1,7 @@
 (() => {
   'use strict';
 
-  // Flag de versión para el módulo de análisis cualitativo
-  const USE_V3_SENTIMENT = true; // Cambiar a false para restaurar v2.0
+  // Flag de versión para el módulo de análisis cualitativo - Consolidado en v3.0.2
 
   // ── Constantes y Configuración de Negocio ──
   const config = window.SURVEY_CONFIG || {};
@@ -99,7 +98,7 @@
       csatCicloCarrera: 'csat_ciclo_carrera',
       npsCarrera: 'nps_carrera',
       csatCarrera: 'csat_carrera',
-      sentimiento: USE_V3_SENTIMENT ? 'sentimiento_v3' : 'sentimiento',
+      sentimiento: 'sentimiento',
     };
 
     try {
@@ -939,11 +938,7 @@
     if (selSent) {
       selSent.addEventListener('change', () => {
         if (_sv) {
-          if (USE_V3_SENTIMENT) {
-            _sv.render(cache.sentimiento);
-          } else {
-            _sv.renderInsightsCards(cache.sentimiento);
-          }
+          _sv.render(cache.sentimiento);
         }
       });
     }
@@ -951,12 +946,7 @@
     if (_fc) {
       _fc.setup('sent', cache.filtros, () => {
         if (_sv) {
-          if (USE_V3_SENTIMENT) {
-            _sv.render(cache.sentimiento);
-          } else {
-            _sv.renderInsightsCards(cache.sentimiento);
-            _sv.renderTablaSentimientoCarrera(cache.sentimiento);
-          }
+          _sv.render(cache.sentimiento);
         }
       });
     }

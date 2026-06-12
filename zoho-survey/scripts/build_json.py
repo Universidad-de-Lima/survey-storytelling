@@ -233,7 +233,7 @@ def main() -> None:
                     "score": calc_nps(p, pa, d)
                 })
         with open(ruta_salida / "nps_ciclo_carrera.json", "w", encoding="utf-8") as f:
-            json.dump(nps_ciclo_carrera, f, ensure_ascii=False, indent=2)
+            json.dump(nps_ciclo_carrera, f, ensure_ascii=False)
 
         # CSAT Carrera
         csat_carrera: List[Dict[str, any]] = []
@@ -262,7 +262,7 @@ def main() -> None:
                 row["score"] = calc_csat(t3b, total)
                 csat_ciclo_carrera.append(row)
         with open(ruta_salida / "csat_ciclo_carrera.json", "w", encoding="utf-8") as f:
-            json.dump(csat_ciclo_carrera, f, ensure_ascii=False, indent=2)
+            json.dump(csat_ciclo_carrera, f, ensure_ascii=False)
 
         # Dimensiones
         rows: List[Dict[str, any]] = []
@@ -291,7 +291,7 @@ def main() -> None:
                     **conteos
                 })
         with open(ruta_salida / "dimensiones.json", "w", encoding="utf-8") as f:
-            json.dump(rows, f, ensure_ascii=False, indent=2)
+            json.dump(rows, f, ensure_ascii=False)
 
         # IDs
         ids_conteo: List[Dict[str, any]] = []
@@ -590,11 +590,9 @@ def main() -> None:
                 "por_ciclo": []
             }
 
-        # Guardar en sentimiento.json y sentimiento_v3.json para coexistencia segura
+        # Guardar únicamente en sentimiento.json (formato v3.0 consolidado y minificado)
         with open(ruta_salida / "sentimiento.json", "w", encoding="utf-8") as f:
-            json.dump(sentimiento, f, ensure_ascii=False, indent=2)
-        with open(ruta_salida / "sentimiento_v3.json", "w", encoding="utf-8") as f:
-            json.dump(sentimiento, f, ensure_ascii=False, indent=2)
+            json.dump(sentimiento, f, ensure_ascii=False)
 
         logging.info(f"Procesamiento finalizado con éxito para {nivel}/{periodo}.")
 

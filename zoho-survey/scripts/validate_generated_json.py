@@ -25,7 +25,6 @@ REQUIRED_PERIOD_FILES: Dict[str, Dict[str, any]] = {
     "csat_ciclo_carrera.json": dict(type=list, non_empty=True),
     "filtros.json": dict(type=dict, non_empty=True),
     "sentimiento.json": dict(type=dict, non_empty=True),
-    "sentimiento_v3.json": dict(type=dict, non_empty=True),
 }
 
 # Archivos legacy: validados si existen, pero su ausencia no genera error
@@ -188,7 +187,7 @@ def validate_cross_rows(value: List[dict], filename: str, response_keys: Set[str
 
 
 def validate_sentimiento(value: dict) -> None:
-    """Valida la estructura de tópicos del archivo sentimiento.json y sentimiento_v3.json."""
+    """Valida la estructura de tópicos del archivo sentimiento.json."""
     require_keys(value, REQUIRED_SENTIMIENTO_KEYS, "sentimiento.json")
     require_keys(value.get("resumen") or {}, REQUIRED_SENTIMIENTO_RESUMEN_KEYS, "sentimiento.resumen")
     require_numeric(value["resumen"], {"total_respuestas", "total_con_comentario", "total_analizados", "comentarios_invalidos", "pasivos", "detractores"}, "sentimiento.resumen")
@@ -276,7 +275,7 @@ def validate_json_file(json_dir: Path, filename: str, spec: Dict[str, any]) -> a
         validate_cross_rows(value, filename, keys)
     elif filename == "csat_ciclo_carrera.json":
         validate_cross_rows(value, filename, SAT_KEYS)
-    elif filename in ("sentimiento.json", "sentimiento_v3.json"):
+    elif filename == "sentimiento.json":
         validate_sentimiento(value)
 
     return value

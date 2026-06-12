@@ -27,7 +27,7 @@ El pipeline genera hasta 9 archivos por periodo en `zoho-survey/students/{level}
 | `nps_ciclo_carrera.json` | array | implicita | requerido |
 | `csat_ciclo_carrera.json` | array | implicita | requerido |
 | `filtros.json` | object | `"2.0"` | requerido |
-| `sentimiento.json` | object | `"2.0"` | requerido |
+| `sentimiento.json` | object | `"3.0"` | requerido |
 | `nps_carrera.json` | array | implicita | legacy opcional |
 | `csat_carrera.json` | array | implicita | legacy opcional |
 
@@ -123,30 +123,61 @@ Schema: `zoho-survey/scripts/schemas/sentimiento.schema.json`.
 
 Claves requeridas:
 
-- `version`
+- `version` (debe ser `"3.0"`)
 - `resumen`
+- `insights_ia`
 - `topicos`
+- `comentarios`
 - `por_carrera`
 - `por_ciclo`
 
 `resumen` requiere:
 
+- `total_respuestas`
 - `total_con_comentario`
 - `total_analizados`
+- `comentarios_invalidos`
+- `distribucion_sentimiento` (objeto con `positivo`, `neutro`, `negativo`)
+- `distribucion_intensidad` (objeto con `alta`, `media`, `baja`)
 - `pasivos`
 - `detractores`
 - `nota`
 
+`insights_ia` requiere:
+
+- `global`
+- `por_categoria_padre`
+
 Cada topico requiere:
 
 - `topico`
+- `categoria_padre`
 - `tipo` (`negativo`, `mejora` o `positivo`)
 - `icono`
 - `total_comentarios`
+- `detractores`
+- `pasivos`
+- `sentimiento_predominante`
+- `intensidad_promedio`
+- `frases_representativas`
 - `por_facultad`
 - `por_carrera`
 - `por_ciclo`
-- `frases_representativas`
+
+Cada comentario requiere:
+
+- `id`
+- `carrera`
+- `facultad`
+- `ciclo`
+- `nps_score`
+- `sentimiento` (`positivo`, `negativo` o `neutro`)
+- `intensidad`
+- `categoria`
+- `categoria_padre`
+- `fragmento_original`
+- `fragmento_mostrar`
+- `es_valido`
 
 ## `nps_ciclo_carrera.json` Y `csat_ciclo_carrera.json`
 

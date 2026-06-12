@@ -595,57 +595,7 @@ window.SurveySentimentView = (() => {
           updateExploradorPagination();
         }
       });
-      nextBtn.dataset.listener = 'true';
-    }
-  }
-
-  // Legacy fallback table renderer
-  function renderTablaSentimientoCarrera(sentimentCache) {
-    const tbody = $('tbody-sentimiento-carrera');
-    if (!tbody || !sentimentCache) return;
-
-    const filtroFac = $('filter-facultad-sent')?.value || '';
-    const filtroCar = $('filter-carrera-sent')?.value || '';
-
-    let data = sentimentCache.por_carrera || [];
-
-    if (filtroFac) data = data.filter((r) => r.facultad === filtroFac);
-    if (filtroCar) data = data.filter((r) => r.carrera === filtroCar);
-
-    const fragment = document.createDocumentFragment();
-    data.forEach((item) => {
-      const tr = document.createElement('tr');
-      tr.innerHTML = `
-        <td>${_san.escapeHTML(item.carrera)}</td>
-        <td class="text-center">${_fmt.formatInteger(item.total)}</td>
-        <td class="text-center" style="color:var(--ulima-orange);font-weight:600;">${_fmt.formatInteger(item.pasivos)}</td>
-        <td class="text-center" style="color:var(--ulima-red);font-weight:600;">${_fmt.formatInteger(item.detractores)}</td>
-      `;
-      fragment.appendChild(tr);
-    });
-    tbody.innerHTML = '';
-    tbody.appendChild(fragment);
-
-    const insightEl = $('insight-cualitativo');
-    if (!insightEl || !data.length) return;
-    const topCarrera = [...data].sort((a, b) => b.total - a.total)[0];
-    const totalGlobal = data.reduce((s, r) => s + r.total, 0);
-    const topicosCount = (sentimentCache.topicos || []).length;
-    insightEl.innerHTML = _san.sanitizeHTML(`
-      Se identificaron <strong>${_fmt.formatInteger(topicosCount)} temas</strong> en los comentarios de Pasivos y Detractores.
-      ${
-        topCarrera
-          ? `La carrera con más comentarios es <strong>${_san.escapeHTML(topCarrera.carrera)}</strong>
-           (${_fmt.formatInteger(topCarrera.total)} de ${_fmt.formatInteger(totalGlobal)} total),
-           con <strong>${_fmt.formatInteger(topCarrera.detractores)}</strong> de Detractores y
-           <strong>${_fmt.formatInteger(topCarrera.pasivos)}</strong> de Pasivos.`
-          : ''
-      }
-      Las frases representativas muestran el contexto real de cada preocupación estudiantil.
-    `);
-  }
-
-  // Main render function
+      nextBtn.dataset.listener = 't  // Main render function
   function render(sentimentCache) {
     const kpiGrid = $('sentiment-kpis');
     if (!kpiGrid) return;
@@ -657,167 +607,118 @@ window.SurveySentimentView = (() => {
     }
 
     const r = sentimentCache.resumen;
-    const isV3 = sentimentCache.version === '3.0' && sentimentCache.comentarios;
 
-    if (isV3) {
-      const invalidCount = r.comentarios_invalidos || 0;
-      kpiGrid.innerHTML = `
-        <div class="kpi-card">
-          <div class="kpi-value" style="font-size:28px;">${_fmt.formatInteger(r.total_respuestas)}</div>
-          <div class="kpi-label">Respuestas totales</div>
-          <div class="kpi-meta">Muestra cualitativa</div>
-        </div>
-        <div class="kpi-card">
-          <div class="kpi-value" style="font-size:28px;color:var(--success-text);">${_fmt.formatInteger(r.total_analizados)}</div>
-          <div class="kpi-label" style="color:var(--success-text);">Comentarios válidos</div>
-          <div class="kpi-meta">Clasificados por la IA</div>
-        </div>
-        <div class="kpi-card">
-          <div class="kpi-value" style="font-size:28px;color:var(--gray-500);">${_fmt.formatInteger(invalidCount)}</div>
-          <div class="kpi-label" style="color:var(--gray-600);">Mensajes sin opinión</div>
-          <div class="kpi-meta">Ruido o saludo cordial</div>
-        </div>
-      `;
+    const invalidCount = r.comentarios_invalidos || 0;
+    kpiGrid.innerHTML = `
+      <div class="kpi-card">
+        <div class="kpi-value" style="font-size:28px;">${_fmt.formatInteger(r.total_respuestas)}</div>
+        <div class="kpi-label">Respuestas totales</div>
+        <div class="kpi-meta">Muestra cualitativa</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-value" style="font-size:28px;color:var(--success-text);">${_fmt.formatInteger(r.total_analizados)}</div>
+        <div class="kpi-label" style="color:var(--success-text);">Comentarios válidos</div>
+        <div class="kpi-meta">Clasificados por la IA</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-value" style="font-size:28px;color:var(--gray-500);">${_fmt.formatInteger(invalidCount)}</div>
+        <div class="kpi-label" style="color:var(--gray-600);">Mensajes sin opinión</div>
+        <div class="kpi-meta">Ruido o saludo cordial</div>
+      </div>
+    `;
 
-      state.originalComments = sentimentCache.comentarios || [];
-      state.sentimentCache = sentimentCache;
+    state.originalComments = sentimentCache.comentarios || [];
+    state.sentimentCache = sentimentCache;
 
-      // Filter based on active selectors
-      const filtroFac = $('filter-facultad-sent')?.value || '';
-      const filtroCar = $('filter-carrera-sent')?.value || '';
-      const filtroCiclo = _dh.getSelectedValues($('filter-ciclo-sent')) || '';
+    // Filter based on active selectors
+    const filtroFac = $('filter-facultad-sent')?.value || '';
+    const filtroCar = $('filter-carrera-sent')?.value || '';
+    const filtroCiclo = _dh.getSelectedValues($('filter-ciclo-sent')) || '';
 
-      const businessFilteredComments = state.originalComments.filter(c => {
-        if (filtroCar && c.carrera !== filtroCar) return false;
-        if (filtroFac) {
-          if (esEstudiosGen(filtroFac)) {
-            const cycles = filtroCiclo ? (Array.isArray(filtroCiclo) ? filtroCiclo : [filtroCiclo]) : CICLOS_ESTUDIOS_GENERALES;
-            if (!cycles.includes(c.ciclo)) return false;
-          } else if (c.facultad !== filtroFac) {
-            return false;
-          }
-        } else if (filtroCiclo) {
-          const selectedCycles = Array.isArray(filtroCiclo) ? filtroCiclo : [filtroCiclo];
-          if (selectedCycles.length > 0 && !selectedCycles.includes(c.ciclo)) return false;
+    const businessFilteredComments = state.originalComments.filter(c => {
+      if (filtroCar && c.carrera !== filtroCar) return false;
+      if (filtroFac) {
+        if (esEstudiosGen(filtroFac)) {
+          const cycles = filtroCiclo ? (Array.isArray(filtroCiclo) ? filtroCiclo : [filtroCiclo]) : CICLOS_ESTUDIOS_GENERALES;
+          if (!cycles.includes(c.ciclo)) return false;
+        } else if (c.facultad !== filtroFac) {
+          return false;
         }
-        return true;
+      } else if (filtroCiclo) {
+        const selectedCycles = Array.isArray(filtroCiclo) ? filtroCiclo : [filtroCiclo];
+        if (selectedCycles.length > 0 && !selectedCycles.includes(c.ciclo)) return false;
+      }
+      return true;
+    });
+
+    const validFilteredComments = businessFilteredComments.filter(c => c.es_valido);
+    const posCount = validFilteredComments.filter(c => c.sentimiento === 'positivo').length;
+    const neuCount = validFilteredComments.filter(c => c.sentimiento === 'neutro').length;
+    const negCount = validFilteredComments.filter(c => c.sentimiento === 'negativo').length;
+    
+    // Update visual doughnut, bars, IA narrative
+    drawSVGDoughnut(posCount, neuCount, negCount);
+    renderCategoryBars(businessFilteredComments);
+    renderNarrativeIA(sentimentCache, businessFilteredComments);
+
+    // Render chips of topics
+    const temasContainer = $('temas-container');
+    if (temasContainer) {
+      const topicsCounts = {};
+      validFilteredComments.forEach(c => {
+        topicsCounts[c.categoria] = (topicsCounts[c.categoria] || 0) + 1;
       });
 
-      const validFilteredComments = businessFilteredComments.filter(c => c.es_valido);
-      const posCount = validFilteredComments.filter(c => c.sentimiento === 'positivo').length;
-      const neuCount = validFilteredComments.filter(c => c.sentimiento === 'neutro').length;
-      const negCount = validFilteredComments.filter(c => c.sentimiento === 'negativo').length;
-      
-      // Update visual doughnut, bars, IA narrative
-      drawSVGDoughnut(posCount, neuCount, negCount);
-      renderCategoryBars(businessFilteredComments);
-      renderNarrativeIA(sentimentCache, businessFilteredComments);
+      const chipsHTML = sentimentCache.topicos
+        .map((t) => {
+          const currentCount = topicsCounts[t.topico] || 0;
+          if (currentCount === 0) return '';
+          
+          const colorMap = {
+            negativo: 'var(--ulima-red)',
+            mejora: 'var(--ulima-orange)',
+            positivo: 'var(--success-text)',
+          };
+          const color = colorMap[t.tipo] || 'var(--gray-600)';
+          return `<span class="tema-chip" data-topico="${_san.escapeHTML(t.topico)}" style="
+          display:inline-flex;align-items:center;gap:6px;padding:6px 12px;
+          border-radius:20px;border:1px solid ${color};color:${color};
+          font-size:11px;font-weight:600;cursor:pointer;background:var(--white);
+          transition:background 0.2s;">
+          ${_san.escapeHTML(t.icono)} ${_san.escapeHTML(t.topico)} <span style="background:${color};color:white;border-radius:10px;padding:1px 6px;font-size:10px;">${currentCount}</span>
+        </span>`;
+        })
+        .filter(Boolean)
+        .join('');
 
-      // Render chips of topics
-      const temasContainer = $('temas-container');
-      if (temasContainer) {
-        const topicsCounts = {};
-        validFilteredComments.forEach(c => {
-          topicsCounts[c.categoria] = (topicsCounts[c.categoria] || 0) + 1;
+      temasContainer.innerHTML = chipsHTML || '<p style="color:var(--gray-500);font-size:12px;padding:8px 0;">No hay temas mencionados para la selección.</p>';
+
+      temasContainer.querySelectorAll('.tema-chip').forEach(chip => {
+        chip.addEventListener('click', () => {
+          const topicName = chip.dataset.topico;
+          const select = $('explorador-categoria');
+          if (select) {
+            select.value = topicName;
+            applyExploradorFilters();
+            const explTable = $('tabla-explorador-comentarios');
+            if (explTable) explTable.scrollIntoView({ behavior: 'smooth' });
+          }
         });
-
-        const chipsHTML = sentimentCache.topicos
-          .map((t) => {
-            const currentCount = topicsCounts[t.topico] || 0;
-            if (currentCount === 0) return '';
-            
-            const colorMap = {
-              negativo: 'var(--ulima-red)',
-              mejora: 'var(--ulima-orange)',
-              positivo: 'var(--success-text)',
-            };
-            const color = colorMap[t.tipo] || 'var(--gray-600)';
-            return `<span class="tema-chip" data-topico="${_san.escapeHTML(t.topico)}" style="
-            display:inline-flex;align-items:center;gap:6px;padding:6px 12px;
-            border-radius:20px;border:1px solid ${color};color:${color};
-            font-size:11px;font-weight:600;cursor:pointer;background:var(--white);
-            transition:background 0.2s;">
-            ${_san.escapeHTML(t.icono)} ${_san.escapeHTML(t.topico)} <span style="background:${color};color:white;border-radius:10px;padding:1px 6px;font-size:10px;">${currentCount}</span>
-          </span>`;
-          })
-          .filter(Boolean)
-          .join('');
-
-        temasContainer.innerHTML = chipsHTML || '<p style="color:var(--gray-500);font-size:12px;padding:8px 0;">No hay temas mencionados para la selección.</p>';
-
-        temasContainer.querySelectorAll('.tema-chip').forEach(chip => {
-          chip.addEventListener('click', () => {
-            const topicName = chip.dataset.topico;
-            const select = $('explorador-categoria');
-            if (select) {
-              select.value = topicName;
-              applyExploradorFilters();
-              const explTable = $('tabla-explorador-comentarios');
-              if (explTable) explTable.scrollIntoView({ behavior: 'smooth' });
-            }
-          });
-        });
-      }
-
-      // Render insights cards
-      renderInsightsCards(sentimentCache);
-
-      // Populate category filter and activate explorador
-      populateExploradorTopicsDropdown(businessFilteredComments);
-      setupExploradorListeners();
-      applyExploradorFilters();
-
-    } else {
-      // Fallback rendering
-      kpiGrid.innerHTML = `
-        <div class="kpi-card">
-          <div class="kpi-value" style="font-size:28px;">${_fmt.formatInteger(r.total_analizados)}</div>
-          <div class="kpi-label">Comentarios analizados</div>
-          <div class="kpi-meta">Pasivos + Detractores</div>
-        </div>
-        <div class="kpi-card">
-          <div class="kpi-value" style="font-size:28px;color:var(--ulima-orange);">${_fmt.formatInteger(r.pasivos)}</div>
-          <div class="kpi-label" style="color:var(--ulima-orange);">Pasivos con comentario</div>
-          <div class="kpi-meta">NPS 7–8</div>
-        </div>
-        <div class="kpi-card">
-          <div class="kpi-value" style="font-size:28px;color:var(--ulima-red);">${_fmt.formatInteger(r.detractores)}</div>
-          <div class="kpi-label" style="color:var(--ulima-red);">Detractores con comentario</div>
-          <div class="kpi-meta">NPS 0–6</div>
-        </div>
-      `;
-
-      const temasContainer = $('temas-container');
-      if (temasContainer) {
-        const chips = sentimentCache.topicos
-          .map((t) => {
-            const colorMap = {
-              negativo: 'var(--ulima-red)',
-              mejora: 'var(--ulima-orange)',
-              positivo: 'var(--success-text)',
-            };
-            const color = colorMap[t.tipo] || 'var(--gray-600)';
-            return `<span class="tema-chip" data-topico="${_san.escapeHTML(t.topico)}" style="
-            display:inline-flex;align-items:center;gap:6px;padding:6px 12px;
-            border-radius:20px;border:1px solid ${color};color:${color};
-            font-size:11px;font-weight:600;cursor:pointer;background:var(--white);
-            transition:background 0.2s;">
-            ${_san.escapeHTML(t.icono)} ${_san.escapeHTML(t.topico)} <span style="background:${color};color:white;border-radius:10px;padding:1px 6px;font-size:10px;">${_fmt.formatInteger(t.total_comentarios)}</span>
-          </span>`;
-          })
-          .join('');
-        temasContainer.innerHTML = chips;
-      }
-
-      renderInsightsCards(sentimentCache);
-      renderTablaSentimientoCarrera(sentimentCache);
+      });
     }
+
+    // Render insights cards
+    renderInsightsCards(sentimentCache);
+
+    // Populate category filter and activate explorador
+    populateExploradorTopicsDropdown(businessFilteredComments);
+    setupExploradorListeners();
+    applyExploradorFilters();
   }
 
   return {
     render,
     renderInsightsCards,
-    renderTablaSentimientoCarrera,
     applyExploradorFilters
   };
 })();

@@ -2,6 +2,22 @@
 
 Historial de cambios significativos del proyecto. Basado en [Keep a Changelog](https://keepachangelog.com/).
 
+## [3.0.2] — 2026-06-12
+
+### Added
+- Optimización de inferencia semántica por lotes (batch inference) en `nlp.py` con SentenceTransformers utilizando `batch_size=32`. Consigue paridad matemática del 100% de clasificaciones (sentimiento, categoría, tópico y fragmento) y reduce los tiempos de ejecución de build drásticamente.
+
+### Changed
+- Consolidación definitiva del módulo cualitativo v3.0: se retira el flag `USE_V3_SENTIMENT` del frontend y se unifican las llamadas de datos de comentarios cualitativos directamente sobre `sentimiento.json`.
+- Minificación selectiva aplicada en el ETL (`build_json.py`) para los JSON de alto peso (`dimensiones.json`, `sentimiento.json`, `nps_ciclo_carrera.json`, `csat_ciclo_carrera.json`), disminuyendo en más de 160,000 líneas en blanco el volumen de transferencia sobre GitHub Pages, mientras se preservan legibles los JSON estructurales de filtros e identificadores.
+- `validate_generated_json.py` actualizado para hacer obligatorio el esquema cualitativo de `sentimiento.json` (v3.0) y retirar la coexistencia paralela de `sentimiento_v3.json`.
+- `CONTRACTS.md` y `ARCHITECTURE.md` actualizados para formalizar los nuevos esquemas contractuales y advertir que `nps_carrera.json` y `csat_carrera.json` continúan activos únicamente como fallback de carga síncrona en encuestas sin ciclos (`has_ciclo=false`).
+
+### Removed
+- Eliminación de archivos temporales redundantes `sentimiento_v3.json` y del cargador de fallback legacy `renderTablaSentimientoCarrera()` del frontend.
+
+---
+
 ## [2.0.3] — 2026-06-11
 
 ### Added

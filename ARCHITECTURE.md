@@ -131,7 +131,7 @@ Los modulos usan IIFE y exponen APIs globales `window.Survey*`. No usan ES Modul
 ## Deuda Tecnica Vigente
 
 - La logica de ciclos esta externalizada en `SURVEY_CONFIG`, pero todavia no es dinamica por periodo.
-- `nps_carrera.json` y `csat_carrera.json` son legacy; el frontend usa las versiones `_ciclo_carrera`.
+- `nps_carrera.json` y `csat_carrera.json` son legacy; el frontend usa las versiones `_ciclo_carrera` para encuestas segmentadas por ciclos (`has_ciclo=true`), pero conserva ambos archivos como origen obligatorio de carga para encuestas sin ciclo (`has_ciclo=false`), como la de Graduados.
 - `posgraduate/` existe como placeholder sin datos procesados.
 - El template `zoho-survey/template/index.html` no tiene version de contrato propia.
 
