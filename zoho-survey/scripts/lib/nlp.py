@@ -238,9 +238,9 @@ def agrupar_comentarios_por_topico(df_comentarios: pd.DataFrame) -> Tuple[List[D
             sim_sent = cosine_similarity(emb, sent_embeddings)[0]
             sim_pos, sim_neg = sim_sent[0], sim_sent[1]
             
-            # Regla de calibración matemática (anclas vectoriales)
+            # Regla de calibración matemática (anclas vectoriales) - v3.0.3 (Sensible)
             diff = sim_pos - sim_neg
-            if abs(diff) < 0.20 or (sim_pos < 0.25 and sim_neg < 0.25):
+            if abs(diff) < 0.12 or (sim_pos < 0.25 and sim_neg < 0.25):
                 sentiment = "neutro"
                 intensity = 0.5
             else:

@@ -2,6 +2,20 @@
 
 Historial de cambios significativos del proyecto. Basado en [Keep a Changelog](https://keepachangelog.com/).
 
+## [3.0.3] — 2026-06-12
+
+### Added
+- Calibración de neutralidad sensible en el clasificador cualitativo (`nlp.py`), reduciendo el umbral de neutralidad de `abs(diff) < 0.20` a `abs(diff) < 0.12`. Esta calibración fue seleccionada tras evaluar experimentalmente cuatro escenarios, logrando un acierto del 66% general y 84% en la clasificación de quejas (Neutro → Negativo), recuperando críticas valiosas que antes quedaban ocultas.
+
+### Changed
+- Regeneración completa de los datasets de comentarios `sentimiento.json` para pregrado y graduados aplicando la nueva sensibilidad de polaridad, sin introducir cambios en la arquitectura de embeddings, tópicos ni en el esquema contractual.
+
+### Backlog (Futuras Oportunidades)
+- Implementación de reglas semánticas para prevenir falsos negativos ante declaraciones de desconocimiento ("no conozco", "no utilizo").
+- Implementación de reglas lingüísticas de negación ("no ... bien", "dista de", "carece de") previas al embedding para mitigar falsos positivos.
+
+---
+
 ## [3.0.2] — 2026-06-12
 
 ### Added
