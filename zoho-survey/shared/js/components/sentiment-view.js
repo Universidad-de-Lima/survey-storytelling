@@ -595,7 +595,11 @@ window.SurveySentimentView = (() => {
           updateExploradorPagination();
         }
       });
-      nextBtn.dataset.listener = 't  // Main render function
+      nextBtn.dataset.listener = 'true';
+    }
+  }
+
+  // Main render function
   function render(sentimentCache) {
     const kpiGrid = $('sentiment-kpis');
     if (!kpiGrid) return;
