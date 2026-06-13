@@ -61,75 +61,120 @@ def proteger_entidades(texto: str) -> str:
 def desproteger_entidades(texto: str) -> str:
     return texto.replace("_", " ")
 
-def fragmentacion_heuristica_inicial(texto: str) -> List[str]:
-    # 1. Dividir por signos de puntuación finales explícitos
-    sentencias = re.split(r"[\n\r.!?]+", texto)
-    
-    # 2. Dividir por conectores adversativos y de adición fuertes
-    patron_conectores = r"\b(?:pero|sin\s+embargo|aunque|no\s+obstante|en\s+cambio|además|así\s+como)\b"
-    fragmentos = []
-    for s in sentencias:
-        sub_frags = re.split(patron_conectores, s, flags=re.IGNORECASE)
-        for sf in sub_frags:
-            clean_sf = sf.strip()
-            if clean_sf:
-                fragmentos.append(clean_sf)
-    return fragmentos
+def _limpiar_unidad(texto: str) -> str:
+    """Elimina residuos de puntuación o tokens vacíos al inicio o final de una Meaning Unit"""
+    t = texto.strip()
+    # Limpiar conjunciones y puntuaciones al inicio
+    t = re.sub(r'^(?:[yoe]\s+)+', '', t, flags=re.IGNORECASE)
+    t = re.sub(r'^[\s,;.\-:]+', '', t)
+    # Limpiar conjunciones y puntuaciones al final
+    t = re.sub(r'(?:\s+[yoe])+$', '', t, flags=re.IGNORECASE)
+    t = re.sub(r'[\s,;.\-:]+$', '', t)
+    t = t.strip()
+    # Descartar unidades que son puro ruido
+    ruido = ["etc", "etc.", "entre otros", "cosas asi", "cosas así", "y demas", "y demás", "varios", "ninguna", "ninguno", "nada"]
+    if t.lower() in ruido:
+        return ""
+    return t
 
-def procesar_fragmento_con_spacy(texto: str) -> List[str]:
+def _extraccion_heuristica_fallback(texto: str) -> List[str]:
+    """Fallback cuando SpaCy no está disponible"""
+    bloques = re.split(r"[\n\r.;:]+|\b(?:pero|sin\s+embargo|aunque)\b", texto, flags=re.IGNORECASE)
+    unidades = []
+    for b in bloques:
+        # Fallback ultra-básico: romper por comas si es largo
+        if len(b.split()) > 8:
+            sub = re.split(r",", b)
+            unidades.extend(sub)
+        else:
+            unidades.append(b)
+    return [u.strip() for u in unidades if u.strip()]
+
+def extraer_unidades_opinion(texto: str) -> List[str]:
+    """
+    Abstracción principal para extraer Meaning Units (Unidades de Opinión).
+    No segmenta oraciones por gramática, sino que intenta aislar ideas evaluables.
+    """
     nlp = get_nlp()
-    if not nlp or len(texto.split()) < 8:
-        # Fallback de comas si no hay spacy o es muy corto
-        return fallback_comas(texto)
-    
-    doc = nlp(texto)
-    
-    # Buscar si hay múltiples verbos principales
-    verbos = [tok for tok in doc if tok.pos_ in ("VERB", "AUX")]
-    if len(verbos) <= 1:
-        # Fallback a comas si no hay múltiples verbos
-        return fallback_comas(texto)
-    
-    # Intentar partir donde hay conjunciones "y", "ni", "o" que separan cláusulas
-    puntos_corte = []
-    for tok in doc:
-        if tok.text.lower() in ["y", "e", "ni", "o", ","]:
-            # Verificar si conecta dos verbos
-            if tok.head.pos_ in ("VERB", "AUX") or tok.dep_ == "cc" or tok.dep_ == "conj":
-                puntos_corte.append(tok.i)
-    
-    if not puntos_corte:
-        return fallback_comas(texto)
-    
-    # Cortar el texto
-    fragmentos = []
-    inicio = 0
-    for idx in puntos_corte:
-        frag = doc[inicio:idx].text.strip()
-        if frag and frag not in [",", "y", "e", "ni", "o"]:
-            fragmentos.append(frag)
-        inicio = idx + 1
-    
-    frag_final = doc[inicio:].text.strip()
-    if frag_final and frag_final not in [",", "y", "e", "ni", "o"]:
-        fragmentos.append(frag_final)
+    if not nlp:
+        unidades = _extraccion_heuristica_fallback(texto)
+    else:
+        # 1. Separación fuerte por puntuación divisoria o conectores adversativos.
+        # Estos siempre separan ideas independientes.
+        bloques = re.split(r"[\n\r.;:]+|\b(?:pero|sin\s+embargo|aunque|mientras\s+que|por\s+otro\s+lado)\b", texto, flags=re.IGNORECASE)
+        unidades = []
         
-    return fragmentos
+        for bloque in bloques:
+            bloque = bloque.strip()
+            if not bloque: continue
+            
+            doc = nlp(bloque)
+            
+            conjs = [t for t in doc if t.dep_ == "conj"]
+            cortar_en = []
+            
+            for c in conjs:
+                h = c.head
+                # A. Clausulas Verbales (ej: Deberían "mejorar" X y "ampliar" Y)
+                if h.pos_ in ["VERB", "AUX"] and c.pos_ in ["VERB", "AUX"]:
+                    for child in h.children:
+                        if child.dep_ == "cc" and child.i < c.i: cortar_en.append(child.i)
+                    for child in c.children:
+                        if child.dep_ == "cc" and child.i < c.i: cortar_en.append(child.i)
+                    for i in range(h.i, c.i):
+                        if doc[i].text == ",": cortar_en.append(i)
+                
+                # B. Clausulas Nominales y Enumeraciones (ej: "Falta de aire", "falta de enchufes")
+                elif h.pos_ in ["NOUN", "PROPN", "ADJ"] and c.pos_ in ["NOUN", "PROPN", "ADJ"]:
+                    # Si la cláusula nominal no depende de un verbo (no es un objeto o sujeto compuesto)
+                    depende_de_verbo = any(anc.pos_ in ["VERB", "AUX"] for anc in h.ancestors)
+                    if not depende_de_verbo:
+                        for child in h.children:
+                            if child.dep_ == "cc" and child.i < c.i: cortar_en.append(child.i)
+                        for child in c.children:
+                            if child.dep_ == "cc" and child.i < c.i: cortar_en.append(child.i)
+                        for i in range(h.i, c.i):
+                            if doc[i].text == ",": cortar_en.append(i)
 
-def fallback_comas(texto: str) -> List[str]:
-    # Partir por comas
-    parts = re.split(r",", texto)
-    return [p.strip() for p in parts if p.strip() and p.strip() not in [","]]
+            # C. Separación adicional por comas en enumeraciones largas sin conj explícito
+            for tok in doc:
+                if tok.text == "," and tok.i not in cortar_en:
+                    # Si a la izquierda y derecha hay un sustantivo/adjetivo sustantivado
+                    # que no depende estrictamente el uno del otro (ej. nmod).
+                    if tok.head.pos_ in ["NOUN", "PROPN"] and tok.head.dep_ in ["ROOT", "appos", "conj"]:
+                         cortar_en.append(tok.i)
+                         
+            cortar_en = sorted(list(set(cortar_en)))
+            
+            if cortar_en:
+                inicio = 0
+                for idx in cortar_en:
+                    frag = doc[inicio:idx].text.strip()
+                    if frag: unidades.append(frag)
+                    inicio = idx + 1
+                frag = doc[inicio:].text.strip()
+                if frag: unidades.append(frag)
+            else:
+                unidades.append(bloque)
 
-def validar_fragmento(texto: str) -> bool:
-    if not texto:
-        return False
-    # Más de 3 letras o números
-    if len(re.sub(r'[^a-zA-Z0-9]', '', texto)) < 3:
-        return False
-    return True
+    # 2. Post-procesamiento y validación
+    resultados = []
+    for u in unidades:
+        l = _limpiar_unidad(u)
+        # Validar que tenga al menos 3 caracteres alfanuméricos
+        if l and len(re.sub(r'[^a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]', '', l)) >= 3:
+            # Capitalizar primera letra
+            l = l[0].upper() + l[1:] if len(l) > 1 else l.upper()
+            if l not in resultados: # Desduplicar
+                resultados.append(l)
+                
+    return resultados
 
 def fragmentar_comentario_nps(comentario_original: str, sanitizar_func=None) -> List[str]:
+    """
+    Punto de entrada compatible con el pipeline actual.
+    Transforma el texto completo en Fragmentos NPS (Meaning Units).
+    """
     if not isinstance(comentario_original, str) or not comentario_original.strip():
         return []
         
@@ -140,27 +185,13 @@ def fragmentar_comentario_nps(comentario_original: str, sanitizar_func=None) -> 
         valido, mensaje = sanitizar_func(texto)
         if not valido:
             return []
-    
-    # Heurística inicial
-    cortes_1 = fragmentacion_heuristica_inicial(texto)
-    
-    # SpaCy y Comas
-    cortes_2 = []
-    for c in cortes_1:
-        if len(c.split()) >= 6:
-            sub = procesar_fragmento_con_spacy(c)
-            cortes_2.extend(sub)
-        else:
-            cortes_2.extend(fallback_comas(c))
             
-    # Validación y Des-enmascarado
-    resultados = []
-    for c in cortes_2:
-        final_str = desproteger_entidades(c)
-        if validar_fragmento(final_str):
-            # Normalizar mayúscula inicial
-            final_str = final_str.capitalize()
-            if final_str not in resultados: # Desduplicar
-                resultados.append(final_str)
-                
-    return resultados
+    unidades = extraer_unidades_opinion(texto)
+    
+    # Desenmascarar entidades
+    resultados_finales = []
+    for u in unidades:
+        final_str = desproteger_entidades(u)
+        resultados_finales.append(final_str)
+        
+    return resultados_finales

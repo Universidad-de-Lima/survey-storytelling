@@ -2,7 +2,7 @@
   "metadata": {
     "version": "1.0",
     "total_encuestas": 30,
-    "total_fragmentos": 53
+    "total_fragmentos": 45
   },
   "data": [
     {
@@ -39,11 +39,7 @@
         },
         {
           "id_fragmento": "84t6h2O6_02",
-          "texto": "Siento que podria actualizar mar los cursos"
-        },
-        {
-          "id_fragmento": "84t6h2O6_03",
-          "texto": "Materiales"
+          "texto": "Siento que podria actualizar mar los cursos y materiales"
         }
       ]
     },
@@ -89,7 +85,11 @@
         },
         {
           "id_fragmento": "PczD2PF6_03",
-          "texto": "Tecnología y cursos interesantes"
+          "texto": "Tecnología"
+        },
+        {
+          "id_fragmento": "PczD2PF6_04",
+          "texto": "Cursos interesantes"
         }
       ]
     },
@@ -119,11 +119,7 @@
       "fragmentos": [
         {
           "id_fragmento": "Q8zluZKT_01",
-          "texto": "Siento que hay muchos ámbitos en los que la universidad debe mejorar desde la psicológica hacia sus alumnos hasta el tipo de profesores"
-        },
-        {
-          "id_fragmento": "Q8zluZKT_02",
-          "texto": "Su metodología de aprendizaje"
+          "texto": "Siento que hay muchos ámbitos en los que la universidad debe mejorar desde la psicológica hacia sus alumnos hasta el tipo de profesores y su metodología de aprendizaje"
         }
       ]
     },
@@ -138,11 +134,7 @@
       "fragmentos": [
         {
           "id_fragmento": "QvtmaVlT_01",
-          "texto": "Si bien la enseñanza es buena, podrían haber algunos talleres extra como excel"
-        },
-        {
-          "id_fragmento": "QvtmaVlT_02",
-          "texto": "Habilidades blandas"
+          "texto": "Si bien la enseñanza es buena, podrían haber algunos talleres extra como excel y habilidades blandas"
         }
       ]
     },
@@ -191,11 +183,7 @@
       "fragmentos": [
         {
           "id_fragmento": "NbC27Gvg_01",
-          "texto": "He notado que últimamente hubo censura con algunos proyectos académicos"
-        },
-        {
-          "id_fragmento": "NbC27Gvg_02",
-          "texto": "No creo que eso deba pasar en una institución educativa"
+          "texto": "He notado que últimamente hubo censura con algunos proyectos académicos, no creo que eso deba pasar en una institución educativa"
         }
       ]
     },
@@ -229,11 +217,7 @@
         },
         {
           "id_fragmento": "HPBReUo5_02",
-          "texto": "Siento que puede avanzar mucho más en cuanto a metodologías"
-        },
-        {
-          "id_fragmento": "HPBReUo5_03",
-          "texto": "Temas de enseñanza"
+          "texto": "Siento que puede avanzar mucho más en cuanto a metodologías y temas de enseñanza"
         }
       ]
     },
@@ -293,18 +277,14 @@
       "fragmentos": [
         {
           "id_fragmento": "ENC5PDoA_01",
-          "texto": "Me parece que es una buena universidad"
+          "texto": "Me parece que es una buena universidad, tienes todos los recursos necesarios"
         },
         {
           "id_fragmento": "ENC5PDoA_02",
-          "texto": "Tienes todos los recursos necesarios"
-        },
-        {
-          "id_fragmento": "ENC5PDoA_03",
           "texto": "Siento que admiten a demasiados alumnos que la capacidad de la universidad está quedando pequeña para espacios comunes"
         },
         {
-          "id_fragmento": "ENC5PDoA_04",
+          "id_fragmento": "ENC5PDoA_03",
           "texto": "Sería ver bien ese tema"
         }
       ]
@@ -437,11 +417,7 @@
         },
         {
           "id_fragmento": "yhBhlIC9_02",
-          "texto": "En mi carrera aún le faltó explorar aspectos más a fondo como el guion"
-        },
-        {
-          "id_fragmento": "yhBhlIC9_03",
-          "texto": "El sonido"
+          "texto": "En mi carrera aún le faltó explorar aspectos más a fondo como el guion o el sonido"
         }
       ]
     },
@@ -516,11 +492,7 @@
       "fragmentos": [
         {
           "id_fragmento": "UgC5V9aX_01",
-          "texto": "Me parece que han abierto la posibilidad a demasiadas personas"
-        },
-        {
-          "id_fragmento": "UgC5V9aX_02",
-          "texto": "Se ha vuelto muy comercial"
+          "texto": "Me parece que han abierto la posibilidad a demasiadas personas, se ha vuelto muy comercial"
         }
       ]
     },
@@ -539,11 +511,7 @@
         },
         {
           "id_fragmento": "5qt78Kds_02",
-          "texto": "A veces dejan pasar a alumnos flojos solo por su amistad"
-        },
-        {
-          "id_fragmento": "5qt78Kds_03",
-          "texto": "Confianza"
+          "texto": "A veces dejan pasar a alumnos flojos solo por su amistad o confianza"
         }
       ]
     }
