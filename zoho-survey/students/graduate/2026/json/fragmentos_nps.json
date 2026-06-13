@@ -1,0 +1,551 @@
+{
+  "metadata": {
+    "version": "1.0",
+    "total_encuestas": 30,
+    "total_fragmentos": 53
+  },
+  "data": [
+    {
+      "id_encuesta": "CmBnRrwm",
+      "facultad": "Facultad de Ciencias Empresariales",
+      "carrera": "Administración",
+      "ciclo": "NA",
+      "nps_score": 6,
+      "segmento_nps": "Detractor",
+      "comentario_original": "Hay mucho peso en los trabajos grupales. Y con ello existen alumnos dispuestos a no apoyar",
+      "fragmentos": [
+        {
+          "id_fragmento": "CmBnRrwm_01",
+          "texto": "Hay mucho peso en los trabajos grupales"
+        },
+        {
+          "id_fragmento": "CmBnRrwm_02",
+          "texto": "Con ello existen alumnos dispuestos a no apoyar"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "84t6h2O6",
+      "facultad": "Facultad de Ciencias Empresariales",
+      "carrera": "Administración",
+      "ciclo": "NA",
+      "nps_score": 8,
+      "segmento_nps": "Pasivo",
+      "comentario_original": "Presenta muchos beneficios y material adecuado pero siento que podria actualizar mar los cursos y materiales.",
+      "fragmentos": [
+        {
+          "id_fragmento": "84t6h2O6_01",
+          "texto": "Presenta muchos beneficios y material adecuado"
+        },
+        {
+          "id_fragmento": "84t6h2O6_02",
+          "texto": "Siento que podria actualizar mar los cursos"
+        },
+        {
+          "id_fragmento": "84t6h2O6_03",
+          "texto": "Materiales"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "PpCZclKG",
+      "facultad": "Facultad de Ciencias Empresariales",
+      "carrera": "Administración",
+      "ciclo": "NA",
+      "nps_score": 8,
+      "segmento_nps": "Pasivo",
+      "comentario_original": "En temas académicos siento que se quedan atrás de universidades como la ESAN. Infraestructura de primera, pero llena de gente.",
+      "fragmentos": [
+        {
+          "id_fragmento": "PpCZclKG_01",
+          "texto": "En temas académicos siento que se quedan atrás de universidades como la esan"
+        },
+        {
+          "id_fragmento": "PpCZclKG_02",
+          "texto": "Infraestructura de primera"
+        },
+        {
+          "id_fragmento": "PpCZclKG_03",
+          "texto": "Llena de gente"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "PczD2PF6",
+      "facultad": "Facultad de Ciencias Empresariales",
+      "carrera": "Administración",
+      "ciclo": "NA",
+      "nps_score": 8,
+      "segmento_nps": "Pasivo",
+      "comentario_original": "Muy buena universidad con recursos, espacio, tecnología y cursos interesantes",
+      "fragmentos": [
+        {
+          "id_fragmento": "PczD2PF6_01",
+          "texto": "Muy buena universidad con recursos"
+        },
+        {
+          "id_fragmento": "PczD2PF6_02",
+          "texto": "Espacio"
+        },
+        {
+          "id_fragmento": "PczD2PF6_03",
+          "texto": "Tecnología y cursos interesantes"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "C2CZR80z",
+      "facultad": "Facultad de Ciencias Empresariales",
+      "carrera": "Administración",
+      "ciclo": "NA",
+      "nps_score": 8,
+      "segmento_nps": "Pasivo",
+      "comentario_original": "Porque cumplió con mis espectativas",
+      "fragmentos": [
+        {
+          "id_fragmento": "C2CZR80z_01",
+          "texto": "Porque cumplió con mis espectativas"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "Q8zluZKT",
+      "facultad": "Facultad de Comunicación",
+      "carrera": "Comunicación",
+      "ciclo": "NA",
+      "nps_score": 7,
+      "segmento_nps": "Pasivo",
+      "comentario_original": "Siento que hay muchos ámbitos en los que la universidad debe mejorar desde la psicológica hacia sus alumnos hasta el tipo de profesores y su metodología de aprendizaje.",
+      "fragmentos": [
+        {
+          "id_fragmento": "Q8zluZKT_01",
+          "texto": "Siento que hay muchos ámbitos en los que la universidad debe mejorar desde la psicológica hacia sus alumnos hasta el tipo de profesores"
+        },
+        {
+          "id_fragmento": "Q8zluZKT_02",
+          "texto": "Su metodología de aprendizaje"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "QvtmaVlT",
+      "facultad": "Facultad de Comunicación",
+      "carrera": "Comunicación",
+      "ciclo": "NA",
+      "nps_score": 7,
+      "segmento_nps": "Pasivo",
+      "comentario_original": "Si bien la enseñanza es buena, podrían haber algunos talleres extra como Excel y habilidades blandas",
+      "fragmentos": [
+        {
+          "id_fragmento": "QvtmaVlT_01",
+          "texto": "Si bien la enseñanza es buena, podrían haber algunos talleres extra como excel"
+        },
+        {
+          "id_fragmento": "QvtmaVlT_02",
+          "texto": "Habilidades blandas"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "XZBBrvgL",
+      "facultad": "Facultad de Comunicación",
+      "carrera": "Comunicación",
+      "ciclo": "NA",
+      "nps_score": 8,
+      "segmento_nps": "Pasivo",
+      "comentario_original": "Dependería del enfoque a la carrera pero en general si",
+      "fragmentos": [
+        {
+          "id_fragmento": "XZBBrvgL_01",
+          "texto": "Dependería del enfoque a la carrera"
+        },
+        {
+          "id_fragmento": "XZBBrvgL_02",
+          "texto": "En general si"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "lLC5ZJ9N",
+      "facultad": "Facultad de Comunicación",
+      "carrera": "Comunicación",
+      "ciclo": "NA",
+      "nps_score": 7,
+      "segmento_nps": "Pasivo",
+      "comentario_original": "Tienen buenos profesores que enseñan lo idoneo para la carrera de comunicación",
+      "fragmentos": [
+        {
+          "id_fragmento": "lLC5ZJ9N_01",
+          "texto": "Tienen buenos profesores que enseñan lo idoneo para la carrera de comunicación"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "NbC27Gvg",
+      "facultad": "Facultad de Comunicación",
+      "carrera": "Comunicación",
+      "ciclo": "NA",
+      "nps_score": 8,
+      "segmento_nps": "Pasivo",
+      "comentario_original": "He notado que últimamente hubo censura con algunos proyectos académicos, no creo que eso deba pasar en una institución educativa",
+      "fragmentos": [
+        {
+          "id_fragmento": "NbC27Gvg_01",
+          "texto": "He notado que últimamente hubo censura con algunos proyectos académicos"
+        },
+        {
+          "id_fragmento": "NbC27Gvg_02",
+          "texto": "No creo que eso deba pasar en una institución educativa"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "JZC5wqVr",
+      "facultad": "Facultad de Comunicación",
+      "carrera": "Comunicación",
+      "ciclo": "NA",
+      "nps_score": 8,
+      "segmento_nps": "Pasivo",
+      "comentario_original": "Siento que se podría mejorar la comunicación con ciertas áreas administrativas.",
+      "fragmentos": [
+        {
+          "id_fragmento": "JZC5wqVr_01",
+          "texto": "Siento que se podría mejorar la comunicación con ciertas áreas administrativas"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "HPBReUo5",
+      "facultad": "Facultad de Comunicación",
+      "carrera": "Comunicación",
+      "ciclo": "NA",
+      "nps_score": 8,
+      "segmento_nps": "Pasivo",
+      "comentario_original": "Es un buen lugar para educación superior sin embargo siento que puede avanzar mucho más en cuanto a metodologías y temas de enseñanza",
+      "fragmentos": [
+        {
+          "id_fragmento": "HPBReUo5_01",
+          "texto": "Es un buen lugar para educación superior"
+        },
+        {
+          "id_fragmento": "HPBReUo5_02",
+          "texto": "Siento que puede avanzar mucho más en cuanto a metodologías"
+        },
+        {
+          "id_fragmento": "HPBReUo5_03",
+          "texto": "Temas de enseñanza"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "gvz3b2jo",
+      "facultad": "Facultad de Comunicación",
+      "carrera": "Comunicación",
+      "ciclo": "NA",
+      "nps_score": 8,
+      "segmento_nps": "Pasivo",
+      "comentario_original": "Siento que lo recomendaría para la carrera de la Comunicación",
+      "fragmentos": [
+        {
+          "id_fragmento": "gvz3b2jo_01",
+          "texto": "Siento que lo recomendaría para la carrera de la comunicación"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "dhCZONA8",
+      "facultad": "Facultad de Comunicación",
+      "carrera": "Comunicación",
+      "ciclo": "NA",
+      "nps_score": 7,
+      "segmento_nps": "Pasivo",
+      "comentario_original": "buena",
+      "fragmentos": [
+        {
+          "id_fragmento": "dhCZONA8_01",
+          "texto": "Buena"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "1hBBwaY0",
+      "facultad": "Facultad de Comunicación",
+      "carrera": "Comunicación",
+      "ciclo": "NA",
+      "nps_score": 8,
+      "segmento_nps": "Pasivo",
+      "comentario_original": "No gracias",
+      "fragmentos": [
+        {
+          "id_fragmento": "1hBBwaY0_01",
+          "texto": "No gracias"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "ENC5PDoA",
+      "facultad": "Facultad de Comunicación",
+      "carrera": "Comunicación",
+      "ciclo": "NA",
+      "nps_score": 8,
+      "segmento_nps": "Pasivo",
+      "comentario_original": "Me parece que es una buena universidad, tienes todos los recursos necesarios, pero siento que admiten a demasiados alumnos que la capacidad de la universidad está quedando pequeña para espacios comunes. Sería ver bien ese tema",
+      "fragmentos": [
+        {
+          "id_fragmento": "ENC5PDoA_01",
+          "texto": "Me parece que es una buena universidad"
+        },
+        {
+          "id_fragmento": "ENC5PDoA_02",
+          "texto": "Tienes todos los recursos necesarios"
+        },
+        {
+          "id_fragmento": "ENC5PDoA_03",
+          "texto": "Siento que admiten a demasiados alumnos que la capacidad de la universidad está quedando pequeña para espacios comunes"
+        },
+        {
+          "id_fragmento": "ENC5PDoA_04",
+          "texto": "Sería ver bien ese tema"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "yxC5IrUf",
+      "facultad": "Facultad de Comunicación",
+      "carrera": "Comunicación",
+      "ciclo": "NA",
+      "nps_score": 7,
+      "segmento_nps": "Pasivo",
+      "comentario_original": "Hay buenos equipos",
+      "fragmentos": [
+        {
+          "id_fragmento": "yxC5IrUf_01",
+          "texto": "Hay buenos equipos"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "muCZdRsq",
+      "facultad": "Facultad de Comunicación",
+      "carrera": "Comunicación",
+      "ciclo": "NA",
+      "nps_score": 8,
+      "segmento_nps": "Pasivo",
+      "comentario_original": "Es una gran oportunidad para poder crecer como profesional y como comunicador. Estoy muy satisfecho",
+      "fragmentos": [
+        {
+          "id_fragmento": "muCZdRsq_01",
+          "texto": "Es una gran oportunidad para poder crecer como profesional"
+        },
+        {
+          "id_fragmento": "muCZdRsq_02",
+          "texto": "Como comunicador"
+        },
+        {
+          "id_fragmento": "muCZdRsq_03",
+          "texto": "Estoy muy satisfecho"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "G1zqbqaA",
+      "facultad": "Facultad de Comunicación",
+      "carrera": "Comunicación",
+      "ciclo": "NA",
+      "nps_score": 6,
+      "segmento_nps": "Detractor",
+      "comentario_original": "porque no les importa lo social <3",
+      "fragmentos": [
+        {
+          "id_fragmento": "G1zqbqaA_01",
+          "texto": "Porque no les importa lo social <3"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "ZNC26d7p",
+      "facultad": "Facultad de Comunicación",
+      "carrera": "Comunicación",
+      "ciclo": "NA",
+      "nps_score": 6,
+      "segmento_nps": "Detractor",
+      "comentario_original": "Porque no toman en cuenta los problemas sociales",
+      "fragmentos": [
+        {
+          "id_fragmento": "ZNC26d7p_01",
+          "texto": "Porque no toman en cuenta los problemas sociales"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "yyBBSZhX",
+      "facultad": "Facultad de Comunicación",
+      "carrera": "Comunicación",
+      "ciclo": "NA",
+      "nps_score": 6,
+      "segmento_nps": "Detractor",
+      "comentario_original": "Pudo haber sido mejor.",
+      "fragmentos": [
+        {
+          "id_fragmento": "yyBBSZhX_01",
+          "texto": "Pudo haber sido mejor"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "ZIDFzHAM",
+      "facultad": "Facultad de Comunicación",
+      "carrera": "Comunicación",
+      "ciclo": "NA",
+      "nps_score": 8,
+      "segmento_nps": "Pasivo",
+      "comentario_original": "Buenos profesores",
+      "fragmentos": [
+        {
+          "id_fragmento": "ZIDFzHAM_01",
+          "texto": "Buenos profesores"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "GnDBdSbu",
+      "facultad": "Facultad de Comunicación",
+      "carrera": "Comunicación",
+      "ciclo": "NA",
+      "nps_score": 8,
+      "segmento_nps": "Pasivo",
+      "comentario_original": "Hay muchos alumnos y poco espacios en el campus",
+      "fragmentos": [
+        {
+          "id_fragmento": "GnDBdSbu_01",
+          "texto": "Hay muchos alumnos y poco espacios en el campus"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "yhBhlIC9",
+      "facultad": "Facultad de Comunicación",
+      "carrera": "Comunicación",
+      "ciclo": "NA",
+      "nps_score": 8,
+      "segmento_nps": "Pasivo",
+      "comentario_original": "Me gusta que la universidad siga creciendo pero en mi carrera aún le faltó explorar aspectos más a fondo como el guion o el sonido.",
+      "fragmentos": [
+        {
+          "id_fragmento": "yhBhlIC9_01",
+          "texto": "Me gusta que la universidad siga creciendo"
+        },
+        {
+          "id_fragmento": "yhBhlIC9_02",
+          "texto": "En mi carrera aún le faltó explorar aspectos más a fondo como el guion"
+        },
+        {
+          "id_fragmento": "yhBhlIC9_03",
+          "texto": "El sonido"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "WMtiv6m9",
+      "facultad": "Facultad de Ingeniería",
+      "carrera": "Ingeniería Industrial",
+      "ciclo": "NA",
+      "nps_score": 8,
+      "segmento_nps": "Pasivo",
+      "comentario_original": "bolsa trabajo limitada",
+      "fragmentos": [
+        {
+          "id_fragmento": "WMtiv6m9_01",
+          "texto": "Bolsa trabajo limitada"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "vpBBwHCY",
+      "facultad": "Facultad de Ingeniería",
+      "carrera": "Ingeniería Industrial",
+      "ciclo": "NA",
+      "nps_score": 4,
+      "segmento_nps": "Detractor",
+      "comentario_original": "Siento que hay mucho alumnado",
+      "fragmentos": [
+        {
+          "id_fragmento": "vpBBwHCY_01",
+          "texto": "Siento que hay mucho alumnado"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "ySDFlUrt",
+      "facultad": "Facultad de Ingeniería",
+      "carrera": "Ingeniería Industrial",
+      "ciclo": "NA",
+      "nps_score": 8,
+      "segmento_nps": "Pasivo",
+      "comentario_original": "Le falta áreas verdes",
+      "fragmentos": [
+        {
+          "id_fragmento": "ySDFlUrt_01",
+          "texto": "Le falta áreas verdes"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "ygDBZWKq",
+      "facultad": "Facultad de Ingeniería",
+      "carrera": "Ingeniería Industrial",
+      "ciclo": "NA",
+      "nps_score": 8,
+      "segmento_nps": "Pasivo",
+      "comentario_original": "Es una universidad que invierte bastante en la infraestructura",
+      "fragmentos": [
+        {
+          "id_fragmento": "ygDBZWKq_01",
+          "texto": "Es una universidad que invierte bastante en la infraestructura"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "UgC5V9aX",
+      "facultad": "Facultad de Ingeniería",
+      "carrera": "Ingeniería Industrial",
+      "ciclo": "NA",
+      "nps_score": 8,
+      "segmento_nps": "Pasivo",
+      "comentario_original": "Me parece que han abierto la posibilidad a demasiadas personas, se ha vuelto muy comercial",
+      "fragmentos": [
+        {
+          "id_fragmento": "UgC5V9aX_01",
+          "texto": "Me parece que han abierto la posibilidad a demasiadas personas"
+        },
+        {
+          "id_fragmento": "UgC5V9aX_02",
+          "texto": "Se ha vuelto muy comercial"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "5qt78Kds",
+      "facultad": "Facultad de Ingeniería",
+      "carrera": "Ingeniería Industrial",
+      "ciclo": "NA",
+      "nps_score": 7,
+      "segmento_nps": "Pasivo",
+      "comentario_original": "Buena enseñanza pero a veces dejan pasar a alumnos flojos solo por su amistad o confianza",
+      "fragmentos": [
+        {
+          "id_fragmento": "5qt78Kds_01",
+          "texto": "Buena enseñanza"
+        },
+        {
+          "id_fragmento": "5qt78Kds_02",
+          "texto": "A veces dejan pasar a alumnos flojos solo por su amistad"
+        },
+        {
+          "id_fragmento": "5qt78Kds_03",
+          "texto": "Confianza"
+        }
+      ]
+    }
+  ]
+}
