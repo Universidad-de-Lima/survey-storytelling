@@ -26,7 +26,8 @@ from lib.config import (
     EMPLEABILIDAD_CATEGORIAS
 )
 from lib.metrics import calc_nps, calc_csat
-from lib.nlp import agrupar_comentarios_por_topico
+from lib.nlp import agrupar_comentarios_por_topico, sanitizar_comentario
+from lib.segmentacion_nps import fragmentar_comentario_nps
 from lib.io_helper import read_csv_robust, normalize_dates
 
 # Configurar logging nativo de Python
@@ -434,6 +435,51 @@ def main() -> None:
             df_sent["comentario"] = df_sent["comentario"].fillna("").astype(str)
             df_sent["nps_score"] = pd.to_numeric(df_sent["nps_score"], errors="coerce")
             df_sent = df_sent.dropna(subset=["nps_score"])
+
+            # ---- GENERAR fragmentos_nps.json ----
+            logging.info("Generando fragmentos_nps.json con modelo híbrido...")
+            datos_fragmentos = []
+            for idx_f, row_f in df_sent.iterrows():
+                comentario_orig = str(row_f["comentario"])
+                if not comentario_orig.strip():
+                    continue
+                
+                nps = int(row_f["nps_score"])
+                seg_nps = "Promotor" if nps >= 9 else ("Pasivo" if nps >= 7 else "Detractor")
+                res_id = str(row_f.get("ID", f"R_{idx_f}"))
+                
+                lista_frags = fragmentar_comentario_nps(comentario_orig, sanitizar_func=sanitizar_comentario)
+                
+                if lista_frags:
+                    fragmentos_objetos = []
+                    for i_f, fr in enumerate(lista_frags):
+                        fragmentos_objetos.append({
+                            "id_fragmento": f"{res_id}_{i_f+1:02d}",
+                            "texto": fr
+                        })
+                        
+                    datos_fragmentos.append({
+                        "id_encuesta": res_id,
+                        "facultad": str(row_f.get("facultad", "")),
+                        "carrera": str(row_f.get("carrera", "")),
+                        "ciclo": str(row_f.get("ciclo", "")),
+                        "nps_score": nps,
+                        "segmento_nps": seg_nps,
+                        "comentario_original": comentario_orig,
+                        "fragmentos": fragmentos_objetos
+                    })
+            
+            fragmentos_payload = {
+                "metadata": {
+                    "version": "1.0",
+                    "total_encuestas": len(datos_fragmentos),
+                    "total_fragmentos": sum(len(d["fragmentos"]) for d in datos_fragmentos)
+                },
+                "data": datos_fragmentos
+            }
+            with open(ruta_salida / "fragmentos_nps.json", "w", encoding="utf-8") as f:
+                json.dump(fragmentos_payload, f, ensure_ascii=False, indent=2)
+            # -------------------------------------
 
             # Agrupación y clasificación mediante módulo NLP local
             topicos_globales, comentarios_detallados = agrupar_comentarios_por_topico(df_sent)

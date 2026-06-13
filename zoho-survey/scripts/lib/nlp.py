@@ -140,6 +140,39 @@ def sanitizar_comentario(texto: str) -> Tuple[bool, Optional[str]]:
             
     return True, None
 
+def segmentar_comentario(texto: str) -> List[str]:
+    """
+    Divide un comentario en fragmentos semánticamente autónomos utilizando
+    signos de puntuación (. ; :), saltos de línea y conectores adversativos.
+    Excluye comas (,).
+    """
+    if not isinstance(texto, str) or not texto.strip():
+        return []
+
+    # 1. Dividir por signos de puntuación (. ; :) y saltos de línea (\n \r) e interrogación/exclamación (? !)
+    sentencias = re.split(r"[\n\r.:;!?]+", texto)
+    sentencias = [s.strip() for s in sentencias if s.strip()]
+
+    # 2. Dividir por conectores adversativos con límites de palabra (\b)
+    # conectores: pero, sin embargo, aunque, no obstante, en cambio
+    patron_conectores = r"\b(?:pero|sin\s+embargo|aunque|no\s+obstante|en\s+cambio)\b"
+    fragmentos = []
+    for s in sentencias:
+        sub_frags = re.split(patron_conectores, s, flags=re.IGNORECASE)
+        for sf in sub_frags:
+            clean_sf = sf.strip()
+            if clean_sf:
+                fragmentos.append(clean_sf)
+
+    # 3. Filtrar y sanitizar cada fragmento
+    fragmentos_validos = []
+    for f in fragmentos:
+        es_valido, _ = sanitizar_comentario(f)
+        if es_valido:
+            fragmentos_validos.append(f)
+
+    return fragmentos_validos
+
 # Caché global para el modelo SentenceTransformer (Singleton Pattern)
 _MODEL_INSTANCE = None
 
@@ -176,7 +209,7 @@ def agrupar_comentarios_por_topico(df_comentarios: pd.DataFrame) -> Tuple[List[D
     registros_validos: List[Dict[str, any]] = []
     textos_a_codificar: List[str] = []
 
-    # Pasada 1: Clasificación de calidad, enmascaramiento de PII y filtro de válidos
+    # Pasada 1: Clasificación de calidad, enmascaramiento de PII, fragmentación semántica y filtro de válidos
     for idx, row in df_comentarios.iterrows():
         orig_text = str(row["comentario"])
         # Enmascarar información personal (PII) de inmediato antes de cualquier procesamiento
@@ -208,22 +241,61 @@ def agrupar_comentarios_por_topico(df_comentarios: pd.DataFrame) -> Tuple[List[D
                 "fragmento_original": orig_text,
                 "fragmento_mostrar": orig_text,
                 "es_valido": False,
-                "motivo_invalidez": motivo
+                "motivo_invalidez": motivo,
+                "comentario_original": orig_text,
+                "comentario_id_original": res_id,
+                "fragmento_secuencia": 0,
+                "es_fragmento": False
             })
         else:
-            clean_text = corregir_slang(orig_text)
-            norm_txt = normalizar_texto(orig_text)
-            
-            textos_a_codificar.append(norm_txt)
-            registros_validos.append({
-                "id": res_id,
-                "carrera": carrera,
-                "facultad": facultad,
-                "ciclo": ciclo,
-                "nps_score": nps,
-                "fragmento_original": orig_text,
-                "fragmento_mostrar": clean_text
-            })
+            # Segmentación semántica (Fase 2B)
+            fragmentos = segmentar_comentario(orig_text)
+            if not fragmentos:
+                # Si la segmentación no produce fragmentos válidos, se mapea como comentario inválido
+                comentarios_detallados.append({
+                    "id": res_id,
+                    "carrera": carrera,
+                    "facultad": facultad,
+                    "ciclo": ciclo,
+                    "nps_score": nps,
+                    "sentimiento": "neutro",
+                    "intensidad": 0.0,
+                    "categoria": "Otros",
+                    "categoria_padre": "Otros",
+                    "fragmento_original": orig_text,
+                    "fragmento_mostrar": orig_text,
+                    "es_valido": False,
+                    "motivo_invalidez": "sin_opinion_valida",
+                    "comentario_original": orig_text,
+                    "comentario_id_original": res_id,
+                    "fragmento_secuencia": 0,
+                    "es_fragmento": False
+                })
+            else:
+                es_frag = len(fragmentos) > 1
+                for f_idx, frag in enumerate(fragmentos):
+                    # Cada fragmento pasa de nuevo por las validaciones y normalizaciones
+                    es_val_frag, _ = sanitizar_comentario(frag)
+                    if not es_val_frag:
+                        continue
+                    
+                    clean_text = corregir_slang(frag)
+                    norm_txt = normalizar_texto(frag)
+                    
+                    textos_a_codificar.append(norm_txt)
+                    registros_validos.append({
+                        "id": f"{res_id}_p{f_idx + 1}" if es_frag else res_id,
+                        "carrera": carrera,
+                        "facultad": facultad,
+                        "ciclo": ciclo,
+                        "nps_score": nps,
+                        "fragmento_original": frag,
+                        "fragmento_mostrar": clean_text,
+                        "comentario_original": orig_text,
+                        "comentario_id_original": res_id,
+                        "fragmento_secuencia": f_idx + 1 if es_frag else 0,
+                        "es_fragmento": es_frag
+                    })
 
     # Inferencia por lotes sobre todos los comentarios válidos
     if textos_a_codificar:
@@ -275,7 +347,11 @@ def agrupar_comentarios_por_topico(df_comentarios: pd.DataFrame) -> Tuple[List[D
                 "categoria_padre": parent_cat,
                 "fragmento_original": reg["fragmento_original"],
                 "fragmento_mostrar": reg["fragmento_mostrar"],
-                "es_valido": True
+                "es_valido": True,
+                "comentario_original": reg["comentario_original"],
+                "comentario_id_original": reg["comentario_id_original"],
+                "fragmento_secuencia": reg["fragmento_secuencia"],
+                "es_fragmento": reg["es_fragmento"]
             }
             comentarios_detallados.append(comment_obj)
 
@@ -285,7 +361,12 @@ def agrupar_comentarios_por_topico(df_comentarios: pd.DataFrame) -> Tuple[List[D
 
     # Ordenar comentarios_detallados para preservar la secuencia original del dataframe
     id_posiciones = {str(row.get("ID", f"R_{idx}")): idx for idx, row in df_comentarios.iterrows()}
-    comentarios_detallados.sort(key=lambda x: id_posiciones.get(x["id"], 99999))
+    comentarios_detallados.sort(
+        key=lambda x: (
+            id_posiciones.get(x["comentario_id_original"], 99999),
+            x.get("fragmento_secuencia", 0)
+        )
+    )
 
     # 3. Compilar tópicos agregados y seleccionar frases representativas
     topicos_resultado: List[Dict[str, any]] = []
