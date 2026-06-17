@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard Sentimiento — Universidad de Lima 2026</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --red:#C0392B;--red-dark:#922B21;--red-light:#FADBD8;--red-xlight:#FEF9F9;
+  --dark:#2C3E50;--gray:#5D6D7E;--gray-light:#F4F6F7;--border:#E2E8ED;
+  --green:#1E8449;--green-light:#D5F5E3;--amber:#E67E22;--blue:#1A5276;
+  --white:#fff;--text:#1A252F;--text2:#5D6D7E;--text3:#95A5A6
+}
+body{font-family:'Inter',sans-serif;background:#F0F3F4;color:var(--text);min-height:100vh}
+.topbar{background:var(--dark);padding:0 2rem;height:56px;display:flex;align-items:center;justify-content:space-between;border-bottom:3px solid var(--red);position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.18)}
+.tl{display:flex;align-items:center;gap:14px}
+.logo{width:36px;height:36px;background:var(--red);border-radius:7px;display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;font-size:14px;flex-shrink:0}
+.ttl{color:#fff;font-size:14px;font-weight:600}
+.tsub{color:rgba(255,255,255,.42);font-size:11px;margin-top:1px}
+.tbadge{background:rgba(192,57,43,.22);color:#F1948A;font-size:10px;font-weight:600;padding:3px 11px;border-radius:20px;border:1px solid rgba(192,57,43,.38);letter-spacing:.06em;text-transform:uppercase;white-space:nowrap}
+.main{max-width:1300px;margin:0 auto;padding:1.5rem 2rem}
+.upload-wrap{background:var(--white);border-radius:12px;border:1px solid var(--border);padding:2rem;margin-bottom:1.5rem;text-align:center}
+.drop{border:2px dashed #C0392B55;border-radius:10px;padding:2.5rem 2rem;cursor:pointer;background:var(--red-xlight);transition:background .15s}
+.drop:hover,.drop.drag{background:var(--red-light);border-color:var(--red)}
+.hidden{display:none}
+.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-bottom:1.5rem}
+.met{background:var(--white);border-radius:10px;border:1px solid var(--border);padding:16px 18px}
+.met.accent{background:var(--red);border-color:var(--red)}
+.met-label{font-size:10px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.07em;margin-bottom:5px}
+.met.accent .met-label{color:rgba(255,255,255,.62)}
+.met-val{font-size:26px;font-weight:700;color:var(--text)}
+.met.accent .met-val{color:#fff}
+.met-sub{font-size:11px;color:var(--text3);margin-top:3px}
+.met.accent .met-sub{color:rgba(255,255,255,.48)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-bottom:1.25rem}
+.card{background:var(--white);border-radius:12px;border:1px solid var(--border);padding:1.25rem}
+.card-full{margin-bottom:1.25rem}
+.card-title{font-size:13px;font-weight:600;color:var(--dark);margin-bottom:1rem;display:flex;align-items:center;gap:7px;padding-left:10px;border-left:3px solid var(--red)}
+.card-title.g{border-left-color:var(--green)}
+.leg{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:10px}
+.leg-item{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--text2)}
+.leg-dot{width:10px;height:10px;border-radius:2px;display:inline-block}
+.asp-bar{display:flex;align-items:center;gap:8px;margin-bottom:7px}
+.asp-name{font-size:12px;color:var(--text);width:130px;flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:default}
+.asp-track{flex:1;height:8px;background:var(--gray-light);border-radius:4px;overflow:hidden;min-width:0}
+.asp-fill{height:100%;border-radius:4px}
+.asp-cnt{font-size:11px;color:var(--text2);width:26px;text-align:right;flex-shrink:0}
+.asp-int{font-size:11px;width:60px;text-align:right;flex-shrink:0;white-space:nowrap;overflow:hidden}
+.badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:500}
+.b-pos{background:#D5F5E3;color:#1E8449}
+.b-neg{background:#FADBD8;color:#922B21}
+.b-neu{background:#F4F6F7;color:#5D6D7E}
+.b-pas{background:#FEF9E7;color:#7D6608}
+.b-det{background:#FADBD8;color:#922B21}
+.b-pro{background:#D5F5E3;color:#1E8449}
+.tag{display:inline-block;padding:2px 8px;border-radius:7px;font-size:11px;background:var(--gray-light);color:var(--gray);border:1px solid var(--border)}
+.tab-bar{display:flex;gap:2px;border-bottom:2px solid var(--border);margin-bottom:1rem}
+.tab{padding:8px 14px;font-size:12px;cursor:pointer;color:var(--text2);border-bottom:2px solid transparent;margin-bottom:-2px;border-radius:6px 6px 0 0;font-weight:500}
+.tab:hover{background:var(--red-xlight);color:var(--red-dark)}
+.tab.active{color:var(--red);border-bottom-color:var(--red);background:var(--red-xlight)}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;align-items:center}
+.filters select,.filters input{padding:7px 10px;border-radius:8px;border:1px solid var(--border);background:var(--white);color:var(--text);font-size:12px;font-family:'Inter',sans-serif}
+.filters input{flex:1;min-width:160px}
+.btn{padding:7px 16px;border-radius:8px;border:1.5px solid var(--red);background:transparent;color:var(--red);font-size:12px;cursor:pointer;font-weight:600;font-family:'Inter',sans-serif}
+.btn:hover{background:var(--red-light)}
+table{width:100%;border-collapse:collapse;font-size:12px}
+thead th{text-align:left;padding:10px 12px;font-size:11px;font-weight:600;color:#fff;background:var(--dark);letter-spacing:.03em}
+thead th:first-child{border-radius:8px 0 0 0}
+thead th:last-child{border-radius:0 8px 0 0}
+tbody td{padding:8px 12px;border-bottom:1px solid var(--border);vertical-align:middle;color:var(--text)}
+tbody tr:last-child td{border-bottom:none}
+tbody tr:hover td{background:var(--red-xlight)}
+.tbl-wrap{border-radius:10px;border:1px solid var(--border);overflow:hidden;max-height:440px;overflow-y:auto}
+.tbl-cnt{font-size:11px;color:var(--text3);margin-top:8px;text-align:right}
+.nps-bar-wrap{display:flex;height:10px;border-radius:5px;overflow:hidden;width:100%;min-width:80px;cursor:pointer}
+.nps-seg{height:100%}
+.pct-b{display:inline-block;padding:1px 7px;border-radius:10px;font-size:11px;font-weight:600}
+#nps-tip{display:none;position:fixed;background:#2C3E50;color:#fff;font-size:11px;font-family:'Inter',sans-serif;padding:8px 12px;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,.22);z-index:9999;pointer-events:none;white-space:nowrap;line-height:1.8}
+footer{text-align:center;padding:2rem;font-size:11px;color:var(--text3);border-top:1px solid var(--border);margin-top:1.5rem}
+</style>
+</head>
+<body>
+
+<div id="nps-tip"></div>
+
+<div class="topbar">
+  <div class="tl">
+    <div class="logo">UL</div>
+    <div>
+      <div class="ttl">Dashboard — Análisis de Sentimiento Estudiantil</div>
+      <div class="tsub">Encuesta de satisfacción de pregrado · Pasivos y Detractores NPS</div>
+    </div>
+  </div>
+  <div class="tbadge">ULima 2026</div>
+</div>
+
+<div class="main">
+  <div class="upload-wrap" id="upload-section">
+    <div class="drop" id="drop-zone"
+         onclick="document.getElementById('fi').click()"
+         ondragover="event.preventDefault();this.classList.add('drag')"
+         ondragleave="this.classList.remove('drag')"
+         ondrop="handleDrop(event)">
+      <div style="font-size:2.2rem;margin-bottom:.75rem">📊</div>
+      <div style="font-size:14px;font-weight:600;color:var(--dark);margin-bottom:4px">Arrastra <em>encuesta_ulima_dashboard.xlsx</em> o haz clic</div>
+      <div style="font-size:12px;color:var(--gray);margin-top:4px">Lee las hojas: <strong>Fragmentos · Por Carrera · Por Categoria · Por Segmento NPS · Intensidad</strong></div>
+    </div>
+    <input type="file" id="fi" accept=".xlsx,.xls" class="hidden" onchange="loadFile(this.files[0])">
+  </div>
+
+  <div id="dashboard" class="hidden">
+    <div class="metrics" id="metric-grid"></div>
+
+    <div class="row2">
+      <div class="card">
+        <div class="card-title">🧩 Distribución de sentimientos</div>
+        <div class="leg" id="pie-leg"></div>
+        <div style="position:relative;height:185px"><canvas id="pie-c"></canvas></div>
+      </div>
+      <div class="card">
+        <div class="card-title">📊 Ideas por segmento NPS</div>
+        <div style="position:relative;height:205px"><canvas id="seg-c"></canvas></div>
+      </div>
+    </div>
+
+    <div class="card card-full">
+      <div class="card-title">📋 Top categorías — menciones totales</div>
+      <div class="leg">
+        <div class="leg-item"><span class="leg-dot" style="background:var(--red)"></span>Negativo</div>
+        <div class="leg-item"><span class="leg-dot" style="background:var(--green)"></span>Positivo</div>
+        <div class="leg-item"><span class="leg-dot" style="background:#888780"></span>Neutro</div>
+      </div>
+      <div style="position:relative;height:290px"><canvas id="cat-c"></canvas></div>
+    </div>
+
+    <div class="row2">
+      <div class="card">
+        <div class="card-title g">✅ Aspectos más positivos</div>
+        <div id="asp-pos-bars"></div>
+      </div>
+      <div class="card">
+        <div class="card-title">⚠️ Aspectos más negativos</div>
+        <div id="asp-neg-bars"></div>
+      </div>
+    </div>
+
+    <div class="row2">
+      <div class="card">
+        <div class="card-title g">✅ Intensidad en aspectos positivos</div>
+        <div id="int-pos-bars"></div>
+      </div>
+      <div class="card">
+        <div class="card-title">🔥 Intensidad en aspectos negativos</div>
+        <div id="int-neg-bars"></div>
+      </div>
+    </div>
+
+    <div class="card card-full">
+      <div class="card-title">🎓 Respuestas por carrera — distribución NPS completa</div>
+      <div style="overflow-x:auto;border-radius:10px;border:1px solid var(--border)">
+        <table>
+          <thead><tr>
+            <th>Carrera</th>
+            <th style="text-align:center">Total encuestados</th>
+            <th style="text-align:center">Promotores</th>
+            <th style="text-align:center">Pasivos</th>
+            <th style="text-align:center">Detractores</th>
+            <th style="text-align:center">% del total</th>
+            <th style="width:180px">Distribución NPS</th>
+          </tr></thead>
+          <tbody id="carrera-tbl-body"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card card-full">
+      <div class="card-title">💡 Detalle de ideas</div>
+      <div class="tab-bar">
+        <div class="tab active" onclick="setTab('all',this)">Todas</div>
+        <div class="tab" onclick="setTab('negativo',this)">Negativas</div>
+        <div class="tab" onclick="setTab('positivo',this)">Positivas</div>
+        <div class="tab" onclick="setTab('Detractor',this)">Detractores</div>
+        <div class="tab" onclick="setTab('Passive',this)">Pasivos</div>
+      </div>
+      <div class="filters">
+        <select id="f-carrera" onchange="renderTable()"><option value="">Todas las carreras</option></select>
+        <select id="f-area" onchange="renderTable()"><option value="">Todas las áreas</option></select>
+        <input type="text" id="f-search" placeholder="Buscar en ideas..." oninput="renderTable()">
+        <button class="btn" onclick="dlCSV()">⬇ Exportar CSV</button>
+      </div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr>
+            <th style="width:36px">ID</th>
+            <th style="width:110px">Carrera</th>
+            <th style="width:50px;text-align:center">Ciclo</th>
+            <th style="width:86px">Segmento</th>
+            <th style="width:38px;text-align:center">NPS</th>
+            <th>Idea</th>
+            <th style="width:120px">Categoría</th>
+            <th style="width:86px">Sentimiento</th>
+            <th style="width:72px;text-align:center">Intensidad</th>
+          </tr></thead>
+          <tbody id="tbl-body"></tbody>
+        </table>
+      </div>
+      <div class="tbl-cnt" id="tbl-cnt"></div>
+    </div>
+  </div>
+</div>
+
+<footer>Universidad de Lima &nbsp;·&nbsp; Encuesta de Satisfacción Estudiantil 2026 &nbsp;·&nbsp; Análisis de Sentimiento con IA</footer>
+
+<script>
+var D = null, activeTab = 'all', charts = {};
+var RED = '#C0392B', GREEN = '#1E8449', GRAY = '#888780', DARK = '#2C3E50', ORANGE = '#D35400', AMBER = '#E67E22';
+var SKIP = ['comentario vacío','comentario vacio','vacío','vacio','n/a','-',''];
+
+function normCat(s) {
+  if (!s) return null;
+  s = String(s).trim();
+  if (SKIP.indexOf(s.toLowerCase()) >= 0) return null;
+  return s.charAt(0).toUpperCase() + s.slice(1).toLowerCase();
+}
+
+function dedup(arr, key) {
+  var map = {};
+  arr.forEach(function(r) {
+    var k = (r[key] || '').toLowerCase().trim();
+    if (!k || SKIP.indexOf(k) >= 0) return;
+    if (!map[k]) { map[k] = JSON.parse(JSON.stringify(r)); }
+    else {
+      map[k].positivo = (map[k].positivo || 0) + (r.positivo || 0);
+      map[k].negativo = (map[k].negativo || 0) + (r.negativo || 0);
+      map[k].neutro   = (map[k].neutro   || 0) + (r.neutro   || 0);
+      map[k].total    = (map[k].total    || 0) + (r.total    || 0);
+    }
+  });
+  return Object.values(map).map(function(r) {
+    r.pct_neg = r.total ? Math.round(r.negativo / r.total * 100) : 0;
+    return r;
+  });
+}
+
+function handleDrop(e) {
+  e.preventDefault();
+  document.getElementById('drop-zone').classList.remove('drag');
+  if (e.dataTransfer.files[0]) loadFile(e.dataTransfer.files[0]);
+}
+
+function loadFile(file) {
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      var wb = XLSX.read(e.target.result, { type: 'array' });
+
+      var wsF = wb.Sheets['Fragmentos'];
+      if (!wsF) { alert('No se encontró la hoja "Fragmentos".'); return; }
+      var frags = XLSX.utils.sheet_to_json(wsF, { defval: '' });
+
+      function rs(name) {
+        return wb.Sheets[name] ? XLSX.utils.sheet_to_json(wb.Sheets[name], { defval: 0 }) : [];
+      }
+      var rawCat = rs('Por Categoria');
+      var rawSeg = rs('Por Segmento NPS');
+      var rawCar = rs('Por Carrera');
+
+      // Fragmentos
+      var fragmentos = [];
+      for (var i = 0; i < frags.length; i++) {
+        var f = frags[i];
+        var cat = normCat(f['Categoría'] || f['Categoria'] || '');
+        if (!cat || !f['Fragmento']) continue;
+        fragmentos.push({
+          ID:             f['ID'] || '',
+          Carrera:        f['Carrera'] || '',
+          Ciclo:          f['Ciclo'] || '',
+          SegmentoNPS:    f['Segmento NPS'] || f['SegmentoNPS'] || '',
+          PuntajeNPS:     f['Puntaje NPS']  || f['PuntajeNPS']  || '',
+          Fragmento:      f['Fragmento'] || '',
+          Categoria:      cat,
+          CategoriaPadre: f['Categoría Padre'] || f['CategoriaPadre'] || '',
+          Sentimiento:    (f['Sentimiento'] || '').toLowerCase(),
+          Intensidad:     Number(f['Intensidad']) || 0
+        });
+      }
+
+      // Métricas
+      var totF  = fragmentos.length;
+      var totN  = 0, totP = 0, totNe = 0, sumI = 0;
+      var idSet = {};
+      for (var i = 0; i < fragmentos.length; i++) {
+        var f = fragmentos[i];
+        if (f.Sentimiento === 'negativo') totN++;
+        else if (f.Sentimiento === 'positivo') totP++;
+        else totNe++;
+        sumI += f.Intensidad;
+        idSet[f.ID] = 1;
+      }
+      var respIds = Object.keys(idSet).length;
+
+      // Por categoría
+      var rawCatNorm = [];
+      for (var i = 0; i < rawCat.length; i++) {
+        var r = rawCat[i];
+        var cat = normCat(r['Categoría Específica'] || r['Categoria'] || r['Categoría'] || '');
+        if (!cat) continue;
+        rawCatNorm.push({
+          Categoria:      cat,
+          CategoriaPadre: r['Categoría Padre'] || r['CategoriaPadre'] || '',
+          positivo:  Number(r['Positivo']) || 0,
+          negativo:  Number(r['Negativo']) || 0,
+          neutro:    Number(r['Neutro'])   || 0,
+          total:     Number(r['Total'])    || 0,
+          pct_neg:   parseFloat(String(r['% Negativo'] || '0').replace('%', '')) || 0
+        });
+      }
+      var porCatAll = dedup(rawCatNorm, 'Categoria');
+      porCatAll.sort(function(a, b) { return b.total - a.total; });
+      var porCat = porCatAll.slice(0, 12);
+
+      // Por segmento
+      var porSeg = [];
+      for (var i = 0; i < rawSeg.length; i++) {
+        var r = rawSeg[i];
+        var sn = r['Segmento NPS'] || r['SegmentoNPS'] || '';
+        if (!sn) continue;
+        porSeg.push({
+          SegmentoNPS: sn,
+          positivo: Number(r['Positivo']) || 0,
+          negativo: Number(r['Negativo']) || 0,
+          neutro:   Number(r['Neutro'])   || 0,
+          total:    Number(r['Total'])    || 0
+        });
+      }
+
+      // Por carrera
+      var porCar = [];
+      var totEnc = 0;
+      for (var i = 0; i < rawCar.length; i++) {
+        var r = rawCar[i];
+        if (!r['Carrera'] || !Number(r['Total Encuestados'])) continue;
+        var te = Number(r['Total Encuestados']) || 0;
+        totEnc += te;
+        porCar.push({
+          Carrera:     r['Carrera'],
+          totalEnc:    te,
+          promotores:  Number(r['Promotores'])    || 0,
+          pasivos:     Number(r['Pasivos (NPS)']) || 0,
+          detractores: Number(r['Detractores'])   || 0,
+          ideasPos:    Number(r['Ideas Positivas'])|| 0,
+          ideasNeg:    Number(r['Ideas Negativas'])|| 0,
+          ideasTot:    Number(r['Total Ideas'])    || 0
+        });
+      }
+      porCar.sort(function(a, b) { return b.totalEnc - a.totalEnc; });
+
+      // Intensidad por sentimiento
+      var intMapPos = {}, intMapNeg = {};
+      for (var i = 0; i < fragmentos.length; i++) {
+        var f = fragmentos[i];
+        if (!f.Categoria || !f.Intensidad) continue;
+        if (f.Sentimiento === 'positivo') {
+          if (!intMapPos[f.Categoria]) intMapPos[f.Categoria] = { s: 0, n: 0 };
+          intMapPos[f.Categoria].s += f.Intensidad;
+          intMapPos[f.Categoria].n++;
+        }
+        if (f.Sentimiento === 'negativo') {
+          if (!intMapNeg[f.Categoria]) intMapNeg[f.Categoria] = { s: 0, n: 0 };
+          intMapNeg[f.Categoria].s += f.Intensidad;
+          intMapNeg[f.Categoria].n++;
+        }
+      }
+      function toIntArr(map) {
+        return Object.keys(map).map(function(k) {
+          return { Categoria: k, avg: Math.round(map[k].s / map[k].n * 10) / 10 };
+        }).sort(function(a, b) { return b.avg - a.avg; }).slice(0, 8);
+      }
+
+      // Promotores totales
+      var totProm = 0;
+      for (var i = 0; i < porCar.length; i++) totProm += porCar[i].promotores;
+
+      D = {
+        meta: {
+          total_encuestados: totEnc, total_promotores: totProm,
+          total_respuestas: respIds, total_fragmentos: totF,
+          total_negativos: totN, total_positivos: totP, total_neutros: totNe,
+          intensidad_prom: totF ? Math.round(sumI / totF * 100) / 100 : 0
+        },
+        por_categoria: porCat,
+        por_segmento:  porSeg,
+        por_carrera:   porCar,
+        int_pos: toIntArr(intMapPos),
+        int_neg: toIntArr(intMapNeg),
+        fragmentos: fragmentos
+      };
+
+      document.getElementById('upload-section').classList.add('hidden');
+      document.getElementById('dashboard').classList.remove('hidden');
+      populateFilters();
+      render();
+    } catch(err) {
+      alert('Error al procesar el archivo: ' + err.message);
+      console.error(err);
+    }
+  };
+  reader.readAsArrayBuffer(file);
+}
+
+function populateFilters() {
+  var carSet = {}, areaSet = {};
+  for (var i = 0; i < D.fragmentos.length; i++) {
+    if (D.fragmentos[i].Carrera)        carSet[D.fragmentos[i].Carrera] = 1;
+    if (D.fragmentos[i].CategoriaPadre) areaSet[D.fragmentos[i].CategoriaPadre] = 1;
+  }
+  var sc = document.getElementById('f-carrera');
+  var sa = document.getElementById('f-area');
+  Object.keys(carSet).sort().forEach(function(c) {
+    var o = document.createElement('option'); o.value = c; o.textContent = c; sc.appendChild(o);
+  });
+  Object.keys(areaSet).sort().forEach(function(a) {
+    var o = document.createElement('option'); o.value = a; o.textContent = a; sa.appendChild(o);
+  });
+}
+
+function render() {
+  renderMetrics(); renderPie(); renderSeg(); renderCat();
+  renderAspBars('asp-pos-bars', 'positivo', GREEN);
+  renderAspBars('asp-neg-bars', 'negativo', RED);
+  renderIntBars('int-pos-bars', D.int_pos, true);
+  renderIntBars('int-neg-bars', D.int_neg, false);
+  renderCarreraTable(); renderTable();
+}
+
+function renderMetrics() {
+  var m = D.meta;
+  var pct = function(v) { return m.total_fragmentos ? Math.round(v / m.total_fragmentos * 100) : 0; };
+  var pctP = m.total_encuestados ? Math.round(m.total_promotores / m.total_encuestados * 100) : 0;
+  document.getElementById('metric-grid').innerHTML =
+    '<div class="met accent"><div class="met-label">Total encuestados</div><div class="met-val">' + m.total_encuestados + '</div><div class="met-sub">pregrado 2026</div></div>' +
+    '<div class="met" style="border-color:var(--green)"><div class="met-label">Promotores</div><div class="met-val" style="color:var(--green)">' + m.total_promotores + '</div><div class="met-sub">' + pctP + '% del total</div></div>' +
+    '<div class="met"><div class="met-label">Con texto abierto</div><div class="met-val">' + m.total_respuestas + '</div><div class="met-sub">pasivos + detractores</div></div>' +
+    '<div class="met"><div class="met-label">Ideas analizadas</div><div class="met-val">' + m.total_fragmentos + '</div><div class="met-sub">fragmentos únicos</div></div>' +
+    '<div class="met"><div class="met-label">Negativas</div><div class="met-val" style="color:var(--red-dark)">' + m.total_negativos + '</div><div class="met-sub">' + pct(m.total_negativos) + '% de ideas</div></div>' +
+    '<div class="met"><div class="met-label">Positivas</div><div class="met-val" style="color:var(--green)">' + m.total_positivos + '</div><div class="met-sub">' + pct(m.total_positivos) + '% de ideas</div></div>' +
+    '<div class="met"><div class="met-label">Intensidad prom.</div><div class="met-val">' + m.intensidad_prom + '</div><div class="met-sub">sobre 5</div></div>';
+}
+
+function renderPie() {
+  var m = D.meta;
+  var labels = ['Negativo','Positivo','Neutro'], colors = [RED, GREEN, GRAY];
+  var vals = [m.total_negativos, m.total_positivos, m.total_neutros];
+  document.getElementById('pie-leg').innerHTML = labels.map(function(l, i) {
+    return '<div class="leg-item"><span class="leg-dot" style="background:' + colors[i] + '"></span>' + l + ' <strong style="margin-left:3px">' + vals[i] + '</strong></div>';
+  }).join('');
+  if (charts.pie) charts.pie.destroy();
+  charts.pie = new Chart(document.getElementById('pie-c'), {
+    type: 'doughnut',
+    data: { labels: labels, datasets: [{ data: vals, backgroundColor: colors, borderWidth: 2, borderColor: '#fff', hoverOffset: 4 }] },
+    options: { responsive: true, maintainAspectRatio: false, cutout: '62%',
+      plugins: { legend: { display: false },
+        tooltip: { callbacks: { label: function(ctx) {
+          var tot = ctx.dataset.data.reduce(function(a, b) { return a + b; }, 0);
+          return ctx.label + ': ' + ctx.parsed + ' (' + Math.round(ctx.parsed / tot * 100) + '%)';
+        }}}}}
+  });
+}
+
+function renderSeg() {
+  var segs = D.por_segmento;
+  if (charts.seg) charts.seg.destroy();
+  charts.seg = new Chart(document.getElementById('seg-c'), {
+    type: 'bar',
+    data: { labels: segs.map(function(s) { return s.SegmentoNPS; }),
+      datasets: [
+        { label: 'Negativo', data: segs.map(function(s) { return s.negativo || 0; }), backgroundColor: RED,   borderRadius: 4 },
+        { label: 'Positivo', data: segs.map(function(s) { return s.positivo || 0; }), backgroundColor: GREEN, borderRadius: 4 },
+        { label: 'Neutro',   data: segs.map(function(s) { return s.neutro   || 0; }), backgroundColor: GRAY,  borderRadius: 4 }
+      ]},
+    options: { responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false },
+        tooltip: { callbacks: { label: function(ctx) {
+          var tot = 0;
+          ctx.chart.data.datasets.forEach(function(d) { tot += d.data[ctx.dataIndex] || 0; });
+          return ctx.dataset.label + ': ' + ctx.parsed.y + ' (' + Math.round(ctx.parsed.y / (tot || 1) * 100) + '%)';
+        }}}},
+      scales: {
+        x: { stacked: true, grid: { display: false }, ticks: { color: DARK, font: { family: 'Inter', size: 11 } } },
+        y: { stacked: true, ticks: { stepSize: 1, color: DARK }, grid: { color: '#E2E8ED' } }
+      }}
+  });
+}
+
+function renderCat() {
+  var top = D.por_categoria;
+  if (charts.cat) charts.cat.destroy();
+  charts.cat = new Chart(document.getElementById('cat-c'), {
+    type: 'bar',
+    data: { labels: top.map(function(c) { return c.Categoria; }),
+      datasets: [
+        { label: 'Negativo', data: top.map(function(c) { return c.negativo || 0; }), backgroundColor: RED,   borderRadius: 3 },
+        { label: 'Positivo', data: top.map(function(c) { return c.positivo || 0; }), backgroundColor: GREEN, borderRadius: 3 },
+        { label: 'Neutro',   data: top.map(function(c) { return c.neutro   || 0; }), backgroundColor: GRAY,  borderRadius: 3 }
+      ]},
+    options: { responsive: true, maintainAspectRatio: false, barThickness: 18,
+      plugins: { legend: { display: false },
+        tooltip: { callbacks: { label: function(ctx) {
+          var tot = 0;
+          ctx.chart.data.datasets.forEach(function(d) { tot += d.data[ctx.dataIndex] || 0; });
+          return ctx.dataset.label + ': ' + ctx.parsed.y + ' (' + Math.round(ctx.parsed.y / (tot || 1) * 100) + '%)';
+        }}}},
+      scales: {
+        x: { stacked: true, grid: { display: false },
+          ticks: { font: { size: 10, family: 'Inter' }, maxRotation: 90, autoSkip: false, color: DARK,
+            callback: function(val) {
+              var lbl = this.getLabelForValue(val);
+              var words = lbl.split(' ');
+              if (words.length <= 1) return lbl;
+              var lines = [];
+              for (var i = 0; i < words.length; i += 2) { lines.push(words.slice(i, i + 2).join(' ')); }
+              return lines;
+            }}},
+        y: { stacked: true, ticks: { stepSize: 1, color: DARK }, grid: { color: '#E2E8ED' } }
+      }}
+  });
+}
+
+function renderAspBars(id, key, color) {
+  var top = D.por_categoria.slice().sort(function(a, b) { return b[key] - a[key]; }).slice(0, 8);
+  var max = top[0] ? top[0][key] : 1;
+  var html = '';
+  for (var i = 0; i < top.length; i++) {
+    var c = top[i];
+    var pct = Math.round((c[key] || 0) / max * 100);
+    html += '<div class="asp-bar">' +
+      '<div class="asp-name" title="' + c.Categoria + '">' + c.Categoria + '</div>' +
+      '<div class="asp-track"><div class="asp-fill" style="width:' + pct + '%;background:' + color + '"></div></div>' +
+      '<div class="asp-cnt">' + c[key] + '</div></div>';
+  }
+  document.getElementById(id).innerHTML = html;
+}
+
+function posIcon(v) {
+  var n = Math.min(5, Math.round(v)), s = '';
+  for (var i = 0; i < n; i++) s += '<span style="color:#1E8449">✓</span>';
+  for (var i = n; i < 5; i++) s += '<span style="color:#ddd">✓</span>';
+  return s;
+}
+function negIcon(v) {
+  var n = Math.min(5, Math.round(v)), s = '';
+  for (var i = 0; i < n; i++) s += '<span style="color:#C0392B">✕</span>';
+  for (var i = n; i < 5; i++) s += '<span style="color:#ddd">✕</span>';
+  return s;
+}
+
+function renderIntBars(id, data, isPos) {
+  var max = data[0] ? data[0].avg : 5;
+  var html = '';
+  for (var i = 0; i < data.length; i++) {
+    var c = data[i];
+    var pct = Math.round(c.avg / max * 100);
+    var barColor = isPos ? GREEN : RED;
+    var icon = isPos ? posIcon(c.avg) : negIcon(c.avg);
+    html += '<div class="asp-bar">' +
+      '<div class="asp-name" title="' + c.Categoria + '">' + c.Categoria + '</div>' +
+      '<div class="asp-track"><div class="asp-fill" style="width:' + pct + '%;background:' + barColor + '"></div></div>' +
+      '<div class="asp-int">' + icon + '</div></div>';
+  }
+  document.getElementById(id).innerHTML = html;
+}
+
+function renderCarreraTable() {
+  var totEnc = D.meta.total_encuestados || 1;
+  var html = '';
+  for (var i = 0; i < D.por_carrera.length; i++) {
+    var c = D.por_carrera[i];
+    var pctTotal = Math.round(c.totalEnc / totEnc * 100);
+    var pctPro = c.totalEnc ? Math.round(c.promotores  / c.totalEnc * 100) : 0;
+    var pctPas = c.totalEnc ? Math.round(c.pasivos     / c.totalEnc * 100) : 0;
+    var pctDet = c.totalEnc ? Math.round(c.detractores / c.totalEnc * 100) : 0;
+    var carId  = 'nps_' + i;
+    html += '<tr>' +
+      '<td style="font-weight:500">' + c.Carrera + '</td>' +
+      '<td style="text-align:center;font-weight:600">' + c.totalEnc + '</td>' +
+      '<td style="text-align:center"><span class="pct-b" style="background:#D5F5E3;color:#1E8449">' + c.promotores + ' <small>(' + pctPro + '%)</small></span></td>' +
+      '<td style="text-align:center"><span class="pct-b" style="background:#FEF9E7;color:#7D6608">' + c.pasivos + ' <small>(' + pctPas + '%)</small></span></td>' +
+      '<td style="text-align:center"><span class="pct-b" style="background:#FADBD8;color:#922B21">' + c.detractores + ' <small>(' + pctDet + '%)</small></span></td>' +
+      '<td style="text-align:center"><span class="pct-b" style="background:#E8EAF6;color:#3949AB">' + pctTotal + '%</span></td>' +
+      '<td><div id="' + carId + '" class="nps-bar-wrap"' +
+        ' data-pro="' + pctPro + '" data-pas="' + pctPas + '" data-det="' + pctDet + '" data-name="' + c.Carrera + '"' +
+        ' onmouseenter="showTip(event,this)" onmouseleave="hideTip()">' +
+        '<div class="nps-seg" style="width:' + pctPro + '%;background:' + GREEN + '"></div>' +
+        '<div class="nps-seg" style="width:' + pctPas + '%;background:' + AMBER + '"></div>' +
+        '<div class="nps-seg" style="width:' + pctDet + '%;background:' + RED + '"></div>' +
+        '<div class="nps-seg" style="flex:1;background:#E2E8ED"></div>' +
+      '</div></td></tr>';
+  }
+  document.getElementById('carrera-tbl-body').innerHTML = html;
+}
+
+function showTip(e, el) {
+  var tip = document.getElementById('nps-tip');
+  var name = el.getAttribute('data-name');
+  var pro  = el.getAttribute('data-pro');
+  var pas  = el.getAttribute('data-pas');
+  var det  = el.getAttribute('data-det');
+  tip.innerHTML = '<strong>' + name + '</strong><br>' +
+    '<span style="color:#58D68D">&#9632;</span> Promotores: ' + pro + '%<br>' +
+    '<span style="color:#F0B27A">&#9632;</span> Pasivos: ' + pas + '%<br>' +
+    '<span style="color:#F1948A">&#9632;</span> Detractores: ' + det + '%';
+  tip.style.display = 'block';
+  var x = e.clientX + 14, y = e.clientY - 10;
+  if (x + 200 > window.innerWidth) x = e.clientX - 210;
+  tip.style.left = x + 'px';
+  tip.style.top  = y + 'px';
+}
+function hideTip() { document.getElementById('nps-tip').style.display = 'none'; }
+document.addEventListener('mousemove', function(e) {
+  var tip = document.getElementById('nps-tip');
+  if (tip.style.display === 'block') {
+    var x = e.clientX + 14, y = e.clientY - 10;
+    if (x + 200 > window.innerWidth) x = e.clientX - 210;
+    tip.style.left = x + 'px';
+    tip.style.top  = y + 'px';
+  }
+});
+
+function setTab(t, el) {
+  activeTab = t;
+  document.querySelectorAll('.tab').forEach(function(x) { x.classList.remove('active'); });
+  el.classList.add('active');
+  renderTable();
+}
+
+function getFiltered() {
+  var frags = D.fragmentos;
+  if      (activeTab === 'negativo')   frags = frags.filter(function(f) { return f.Sentimiento === 'negativo'; });
+  else if (activeTab === 'positivo')   frags = frags.filter(function(f) { return f.Sentimiento === 'positivo'; });
+  else if (activeTab === 'Detractor')  frags = frags.filter(function(f) { return f.SegmentoNPS === 'Detractor'; });
+  else if (activeTab === 'Passive')    frags = frags.filter(function(f) { return f.SegmentoNPS === 'Passive'; });
+  var fc = document.getElementById('f-carrera').value;
+  var fa = document.getElementById('f-area').value;
+  var fq = (document.getElementById('f-search').value || '').toLowerCase();
+  return frags.filter(function(f) {
+    return (!fc || f.Carrera === fc) && (!fa || f.CategoriaPadre === fa) &&
+           (!fq || (f.Fragmento || '').toLowerCase().indexOf(fq) >= 0);
+  });
+}
+
+function badgeCls(s) { return { positivo: 'b-pos', negativo: 'b-neg', neutro: 'b-neu' }[s] || 'b-neu'; }
+function segBadge(s) { return s === 'Detractor' ? 'b-det' : s === 'Passive' ? 'b-pas' : 'b-pro'; }
+
+function intDisplay(n, sent) {
+  var v = Math.min(5, Math.max(0, Number(n) || 0));
+  var s = '';
+  if (sent === 'positivo') {
+    for (var i = 0; i < v; i++) s += '<span style="color:#1E8449">✓</span>';
+    for (var i = v; i < 5; i++) s += '<span style="color:#ddd">✓</span>';
+  } else if (sent === 'negativo') {
+    for (var i = 0; i < v; i++) s += '<span style="color:#C0392B">✕</span>';
+    for (var i = v; i < 5; i++) s += '<span style="color:#ddd">✕</span>';
+  } else {
+    s = '<span style="color:#aaa;font-size:11px">' + v + '/5</span>';
+  }
+  return s;
+}
+
+function renderTable() {
+  var list = getFiltered();
+  document.getElementById('tbl-cnt').textContent = list.length + ' ideas';
+  var html = '';
+  for (var i = 0; i < list.length; i++) {
+    var f = list[i];
+    html += '<tr>' +
+      '<td style="font-size:11px;color:#95A5A6">'    + f.ID + '</td>' +
+      '<td style="font-size:11px">'                  + f.Carrera + '</td>' +
+      '<td style="text-align:center;font-size:11px">' + f.Ciclo + '</td>' +
+      '<td><span class="badge ' + segBadge(f.SegmentoNPS) + '">' + f.SegmentoNPS + '</span></td>' +
+      '<td style="text-align:center;font-weight:600;font-size:12px">' + f.PuntajeNPS + '</td>' +
+      '<td style="max-width:220px;line-height:1.5">' + f.Fragmento + '</td>' +
+      '<td><span class="tag" title="' + f.Categoria + '">' + f.Categoria + '</span></td>' +
+      '<td><span class="badge ' + badgeCls(f.Sentimiento) + '">' + f.Sentimiento + '</span></td>' +
+      '<td style="text-align:center;font-size:13px;letter-spacing:1px">' + intDisplay(f.Intensidad, f.Sentimiento) + '</td>' +
+    '</tr>';
+  }
+  document.getElementById('tbl-body').innerHTML = html;
+}
+
+function dlCSV() {
+  var list = getFiltered();
+  var hdr  = ['ID','Carrera','Ciclo','SegmentoNPS','PuntajeNPS','Idea','Categoria','CategoriaPadre','Sentimiento','Intensidad'];
+  var rows = list.map(function(f) {
+    return hdr.map(function(k) { return '"' + String(f[k] || '').replace(/"/g, '""') + '"'; });
+  });
+  var csv = [hdr.join(',')].concat(rows.map(function(r) { return r.join(','); })).join('\n');
+  var a   = document.createElement('a');
+  a.href  = URL.createObjectURL(new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8;' }));
+  a.download = 'ideas_ulima_2026.csv';
+  a.click();
+}
+</script>
+</body>
+</html>

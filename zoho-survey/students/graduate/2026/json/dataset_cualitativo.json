@@ -1,0 +1,91 @@
+{
+  "meta": {
+    "encuestados": 120,
+    "promotores": 70,
+    "pasivos": 30,
+    "detractores": 20,
+    "fragmentos": 150,
+    "positivos": 85,
+    "neutros": 35,
+    "negativos": 30
+  },
+  "segmentos": [
+    {"id": "Promotor", "pos": 70, "neu": 10, "neg": 5, "tot": 85},
+    {"id": "Pasivo", "pos": 10, "neu": 20, "neg": 10, "tot": 40},
+    {"id": "Detractor", "pos": 5, "neu": 5, "neg": 15, "tot": 25}
+  ],
+  "categorias": [
+    {"id": "Calidad Docente", "pos": 40, "neu": 10, "neg": 5, "tot": 55},
+    {"id": "Trámites Administrativos", "pos": 5, "neu": 10, "neg": 20, "tot": 35},
+    {"id": "Infraestructura", "pos": 20, "neu": 10, "neg": 0, "tot": 30},
+    {"id": "Plataforma Virtual", "pos": 20, "neu": 5, "neg": 5, "tot": 30}
+  ],
+  "carreras": [
+    {
+      "id": "Ingeniería de Sistemas",
+      "encuestados": 60,
+      "promotores": 40,
+      "pasivos": 10,
+      "detractores": 10
+    },
+    {
+      "id": "Administración",
+      "encuestados": 60,
+      "promotores": 30,
+      "pasivos": 20,
+      "detractores": 10
+    }
+  ],
+  "fragmentos": [
+    {
+      "car": "Ingeniería de Sistemas",
+      "cic": "Ciclo 10",
+      "seg": "Promotor",
+      "nps": 10,
+      "txt": "Excelente metodología y profesores muy capacitados.",
+      "cat": "Calidad Docente",
+      "sen": "pos",
+      "int": 5
+    },
+    {
+      "car": "Administración",
+      "cic": "Ciclo 5",
+      "seg": "Detractor",
+      "nps": 4,
+      "txt": "El área de soporte demora demasiado en responder los correos.",
+      "cat": "Trámites Administrativos",
+      "sen": "neg",
+      "int": 4
+    },
+    {
+      "car": "Ingeniería de Sistemas",
+      "cic": "Ciclo 8",
+      "seg": "Pasivo",
+      "nps": 8,
+      "txt": "Las instalaciones están bien pero el internet falla a veces.",
+      "cat": "Infraestructura",
+      "sen": "neu",
+      "int": 2
+    },
+    {
+      "car": "Administración",
+      "cic": "Ciclo 2",
+      "seg": "Promotor",
+      "nps": 9,
+      "txt": "La plataforma web es muy intuitiva y rápida.",
+      "cat": "Plataforma Virtual",
+      "sen": "pos",
+      "int": 4
+    },
+    {
+      "car": "Ingeniería de Sistemas",
+      "cic": "Ciclo 1",
+      "seg": "Detractor",
+      "nps": 5,
+      "txt": "Me parece que falta actualización en algunos cursos de programación.",
+      "cat": "Calidad Docente",
+      "sen": "neg",
+      "int": 4
+    }
+  ]
+}

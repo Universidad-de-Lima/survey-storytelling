@@ -1,728 +1,387 @@
-/**
- * SURVEY SENTIMENT VIEW — Renderizador del análisis cualitativo y semántico.
- *
- * Muestra KPIs de comentarios, chips de temas semánticos principales,
- * tarjetas de insights cualitativos (insatisfacción/mejora/fortalezas) con frases reales,
- * y la tabla detallada de comentarios agrupados por carrera.
- *
- * Dependencias: SurveyFormatters, SurveyDOMHelpers, SurveySanitizer (globales)
- *
- * @module components/sentiment-view
- * @version 3.0.0
- */
 window.SurveySentimentView = (() => {
   'use strict';
 
-  const _fmt = window.SurveyFormatters;
-  const _dh = window.SurveyDOMHelpers;
-  const _san = window.SurveySanitizer;
-  const _ttp = window.SurveyTooltip;
-
-  const C = window.SURVEY_CONFIG || {};
-  const PROGRAMA_ESTUDIOS_GENERALES = C.PROGRAMA_ESTUDIOS_GENERALES ?? 'Programa de Estudios Generales';
-  const CICLOS_ESTUDIOS_GENERALES = C.CICLOS_ESTUDIOS_GENERALES ?? ['1° Ciclo', '2° Ciclo'];
-
-  const esEstudiosGen = (f) => f === PROGRAMA_ESTUDIOS_GENERALES;
+  // Utils
   const $ = (id) => document.getElementById(id);
+  const _fmt = window.SurveyFormatters;
+  const _san = window.SurveySanitizer;
 
-  // State for the Paginated Comment Explorador
-  const state = {
-    originalComments: [],
-    filteredComments: [],
-    currentPage: 0,
-    pageSize: 10,
-    showCorregido: true,
-    sentimentCache: null
+  let dataset = null;
+  let cacheCarreras = [];
+  let cacheSegmentos = [];
+  let cacheCategorias = [];
+  let cacheFragmentos = [];
+
+  const COLORS = {
+    pos: 'var(--gray-700)',
+    neu: 'var(--gray-400)',
+    neg: 'var(--ulima-orange)',
+    prom: 'var(--gray-700)',
+    pas: 'var(--gray-400)',
+    det: 'var(--ulima-orange)'
   };
 
-  function colorPorTipo(tipo) {
-    if (tipo === 'negativo') {
-      return { border: 'var(--ulima-red)', bg: 'var(--sentiment-neg-bg, var(--danger-pastel))', label: 'Insatisfacción' };
-    }
-    if (tipo === 'positivo') {
-      return { border: 'var(--success-text)', bg: 'var(--sentiment-pos-bg, var(--success-pastel))', label: 'Fortaleza reconocida' };
-    }
-    return { border: 'var(--ulima-orange)', bg: 'var(--sentiment-neu-bg, var(--warning-pastel))', label: 'Oportunidad de mejora' };
-  }
-
-  // Helper to create legend items with CSP-friendly event listeners
-  function createLegendItem(colorVar, label, pct, valLower) {
-    const span = document.createElement('span');
-    span.style.cssText = `color:${colorVar}; display:inline-flex; align-items:center; gap:4px; cursor:pointer;`;
-
-    const dot = document.createElement('span');
-    dot.style.cssText = `display:inline-block; width:8px; height:8px; background:${colorVar}; border-radius:50%;`;
-
-    span.appendChild(dot);
-    span.appendChild(document.createTextNode(`${label}: ${pct}%`));
-
-    span.addEventListener('click', () => {
-      const select = $('explorador-sentimiento');
-      if (select) {
-        select.value = valLower;
-        applyExploradorFilters();
-        const explSec = $('tabla-explorador-comentarios');
-        if (explSec) explSec.scrollIntoView({ behavior: 'smooth' });
+  async function loadData() {
+    try {
+      const response = await fetch('./data/dataset_cualitativo.json');
+      if (!response.ok) {
+        // Fallback a ./json por si la estructura de carpetas cambia
+        const fallback = await fetch('./json/dataset_cualitativo.json');
+        if (!fallback.ok) throw new Error('Network error');
+        dataset = await fallback.json();
+      } else {
+        dataset = await response.json();
       }
-    });
-
-    return span;
-  }
-
-  // Draw the SVG Doughnut Chart
-  function drawSVGDoughnut(pos, neu, neg) {
-    const svg = $('svg-sentimiento');
-    if (!svg) return;
-    svg.innerHTML = '';
-
-    const total = pos + neu + neg;
-    const centerVal = $('doughnut-center-val');
-    if (centerVal) centerVal.textContent = _fmt.formatInteger(total);
-
-    const legend = $('sentimiento-legend');
-    if (total === 0) {
-      if (legend) legend.innerHTML = '';
-      return;
-    }
-
-    const data = [
-      { label: 'Positivo', value: pos, color: 'var(--success-text)' },
-      { label: 'Neutro', value: neu, color: 'var(--ulima-orange)' },
-      { label: 'Negativo', value: neg, color: 'var(--ulima-red)' }
-    ];
-
-    const r = 35;
-    const circumference = 2 * Math.PI * r; // ~219.911
-    let accumulatedPct = 0;
-
-    data.forEach(item => {
-      if (item.value === 0) return;
-
-      const pctVal = item.value / total;
-      const dashArray = `${pctVal * circumference} ${circumference}`;
-      const dashOffset = -accumulatedPct * circumference;
-
-      const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-      circle.setAttribute('cx', '50');
-      circle.setAttribute('cy', '50');
-      circle.setAttribute('r', r.toString());
-      circle.setAttribute('class', 'doughnut-segment');
-      circle.style.stroke = item.color;
-      circle.style.strokeDasharray = dashArray;
-      circle.style.strokeDashoffset = dashOffset.toString();
-
-      // Tooltip events
-      circle.addEventListener('mouseenter', (e) => {
-        const pctLabel = Math.round(pctVal * 100);
-        _ttp.show(e, `<strong>${item.label}</strong>: ${item.value} (${pctLabel}%)`);
-      });
-      circle.addEventListener('mousemove', (e) => {
-        _ttp.move(e);
-      });
-      circle.addEventListener('mouseleave', () => {
-        _ttp.hide();
-      });
-
-      // Quick filter on click
-      circle.style.cursor = 'pointer';
-      circle.addEventListener('click', () => {
-        const select = $('explorador-sentimiento');
-        if (select) {
-          select.value = item.label.toLowerCase();
-          applyExploradorFilters();
-          const explSec = $('tabla-explorador-comentarios');
-          if (explSec) explSec.scrollIntoView({ behavior: 'smooth' });
-        }
-      });
-
-      svg.appendChild(circle);
-      accumulatedPct += pctVal;
-    });
-
-    // Draw legends
-    if (legend) {
-      legend.innerHTML = '';
-      const pPct = Math.round((pos / total) * 100);
-      const nPct = Math.round((neu / total) * 100);
-      const negPct = Math.round((neg / total) * 100);
       
-      legend.appendChild(createLegendItem('var(--success-text)', 'Positivo', pPct, 'positivo'));
-      legend.appendChild(createLegendItem('var(--ulima-orange)', 'Neutro', nPct, 'neutro'));
-      legend.appendChild(createLegendItem('var(--ulima-red)', 'Negativo', negPct, 'negativo'));
+      cacheCarreras = dataset.carreras || [];
+      cacheSegmentos = dataset.segmentos || [];
+      cacheCategorias = dataset.categorias || [];
+      cacheFragmentos = dataset.fragmentos || [];
+
+      initFilters();
+      renderAll();
+    } catch (error) {
+      console.warn('Error loading dataset_cualitativo.json', error);
+      const kpis = $('cualitativo-kpis');
+      if (kpis) kpis.innerHTML = '<div style="color:var(--ulima-red);">No se pudo cargar el archivo dataset_cualitativo.json</div>';
     }
   }
 
-  // Draw category horizontal bars
-  function renderCategoryBars(comments) {
-    const container = $('categorias-barras-container');
+  function initFilters() {
+    const selCarrera = $('filter-carrera-cualitativo');
+    const selSegmento = $('filter-segmento-cualitativo');
+    const selSentimiento = $('filter-sentimiento-cualitativo');
+    
+    if (selCarrera) {
+      selCarrera.innerHTML = '<option value="">Todas las carreras</option>' + 
+        cacheCarreras.map(c => `<option value="${_san ? _san.escapeHTML(c.id) : c.id}">${_san ? _san.escapeHTML(c.id) : c.id}</option>`).join('');
+      selCarrera.addEventListener('change', renderFiltered);
+    }
+    
+    if (selSegmento) {
+      selSegmento.innerHTML = '<option value="">Todos los segmentos</option>' + 
+        ['Promotor', 'Pasivo', 'Detractor'].map(s => `<option value="${s}">${s}</option>`).join('');
+      selSegmento.addEventListener('change', renderFiltered);
+    }
+    
+    if (selSentimiento) {
+      selSentimiento.innerHTML = '<option value="">Todos los sentimientos</option>' + 
+        ['pos', 'neu', 'neg'].map(s => `<option value="${s}">${s === 'pos' ? 'Positivo' : s === 'neu' ? 'Neutro' : 'Negativo'}</option>`).join('');
+      selSentimiento.addEventListener('change', renderFiltered);
+    }
+  }
+
+  function renderFiltered() {
+    renderAll();
+  }
+
+  function getActiveFilters() {
+    return {
+      carrera: $('filter-carrera-cualitativo')?.value || '',
+      segmento: $('filter-segmento-cualitativo')?.value || '',
+      sentimiento: $('filter-sentimiento-cualitativo')?.value || ''
+    };
+  }
+
+  function formatInt(val) {
+    return _fmt ? _fmt.formatInteger(val) : val;
+  }
+  
+  function escapeHTML(str) {
+    return _san ? _san.escapeHTML(str) : str;
+  }
+
+  function renderAll() {
+    if (!dataset) return;
+    const filters = getActiveFilters();
+    
+    // Filtro iterativo sobre fragmentos
+    let frags = cacheFragmentos;
+    if (filters.carrera || filters.segmento || filters.sentimiento) {
+      frags = cacheFragmentos.filter(f => {
+        if (filters.carrera && f.car !== filters.carrera) return false;
+        if (filters.segmento && f.seg !== filters.segmento) return false;
+        if (filters.sentimiento && f.sen !== filters.sentimiento) return false;
+        return true;
+      });
+    }
+
+    renderKPIs(frags, filters);
+    renderSentimientosDist(frags);
+    renderIdeasNps(frags);
+    renderTopCategorias(frags);
+    renderRankings(frags);
+    renderCarrerasTabla(cacheCarreras, filters);
+    renderIdeasDetalle(frags);
+  }
+
+  function renderKPIs(frags, filters) {
+    const container = $('cualitativo-kpis');
     if (!container) return;
 
-    container.innerHTML = '';
-    
-    const categoryCounts = {};
-    const categoryIntensity = {};
-    const categoryIntensityCount = {};
-
-    comments.forEach(c => {
-      if (!c.es_valido) return;
-      const cat = c.categoria_padre || 'Otros';
-      categoryCounts[cat] = (categoryCounts[cat] || 0) + 1;
-      categoryIntensity[cat] = (categoryIntensity[cat] || 0) + c.intensidad;
-      categoryIntensityCount[cat] = (categoryIntensityCount[cat] || 0) + 1;
+    let totIdeas = 0, totPos = 0, totNeg = 0, totNeu = 0, sumInt = 0;
+    frags.forEach(f => {
+      totIdeas++;
+      if (f.sen === 'pos') totPos++;
+      else if (f.sen === 'neg') totNeg++;
+      else totNeu++;
+      sumInt += (f.int || 0);
     });
 
-    const sortedCats = Object.keys(categoryCounts).sort((a, b) => categoryCounts[b] - categoryCounts[a]);
+    const intProm = totIdeas > 0 ? (sumInt / totIdeas).toFixed(2) : '0.00';
+    const hasFilters = filters.carrera || filters.segmento || filters.sentimiento;
 
-    if (sortedCats.length === 0) {
-      container.innerHTML = '<p style="color:var(--gray-500);font-size:12px;text-align:center;padding:20px 0;">No hay menciones registradas.</p>';
-      return;
+    if (!hasFilters && dataset.meta) {
+      totIdeas = dataset.meta.fragmentos || totIdeas;
+      totPos = dataset.meta.positivos || totPos;
+      totNeg = dataset.meta.negativos || totNeg;
+      totNeu = dataset.meta.neutros || totNeu;
     }
 
-    const maxCount = categoryCounts[sortedCats[0]];
-
-    sortedCats.forEach(cat => {
-      const count = categoryCounts[cat];
-      const pct = maxCount > 0 ? Math.round((count / maxCount) * 100) : 0;
-      const avgInt = categoryIntensityCount[cat] > 0 ? (categoryIntensity[cat] / categoryIntensityCount[cat]) : 0;
-
-      let barColor = 'var(--gray-500)';
-      if (cat === 'Académico') barColor = 'var(--blue)';
-      else if (cat === 'Infraestructura') barColor = 'var(--green)';
-      else if (cat === 'Administrativo y Bienestar') barColor = 'var(--amber)';
-      else if (cat === 'Valoración General') barColor = 'var(--success-text)';
-
-      const row = document.createElement('div');
-      row.className = 'category-row';
-      row.innerHTML = `
-        <div class="category-header">
-          <span>${_san.escapeHTML(cat)}</span>
-          <span>${count} mención${count !== 1 ? 'es' : ''} <span class="category-intensity" style="margin-left:8px;">⚡ Intensidad: ${Math.round(avgInt * 100)}%</span></span>
-        </div>
-        <div class="category-bar-wrapper">
-          <div class="category-bar-fill" style="width: ${pct}%; background-color: ${barColor};"></div>
-        </div>
-      `;
-      container.appendChild(row);
-    });
-  }
-
-  // Draw Insights Cards (with phrases representativas)
-  function renderInsightsCards(sentimentCache) {
-    const container = $('insights-container');
-    if (!container || !sentimentCache) return;
-
-    const filtroTipo = $('filter-sentimiento')?.value || 'todos';
-    const filtroFac = $('filter-facultad-sent')?.value || '';
-    const filtroCar = $('filter-carrera-sent')?.value || '';
-    const filtroCiclo = _dh.getSelectedValues($('filter-ciclo-sent')) || '';
-
-    let topicos = sentimentCache.topicos || [];
-
-    if (filtroTipo !== 'todos') {
-      topicos = topicos.filter((t) => t.tipo === filtroTipo);
-    }
-
-    if (filtroCar) {
-      topicos = topicos
-        .map((t) => {
-          const count = t.por_carrera[filtroCar] || 0;
-          return { ...t, _filteredCount: count };
-        })
-        .filter((t) => t._filteredCount > 0);
-    } else if (filtroFac) {
-      topicos = topicos
-        .map((t) => {
-          let count;
-          if (esEstudiosGen(filtroFac)) {
-            const cycles = filtroCiclo
-              ? Array.isArray(filtroCiclo)
-                ? filtroCiclo
-                : [filtroCiclo]
-              : CICLOS_ESTUDIOS_GENERALES;
-            count = cycles.reduce((sum, cycle) => sum + (t.por_ciclo[cycle] || 0), 0);
-          } else {
-            count = t.por_facultad[filtroFac] || 0;
-          }
-          return { ...t, _filteredCount: count };
-        })
-        .filter((t) => t._filteredCount > 0);
-    } else if (filtroCiclo) {
-      const selectedCycles = Array.isArray(filtroCiclo) ? filtroCiclo : [filtroCiclo];
-      topicos = topicos
-        .map((t) => {
-          const count = selectedCycles.reduce((sum, cycle) => sum + (t.por_ciclo[cycle] || 0), 0);
-          return { ...t, _filteredCount: count };
-        })
-        .filter((t) => t._filteredCount > 0);
-    }
-
-    if (!topicos.length) {
-      container.innerHTML = `<p style="color:var(--gray-500);font-size:13px;padding:16px 0;">
-        No hay insights para los filtros seleccionados.</p>`;
-      return;
-    }
-
-    const fragment = document.createDocumentFragment();
-    topicos.forEach((t) => {
-      const colores = colorPorTipo(t.tipo);
-      const displayCount = t._filteredCount !== undefined ? t._filteredCount : t.total_comentarios;
-      const frases = (t.frases_representativas || []).slice(0, 3);
-      const card = document.createElement('div');
-      card.style.cssText = `
-        background:${colores.bg};border-left:4px solid ${colores.border};
-        border-radius:0 8px 8px 0;padding:16px 20px;margin-bottom:12px;
-      `;
-      const frasesHTML = frases.length
-        ? `<ul style="margin:8px 0 0 0;padding-left:16px;list-style:disc;">
-            ${frases.map((f) => `<li style="font-size:12px;color:var(--gray-700);margin-bottom:4px;line-height:1.5;">"${_san.escapeHTML(f)}"</li>`).join('')}
-           </ul>`
-        : '';
-      card.innerHTML = `
-        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;">
-          <div>
-            <span style="font-size:11px;font-weight:700;text-transform:uppercase;
-              letter-spacing:0.5px;color:${colores.border};">${colores.label}</span>
-            <h4 style="font-size:14px;font-weight:700;color:var(--gray-900);margin:4px 0;">${_san.escapeHTML(t.icono)} ${_san.escapeHTML(t.topico)}</h4>
-          </div>
-          <span style="background:${colores.border};color:white;border-radius:12px;
-            padding:3px 10px;font-size:11px;font-weight:700;white-space:nowrap;">
-            ${_fmt.formatInteger(displayCount)} comentario${displayCount !== 1 ? 's' : ''}
-          </span>
-        </div>
-        ${frasesHTML}
-      `;
-      fragment.appendChild(card);
-    });
-    container.innerHTML = '';
-    container.appendChild(fragment);
-  }
-
-  // Draw narrative block
-  function renderNarrativeIA(sentimentCache, comments) {
-    const iaGlobal = $('insight-ia-global');
-    const iaCategorias = $('insight-ia-categorias');
-    if (!iaGlobal || !iaCategorias || !sentimentCache.insights_ia) return;
-
-    const ia = sentimentCache.insights_ia;
-    
-    // Calculate filtered totals
-    const total = comments.length;
-    const pos = comments.filter(c => c.es_valido && c.sentimiento === 'positivo').length;
-    const neg = comments.filter(c => c.es_valido && c.sentimiento === 'negativo').length;
-    
-    const filtroFac = $('filter-facultad-sent')?.value || '';
-    if (filtroFac) {
-      iaGlobal.innerHTML = `Para la facultad/programa seleccionada se analizaron <strong>${_fmt.formatInteger(total)}</strong> comentarios válidos, de los cuales <strong>${_fmt.formatInteger(pos)}</strong> presentan un sentimiento positivo y <strong>${_fmt.formatInteger(neg)}</strong> expresan insatisfacción o sugerencias de mejora.`;
-    } else {
-      iaGlobal.textContent = ia.global || 'No hay resumen global disponible.';
-    }
-
-    iaCategorias.innerHTML = '';
-    if (ia.por_categoria_padre) {
-      Object.entries(ia.por_categoria_padre).forEach(([catName, text]) => {
-        const catCommentsCount = comments.filter(c => c.es_valido && c.categoria_padre === catName).length;
-        if (filtroFac && catCommentsCount === 0) return;
-        const li = document.createElement('li');
-        li.innerHTML = `<strong>${_san.escapeHTML(catName)}</strong> (${catCommentsCount} menciones): ${_san.escapeHTML(text)}`;
-        iaCategorias.appendChild(li);
-      });
-    }
-  }
-
-  // Populate dynamic category selector
-  function populateExploradorTopicsDropdown(comentarios) {
-    const select = $('explorador-categoria');
-    if (!select) return;
-
-    const currentVal = select.value;
-    const categories = [...new Set(comentarios.filter(c => c.es_valido).map(c => c.categoria))].sort();
-
-    select.innerHTML = '<option value="">Todos los temas</option>';
-    categories.forEach(cat => {
-      const opt = document.createElement('option');
-      opt.value = cat;
-      opt.textContent = cat;
-      select.appendChild(opt);
-    });
-
-    if (categories.includes(currentVal)) {
-      select.value = currentVal;
-    }
-  }
-
-  // Filter comments for the paginated list
-  function applyExploradorFilters() {
-    const searchVal = $('explorador-search')?.value.toLowerCase() || '';
-    const catVal = $('explorador-categoria')?.value || '';
-    const sentVal = $('explorador-sentimiento')?.value || '';
-
-    const filtroFac = $('filter-facultad-sent')?.value || '';
-    const filtroCar = $('filter-carrera-sent')?.value || '';
-    const filtroCiclo = _dh.getSelectedValues($('filter-ciclo-sent')) || '';
-
-    state.filteredComments = state.originalComments.filter(c => {
-      if (filtroCar && c.carrera !== filtroCar) return false;
-      if (filtroFac) {
-        if (esEstudiosGen(filtroFac)) {
-          const cycles = filtroCiclo ? (Array.isArray(filtroCiclo) ? filtroCiclo : [filtroCiclo]) : CICLOS_ESTUDIOS_GENERALES;
-          if (!cycles.includes(c.ciclo)) return false;
-        } else if (c.facultad !== filtroFac) {
-          return false;
-        }
-      } else if (filtroCiclo) {
-        const selectedCycles = Array.isArray(filtroCiclo) ? filtroCiclo : [filtroCiclo];
-        if (selectedCycles.length > 0 && !selectedCycles.includes(c.ciclo)) return false;
-      }
-
-      if (catVal && c.categoria !== catVal) return false;
-      if (sentVal && c.sentimiento !== sentVal) return false;
-
-      if (searchVal) {
-        const inOrig = c.fragmento_original?.toLowerCase().includes(searchVal);
-        const inCorregido = c.fragmento_mostrar?.toLowerCase().includes(searchVal);
-        const inCarrera = c.carrera?.toLowerCase().includes(searchVal);
-        const inCat = c.categoria?.toLowerCase().includes(searchVal);
-        if (!inOrig && !inCorregido && !inCarrera && !inCat) return false;
-      }
-
-      return true;
-    });
-
-    state.currentPage = 0;
-    renderExploradorTable();
-    updateExploradorPagination();
-  }
-
-  // Render rows in the comments table
-  function renderExploradorTable() {
-    const tbody = $('tbody-explorador-comentarios');
-    if (!tbody) return;
-
-    tbody.innerHTML = '';
-    const start = state.currentPage * state.pageSize;
-    const end = Math.min(start + state.pageSize, state.filteredComments.length);
-    const pageComments = state.filteredComments.slice(start, end);
-
-    if (pageComments.length === 0) {
-      tbody.innerHTML = '<tr><td colspan="6" class="text-center" style="color:var(--gray-500); padding: 24px;">No se encontraron comentarios con los filtros actuales.</td></tr>';
-      return;
-    }
-
-    const fragment = document.createDocumentFragment();
-    pageComments.forEach(c => {
-      const tr = document.createElement('tr');
-
-      let sentBadge = '';
-      if (!c.es_valido) {
-        const motivoLabel = c.motivo_invalidez === 'spam_o_ruido' ? 'Ruido' : 'Sin opinión';
-        sentBadge = `<span style="background:var(--gray-200); color:var(--gray-600); border-radius:12px; padding:3px 8px; font-size:11px; font-weight:700;">${motivoLabel}</span>`;
-      } else {
-        let bg = 'var(--gray-200)', fg = 'var(--gray-700)', label = 'Neutro';
-        if (c.sentimiento === 'positivo') {
-          bg = 'var(--success-pastel)';
-          fg = 'var(--success-text)';
-          label = 'Positivo';
-        } else if (c.sentimiento === 'negativo') {
-          bg = 'var(--danger-pastel)';
-          fg = 'var(--ulima-red)';
-          label = 'Negativo';
-        }
-        sentBadge = `<span style="background:${bg}; color:${fg}; border-radius:12px; padding:3px 8px; font-size:11px; font-weight:700;">${label}</span>`;
-      }
-
-      let npsBg = 'var(--gray-200)', npsFg = 'var(--gray-700)';
-      if (c.nps_score >= 9) {
-        npsBg = 'var(--success-pastel)';
-        npsFg = 'var(--success-text)';
-      } else if (c.nps_score >= 7) {
-        npsBg = 'var(--warning-pastel)';
-        npsFg = 'var(--warning-text)';
-      } else {
-        npsBg = 'var(--danger-pastel)';
-        npsFg = 'var(--ulima-red)';
-      }
-      const npsBadge = `<span style="background:${npsBg}; color:${npsFg}; border-radius:50%; width:24px; height:24px; display:inline-flex; align-items:center; justify-content:center; font-size:11px; font-weight:700;">${c.nps_score}</span>`;
-
-      const commentText = state.showCorregido ? (c.fragmento_mostrar || c.fragmento_original) : c.fragmento_original;
-      const displayComment = c.es_valido 
-        ? _san.escapeHTML(commentText) 
-        : `<span style="color:var(--gray-400); font-style:italic;">[Invalidado: ${c.motivo_invalidez}]</span> "${_san.escapeHTML(commentText)}"`;
-
-      tr.innerHTML = `
-        <td style="font-size:12px; font-weight:600; color:var(--dark);">${_san.escapeHTML(c.carrera)}</td>
-        <td class="text-center" style="font-size:12px; color:var(--text2);">${_san.escapeHTML(c.ciclo || '-')}</td>
-        <td class="text-center">${sentBadge}</td>
-        <td class="text-center">${npsBadge}</td>
-        <td style="font-size:12px; font-weight:600; color:var(--text2);">${_san.escapeHTML(c.categoria)}</td>
-        <td style="font-size:12px; line-height:1.5; color:var(--text); text-align:left;">${displayComment}</td>
-      `;
-      fragment.appendChild(tr);
-    });
-    tbody.appendChild(fragment);
-  }
-
-  function updateExploradorPagination() {
-    const total = state.filteredComments.length;
-    const prevBtn = $('explorador-btn-prev');
-    const nextBtn = $('explorador-btn-next');
-    const info = $('explorador-pagination-info');
-
-    if (!prevBtn || !nextBtn || !info) return;
-
-    const start = state.currentPage * state.pageSize;
-    const end = Math.min(start + state.pageSize, total);
-
-    prevBtn.disabled = state.currentPage === 0;
-    nextBtn.disabled = end >= total;
-
-    if (total === 0) {
-      info.textContent = 'Mostrando 0-0 de 0 comentarios';
-    } else {
-      info.textContent = `Mostrando ${start + 1}-${end} de ${total} comentarios`;
-    }
-  }
-
-  // Export filtered comments as CSV
-  function exportCSV() {
-    const comments = state.filteredComments;
-    if (comments.length === 0) {
-      alert('No hay comentarios para exportar.');
-      return;
-    }
-
-    const headers = ['ID', 'Carrera', 'Facultad', 'Ciclo', 'NPS Score', 'Sentimiento', 'Intensidad', 'Tema', 'Tema Padre', 'Comentario Original', 'Comentario Corregido', 'Valido', 'Motivo Invalidez'];
-    
-    const rows = comments.map(c => [
-      c.id,
-      c.carrera,
-      c.facultad,
-      c.ciclo || '',
-      c.nps_score,
-      c.sentimiento,
-      c.intensidad,
-      c.categoria,
-      c.categoria_padre,
-      c.fragmento_original,
-      c.fragmento_mostrar || '',
-      c.es_valido ? 'SI' : 'NO',
-      c.motivo_invalidez || ''
-    ]);
-
-    const csvContent = [
-      headers.join(','),
-      ...rows.map(row => row.map(val => {
-        const strVal = String(val === null || val === undefined ? '' : val);
-        if (strVal.includes(',') || strVal.includes('"') || strVal.includes('\n') || strVal.includes('\r')) {
-          return `"${strVal.replace(/"/g, '""')}"`;
-        }
-        return strVal;
-      }).join(','))
-    ].join('\n');
-
-    const blob = new Blob(['\ufeff' + csvContent], { type: 'text/csv;charset=utf-8;' });
-    const link = document.createElement('a');
-    const url = URL.createObjectURL(blob);
-    link.setAttribute('href', url);
-    link.setAttribute('download', `comentarios_cualitativos_${new Date().toISOString().slice(0, 10)}.csv`);
-    link.style.visibility = 'hidden';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  }
-
-  // Set up event listeners
-  function setupExploradorListeners() {
-    const searchInput = $('explorador-search');
-    if (searchInput && !searchInput.dataset.listener) {
-      searchInput.addEventListener('input', () => {
-        applyExploradorFilters();
-      });
-      searchInput.dataset.listener = 'true';
-    }
-
-    const catSelect = $('explorador-categoria');
-    if (catSelect && !catSelect.dataset.listener) {
-      catSelect.addEventListener('change', () => {
-        applyExploradorFilters();
-      });
-      catSelect.dataset.listener = 'true';
-    }
-
-    const sentSelect = $('explorador-sentimiento');
-    if (sentSelect && !sentSelect.dataset.listener) {
-      sentSelect.addEventListener('change', () => {
-        applyExploradorFilters();
-      });
-      sentSelect.dataset.listener = 'true';
-    }
-
-    const toggleText = $('explorador-toggle-texto');
-    if (toggleText && !toggleText.dataset.listener) {
-      toggleText.addEventListener('change', (e) => {
-        state.showCorregido = e.target.checked;
-        renderExploradorTable();
-      });
-      toggleText.dataset.listener = 'true';
-    }
-
-    const exportBtn = $('explorador-export-csv');
-    if (exportBtn && !exportBtn.dataset.listener) {
-      exportBtn.addEventListener('click', () => {
-        exportCSV();
-      });
-      exportBtn.dataset.listener = 'true';
-    }
-
-    const prevBtn = $('explorador-btn-prev');
-    if (prevBtn && !prevBtn.dataset.listener) {
-      prevBtn.addEventListener('click', () => {
-        if (state.currentPage > 0) {
-          state.currentPage--;
-          renderExploradorTable();
-          updateExploradorPagination();
-        }
-      });
-      prevBtn.dataset.listener = 'true';
-    }
-
-    const nextBtn = $('explorador-btn-next');
-    if (nextBtn && !nextBtn.dataset.listener) {
-      nextBtn.addEventListener('click', () => {
-        const total = state.filteredComments.length;
-        if ((state.currentPage + 1) * state.pageSize < total) {
-          state.currentPage++;
-          renderExploradorTable();
-          updateExploradorPagination();
-        }
-      });
-      nextBtn.dataset.listener = 'true';
-    }
-  }
-
-  // Main render function
-  function render(sentimentCache) {
-    const kpiGrid = $('sentiment-kpis');
-    if (!kpiGrid) return;
-
-    if (!sentimentCache || !sentimentCache.topicos || !sentimentCache.topicos.length) {
-      kpiGrid.innerHTML = `<p style="color:var(--gray-500);font-size:13px;padding:20px 0;">
-        No hay datos de análisis semántico disponibles para este período.</p>`;
-      return;
-    }
-
-    const r = sentimentCache.resumen;
-
-    const invalidCount = r.comentarios_invalidos || 0;
-    kpiGrid.innerHTML = `
+    container.innerHTML = `
       <div class="kpi-card">
-        <div class="kpi-value" style="font-size:28px;">${_fmt.formatInteger(r.total_respuestas)}</div>
-        <div class="kpi-label">Respuestas totales</div>
-        <div class="kpi-meta">Muestra cualitativa</div>
+        <div class="kpi-value color-csat">${formatInt(totIdeas)}</div>
+        <div class="kpi-label color-csat">Total Ideas</div>
+        <div class="kpi-meta color-csat">Fragmentos analizados</div>
       </div>
       <div class="kpi-card">
-        <div class="kpi-value" style="font-size:28px;color:var(--success-text);">${_fmt.formatInteger(r.total_analizados)}</div>
-        <div class="kpi-label" style="color:var(--success-text);">Comentarios válidos</div>
-        <div class="kpi-meta">Clasificados por la IA</div>
+        <div class="kpi-value color-csat">${formatInt(totPos)}</div>
+        <div class="kpi-label color-csat">Ideas Positivas</div>
+        <div class="kpi-meta color-csat">${totIdeas > 0 ? ((totPos/totIdeas)*100).toFixed(1) : 0}% del total</div>
       </div>
       <div class="kpi-card">
-        <div class="kpi-value" style="font-size:28px;color:var(--gray-500);">${_fmt.formatInteger(invalidCount)}</div>
-        <div class="kpi-label" style="color:var(--gray-600);">Mensajes sin opinión</div>
-        <div class="kpi-meta">Ruido o saludo cordial</div>
+        <div class="kpi-value color-nps">${formatInt(totNeg)}</div>
+        <div class="kpi-label color-nps">Ideas Negativas</div>
+        <div class="kpi-meta color-nps">${totIdeas > 0 ? ((totNeg/totIdeas)*100).toFixed(1) : 0}% del total</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-value color-emplea">${intProm}</div>
+        <div class="kpi-label color-emplea">Intensidad Promedio</div>
+        <div class="kpi-meta color-emplea">Escala 1 al 5</div>
       </div>
     `;
-
-    state.originalComments = sentimentCache.comentarios || [];
-    state.sentimentCache = sentimentCache;
-
-    // Filter based on active selectors
-    const filtroFac = $('filter-facultad-sent')?.value || '';
-    const filtroCar = $('filter-carrera-sent')?.value || '';
-    const filtroCiclo = _dh.getSelectedValues($('filter-ciclo-sent')) || '';
-
-    const businessFilteredComments = state.originalComments.filter(c => {
-      if (filtroCar && c.carrera !== filtroCar) return false;
-      if (filtroFac) {
-        if (esEstudiosGen(filtroFac)) {
-          const cycles = filtroCiclo ? (Array.isArray(filtroCiclo) ? filtroCiclo : [filtroCiclo]) : CICLOS_ESTUDIOS_GENERALES;
-          if (!cycles.includes(c.ciclo)) return false;
-        } else if (c.facultad !== filtroFac) {
-          return false;
-        }
-      } else if (filtroCiclo) {
-        const selectedCycles = Array.isArray(filtroCiclo) ? filtroCiclo : [filtroCiclo];
-        if (selectedCycles.length > 0 && !selectedCycles.includes(c.ciclo)) return false;
-      }
-      return true;
-    });
-
-    const validFilteredComments = businessFilteredComments.filter(c => c.es_valido);
-    const posCount = validFilteredComments.filter(c => c.sentimiento === 'positivo').length;
-    const neuCount = validFilteredComments.filter(c => c.sentimiento === 'neutro').length;
-    const negCount = validFilteredComments.filter(c => c.sentimiento === 'negativo').length;
-    
-    // Update visual doughnut, bars, IA narrative
-    drawSVGDoughnut(posCount, neuCount, negCount);
-    renderCategoryBars(businessFilteredComments);
-    renderNarrativeIA(sentimentCache, businessFilteredComments);
-
-    // Render chips of topics
-    const temasContainer = $('temas-container');
-    if (temasContainer) {
-      const topicsCounts = {};
-      validFilteredComments.forEach(c => {
-        topicsCounts[c.categoria] = (topicsCounts[c.categoria] || 0) + 1;
-      });
-
-      const chipsHTML = sentimentCache.topicos
-        .map((t) => {
-          const currentCount = topicsCounts[t.topico] || 0;
-          if (currentCount === 0) return '';
-          
-          const colorMap = {
-            negativo: 'var(--ulima-red)',
-            mejora: 'var(--ulima-orange)',
-            positivo: 'var(--success-text)',
-          };
-          const color = colorMap[t.tipo] || 'var(--gray-600)';
-          return `<span class="tema-chip" data-topico="${_san.escapeHTML(t.topico)}" style="
-          display:inline-flex;align-items:center;gap:6px;padding:6px 12px;
-          border-radius:20px;border:1px solid ${color};color:${color};
-          font-size:11px;font-weight:600;cursor:pointer;background:var(--white);
-          transition:background 0.2s;">
-          ${_san.escapeHTML(t.icono)} ${_san.escapeHTML(t.topico)} <span style="background:${color};color:white;border-radius:10px;padding:1px 6px;font-size:10px;">${currentCount}</span>
-        </span>`;
-        })
-        .filter(Boolean)
-        .join('');
-
-      temasContainer.innerHTML = chipsHTML || '<p style="color:var(--gray-500);font-size:12px;padding:8px 0;">No hay temas mencionados para la selección.</p>';
-
-      temasContainer.querySelectorAll('.tema-chip').forEach(chip => {
-        chip.addEventListener('click', () => {
-          const topicName = chip.dataset.topico;
-          const select = $('explorador-categoria');
-          if (select) {
-            select.value = topicName;
-            applyExploradorFilters();
-            const explTable = $('tabla-explorador-comentarios');
-            if (explTable) explTable.scrollIntoView({ behavior: 'smooth' });
-          }
-        });
-      });
-    }
-
-    // Render insights cards
-    renderInsightsCards(sentimentCache);
-
-    // Populate category filter and activate explorador
-    populateExploradorTopicsDropdown(businessFilteredComments);
-    setupExploradorListeners();
-    applyExploradorFilters();
   }
 
+  function renderSentimientosDist(frags) {
+    const container = $('chart-sentimientos-dist');
+    if (!container) return;
+
+    let totPos = 0, totNeg = 0, totNeu = 0;
+    frags.forEach(f => {
+      if (f.sen === 'pos') totPos++;
+      else if (f.sen === 'neg') totNeg++;
+      else totNeu++;
+    });
+    const total = totPos + totNeg + totNeu;
+    
+    if (total === 0) {
+      container.innerHTML = '<div>Sin datos</div>';
+      return;
+    }
+
+    container.innerHTML = `
+      <div class="csat-bar-row">
+        ${totPos > 0 ? \`<div class="csat-segment" style="width:\${(totPos/total)*100}%; background:\${COLORS.pos};"><span class="csat-label">\${((totPos/total)*100).toFixed(1)}%</span></div>\` : ''}
+        ${totNeu > 0 ? \`<div class="csat-segment" style="width:\${(totNeu/total)*100}%; background:\${COLORS.neu};"><span class="csat-label">\${((totNeu/total)*100).toFixed(1)}%</span></div>\` : ''}
+        ${totNeg > 0 ? \`<div class="csat-segment" style="width:\${(totNeg/total)*100}%; background:\${COLORS.neg};"><span class="csat-label">\${((totNeg/total)*100).toFixed(1)}%</span></div>\` : ''}
+      </div>
+      <div class="legend" style="margin-top:12px;">
+        <div class="legend-item"><div class="legend-dot" style="background:\${COLORS.pos};"></div>Positivos: \${totPos}</div>
+        <div class="legend-item"><div class="legend-dot" style="background:\${COLORS.neu};"></div>Neutros: \${totNeu}</div>
+        <div class="legend-item"><div class="legend-dot" style="background:\${COLORS.neg};"></div>Negativos: \${totNeg}</div>
+      </div>
+    `;
+  }
+
+  function renderIdeasNps(frags) {
+    const container = $('chart-ideas-nps');
+    if (!container) return;
+
+    const npsMap = {
+      'Promotor': { pos: 0, neu: 0, neg: 0, tot: 0 },
+      'Pasivo': { pos: 0, neu: 0, neg: 0, tot: 0 },
+      'Detractor': { pos: 0, neu: 0, neg: 0, tot: 0 }
+    };
+
+    frags.forEach(f => {
+      const seg = f.seg;
+      if (npsMap[seg] && f.sen) {
+        npsMap[seg].tot++;
+        if (npsMap[seg][f.sen] !== undefined) npsMap[seg][f.sen]++;
+      }
+    });
+
+    let html = '';
+    ['Promotor', 'Pasivo', 'Detractor'].forEach(seg => {
+      const d = npsMap[seg];
+      if (d.tot === 0) return;
+      html += \`
+        <div style="display:flex; flex-direction:column; gap:4px;">
+          <div style="font-size:12px; font-weight:600;">\${seg} (\${d.tot} ideas)</div>
+          <div class="csat-bar-row">
+            \${d.pos > 0 ? \`<div class="csat-segment" style="width:\${(d.pos/d.tot)*100}%; background:\${COLORS.pos};"><span class="csat-label">\${d.pos}</span></div>\` : ''}
+            \${d.neu > 0 ? \`<div class="csat-segment" style="width:\${(d.neu/d.tot)*100}%; background:\${COLORS.neu};"><span class="csat-label">\${d.neu}</span></div>\` : ''}
+            \${d.neg > 0 ? \`<div class="csat-segment" style="width:\${(d.neg/d.tot)*100}%; background:\${COLORS.neg};"><span class="csat-label">\${d.neg}</span></div>\` : ''}
+          </div>
+        </div>
+      \`;
+    });
+    
+    if(!html) html = '<div>Sin datos</div>';
+    container.innerHTML = html;
+  }
+
+  function renderTopCategorias(frags) {
+    const container = $('chart-top-categorias');
+    if (!container) return;
+
+    const catMap = {};
+    frags.forEach(f => {
+      if (!f.cat) return;
+      if (!catMap[f.cat]) catMap[f.cat] = { pos: 0, neu: 0, neg: 0, tot: 0 };
+      catMap[f.cat].tot++;
+      if (f.sen && catMap[f.cat][f.sen] !== undefined) catMap[f.cat][f.sen]++;
+    });
+
+    const cats = Object.entries(catMap)
+      .map(([cat, d]) => ({ cat, ...d }))
+      .sort((a, b) => b.tot - a.tot)
+      .slice(0, 10);
+
+    let html = '';
+    cats.forEach(d => {
+      html += \`
+        <div style="display:flex; flex-direction:column; gap:4px;">
+          <div style="font-size:12px; font-weight:600; display:flex; justify-content:space-between;">
+            <span>\${escapeHTML(d.cat)}</span>
+            <span>\${d.tot} ideas</span>
+          </div>
+          <div class="csat-bar-row">
+            \${d.pos > 0 ? \`<div class="csat-segment" style="width:\${(d.pos/d.tot)*100}%; background:\${COLORS.pos};"></div>\` : ''}
+            \${d.neu > 0 ? \`<div class="csat-segment" style="width:\${(d.neu/d.tot)*100}%; background:\${COLORS.neu};"></div>\` : ''}
+            \${d.neg > 0 ? \`<div class="csat-segment" style="width:\${(d.neg/d.tot)*100}%; background:\${COLORS.neg};"></div>\` : ''}
+          </div>
+        </div>
+      \`;
+    });
+    if(!html) html = '<div>Sin datos</div>';
+    container.innerHTML = html;
+  }
+
+  function renderRankings(frags) {
+    const cPos = $('ranking-positivos');
+    const cNeg = $('ranking-negativos');
+    if (!cPos || !cNeg) return;
+
+    const catIntPos = {};
+    const catIntNeg = {};
+
+    frags.forEach(f => {
+      if (!f.cat) return;
+      if (f.sen === 'pos') {
+        if (!catIntPos[f.cat]) catIntPos[f.cat] = { sum: 0, count: 0 };
+        catIntPos[f.cat].sum += (f.int || 0);
+        catIntPos[f.cat].count++;
+      } else if (f.sen === 'neg') {
+        if (!catIntNeg[f.cat]) catIntNeg[f.cat] = { sum: 0, count: 0 };
+        catIntNeg[f.cat].sum += (f.int || 0);
+        catIntNeg[f.cat].count++;
+      }
+    });
+
+    const rankPos = Object.entries(catIntPos)
+      .map(([cat, d]) => ({ cat, avg: d.sum / d.count }))
+      .sort((a, b) => b.avg - a.avg)
+      .slice(0, 5);
+
+    const rankNeg = Object.entries(catIntNeg)
+      .map(([cat, d]) => ({ cat, avg: d.sum / d.count }))
+      .sort((a, b) => b.avg - a.avg)
+      .slice(0, 5);
+
+    cPos.innerHTML = \`<h5 style="font-size:12px; margin-bottom:8px;">Top Positivos</h5>\` +
+      rankPos.map(d => \`<div style="display:flex; justify-content:space-between; font-size:12px; margin-bottom:4px; border-bottom:1px solid var(--border); padding-bottom:4px;">
+        <span style="color:\${COLORS.pos}; font-weight:600;">\${escapeHTML(d.cat)}</span>
+        <span style="font-weight:700;">\${d.avg.toFixed(1)}</span>
+      </div>\`).join('');
+
+    cNeg.innerHTML = \`<h5 style="font-size:12px; margin-bottom:8px;">Top Negativos</h5>\` +
+      rankNeg.map(d => \`<div style="display:flex; justify-content:space-between; font-size:12px; margin-bottom:4px; border-bottom:1px solid var(--border); padding-bottom:4px;">
+        <span style="color:\${COLORS.neg}; font-weight:600;">\${escapeHTML(d.cat)}</span>
+        <span style="font-weight:700;">\${d.avg.toFixed(1)}</span>
+      </div>\`).join('');
+  }
+
+  function renderCarrerasTabla(carreras, filters) {
+    const tbody = $('tbody-carreras-cualitativo');
+    if (!tbody) return;
+
+    let displayCarreras = carreras;
+    if (filters.carrera) {
+      displayCarreras = carreras.filter(c => c.id === filters.carrera);
+    }
+
+    let html = '';
+    displayCarreras.forEach(c => {
+      const tot = (c.promotores || 0) + (c.pasivos || 0) + (c.detractores || 0);
+      const pProm = tot > 0 ? ((c.promotores || 0)/tot)*100 : 0;
+      const pPas = tot > 0 ? ((c.pasivos || 0)/tot)*100 : 0;
+      const pDet = tot > 0 ? ((c.detractores || 0)/tot)*100 : 0;
+
+      html += \`
+        <tr>
+          <td style="font-weight:600;">\${escapeHTML(c.id)}</td>
+          <td class="text-center">\${formatInt(c.encuestados || 0)}</td>
+          <td>
+            <div class="csat-bar-row">
+              \${pProm > 0 ? \`<div class="csat-segment" style="width:\${pProm}%; background:\${COLORS.prom};"><span class="csat-label">\${pProm.toFixed(1)}%</span></div>\` : ''}
+              \${pPas > 0 ? \`<div class="csat-segment" style="width:\${pPas}%; background:\${COLORS.pas};"><span class="csat-label">\${pPas.toFixed(1)}%</span></div>\` : ''}
+              \${pDet > 0 ? \`<div class="csat-segment" style="width:\${pDet}%; background:\${COLORS.det};"><span class="csat-label">\${pDet.toFixed(1)}%</span></div>\` : ''}
+            </div>
+          </td>
+        </tr>
+      \`;
+    });
+    tbody.innerHTML = html;
+  }
+
+  function renderIdeasDetalle(frags) {
+    const tbody = $('tbody-ideas-detalle');
+    if (!tbody) return;
+
+    let html = '';
+    const displayFrags = frags.slice(0, 50);
+
+    displayFrags.forEach(f => {
+      const senColor = f.sen === 'pos' ? COLORS.pos : f.sen === 'neg' ? COLORS.neg : COLORS.neu;
+      const segColor = f.seg === 'Promotor' ? COLORS.prom : f.seg === 'Detractor' ? COLORS.det : COLORS.pas;
+      
+      html += \`
+        <tr>
+          <td>\${escapeHTML(f.car || '')}</td>
+          <td class="text-center">\${escapeHTML(f.cic || '')}</td>
+          <td class="text-center"><span style="color:\${segColor}; font-weight:600;">\${escapeHTML(f.seg || '')}</span></td>
+          <td class="text-center"><span style="color:\${senColor}; font-weight:600;">\${f.sen === 'pos' ? 'Positivo' : f.sen === 'neg' ? 'Negativo' : 'Neutro'}</span></td>
+          <td><span style="font-size:11px; background:var(--gray-200); padding:2px 6px; border-radius:4px; color:var(--gray-700);">\${escapeHTML(f.cat || '')}</span></td>
+          <td style="font-size:13px;">\${escapeHTML(f.txt || '')}</td>
+        </tr>
+      \`;
+    });
+    
+    if (frags.length > 50) {
+      html += \`<tr><td colspan="6" class="text-center" style="color:var(--gray-500); padding:10px;">Mostrando las primeras 50 de \${frags.length} ideas. Utilice los filtros para ver más resultados.</td></tr>\`;
+    } else if (frags.length === 0) {
+      html += \`<tr><td colspan="6" class="text-center" style="color:var(--gray-500); padding:10px;">No se encontraron ideas con estos filtros.</td></tr>\`;
+    }
+
+    tbody.innerHTML = html;
+  }
+
+  // Auto-init on load
+  document.addEventListener('DOMContentLoaded', loadData);
+
   return {
-    render,
-    renderInsightsCards,
-    applyExploradorFilters
+    init: loadData,
+    renderAll
   };
 })();
