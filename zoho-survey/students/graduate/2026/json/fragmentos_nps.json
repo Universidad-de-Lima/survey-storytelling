@@ -2,7 +2,7 @@
   "metadata": {
     "version": "1.0",
     "total_encuestas": 30,
-    "total_fragmentos": 45
+    "total_fragmentos": 53
   },
   "data": [
     {
@@ -12,6 +12,7 @@
       "ciclo": "NA",
       "nps_score": 6,
       "segmento_nps": "Detractor",
+      "satisfaccion_global": "Insatisfecho",
       "comentario_original": "Hay mucho peso en los trabajos grupales. Y con ello existen alumnos dispuestos a no apoyar",
       "fragmentos": [
         {
@@ -31,15 +32,24 @@
       "ciclo": "NA",
       "nps_score": 8,
       "segmento_nps": "Pasivo",
+      "satisfaccion_global": "Satisfecho",
       "comentario_original": "Presenta muchos beneficios y material adecuado pero siento que podria actualizar mar los cursos y materiales.",
       "fragmentos": [
         {
           "id_fragmento": "84t6h2O6_01",
-          "texto": "Presenta muchos beneficios y material adecuado"
+          "texto": "Presenta muchos beneficios"
         },
         {
           "id_fragmento": "84t6h2O6_02",
-          "texto": "Siento que podria actualizar mar los cursos y materiales"
+          "texto": "Material adecuado"
+        },
+        {
+          "id_fragmento": "84t6h2O6_03",
+          "texto": "Siento que podria actualizar mar los cursos"
+        },
+        {
+          "id_fragmento": "84t6h2O6_04",
+          "texto": "Materiales"
         }
       ]
     },
@@ -50,6 +60,7 @@
       "ciclo": "NA",
       "nps_score": 8,
       "segmento_nps": "Pasivo",
+      "satisfaccion_global": "Satisfecho",
       "comentario_original": "En temas académicos siento que se quedan atrás de universidades como la ESAN. Infraestructura de primera, pero llena de gente.",
       "fragmentos": [
         {
@@ -73,6 +84,7 @@
       "ciclo": "NA",
       "nps_score": 8,
       "segmento_nps": "Pasivo",
+      "satisfaccion_global": "Muy satisfecho",
       "comentario_original": "Muy buena universidad con recursos, espacio, tecnología y cursos interesantes",
       "fragmentos": [
         {
@@ -100,6 +112,7 @@
       "ciclo": "NA",
       "nps_score": 8,
       "segmento_nps": "Pasivo",
+      "satisfaccion_global": "Satisfecho",
       "comentario_original": "Porque cumplió con mis espectativas",
       "fragmentos": [
         {
@@ -115,11 +128,16 @@
       "ciclo": "NA",
       "nps_score": 7,
       "segmento_nps": "Pasivo",
+      "satisfaccion_global": "Satisfecho",
       "comentario_original": "Siento que hay muchos ámbitos en los que la universidad debe mejorar desde la psicológica hacia sus alumnos hasta el tipo de profesores y su metodología de aprendizaje.",
       "fragmentos": [
         {
           "id_fragmento": "Q8zluZKT_01",
-          "texto": "Siento que hay muchos ámbitos en los que la universidad debe mejorar desde la psicológica hacia sus alumnos hasta el tipo de profesores y su metodología de aprendizaje"
+          "texto": "Siento que hay muchos ámbitos en los que la universidad debe mejorar desde la psicológica hacia sus alumnos hasta el tipo de profesores"
+        },
+        {
+          "id_fragmento": "Q8zluZKT_02",
+          "texto": "Su metodología de aprendizaje"
         }
       ]
     },
@@ -130,11 +148,16 @@
       "ciclo": "NA",
       "nps_score": 7,
       "segmento_nps": "Pasivo",
+      "satisfaccion_global": "Satisfecho",
       "comentario_original": "Si bien la enseñanza es buena, podrían haber algunos talleres extra como Excel y habilidades blandas",
       "fragmentos": [
         {
           "id_fragmento": "QvtmaVlT_01",
-          "texto": "Si bien la enseñanza es buena, podrían haber algunos talleres extra como excel y habilidades blandas"
+          "texto": "Si bien la enseñanza es buena, podrían haber algunos talleres extra como excel"
+        },
+        {
+          "id_fragmento": "QvtmaVlT_02",
+          "texto": "Habilidades blandas"
         }
       ]
     },
@@ -145,6 +168,7 @@
       "ciclo": "NA",
       "nps_score": 8,
       "segmento_nps": "Pasivo",
+      "satisfaccion_global": "Satisfecho",
       "comentario_original": "Dependería del enfoque a la carrera pero en general si",
       "fragmentos": [
         {
@@ -164,6 +188,7 @@
       "ciclo": "NA",
       "nps_score": 7,
       "segmento_nps": "Pasivo",
+      "satisfaccion_global": "Satisfecho",
       "comentario_original": "Tienen buenos profesores que enseñan lo idoneo para la carrera de comunicación",
       "fragmentos": [
         {
@@ -179,6 +204,7 @@
       "ciclo": "NA",
       "nps_score": 8,
       "segmento_nps": "Pasivo",
+      "satisfaccion_global": "Muy satisfecho",
       "comentario_original": "He notado que últimamente hubo censura con algunos proyectos académicos, no creo que eso deba pasar en una institución educativa",
       "fragmentos": [
         {
@@ -194,6 +220,7 @@
       "ciclo": "NA",
       "nps_score": 8,
       "segmento_nps": "Pasivo",
+      "satisfaccion_global": "Satisfecho",
       "comentario_original": "Siento que se podría mejorar la comunicación con ciertas áreas administrativas.",
       "fragmentos": [
         {
@@ -209,6 +236,7 @@
       "ciclo": "NA",
       "nps_score": 8,
       "segmento_nps": "Pasivo",
+      "satisfaccion_global": "Satisfecho",
       "comentario_original": "Es un buen lugar para educación superior sin embargo siento que puede avanzar mucho más en cuanto a metodologías y temas de enseñanza",
       "fragmentos": [
         {
@@ -217,7 +245,11 @@
         },
         {
           "id_fragmento": "HPBReUo5_02",
-          "texto": "Siento que puede avanzar mucho más en cuanto a metodologías y temas de enseñanza"
+          "texto": "Siento que puede avanzar mucho más en cuanto a metodologías"
+        },
+        {
+          "id_fragmento": "HPBReUo5_03",
+          "texto": "Temas de enseñanza"
         }
       ]
     },
@@ -228,6 +260,7 @@
       "ciclo": "NA",
       "nps_score": 8,
       "segmento_nps": "Pasivo",
+      "satisfaccion_global": "Satisfecho",
       "comentario_original": "Siento que lo recomendaría para la carrera de la Comunicación",
       "fragmentos": [
         {
@@ -243,6 +276,7 @@
       "ciclo": "NA",
       "nps_score": 7,
       "segmento_nps": "Pasivo",
+      "satisfaccion_global": "Satisfecho",
       "comentario_original": "buena",
       "fragmentos": [
         {
@@ -258,6 +292,7 @@
       "ciclo": "NA",
       "nps_score": 8,
       "segmento_nps": "Pasivo",
+      "satisfaccion_global": "Satisfecho",
       "comentario_original": "No gracias",
       "fragmentos": [
         {
@@ -273,6 +308,7 @@
       "ciclo": "NA",
       "nps_score": 8,
       "segmento_nps": "Pasivo",
+      "satisfaccion_global": "Satisfecho",
       "comentario_original": "Me parece que es una buena universidad, tienes todos los recursos necesarios, pero siento que admiten a demasiados alumnos que la capacidad de la universidad está quedando pequeña para espacios comunes. Sería ver bien ese tema",
       "fragmentos": [
         {
@@ -296,6 +332,7 @@
       "ciclo": "NA",
       "nps_score": 7,
       "segmento_nps": "Pasivo",
+      "satisfaccion_global": "Satisfecho",
       "comentario_original": "Hay buenos equipos",
       "fragmentos": [
         {
@@ -311,6 +348,7 @@
       "ciclo": "NA",
       "nps_score": 8,
       "segmento_nps": "Pasivo",
+      "satisfaccion_global": "Muy satisfecho",
       "comentario_original": "Es una gran oportunidad para poder crecer como profesional y como comunicador. Estoy muy satisfecho",
       "fragmentos": [
         {
@@ -334,6 +372,7 @@
       "ciclo": "NA",
       "nps_score": 6,
       "segmento_nps": "Detractor",
+      "satisfaccion_global": "Insatisfecho",
       "comentario_original": "porque no les importa lo social <3",
       "fragmentos": [
         {
@@ -349,6 +388,7 @@
       "ciclo": "NA",
       "nps_score": 6,
       "segmento_nps": "Detractor",
+      "satisfaccion_global": "Satisfecho",
       "comentario_original": "Porque no toman en cuenta los problemas sociales",
       "fragmentos": [
         {
@@ -364,6 +404,7 @@
       "ciclo": "NA",
       "nps_score": 6,
       "segmento_nps": "Detractor",
+      "satisfaccion_global": "Satisfecho",
       "comentario_original": "Pudo haber sido mejor.",
       "fragmentos": [
         {
@@ -379,6 +420,7 @@
       "ciclo": "NA",
       "nps_score": 8,
       "segmento_nps": "Pasivo",
+      "satisfaccion_global": "Satisfecho",
       "comentario_original": "Buenos profesores",
       "fragmentos": [
         {
@@ -394,11 +436,16 @@
       "ciclo": "NA",
       "nps_score": 8,
       "segmento_nps": "Pasivo",
+      "satisfaccion_global": "Satisfecho",
       "comentario_original": "Hay muchos alumnos y poco espacios en el campus",
       "fragmentos": [
         {
           "id_fragmento": "GnDBdSbu_01",
-          "texto": "Hay muchos alumnos y poco espacios en el campus"
+          "texto": "Hay muchos alumnos"
+        },
+        {
+          "id_fragmento": "GnDBdSbu_02",
+          "texto": "Poco espacios en el campus"
         }
       ]
     },
@@ -409,6 +456,7 @@
       "ciclo": "NA",
       "nps_score": 8,
       "segmento_nps": "Pasivo",
+      "satisfaccion_global": "Muy satisfecho",
       "comentario_original": "Me gusta que la universidad siga creciendo pero en mi carrera aún le faltó explorar aspectos más a fondo como el guion o el sonido.",
       "fragmentos": [
         {
@@ -417,7 +465,11 @@
         },
         {
           "id_fragmento": "yhBhlIC9_02",
-          "texto": "En mi carrera aún le faltó explorar aspectos más a fondo como el guion o el sonido"
+          "texto": "En mi carrera aún le faltó explorar aspectos más a fondo como el guion"
+        },
+        {
+          "id_fragmento": "yhBhlIC9_03",
+          "texto": "El sonido"
         }
       ]
     },
@@ -428,6 +480,7 @@
       "ciclo": "NA",
       "nps_score": 8,
       "segmento_nps": "Pasivo",
+      "satisfaccion_global": "Satisfecho",
       "comentario_original": "bolsa trabajo limitada",
       "fragmentos": [
         {
@@ -443,6 +496,7 @@
       "ciclo": "NA",
       "nps_score": 4,
       "segmento_nps": "Detractor",
+      "satisfaccion_global": "Satisfecho",
       "comentario_original": "Siento que hay mucho alumnado",
       "fragmentos": [
         {
@@ -458,6 +512,7 @@
       "ciclo": "NA",
       "nps_score": 8,
       "segmento_nps": "Pasivo",
+      "satisfaccion_global": "Satisfecho",
       "comentario_original": "Le falta áreas verdes",
       "fragmentos": [
         {
@@ -473,6 +528,7 @@
       "ciclo": "NA",
       "nps_score": 8,
       "segmento_nps": "Pasivo",
+      "satisfaccion_global": "Satisfecho",
       "comentario_original": "Es una universidad que invierte bastante en la infraestructura",
       "fragmentos": [
         {
@@ -488,6 +544,7 @@
       "ciclo": "NA",
       "nps_score": 8,
       "segmento_nps": "Pasivo",
+      "satisfaccion_global": "Satisfecho",
       "comentario_original": "Me parece que han abierto la posibilidad a demasiadas personas, se ha vuelto muy comercial",
       "fragmentos": [
         {
@@ -503,6 +560,7 @@
       "ciclo": "NA",
       "nps_score": 7,
       "segmento_nps": "Pasivo",
+      "satisfaccion_global": "Muy satisfecho",
       "comentario_original": "Buena enseñanza pero a veces dejan pasar a alumnos flojos solo por su amistad o confianza",
       "fragmentos": [
         {
@@ -511,7 +569,11 @@
         },
         {
           "id_fragmento": "5qt78Kds_02",
-          "texto": "A veces dejan pasar a alumnos flojos solo por su amistad o confianza"
+          "texto": "A veces dejan pasar a alumnos flojos solo por su amistad"
+        },
+        {
+          "id_fragmento": "5qt78Kds_03",
+          "texto": "Confianza"
         }
       ]
     }

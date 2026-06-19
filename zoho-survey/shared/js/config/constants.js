@@ -38,8 +38,8 @@ window.SURVEY_CONFIG = {
   ],
 
   // ── Placeholder texts ──
-  FACULTAD_PLACEHOLDER: 'Todas las facultades',
-  FACULTAD_PLACEHOLDER_PROG: 'Todas las facultades / programas',
+  FACULTAD_PLACEHOLDER: 'Todas las unidades académicas',
+  FACULTAD_PLACEHOLDER_PROG: 'Todas las unidades académicas',
 
   // ── Ciclos ──
   MAX_CICLOS_DEFAULT: 10,

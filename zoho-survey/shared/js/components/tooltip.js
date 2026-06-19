@@ -45,8 +45,32 @@ window.SurveyTooltip = (() => {
     const el = getElement();
     el.innerHTML = safeContent(content);
     el.style.display = 'block';
-    el.style.left = `${e.clientX + OFFSET_X}px`;
-    el.style.top = `${e.clientY + OFFSET_Y}px`;
+    
+    const tooltipWidth = el.offsetWidth;
+    const tooltipHeight = el.offsetHeight;
+    const windowWidth = window.innerWidth;
+    const windowHeight = window.innerHeight;
+
+    let leftPos = e.clientX + OFFSET_X;
+    let topPos = e.clientY + OFFSET_Y;
+
+    // Si se sale por la derecha, lo mostramos a la izquierda del cursor
+    if (leftPos + tooltipWidth > windowWidth) {
+      leftPos = e.clientX - tooltipWidth - OFFSET_X;
+    }
+
+    // Si se sale por abajo, lo mostramos más arriba
+    if (topPos + tooltipHeight > windowHeight) {
+      topPos = e.clientY - tooltipHeight - Math.abs(OFFSET_Y);
+    }
+
+    // Evitar que se salga por arriba si el usuario scrollea mucho
+    if (topPos < 0) {
+      topPos = 10;
+    }
+
+    el.style.left = `${leftPos}px`;
+    el.style.top = `${topPos}px`;
   }
 
   /** Oculta el tooltip */

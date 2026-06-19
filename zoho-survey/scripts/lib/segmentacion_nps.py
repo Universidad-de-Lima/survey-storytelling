@@ -46,12 +46,23 @@ def normalizar_texto(texto: str) -> str:
     t = re.sub(r'\btmb\b', 'también', t)
     t = re.sub(r'\bvcs\b', 'veces', t)
     
+    # Correcciones ortográficas y gramaticales frecuentes de alumnos
+    t = re.sub(r'\blas\s+ascensores\b', 'los ascensores', t)
+    t = re.sub(r'\bla\s+ascensor\b', 'el ascensor', t)
+    t = re.sub(r'\bhaiga\b', 'haya', t)
+    t = re.sub(r'\bcafeteria\b', 'cafetería', t)
+    
     # Reducir espacios
     t = re.sub(r'\s+', ' ', t).strip()
     return t
 
 def proteger_entidades(texto: str) -> str:
     t = texto
+    # Proteger pabellones aislados inconfundibles convirtiéndolos en un token
+    t = re.sub(r'\b(A1|A2|D1|D2|D3|E1|E2|H|I1|I2|L1|L2|L3|M|MS|N|O1|O2)\b', lambda m: f"PABELLON_{m.group(1).upper()}", t, flags=re.IGNORECASE)
+    # Proteger pabellón 'O' solo si tiene contexto de infraestructura
+    t = re.sub(r'\b(pabell[oó]n|edificio|torre|ascensores\s+de|ascensor\s+de|aulas\s+de|ba[ñn]os\s+de|del|el|los)\s+o\b', r'\1 PABELLON_O', t, flags=re.IGNORECASE)
+    
     for patron in ENTIDADES:
         def replace_func(match):
             return match.group(0).replace(" ", "_")
@@ -59,7 +70,13 @@ def proteger_entidades(texto: str) -> str:
     return t
 
 def desproteger_entidades(texto: str) -> str:
-    return texto.replace("_", " ")
+    t = texto
+    # Manejo específico para O (porque son O1 y O2)
+    t = re.sub(r'\bPABELLON_O\b', 'los edificios O', t)
+    # Manejo para el resto de pabellones
+    t = re.sub(r'\bPABELLON_([A-Z0-9]+)\b', r'el edificio \1', t)
+    t = t.replace("_", " ")
+    return t
 
 def _limpiar_unidad(texto: str) -> str:
     """Elimina residuos de puntuación o tokens vacíos al inicio o final de una Meaning Unit"""
@@ -99,9 +116,9 @@ def extraer_unidades_opinion(texto: str) -> List[str]:
     if not nlp:
         unidades = _extraccion_heuristica_fallback(texto)
     else:
-        # 1. Separación fuerte por puntuación divisoria o conectores adversativos.
+        # 1. Separación fuerte por puntuación divisoria o conectores.
         # Estos siempre separan ideas independientes.
-        bloques = re.split(r"[\n\r.;:]+|\b(?:pero|sin\s+embargo|aunque|mientras\s+que|por\s+otro\s+lado)\b", texto, flags=re.IGNORECASE)
+        bloques = re.split(r"[\n\r.;:]+|\b(?:pero|sin\s+embargo|aunque|mientras\s+que|por\s+otro\s+lado|o\s+que|y\s+que)\b", texto, flags=re.IGNORECASE)
         unidades = []
         
         for bloque in bloques:
@@ -126,9 +143,10 @@ def extraer_unidades_opinion(texto: str) -> List[str]:
                 
                 # B. Clausulas Nominales y Enumeraciones (ej: "Falta de aire", "falta de enchufes")
                 elif h.pos_ in ["NOUN", "PROPN", "ADJ"] and c.pos_ in ["NOUN", "PROPN", "ADJ"]:
-                    # Si la cláusula nominal no depende de un verbo (no es un objeto o sujeto compuesto)
                     depende_de_verbo = any(anc.pos_ in ["VERB", "AUX"] for anc in h.ancestors)
-                    if not depende_de_verbo:
+                    es_lista_simple = len(list(h.subtree)) <= 3 and len(list(c.subtree)) <= 3
+                    
+                    if not depende_de_verbo or not es_lista_simple:
                         for child in h.children:
                             if child.dep_ == "cc" and child.i < c.i: cortar_en.append(child.i)
                         for child in c.children:
@@ -142,7 +160,9 @@ def extraer_unidades_opinion(texto: str) -> List[str]:
                     # Si a la izquierda y derecha hay un sustantivo/adjetivo sustantivado
                     # que no depende estrictamente el uno del otro (ej. nmod).
                     if tok.head.pos_ in ["NOUN", "PROPN"] and tok.head.dep_ in ["ROOT", "appos", "conj"]:
-                         cortar_en.append(tok.i)
+                         # Solo cortar si la frase es sustancial
+                         if len(list(tok.head.subtree)) > 2:
+                             cortar_en.append(tok.i)
                          
             cortar_en = sorted(list(set(cortar_en)))
             

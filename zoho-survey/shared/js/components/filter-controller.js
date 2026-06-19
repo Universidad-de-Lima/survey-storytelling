@@ -22,8 +22,8 @@ window.SurveyFilterController = (() => {
   const CICLOS_ESTUDIOS_GENERALES = C.CICLOS_ESTUDIOS_GENERALES ?? ['1° Ciclo', '2° Ciclo'];
   const CARRERAS_12_CICLOS = C.CARRERAS_12_CICLOS ?? ['Derecho', 'Psicología'];
   const FACULTADES_12_CICLOS = C.FACULTADES_12_CICLOS ?? ['Facultad de Derecho', 'Facultad de Psicología'];
-  const FACULTAD_PLACEHOLDER = C.FACULTAD_PLACEHOLDER ?? 'Todas las facultades';
-  const FACULTAD_PLACEHOLDER_PROG = C.FACULTAD_PLACEHOLDER_PROG ?? 'Todas las facultades / programas';
+  const FACULTAD_PLACEHOLDER = C.FACULTAD_PLACEHOLDER ?? 'Todas las unidades académicas';
+  const FACULTAD_PLACEHOLDER_PROG = C.FACULTAD_PLACEHOLDER_PROG ?? 'Todas las unidades académicas';
   const MAX_CICLOS_DEFAULT = C.MAX_CICLOS_DEFAULT ?? 10;
   const MAX_CICLOS_ESPECIALES = C.MAX_CICLOS_ESPECIALES ?? 12;
 

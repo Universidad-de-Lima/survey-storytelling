@@ -1,0 +1,22 @@
+{
+  "encuestas": 3843,
+  "carreras": 14,
+  "facultades": 7,
+  "fecha_inicio": "2026-05-11",
+  "fecha_fin": "2026-05-30",
+  "dias": 20,
+  "dias_recoleccion": 16,
+  "año": 2026,
+  "nps": {
+    "score": 72.68,
+    "promotores": 2935,
+    "pasivos": 766,
+    "detractores": 142,
+    "total": 3843
+  },
+  "csat": {
+    "score": 97.79,
+    "t3b": 3758,
+    "total": 3843
+  }
+}

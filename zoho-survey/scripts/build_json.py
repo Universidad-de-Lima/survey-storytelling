@@ -422,8 +422,24 @@ def main() -> None:
         # Análisis Cualitativo (sentimiento.json v3.0)
         comentario_col: str = "Comentario NPS"
         if comentario_col in df.columns:
-            df_sent = df[[comentario_col, nps_col, "Carrera", "Facultad", "Ciclo"]].copy()
-            df_sent.columns = ["comentario", "nps_score", "carrera", "facultad", "ciclo"]
+            # Incluir csat_col (Satisfacción Global) si existe
+            cols_to_extract = [comentario_col, nps_col, "Carrera", "Facultad", "Ciclo"]
+            if csat_col in df.columns:
+                cols_to_extract.append(csat_col)
+                
+            df_sent = df[cols_to_extract].copy()
+            
+            rename_dict = {
+                comentario_col: "comentario",
+                nps_col: "nps_score",
+                "Carrera": "carrera",
+                "Facultad": "facultad",
+                "Ciclo": "ciclo"
+            }
+            if csat_col in df.columns:
+                rename_dict[csat_col] = "satisfaccion_global"
+                
+            df_sent.rename(columns=rename_dict, inplace=True)
             
             # Si la columna ID de respuesta existe, agregarla
             if "ID de respuesta" in df.columns:
@@ -465,6 +481,7 @@ def main() -> None:
                         "ciclo": str(row_f.get("ciclo", "")),
                         "nps_score": nps,
                         "segmento_nps": seg_nps,
+                        "satisfaccion_global": str(row_f.get("satisfaccion_global", "No respondido")),
                         "comentario_original": comentario_orig,
                         "fragmentos": fragmentos_objetos
                     })
@@ -479,18 +496,136 @@ def main() -> None:
             }
             with open(ruta_salida / "fragmentos_nps.json", "w", encoding="utf-8") as f:
                 json.dump(fragmentos_payload, f, ensure_ascii=False, indent=2)
-            # -------------------------------------
 
-            # Agrupación y clasificación mediante módulo NLP local
-            topicos_globales, comentarios_detallados = agrupar_comentarios_por_topico(df_sent)
+            # ---- GENERAR dataset_cualitativo.json ----
+            logging.info("Generando dataset_cualitativo.json con extracción y normalización de aspectos...")
+            from lib.aspect_extraction import procesar_opinion_unit
+            from lib.sentiment_engine import analizar_sentimiento_intensidad
+            
+            dataset_cualitativo = []
+            
+            # Recolectar metricas empiricas
+            stats_aspectos = {"alias": 0, "embedding": 0, "fallback": 0, "ninguno": 0, "total": 0}
+            stats_sentimiento = {
+                "total_opinion_units": 0,
+                "positivos": 0,
+                "negativos": 0,
+                "neutros": 0,
+                "confianza_promedio": 0.0,
+                "intensidad_promedio": 0.0
+            }
+            suma_confianza = 0.0
+            suma_intensidad = 0.0
+            
+            for d in datos_fragmentos:
+                for f in d["fragmentos"]:
+                    res = procesar_opinion_unit(f["texto"])
+                    stats_aspectos[res["metodo"]] += 1
+                    stats_aspectos["total"] += 1
+                    
+                    sent_res = analizar_sentimiento_intensidad(f["texto"])
+                    
+                    stats_sentimiento["total_opinion_units"] += 1
+                    sent_val = sent_res["sentimiento"]
+                    if sent_val == "positivo": stats_sentimiento["positivos"] += 1
+                    elif sent_val == "negativo": stats_sentimiento["negativos"] += 1
+                    else: stats_sentimiento["neutros"] += 1
+                    
+                    suma_confianza += sent_res["confianza_sentimiento"]
+                    suma_intensidad += sent_res["intensidad"]
+                    
+                    dataset_cualitativo.append({
+                        "id_encuesta": d["id_encuesta"],
+                        "id_fragmento": f["id_fragmento"],
+                        "facultad": d["facultad"],
+                        "carrera": d["carrera"],
+                        "ciclo": d["ciclo"],
+                        "nps_score": d["nps_score"],
+                        "segmento_nps": d["segmento_nps"],
+                        "satisfaccion_global": d["satisfaccion_global"],
+                        "texto": f["texto"],
+                        "aspecto_detectado": res["aspecto_detectado"],
+                        "aspecto_normalizado": res["aspecto_normalizado"],
+                        "categoria_padre": res["categoria_padre"],
+                        "sub_aspectos": res.get("sub_aspectos", []),
+                        "sentimiento": sent_res["sentimiento"],
+                        "intensidad": sent_res["intensidad"],
+                        "confianza_sentimiento": sent_res["confianza_sentimiento"],
+                        "comentario_original": d["comentario_original"]
+                    })
+                    
+            if stats_sentimiento["total_opinion_units"] > 0:
+                stats_sentimiento["confianza_promedio"] = round(suma_confianza / stats_sentimiento["total_opinion_units"], 4)
+                stats_sentimiento["intensidad_promedio"] = round(suma_intensidad / stats_sentimiento["total_opinion_units"], 2)
+                    
+            logging.info(f"Metricas de normalizacion: Alias {stats_aspectos['alias']}, Embedding {stats_aspectos['embedding']}, Fallback {stats_aspectos['fallback']}")
+            logging.info(f"Metricas sentimiento: POS {stats_sentimiento['positivos']}, NEG {stats_sentimiento['negativos']}, NEU {stats_sentimiento['neutros']}")
+            
+            cualitativo_payload = {
+                "metadata": {
+                    "version": "1.0",
+                    "total_encuestas": len(datos_fragmentos),
+                    "total_fragmentos": len(dataset_cualitativo),
+                    "stats_normalizacion": stats_aspectos,
+                    "stats_sentimiento": stats_sentimiento
+                },
+                "data": dataset_cualitativo
+            }
+            with open(ruta_salida / "dataset_cualitativo.json", "w", encoding="utf-8") as f_cual:
+                json.dump(cualitativo_payload, f_cual, ensure_ascii=False, indent=2)
+            # ------------------------------------------
+            # Migración: Conectar el Motor Nuevo (dataset_cualitativo) a la UI
+            comentarios_detallados = []
+            topicos_dict = {}
+            
+            for item in dataset_cualitativo:
+                frag_sec = int(item["id_fragmento"].split("_")[-1]) if "_" in item["id_fragmento"] else 1
+                com_obj = {
+                    "id": item["id_fragmento"],
+                    "carrera": item["carrera"],
+                    "facultad": item["facultad"],
+                    "ciclo": item["ciclo"],
+                    "nps_score": item["nps_score"],
+                    "sentimiento": item["sentimiento"],
+                    "intensidad": item["intensidad"],
+                    "categoria": item["aspecto_normalizado"],
+                    "categoria_padre": item["categoria_padre"],
+                    "fragmento_original": item["texto"],
+                    "fragmento_mostrar": item["texto"],
+                    "es_valido": True,
+                    "motivo_invalidez": None,
+                    "comentario_original": item.get("comentario_original", ""),
+                    "comentario_id_original": item["id_encuesta"],
+                    "fragmento_secuencia": frag_sec,
+                    "es_fragmento": True,
+                    "aspecto_normalizado": item["aspecto_normalizado"]
+                }
+                comentarios_detallados.append(com_obj)
+                
+                t = item["aspecto_normalizado"]
+                if t not in topicos_dict:
+                    topicos_dict[t] = {"total": 0, "positivo": 0, "negativo": 0, "neutro": 0}
+                topicos_dict[t]["total"] += 1
+                topicos_dict[t][item["sentimiento"]] += 1
+
+            topicos_globales = []
+            for t, stats in topicos_dict.items():
+                topicos_globales.append({
+                    "topico": t,
+                    "total_comentarios": stats["total"],
+                    "positivos": stats["positivo"],
+                    "negativos": stats["negativo"],
+                    "neutros": stats["neutro"]
+                })
+            topicos_globales.sort(key=lambda x: x["total_comentarios"], reverse=True)
 
             # Contadores
             total_con_com = int(len(df_sent))
-            valid_comments = [c for c in comentarios_detallados if c["es_valido"]]
-            invalid_comments = [c for c in comentarios_detallados if not c["es_valido"]]
+            valid_comments = comentarios_detallados
+            ids_con_comentarios_validos = set([c["comentario_id_original"] for c in valid_comments])
+            total_invalidos = total_con_com - len(ids_con_comentarios_validos)
             
             total_analizados = len(valid_comments)
-            total_invalidos = len(invalid_comments)
             
             pasivos_con_com = sum(1 for c in valid_comments if 7 <= c["nps_score"] <= 8)
             detractores_con_com = sum(1 for c in valid_comments if c["nps_score"] <= 6)
@@ -503,9 +638,9 @@ def main() -> None:
             dist_int = {"alta": 0, "media": 0, "baja": 0}
             for c in valid_comments:
                 val = c["intensidad"]
-                if val >= 0.70:
+                if val >= 4.0:
                     dist_int["alta"] += 1
-                elif val >= 0.40:
+                elif val >= 2.5:
                     dist_int["media"] += 1
                 else:
                     dist_int["baja"] += 1

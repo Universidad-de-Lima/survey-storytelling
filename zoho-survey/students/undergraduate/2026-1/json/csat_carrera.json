@@ -14,14 +14,14 @@
   {
     "carrera": "Arquitectura",
     "facultad": "Facultad de Arquitectura",
-    "Totalmente satisfecho": 125,
-    "Muy satisfecho": 92,
-    "Satisfecho": 101,
+    "Totalmente satisfecho": 142,
+    "Muy satisfecho": 110,
+    "Satisfecho": 112,
     "Insatisfecho": 5,
     "Totalmente insatisfecho": 1,
     "No utilizo": 0,
     "No conozco": 0,
-    "score": 98.15
+    "score": 98.38
   },
   {
     "carrera": "Comunicación",
@@ -62,14 +62,14 @@
   {
     "carrera": "Economía",
     "facultad": "Facultad de Economía",
-    "Totalmente satisfecho": 78,
-    "Muy satisfecho": 52,
-    "Satisfecho": 64,
-    "Insatisfecho": 4,
+    "Totalmente satisfecho": 93,
+    "Muy satisfecho": 61,
+    "Satisfecho": 71,
+    "Insatisfecho": 5,
     "Totalmente insatisfecho": 2,
     "No utilizo": 0,
     "No conozco": 0,
-    "score": 97.0
+    "score": 96.98
   },
   {
     "carrera": "Ingeniería Ambiental",
@@ -86,85 +86,85 @@
   {
     "carrera": "Ingeniería Civil",
     "facultad": "Facultad de Ingeniería",
-    "Totalmente satisfecho": 130,
-    "Muy satisfecho": 101,
+    "Totalmente satisfecho": 133,
+    "Muy satisfecho": 103,
     "Satisfecho": 72,
     "Insatisfecho": 4,
     "Totalmente insatisfecho": 0,
     "No utilizo": 0,
     "No conozco": 0,
-    "score": 98.7
+    "score": 98.72
   },
   {
     "carrera": "Ingeniería Industrial",
     "facultad": "Facultad de Ingeniería",
-    "Totalmente satisfecho": 198,
-    "Muy satisfecho": 140,
-    "Satisfecho": 74,
+    "Totalmente satisfecho": 213,
+    "Muy satisfecho": 148,
+    "Satisfecho": 78,
     "Insatisfecho": 4,
     "Totalmente insatisfecho": 1,
     "No utilizo": 0,
     "No conozco": 0,
-    "score": 98.8
+    "score": 98.87
   },
   {
     "carrera": "Ingeniería Mecatrónica",
     "facultad": "Facultad de Ingeniería",
     "Totalmente satisfecho": 17,
-    "Muy satisfecho": 11,
+    "Muy satisfecho": 12,
     "Satisfecho": 12,
     "Insatisfecho": 3,
     "Totalmente insatisfecho": 0,
     "No utilizo": 0,
     "No conozco": 0,
-    "score": 93.02
+    "score": 93.18
   },
   {
     "carrera": "Ingeniería de Sistemas",
     "facultad": "Facultad de Ingeniería",
-    "Totalmente satisfecho": 139,
-    "Muy satisfecho": 79,
-    "Satisfecho": 71,
+    "Totalmente satisfecho": 152,
+    "Muy satisfecho": 92,
+    "Satisfecho": 89,
     "Insatisfecho": 4,
     "Totalmente insatisfecho": 1,
     "No utilizo": 0,
     "No conozco": 0,
-    "score": 98.3
+    "score": 98.52
   },
   {
     "carrera": "Marketing",
     "facultad": "Facultad de Ciencias Empresariales",
-    "Totalmente satisfecho": 127,
-    "Muy satisfecho": 76,
-    "Satisfecho": 55,
+    "Totalmente satisfecho": 141,
+    "Muy satisfecho": 91,
+    "Satisfecho": 64,
     "Insatisfecho": 7,
     "Totalmente insatisfecho": 1,
     "No utilizo": 0,
     "No conozco": 0,
-    "score": 96.99
+    "score": 97.37
   },
   {
     "carrera": "Negocios Internacionales",
     "facultad": "Facultad de Ciencias Empresariales",
-    "Totalmente satisfecho": 128,
-    "Muy satisfecho": 97,
-    "Satisfecho": 68,
+    "Totalmente satisfecho": 133,
+    "Muy satisfecho": 100,
+    "Satisfecho": 69,
     "Insatisfecho": 4,
     "Totalmente insatisfecho": 1,
     "No utilizo": 0,
     "No conozco": 0,
-    "score": 98.32
+    "score": 98.37
   },
   {
     "carrera": "Psicología",
     "facultad": "Facultad de Psicología",
-    "Totalmente satisfecho": 151,
-    "Muy satisfecho": 146,
-    "Satisfecho": 109,
+    "Totalmente satisfecho": 155,
+    "Muy satisfecho": 153,
+    "Satisfecho": 111,
     "Insatisfecho": 10,
     "Totalmente insatisfecho": 2,
     "No utilizo": 0,
     "No conozco": 0,
-    "score": 97.13
+    "score": 97.22
   }
 ]

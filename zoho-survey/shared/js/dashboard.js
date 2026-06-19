@@ -13,8 +13,8 @@
   const FACULTADES_12_CICLOS = config.FACULTADES_12_CICLOS ?? ['Facultad de Derecho', 'Facultad de Psicología'];
   const PROGRAMA_ESTUDIOS_GENERALES = config.PROGRAMA_ESTUDIOS_GENERALES ?? 'Programa de Estudios Generales';
   const CICLOS_ESTUDIOS_GENERALES = config.CICLOS_ESTUDIOS_GENERALES ?? ['1° Ciclo', '2° Ciclo'];
-  const FACULTAD_PLACEHOLDER = config.FACULTAD_PLACEHOLDER ?? 'Todas las facultades';
-  const FACULTAD_PLACEHOLDER_PROG = config.FACULTAD_PLACEHOLDER_PROG ?? 'Todas las facultades / programas';
+  const FACULTAD_PLACEHOLDER = config.FACULTAD_PLACEHOLDER ?? 'Todas las unidades académicas';
+  const FACULTAD_PLACEHOLDER_PROG = config.FACULTAD_PLACEHOLDER_PROG ?? 'Todas las unidades académicas';
   const SAT_KEYS = config.SAT_KEYS ?? [
     'Totalmente satisfecho',
     'Muy satisfecho',
@@ -662,11 +662,11 @@
         <td class="text-center">${_san.escapeHTML(catCorta)}</td>
         <td>
           <div class="distribution-bar animated">
-            <div class="distribution-segment" style="width:${item.pctTotSat}%;background:var(--gray-800);" data-label="Totalmente satisfecho" data-value="${_fmt.formatInteger(item.totSat)}"><span class="dist-label">${item.pctTotSat}%</span></div>
-            <div class="distribution-segment" style="width:${item.pctMuySat}%;background:var(--gray-500);" data-label="Muy satisfecho" data-value="${_fmt.formatInteger(item.muySat)}"><span class="dist-label">${item.pctMuySat}%</span></div>
-            <div class="distribution-segment" style="width:${item.pctSat}%;background:var(--gray-300);color:var(--gray-700);" data-label="Satisfecho" data-value="${_fmt.formatInteger(item.sat)}"><span class="dist-label">${item.pctSat}%</span></div>
-            <div class="distribution-segment" style="width:${item.pctInsat}%;background:var(--ulima-orange);" data-label="Insatisfecho" data-value="${_fmt.formatInteger(item.insat)}"><span class="dist-label">${item.pctInsat}%</span></div>
-            <div class="distribution-segment" style="width:${item.pctTotInsat}%;background:var(--ulima-red);" data-label="Totalmente insatisfecho" data-value="${_fmt.formatInteger(item.totInsat)}"><span class="dist-label">${item.pctTotInsat}%</span></div>
+            <div class="distribution-segment" style="width:${item.pctTotSat}%;background:var(--gray-800);" data-label="Totalmente satisfecho" data-value="${_fmt.formatInteger(item.totSat)} (${item.total ? ((item.totSat / item.total) * 100).toFixed(2).replace('.', ',') : '0,00'}%)"></div>
+            <div class="distribution-segment" style="width:${item.pctMuySat}%;background:var(--gray-500);" data-label="Muy satisfecho" data-value="${_fmt.formatInteger(item.muySat)} (${item.total ? ((item.muySat / item.total) * 100).toFixed(2).replace('.', ',') : '0,00'}%)"></div>
+            <div class="distribution-segment" style="width:${item.pctSat}%;background:var(--gray-300);color:var(--gray-700);" data-label="Satisfecho" data-value="${_fmt.formatInteger(item.sat)} (${item.total ? ((item.sat / item.total) * 100).toFixed(2).replace('.', ',') : '0,00'}%)"></div>
+            <div class="distribution-segment" style="width:${item.pctInsat}%;background:var(--ulima-orange);" data-label="Insatisfecho" data-value="${_fmt.formatInteger(item.insat)} (${item.total ? ((item.insat / item.total) * 100).toFixed(2).replace('.', ',') : '0,00'}%)"></div>
+            <div class="distribution-segment" style="width:${item.pctTotInsat}%;background:var(--ulima-red);" data-label="Totalmente insatisfecho" data-value="${_fmt.formatInteger(item.totInsat)} (${item.total ? ((item.totInsat / item.total) * 100).toFixed(2).replace('.', ',') : '0,00'}%)"></div>
           </div>
         </td>
       `;
@@ -680,9 +680,6 @@
     });
     tbody.innerHTML = '';
     tbody.appendChild(fragment);
-
-    tbody.querySelectorAll('.distribution-bar').forEach((bar) => adjustSegmentLabels(bar));
-    setTimeout(() => normalizeDistributionHeights(tbody), 800);
   }
 
   function normalizeDistributionHeights(tbody) {
@@ -718,8 +715,8 @@
     const csatSource = hasCiclo ? cache.csatCicloCarrera : cache.csatCarrera;
 
     const npsMap = {};
-    (npsSource || []).forEach((r) => {
-      if (fac && r.facultad && r.facultad !== fac) return;
+    const filteredNps = filtrarDatos(npsSource || [], fac, null, cic);
+    filteredNps.forEach((r) => {
       if (!npsMap[r.carrera]) npsMap[r.carrera] = { prom: 0, pas: 0, det: 0 };
       npsMap[r.carrera].prom += r.Promotores ?? r.promotores ?? 0;
       npsMap[r.carrera].pas += r.Pasivos ?? r.pasivos ?? 0;
@@ -727,8 +724,8 @@
     });
 
     const csatMap = {};
-    (csatSource || []).forEach((r) => {
-      if (fac && r.facultad && r.facultad !== fac) return;
+    const filteredCsat = filtrarDatos(csatSource || [], fac, null, cic);
+    filteredCsat.forEach((r) => {
       if (!csatMap[r.carrera]) csatMap[r.carrera] = { t3b: 0, total: 0 };
       const t3b = sumKeys(r, SAT_TOP3_KEYS);
       const total = t3b + (r['Insatisfecho'] || 0) + (r['Totalmente insatisfecho'] || 0);
@@ -736,8 +733,8 @@
       csatMap[r.carrera].total += total;
     });
 
-    let csatRef = csatScoreGlobal;
     let npsRef = 0;
+    let csatRef = 0;
     {
       let prom = 0, pas = 0, det = 0;
       Object.values(npsMap).forEach((val) => {
@@ -748,7 +745,7 @@
       const total = prom + pas + det;
       npsRef = total > 0 ? ((prom - det) / total) * 100 : 0;
     }
-    if (esEstudiosGen(fac)) {
+    {
       let tt = 0, tr = 0;
       Object.values(csatMap).forEach((val) => {
         tt += val.t3b;
@@ -847,9 +844,9 @@
         <td class="text-center">${_fmt.formatInteger(item.noUtilizo)} (${_fmt.formatDecimal(item.pctNoUtilizo, 2)} %)</td>
         <td>
           <div class="visibility-bar animated">
-            <div class="visibility-segment no-conozco" style="width:${item.pctNoConozco}%;" data-label="No conozco" data-value="${_fmt.formatInteger(item.noConozco)}"><span class="dist-label">${fmtV(item.pctNoConozco)}</span></div>
-            <div class="visibility-segment no-utilizo" style="width:${item.pctNoUtilizo}%;" data-label="No utilizo" data-value="${_fmt.formatInteger(item.noUtilizo)}"><span class="dist-label">${fmtV(item.pctNoUtilizo)}</span></div>
-            <div class="visibility-segment conocido"   style="width:${item.pctConoce}%;"    data-label="Conozco/Utilizo" data-value="${_fmt.formatInteger(item.conoce)}"><span class="dist-label">${fmtV(item.pctConoce)}</span></div>
+            <div class="visibility-segment no-conozco" style="width:${item.pctNoConozco}%;" data-label="No conozco" data-value="${_fmt.formatInteger(item.noConozco)} (${item.total ? ((item.noConozco / item.total) * 100).toFixed(2).replace('.', ',') : '0,00'}%)"></div>
+            <div class="visibility-segment no-utilizo" style="width:${item.pctNoUtilizo}%;" data-label="No utilizo" data-value="${_fmt.formatInteger(item.noUtilizo)} (${item.total ? ((item.noUtilizo / item.total) * 100).toFixed(2).replace('.', ',') : '0,00'}%)"></div>
+            <div class="visibility-segment conocido"   style="width:${item.pctConoce}%;"    data-label="Conozco/Utilizo" data-value="${_fmt.formatInteger(item.conoce)} (${item.total ? ((item.conoce / item.total) * 100).toFixed(2).replace('.', ',') : '0,00'}%)"></div>
           </div>
         </td>
       `;
@@ -864,8 +861,6 @@
     tbody.innerHTML = '';
     tbody.appendChild(fragment);
 
-    tbody.querySelectorAll('.visibility-bar').forEach((bar) => adjustSegmentLabels(bar));
-    setTimeout(() => normalizeDistributionHeights(tbody), 800);
     updateInsightAtencion(data, fac, car, cic);
   }
 
@@ -930,7 +925,7 @@
 
   // ==================== SECCIÓN SENTIMIENTO ====================
   function renderSentimiento() {
-    if (_sv) _sv.render(cache.sentimiento);
+    if (_sv) _sv.render(cache.sentimiento, cache.dashboard?.resumen?.encuestas);
   }
 
   function setupSentimientoFilters() {
@@ -938,7 +933,7 @@
     if (selSent) {
       selSent.addEventListener('change', () => {
         if (_sv) {
-          _sv.render(cache.sentimiento);
+          _sv.render(cache.sentimiento, cache.dashboard?.resumen?.encuestas);
         }
       });
     }
@@ -946,7 +941,7 @@
     if (_fc) {
       _fc.setup('sent', cache.filtros, () => {
         if (_sv) {
-          _sv.render(cache.sentimiento);
+          _sv.render(cache.sentimiento, cache.dashboard?.resumen?.encuestas);
         }
       });
     }
@@ -1015,14 +1010,6 @@
       resizeTimer = setTimeout(() => {
         adjustSegmentLabels('#nps-bar');
         adjustSegmentLabels('#csat-bar');
-        document.querySelectorAll('.distribution-bar').forEach((bar) => adjustSegmentLabels(bar));
-        document.querySelectorAll('.visibility-bar').forEach((bar) => adjustSegmentLabels(bar));
-        setTimeout(() => {
-          const tPreguntas = $('tbody-preguntas');
-          const tVisibilidad = $('tbody-visibilidad');
-          if (tPreguntas) normalizeDistributionHeights(tPreguntas);
-          if (tVisibilidad) normalizeDistributionHeights(tVisibilidad);
-        }, 800);
       }, 250);
     });
   }

@@ -1,26 +1,26 @@
 {
   "version": "2.0",
   "resumen": {
-    "encuestas": 4024,
+    "encuestas": 4239,
     "carreras": 14,
     "facultades": 7,
     "fecha_inicio": "2026-05-11",
-    "fecha_fin": "2026-06-08",
-    "dias": 29,
-    "dias_recoleccion": 21,
+    "fecha_fin": "2026-06-17",
+    "dias": 38,
+    "dias_recoleccion": 26,
     "año": 2026,
     "periodo": "2026-1",
     "nps": {
-      "score": 72.69,
-      "promotores": 3073,
-      "pasivos": 803,
-      "detractores": 148,
-      "total": 4024
+      "score": 72.61,
+      "promotores": 3231,
+      "pasivos": 855,
+      "detractores": 153,
+      "total": 4239
     },
     "csat": {
-      "score": 97.76,
-      "t3b": 3934,
-      "total": 4024
+      "score": 97.85,
+      "t3b": 4148,
+      "total": 4239
     }
   },
   "hallazgos": {
@@ -28,44 +28,44 @@
     "nps_score": 72,
     "nps_tipo": "Excelente",
     "nps_etapas": {
-      "Avanzado": 70.31,
-      "Inicial": 73.17,
-      "Intermedio": 75.67
+      "Avanzado": 69.97,
+      "Inicial": 73.61,
+      "Intermedio": 75.78
     },
     "tendencia": "disminuye",
-    "delta": 2,
+    "delta": 3,
     "top_dimensiones": [
       {
         "name": "Perfil del egreso de la carrera",
-        "score": 96.91
+        "score": 96.99
       },
       {
         "name": "Calidad de la formación académica",
-        "score": 96.82
+        "score": 96.84
       }
     ],
     "top_facultades": [
       {
         "name": "Facultad de Ingeniería",
-        "score": 98.42
+        "score": 98.53
       },
       {
         "name": "Facultad de Arquitectura",
-        "score": 98.15
+        "score": 98.38
       }
     ]
   },
   "nps": {
-    "promotores": 3073,
-    "pasivos": 803,
-    "detractores": 148,
-    "score": 72.69
+    "promotores": 3231,
+    "pasivos": 855,
+    "detractores": 153,
+    "score": 72.61
   },
   "csat": {
-    "Totalmente satisfecho": 1720,
-    "Muy satisfecho": 1205,
-    "Satisfecho": 1009,
-    "Insatisfecho": 74,
+    "Totalmente satisfecho": 1806,
+    "Muy satisfecho": 1281,
+    "Satisfecho": 1061,
+    "Insatisfecho": 75,
     "Totalmente insatisfecho": 16,
     "No utilizo": 0,
     "No conozco": 0
