@@ -1,20 +1,30 @@
-name: Build Survey JSON
+name: Build and Deploy Survey
 
 on:
   push:
     paths:
       - 'data/**'
-      - 'zoho-survey/scripts/**'
+      - 'zoho-survey/**'
 
   workflow_dispatch:
 
+concurrency:
+  group: deploy-legacy-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
 
-  build:
+  build-and-deploy:
 
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      pages: write
+      id-token: write
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
 
@@ -55,4 +65,16 @@ jobs:
           git commit -m "Auto update survey json" || echo "No changes"
 
           git push
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v6
+
+      - name: Upload artifact (zoho-survey)
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: './zoho-survey'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5
 

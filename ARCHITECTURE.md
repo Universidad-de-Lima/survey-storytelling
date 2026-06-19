@@ -20,7 +20,7 @@ El repositorio se organiza según el siguiente esquema de componentes y director
 
 ```text
 survey-storytelling/
-├── .github/workflows/       # Workflows de CI/CD (build_students.yml, deploy-legacy.yml, validate-survey-json.yml).
+├── .github/workflows/       # Workflows de CI/CD (build_students.yml, validate-survey-json.yml).
 ├── data/                    # CSVs fuente exportados desde Zoho Survey.
 ├── docs/                    # Documentación y guías del proyecto.
 ├── tests/                   # Mini-framework de pruebas unitarias en navegador.
