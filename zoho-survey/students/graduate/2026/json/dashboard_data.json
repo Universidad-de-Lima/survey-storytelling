@@ -1,36 +1,36 @@
 {
   "version": "2.0",
   "resumen": {
-    "encuestas": 255,
-    "carreras": 5,
+    "encuestas": 293,
+    "carreras": 6,
     "facultades": 3,
     "fecha_inicio": "2026-04-16",
-    "fecha_fin": "2026-05-15",
-    "dias": 29,
-    "dias_recoleccion": 6,
+    "fecha_fin": "2026-06-18",
+    "dias": 64,
+    "dias_recoleccion": 7,
     "año": 2026,
     "periodo": "2026",
     "nps": {
-      "score": 85.88,
-      "promotores": 224,
+      "score": 87.71,
+      "promotores": 262,
       "pasivos": 26,
       "detractores": 5,
-      "total": 255
+      "total": 293
     },
     "csat": {
-      "score": 99.22,
-      "t3b": 253,
-      "total": 255
+      "score": 99.32,
+      "t3b": 291,
+      "total": 293
     },
     "empleabilidad": {
-      "score": 85.49,
-      "empleados": 218,
-      "total": 255
+      "score": 87.37,
+      "empleados": 256,
+      "total": 293
     }
   },
   "hallazgos": {
     "csat_pct": 99,
-    "nps_score": 85,
+    "nps_score": 87,
     "nps_tipo": "Excelente",
     "nps_etapas": {},
     "tendencia": "se mantiene",
@@ -42,7 +42,7 @@
       },
       {
         "name": "Calidad de la formación académica",
-        "score": 99.61
+        "score": 99.66
       }
     ],
     "top_facultades": [
@@ -51,21 +51,21 @@
         "score": 100.0
       },
       {
-        "name": "Facultad de Comunicación",
-        "score": 98.85
+        "name": "Facultad de Ciencias Empresariales",
+        "score": 98.97
       }
     ]
   },
   "nps": {
-    "promotores": 224,
+    "promotores": 262,
     "pasivos": 26,
     "detractores": 5,
-    "score": 85.88
+    "score": 87.71
   },
   "csat": {
-    "Totalmente satisfecho": 151,
-    "Muy satisfecho": 55,
-    "Satisfecho": 47,
+    "Totalmente satisfecho": 171,
+    "Muy satisfecho": 68,
+    "Satisfecho": 52,
     "Insatisfecho": 2,
     "Totalmente insatisfecho": 0,
     "No utilizo": 0,

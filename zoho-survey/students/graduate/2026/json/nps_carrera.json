@@ -33,5 +33,12 @@
     "pasivos": 5,
     "detractores": 1,
     "score": 93.46
+  },
+  {
+    "carrera": "Negocios Internacionales",
+    "promotores": 38,
+    "pasivos": 0,
+    "detractores": 0,
+    "score": 100.0
   }
 ]

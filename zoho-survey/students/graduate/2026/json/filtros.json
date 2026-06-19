@@ -11,12 +11,14 @@
     "Comunicación",
     "Ingeniería Ambiental",
     "Ingeniería Civil",
-    "Ingeniería Industrial"
+    "Ingeniería Industrial",
+    "Negocios Internacionales"
   ],
   "ciclos": [],
   "facultad_carrera": {
     "Facultad de Ciencias Empresariales": [
-      "Administración"
+      "Administración",
+      "Negocios Internacionales"
     ],
     "Facultad de Comunicación": [
       "Comunicación"
