@@ -374,8 +374,8 @@ window.SurveySentimentView = (() => {
       let pct = 0;
       let displayVal = '';
       if (isIntensity) {
-        pct = item.val * 100;
-        displayVal = Math.round(pct) + '%';
+        pct = (item.val / 5) * 100;
+        displayVal = _fmt.formatDecimal(item.val, 1);
       } else {
         pct = maxVal > 0 ? (item.val / maxVal) * 100 : 0;
         displayVal = _fmt.formatInteger(item.val);
