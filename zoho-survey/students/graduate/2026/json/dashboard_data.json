@@ -1,0 +1,74 @@
+{
+  "version": "2.0",
+  "resumen": {
+    "encuestas": 293,
+    "carreras": 6,
+    "facultades": 3,
+    "fecha_inicio": "2026-04-16",
+    "fecha_fin": "2026-06-18",
+    "dias": 64,
+    "dias_recoleccion": 7,
+    "año": 2026,
+    "periodo": "2026",
+    "nps": {
+      "score": 87.71,
+      "promotores": 262,
+      "pasivos": 26,
+      "detractores": 5,
+      "total": 293
+    },
+    "csat": {
+      "score": 99.32,
+      "t3b": 291,
+      "total": 293
+    },
+    "empleabilidad": {
+      "score": 87.37,
+      "empleados": 256,
+      "total": 293
+    }
+  },
+  "hallazgos": {
+    "csat_pct": 99,
+    "nps_score": 87,
+    "nps_tipo": "Excelente",
+    "nps_etapas": {},
+    "tendencia": "se mantiene",
+    "delta": 0,
+    "top_dimensiones": [
+      {
+        "name": "Habilidades para aportar nuevas ideas",
+        "score": 100.0
+      },
+      {
+        "name": "Transmisión de conocimientos",
+        "score": 99.66
+      }
+    ],
+    "top_facultades": [
+      {
+        "name": "Facultad de Ingeniería",
+        "score": 100.0
+      },
+      {
+        "name": "Facultad de Ciencias Empresariales",
+        "score": 98.97
+      }
+    ]
+  },
+  "nps": {
+    "promotores": 262,
+    "pasivos": 26,
+    "detractores": 5,
+    "score": 87.71
+  },
+  "csat": {
+    "Totalmente satisfecho": 171,
+    "Muy satisfecho": 68,
+    "Satisfecho": 52,
+    "Insatisfecho": 2,
+    "Totalmente insatisfecho": 0,
+    "No utilizo": 0,
+    "No conozco": 0
+  }
+}

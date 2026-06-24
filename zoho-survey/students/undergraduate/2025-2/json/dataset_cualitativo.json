@@ -1,0 +1,24 @@
+{
+  "metadata": {
+    "version": "1.0",
+    "total_encuestas": 0,
+    "total_fragmentos": 0,
+    "stats_normalizacion": {
+      "alias": 0,
+      "embedding": 0,
+      "embedding_fallback": 0,
+      "fallback": 0,
+      "ninguno": 0,
+      "total": 0
+    },
+    "stats_sentimiento": {
+      "total_opinion_units": 0,
+      "positivos": 0,
+      "negativos": 0,
+      "neutros": 0,
+      "confianza_promedio": 0.0,
+      "intensidad_promedio": 0.0
+    }
+  },
+  "data": []
+}
