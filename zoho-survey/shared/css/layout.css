@@ -91,6 +91,10 @@
   scroll-margin-top: 91px;
 }
 
+.section:last-of-type {
+  margin-bottom: 0;
+}
+
 .section-header {
   display: flex;
   align-items: center;
@@ -143,7 +147,7 @@
   text-align: center;
   font-size: var(--text-sm);
   font-weight: var(--font-light);
-  margin-top: var(--space-4xl);
+  margin-top: var(--space-2xl);
 }
 
 .footer-logo {

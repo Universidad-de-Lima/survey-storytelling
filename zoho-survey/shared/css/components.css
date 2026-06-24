@@ -780,34 +780,6 @@
   to   { max-width: 100%; }
 }
 
-/* ── Switch Slider (Original vs Corregido) ── */
-.switch input:checked + .slider {
-  background-color: var(--ulima-orange) !important;
-}
-.switch input:focus + .slider {
-  box-shadow: 0 0 1px var(--ulima-orange);
-}
-.switch input:checked + .slider:before {
-  transform: translateX(22px);
-}
-.slider:before {
-  position: absolute;
-  content: "";
-  height: 16px;
-  width: 16px;
-  left: 3px;
-  bottom: 3px;
-  background-color: white;
-  transition: .4s;
-  border-radius: 50%;
-}
-.slider.round {
-  border-radius: 34px;
-}
-.slider.round:before {
-  border-radius: 50%;
-}
-
 /* ── SVG Doughnut Chart ── */
 .doughnut-segment {
   fill: none;
@@ -882,16 +854,11 @@
   }
 }
 
+/* Hide connecting line for absolute numbers in qualitative to avoid looking like a minus sign */
+#sentimiento-bar-chart .bar-value-outside::before {
+  display: none;
+}
 
-
- / *   H i d e   c o n n e c t i n g   l i n e   f o r   a b s o l u t e   n u m b e r s   i n   q u a l i t a t i v e   t o   a v o i d   l o o k i n g   l i k e   a   m i n u s   s i g n   * / 
- # s e n t i m i e n t o - b a r - c h a r t   . b a r - v a l u e - o u t s i d e : : b e f o r e   { 
-     d i s p l a y :   n o n e ; 
- } 
-  
- 
- # s e g - n p s - c o n t a i n e r   . b a r - v a l u e - o u t s i d e : : b e f o r e   { 
-     d i s p l a y :   n o n e ; 
- } 
-  
- 
+#seg-nps-container .bar-value-outside::before {
+  display: none;
+}

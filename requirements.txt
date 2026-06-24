@@ -2,3 +2,7 @@ sentence-transformers>=2.2.2
 pandas>=1.5.0
 scikit-learn>=1.0.0
 spacy>=3.5.0
+jsonschema>=4.0.0
+# El modelo de spaCy debe instalarse explícitamente con:
+#   python -m spacy download es_core_news_sm
+# No se descarga automáticamente en runtime (Fase 6: eliminación de dependencias no determinísticas).

@@ -46,12 +46,17 @@ window.SurveyMultiselect = (() => {
     wrapper.className = 'filter-multiselect';
     wrapper.style.position = 'relative';
 
+    const getSelectedLabels = () => {
+      const opts = Array.from(selCic.options).filter(opt => opt.selected);
+      return opts.length ? opts.map(opt => opt.textContent) : [];
+    };
+
     const button = document.createElement('button');
     button.type = 'button';
     button.className = 'filter-select filter-multiselect-toggle';
     button.setAttribute('aria-haspopup', 'listbox');
     button.setAttribute('aria-expanded', 'false');
-    button.textContent = formatMultiselectLabel(getSelectedValues(selCic), defaultLabel, itemName);
+    button.textContent = formatMultiselectLabel(getSelectedLabels(), defaultLabel, itemName);
     wrapper.appendChild(button);
 
     const panel = document.createElement('div');
@@ -78,7 +83,7 @@ window.SurveyMultiselect = (() => {
             panel.querySelectorAll('input[type="checkbox"]:checked'),
           ).map((i) => i.value);
           setSelectedValues(selCic, checkedValues);
-          button.textContent = formatMultiselectLabel(checkedValues, defaultLabel, itemName);
+          button.textContent = formatMultiselectLabel(getSelectedLabels(), defaultLabel, itemName);
           selCic.classList.toggle('filter-active', checkedValues.length > 0);
           button.classList.toggle('filter-active', checkedValues.length > 0);
           if (onChangeCallback) onChangeCallback();
@@ -133,7 +138,7 @@ window.SurveyMultiselect = (() => {
       renderOptions();
       const vals = getSelectedValues(selCic);
       const any = Array.isArray(vals) ? vals.length > 0 : !!vals;
-      button.textContent = formatMultiselectLabel(vals, defaultLabel, itemName);
+      button.textContent = formatMultiselectLabel(getSelectedLabels(), defaultLabel, itemName);
       button.classList.toggle('filter-active', any);
     };
 

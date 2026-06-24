@@ -612,6 +612,7 @@
       dimMap[r.dimension].sat += r['Satisfecho'] || 0;
       dimMap[r.dimension].insat += r['Insatisfecho'] || 0;
       dimMap[r.dimension].totInsat += r['Totalmente insatisfecho'] || 0;
+      dimMap[r.dimension].encuestas = (dimMap[r.dimension].encuestas || 0) + (r.total ?? r.count ?? 1);
     });
 
     const data = Object.entries(dimMap)
@@ -626,6 +627,7 @@
         return {
           dimension: dim,
           categoria: val.categoria,
+          encuestas: val.encuestas || val.totSat + val.muySat + val.sat + val.insat + val.totInsat,
           top3box: total > 0 ? ((top3 / total) * 100).toFixed(2) : '0.00',
           totSat: val.totSat,
           muySat: val.muySat,
@@ -658,6 +660,7 @@
 
       tr.innerHTML = `
         <td>${_fmt.formatDimensionName(item.dimension)}</td>
+        <td class="text-center">${_fmt.formatInteger(item.encuestas)}</td>
         <td class="text-center"><span class="heatmap-cell ${heatClass}">${_fmt.formatPercent(parseFloat(item.top3box), 2)}</span></td>
         <td class="text-center">${_san.escapeHTML(catCorta)}</td>
         <td>
@@ -810,10 +813,11 @@
     const filtered = filtrarDatos(cache.dimensiones, fac, car, cic);
     const dimMap = {};
     filtered.forEach((r) => {
-      if (!dimMap[r.dimension]) dimMap[r.dimension] = { noConozco: 0, noUtilizo: 0, conoce: 0 };
+      if (!dimMap[r.dimension]) dimMap[r.dimension] = { noConozco: 0, noUtilizo: 0, conoce: 0, encuestas: 0 };
       dimMap[r.dimension].noConozco += r['No conozco'] || 0;
       dimMap[r.dimension].noUtilizo += r['No utilizo'] || 0;
       dimMap[r.dimension].conoce += sumKeys(r, SAT_KEYS);
+      dimMap[r.dimension].encuestas += (r.total ?? r.count ?? 0);
     });
     const data = Object.entries(dimMap)
       .filter(([, val]) => val.noConozco > 0 || val.noUtilizo > 0)
@@ -821,6 +825,7 @@
         const total = val.noConozco + val.noUtilizo + val.conoce;
         return {
           dimension: dim,
+          encuestas: val.encuestas || val.noConozco + val.noUtilizo + val.conoce,
           noConozco: val.noConozco,
           noUtilizo: val.noUtilizo,
           conoce: val.conoce,
@@ -840,6 +845,7 @@
       const tr = document.createElement('tr');
       tr.innerHTML = `
         <td>${_fmt.formatDimensionName(item.dimension)}</td>
+        <td class="text-center">${_fmt.formatInteger(item.encuestas)}</td>
         <td class="text-center">${_fmt.formatInteger(item.noConozco)} (${_fmt.formatDecimal(item.pctNoConozco, 2)} %)</td>
         <td class="text-center">${_fmt.formatInteger(item.noUtilizo)} (${_fmt.formatDecimal(item.pctNoUtilizo, 2)} %)</td>
         <td>
@@ -923,27 +929,15 @@
     DOM.insightAtencion.innerHTML = txt;
   }
 
-  // ==================== SECCIÓN SENTIMIENTO ====================
-  function renderSentimiento() {
-    if (_sv) _sv.render(cache.sentimiento, cache.dashboard?.resumen?.encuestas);
-  }
 
   function setupSentimientoFilters() {
-    const selSent = $('filter-sentimiento');
-    if (selSent) {
-      selSent.addEventListener('change', () => {
-        if (_sv) {
-          _sv.render(cache.sentimiento, cache.dashboard?.resumen?.encuestas);
-        }
-      });
-    }
-
-    if (_fc) {
-      _fc.setup('sent', cache.filtros, () => {
-        if (_sv) {
-          _sv.render(cache.sentimiento, cache.dashboard?.resumen?.encuestas);
-        }
-      });
+    if (_fc && _sv) {
+      _sv.init(cache.sentimiento, cache.dashboard?.resumen?.encuestas);
+      // Se eliminaron todos los filtros de análisis cualitativo, así que llamamos directamente a la renderización
+      _sv.updateMacro();
+      _sv.updateAspectos();
+      _sv.updateNpsCarrera();
+      _sv.updateDetalle();
     }
   }
 
@@ -997,7 +991,6 @@
     }
 
     if (tieneDatosCualitativos) {
-      renderSentimiento();
       setupSentimientoFilters();
     }
 

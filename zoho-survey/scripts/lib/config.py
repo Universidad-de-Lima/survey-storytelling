@@ -57,7 +57,7 @@ COLUMN_RENAME_PREGRADO: Dict[str, str] = {
 # ── Mappings específicos para encuesta de GRADUADOS (Posgrado) ──
 # BUG SOLVED: "Comentario NPS" unificado con la columna de pregrado
 # para asegurar que el motor cualitativo procese el texto libre correctamente.
-COLUMN_RENAME_POSGRADO: Dict[str, str] = {
+COLUMN_RENAME_GRADUADO: Dict[str, str] = {
     "ID de respuesta": "ID",
     "Start time": "Inicio",
     "Hora de finalización": "Fin",
@@ -136,37 +136,7 @@ CARRERA_FACULTAD: Dict[str, str] = {
 # ============================================================
 
 CATEGORIA_DIMENSION_PREGRADO: Dict[str, str] = {
-    "Perfil del egreso de la carrera": "Académico",
-    "Plan curricular y perfil de egreso": "Académico",
-    "Cursos del programa y contenidos": "Académico",
-    "Calidad de la enseñanza en la carrera": "Académico",
-    "Claridad de los recursos académicos": "Académico",
-    "Calidad de la formación académica": "Académico",
-    "Evaluación del aprendizaje": "Académico",
-    "Intercambio estudiantil": "Académico",
-    "La carrera": "Académico",
-    "Información sobre tu récord académico": "Administrativo y Bienestar",
-    "Material bibliográfico en la biblioteca": "Administrativo y Bienestar",
-    "Atención del personal administrativo": "Administrativo y Bienestar",
-    "Procedimientos administrativos": "Administrativo y Bienestar",
-    "Ayuda financiera": "Administrativo y Bienestar",
-    "Servicio médico y su infraestructura": "Administrativo y Bienestar",
-    "Servicio de atención psicopedagógica": "Administrativo y Bienestar",
-    "Talleres de actividades artísticas y culturales": "Administrativo y Bienestar",
-    "Actividades deportivas": "Administrativo y Bienestar",
-    "Empleabilidad, vinculación y ALUMNI": "Administrativo y Bienestar",
-    "Aulas de clase": "Infraestructura",
-    "Ambientes y salas para estudio": "Infraestructura",
-    "Equipamiento tecnológico en laboratorios": "Infraestructura",
-    "Condiciones ambientales en laboratorios": "Infraestructura",
-    "Software especializado empleado en la carrera": "Tecnología",
-    "Portal web de la Universidad (Mi Ulima)": "Tecnología",
-    "Aula virtual": "Tecnología",
-    "Conexión Wi-Fi en el campus": "Tecnología",
-    "Soporte técnico del sistema informático": "Tecnología",
-}
-
-CATEGORIA_DIMENSION_POSGRADO: Dict[str, str] = {
+    # Académico
     "Perfil del egreso de la carrera": "Académico",
     "Plan curricular y perfil de egreso": "Académico",
     "Cursos del programa y contenidos": "Académico",
@@ -177,19 +147,10 @@ CATEGORIA_DIMENSION_POSGRADO: Dict[str, str] = {
     "Evaluación del aprendizaje": "Académico",
     "Intercambio estudiantil": "Académico",
     "La carrera": "Académico",
-    "Transmisión de conocimientos": "Docencia",
-    "Transmisión de experiencias": "Docencia",
-    "Metodologías": "Docencia",
-    "Conocimientos actualizados": "Docencia",
-    "Compromiso": "Docencia",
-    "Retroalimentación": "Docencia",
-    "Disponibilidad para asesorias": "Docencia",
-    "Cumplimiento de normas y programas": "Docencia",
-    "Habilidades para trabajar en equipo": "Desarrollo Profesional",
-    "Habilidades de comunicación": "Desarrollo Profesional",
-    "Habilidades para aportar nuevas ideas": "Desarrollo Profesional",
-    "Mejora en perspectivas de empleo": "Desarrollo Profesional",
-    "Información sobre tu récord académico": "Administrativo y Bienestar",
+    "Satisfacción estudiantil": "Académico",
+    
+    # Administrativo y Bienestar
+    "Información sobre el récord académico": "Administrativo y Bienestar",
     "Material bibliográfico en la biblioteca": "Administrativo y Bienestar",
     "Atención del personal administrativo": "Administrativo y Bienestar",
     "Procedimientos administrativos": "Administrativo y Bienestar",
@@ -199,10 +160,74 @@ CATEGORIA_DIMENSION_POSGRADO: Dict[str, str] = {
     "Talleres de actividades artísticas y culturales": "Administrativo y Bienestar",
     "Actividades deportivas": "Administrativo y Bienestar",
     "Empleabilidad, vinculación y ALUMNI": "Administrativo y Bienestar",
+    
+    # Infraestructura
     "Aulas de clase": "Infraestructura",
     "Ambientes y salas para estudio": "Infraestructura",
     "Equipamiento tecnológico en laboratorios": "Infraestructura",
     "Condiciones ambientales en laboratorios": "Infraestructura",
+    "Ubicación": "Infraestructura",
+    "Espacios de alimentación": "Infraestructura",
+    
+    # Tecnología
+    "Software especializado empleado en la carrera": "Tecnología",
+    "Portal web de la Universidad (Mi Ulima)": "Tecnología",
+    "Aula virtual": "Tecnología",
+    "Conexión Wi-Fi en el campus": "Tecnología",
+    "Soporte técnico del sistema informático": "Tecnología",
+}
+
+CATEGORIA_DIMENSION_GRADUADO: Dict[str, str] = {
+    # Docencia
+    "Transmisión de conocimientos": "Docencia",
+    "Transmisión de experiencias": "Docencia",
+    "Metodologías": "Docencia",
+    "Conocimientos actualizados": "Docencia",
+    "Compromiso": "Docencia",
+    "Retroalimentación": "Docencia",
+    "Disponibilidad para asesorías": "Docencia",
+    "Cumplimiento de normas y programas": "Docencia",
+    
+    # Desarrollo Profesional
+    "Habilidades para trabajar en equipo": "Desarrollo Profesional",
+    "Habilidades de comunicación": "Desarrollo Profesional",
+    "Habilidades para aportar nuevas ideas": "Desarrollo Profesional",
+    "Mejora en perspectivas de empleo": "Desarrollo Profesional",
+
+    # Académico
+    "Perfil del egreso de la carrera": "Académico",
+    "Plan curricular y perfil de egreso": "Académico",
+    "Cursos del programa y contenidos": "Académico",
+    "Calidad de la enseñanza en la carrera": "Académico",
+    "Claridad de los recursos académicos": "Académico",
+    "Calidad de la formación académica": "Académico",
+    "Exigencia académica": "Académico",
+    "Evaluación del aprendizaje": "Académico",
+    "Intercambio estudiantil": "Académico",
+    "La carrera": "Académico",
+    "Satisfacción estudiantil": "Académico",
+    
+    # Administrativo y Bienestar
+    "Información sobre el récord académico": "Administrativo y Bienestar",
+    "Material bibliográfico en la biblioteca": "Administrativo y Bienestar",
+    "Atención del personal administrativo": "Administrativo y Bienestar",
+    "Procedimientos administrativos": "Administrativo y Bienestar",
+    "Ayuda financiera": "Administrativo y Bienestar",
+    "Servicio médico y su infraestructura": "Administrativo y Bienestar",
+    "Servicio de atención psicopedagógica": "Administrativo y Bienestar",
+    "Talleres de actividades artísticas y culturales": "Administrativo y Bienestar",
+    "Actividades deportivas": "Administrativo y Bienestar",
+    "Empleabilidad, vinculación y ALUMNI": "Administrativo y Bienestar",
+    
+    # Infraestructura
+    "Aulas de clase": "Infraestructura",
+    "Ambientes y salas para estudio": "Infraestructura",
+    "Equipamiento tecnológico en laboratorios": "Infraestructura",
+    "Condiciones ambientales en laboratorios": "Infraestructura",
+    "Ubicación": "Infraestructura",
+    "Espacios de alimentación": "Infraestructura",
+    
+    # Tecnología
     "Software especializado empleado en la carrera": "Tecnología",
     "Portal web de la Universidad (Mi Ulima)": "Tecnología",
     "Aula virtual": "Tecnología",
@@ -245,6 +270,10 @@ ETAPA_MAP: Dict[int, str] = {
 
 # ============================================================
 # 6. TÓPICOS PARA ANÁLISIS SEMÁNTICO
+# [DEPRECATED — v3.0] TOPICOS y STOPWORDS ya NO se usan en módulos activos.
+# El motor cualitativo moderno usa lib/aspect_extraction.py (ALIAS_DICT_MANUAL)
+# en lugar de este diccionario. Se conservan como referencia histórica.
+# No agregar nuevos tópicos aquí; editar ALIAS_DICT_MANUAL en su lugar.
 # ============================================================
 
 TOPICOS: Dict[str, Dict[str, any]] = {
@@ -355,3 +384,23 @@ EMPLEABILIDAD_CATEGORIAS: List[str] = [
     "Trabajador independiente",
     "Prácticas pre - profesionales"
 ]
+
+# ============================================================
+# 9. CALIBRACIÓN DEL MOTOR DE SENTIMIENTO (Fase 7)
+# ============================================================
+# Umbral de confianza por debajo del cual el motor no debe confiar en el
+# argmax de softmax. Cuando la confianza cae bajo el umbral Y no hay señales
+# léxicas fuertes (es_evento_negativo=False), el sentimiento se fuerza a
+# 'neutro' para evitar la clasificación arbitraria hacia 'positivo' que
+# ocurre cuando los 3 scores son iguales (empate) o muy cercanos.
+#
+# Calibración (Fase 7, 2026-06-24):
+#   - Umbral 0.3: sin efecto (la confianza de empate es 0.333 > 0.3).
+#   - Umbral 0.4: selectivo (2.7% de comentarios reclasificados a neutro).
+#   - Umbral 0.5: similar a 0.4 en este dataset.
+#   - Umbral 0.6: destructivo (88.8% reclasificado, demasiado agresivo).
+#
+# Valor por defecto: 0.4 (equilibrio entre precisión y cobertura).
+# Ajustar si el modelo SentenceTransformer cambia o si se recalibran las anclas.
+SENTIMENT_CONFIDENCE_THRESHOLD: float = 0.4
+

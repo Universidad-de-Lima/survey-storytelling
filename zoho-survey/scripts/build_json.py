@@ -17,16 +17,16 @@ from typing import Dict, List, Set
 # Importar configuración, métricas, nlp e io_helpers modularizados
 from lib.config import (
     COLUMN_RENAME_PREGRADO,
-    COLUMN_RENAME_POSGRADO,
+    COLUMN_RENAME_GRADUADO,
     CARRERA_FACULTAD,
     CATEGORIA_DIMENSION_PREGRADO,
-    CATEGORIA_DIMENSION_POSGRADO,
+    CATEGORIA_DIMENSION_GRADUADO,
     RESPUESTAS_TEXTO,
     ETAPA_MAP,
     EMPLEABILIDAD_CATEGORIAS
 )
 from lib.metrics import calc_nps, calc_csat
-from lib.nlp import agrupar_comentarios_por_topico, sanitizar_comentario
+from lib.nlp import sanitizar_comentario
 from lib.segmentacion_nps import fragmentar_comentario_nps
 from lib.io_helper import read_csv_robust, normalize_dates
 
@@ -146,7 +146,7 @@ def main() -> None:
             continue
 
         # Renombrar columnas
-        column_rename = COLUMN_RENAME_POSGRADO if nivel == "graduate" else COLUMN_RENAME_PREGRADO
+        column_rename = COLUMN_RENAME_GRADUADO if nivel == "graduate" else COLUMN_RENAME_PREGRADO
         df.rename(columns=column_rename, inplace=True)
 
         # Manejo de Ciclo
@@ -267,7 +267,8 @@ def main() -> None:
 
         # Dimensiones
         rows: List[Dict[str, any]] = []
-        categoria_dim = CATEGORIA_DIMENSION_POSGRADO if nivel == "graduate" else CATEGORIA_DIMENSION_PREGRADO
+        # Análisis Cualitativo Cuantitativo: Heatmap de Categorías (solo para survey)
+        categoria_dim = CATEGORIA_DIMENSION_GRADUADO if nivel == "graduate" else CATEGORIA_DIMENSION_PREGRADO
         for (fac, car, cic), sub in df.groupby(["Facultad", "Carrera", "Ciclo"]):
             for dim, cat in categoria_dim.items():
                 if dim not in sub.columns:
@@ -505,7 +506,14 @@ def main() -> None:
             dataset_cualitativo = []
             
             # Recolectar metricas empiricas
-            stats_aspectos = {"alias": 0, "embedding": 0, "fallback": 0, "ninguno": 0, "total": 0}
+            stats_aspectos = {
+                "alias": 0,
+                "embedding": 0,
+                "embedding_fallback": 0,
+                "fallback": 0,
+                "ninguno": 0,
+                "total": 0
+            }
             stats_sentimiento = {
                 "total_opinion_units": 0,
                 "positivos": 0,
@@ -558,7 +566,7 @@ def main() -> None:
                 stats_sentimiento["confianza_promedio"] = round(suma_confianza / stats_sentimiento["total_opinion_units"], 4)
                 stats_sentimiento["intensidad_promedio"] = round(suma_intensidad / stats_sentimiento["total_opinion_units"], 2)
                     
-            logging.info(f"Metricas de normalizacion: Alias {stats_aspectos['alias']}, Embedding {stats_aspectos['embedding']}, Fallback {stats_aspectos['fallback']}")
+            logging.info(f"Metricas de normalizacion: Alias {stats_aspectos['alias']}, Embedding {stats_aspectos['embedding']}, Embedding Fallback {stats_aspectos['embedding_fallback']}, Fallback {stats_aspectos['fallback']}")
             logging.info(f"Metricas sentimiento: POS {stats_sentimiento['positivos']}, NEG {stats_sentimiento['negativos']}, NEU {stats_sentimiento['neutros']}")
             
             cualitativo_payload = {

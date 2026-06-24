@@ -7,7 +7,7 @@
  * Dependencias: SurveySanitizer (opcional, fallback a textContent)
  *
  * @module components/tooltip
- * @version 1.0.0
+ * @version 1.1.0
  */
 window.SurveyTooltip = (() => {
   'use strict';
@@ -37,15 +37,14 @@ window.SurveyTooltip = (() => {
   }
 
   /**
-   * Muestra el tooltip en la posición del evento.
+   * Reposiciona el tooltip según las coordenadas del evento.
+   * Reutiliza la misma lógica de boundary detection que show().
    * @param {MouseEvent} e - Evento del mouse
-   * @param {string} content - Contenido HTML (se sanitiza automáticamente)
    */
-  function show(e, content) {
-    const el = getElement();
-    el.innerHTML = safeContent(content);
-    el.style.display = 'block';
-    
+  function _position(e) {
+    const el = document.getElementById(TOOLTIP_ID);
+    if (!el || el.style.display === 'none') return;
+
     const tooltipWidth = el.offsetWidth;
     const tooltipHeight = el.offsetHeight;
     const windowWidth = window.innerWidth;
@@ -73,6 +72,27 @@ window.SurveyTooltip = (() => {
     el.style.top = `${topPos}px`;
   }
 
+  /**
+   * Muestra el tooltip en la posición del evento.
+   * @param {MouseEvent} e - Evento del mouse
+   * @param {string} content - Contenido HTML (se sanitiza automáticamente)
+   */
+  function show(e, content) {
+    const el = getElement();
+    el.innerHTML = safeContent(content);
+    el.style.display = 'block';
+    _position(e);
+  }
+
+  /**
+   * Reposiciona el tooltip visible siguiendo al cursor.
+   * Útil para listeners mousemove después de un mouseenter con show().
+   * @param {MouseEvent} e - Evento del mouse
+   */
+  function move(e) {
+    _position(e);
+  }
+
   /** Oculta el tooltip */
   function hide() {
     const el = document.getElementById(TOOLTIP_ID);
@@ -93,5 +113,5 @@ window.SurveyTooltip = (() => {
     });
   }
 
-  return { show, hide, bindToSegments };
+  return { show, move, hide, bindToSegments };
 })();

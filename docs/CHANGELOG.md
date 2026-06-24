@@ -2,6 +2,42 @@
 
 Historial de cambios significativos del proyecto. Basado en [Keep a Changelog](https://keepachangelog.com/).
 
+## [3.0.6] — 2026-06-23
+
+### Fixed
+- Agregado el mapeo de dimensiones faltantes (Académico, Administrativo y Bienestar, Infraestructura, Tecnología) a la constante `CATEGORIA_DIMENSION_GRADUADO` en `config.py` para asegurar que el pipeline ETL procese correctamente los datos y se rendericen los visuales de nivel de satisfacción y visibilidad de servicios en "Graduados Pregrado".
+
+---
+
+## [3.0.5] — 2026-06-23
+
+### Changed
+- Cambio del filtro "Tema" a "Tema Padre" en "Detalle de ideas", actualizando la etiqueta en todos los periodos y el selector dinámico de JavaScript para agrupar y filtrar comentarios mediante categorías de nivel superior (`c.categoria_padre || c.categoria`).
+- Redistribución de anchos de columna en la tabla del explorador de comentarios (Carrera: 16%, Ciclo: 5%, NPS: 5%, Texto abierto: 34%, Idea analizada: 18%, Tema: 12%, Sentimiento: 5%, Intensidad: 5%).
+- Modificación del renderizador de tabla cualitativa en `sentiment-view.js` para asegurar que la columna "Tema" muestre explícitamente el subtema/aspecto (`c.categoria`) en lugar del tema padre, y quitar el formato en negrita (font-weight:600) de la columna "Carrera".
+
+### Fixed
+- Reversión de los filtros redundantes agregados erróneamente en "Detalle de ideas" (Facultad, Carrera, Ciclo, Limpiar).
+- Corrección de formato para el input de búsqueda de comentarios (`#explorador-search`) heredando la fuente institucional (`Roboto`) y tamaño de texto (`12px` / `var(--text-md)`), removiendo el icono de chevron y ajustando padding simétrico.
+- Corrección de cálculo en la tabla "Respuestas por carrera — distribución NPS completa" (`renderCareerNPSTable`), diferenciando correctamente el número de comentarios únicos ("Texto abierto" usando Set de IDs) respecto al número total de fragmentos ("Ideas analizadas").
+- Simplificación del validador de contratos JSON (`validate_generated_json.py`) y del archivo de esquema (`sentimiento.schema.json`) para ajustar el objeto de tópicos al contrato simplificado v3.0 (`topico`, `total_comentarios`, `positivos`, `negativos`, `neutros`).
+- Actualización de documentación de contratos en `CONTRACTS.md` y `JSON_SCHEMA.md` para reflejar la eliminación de atributos obsoletos en tópicos y la remoción de filtros redundantes en el HTML de los periodos.
+
+### Removed
+- Eliminación del interruptor/checkbox de texto corregido (`#explorador-toggle-texto`) en "Detalle de ideas" de la plantilla y todas las páginas de periodos, configurando el visor para mostrar siempre la idea analizada (corregida) por defecto.
+
+---
+
+## [3.0.4] — 2026-06-23
+
+### Fixed
+- Remoción de los contenedores de filtros redundantes (`sent-aspectos`, `sent-npscarrera`, `sent-tabla`) en la sección de Análisis Cualitativo, centralizando el estado de filtrado hacia el selector global (`sent`) para simplificar la interacción.
+- Corrección de la estructura de anidamiento en la lectura de `sentimiento.json` en `sentiment-view.js`. La función `init` ahora lee los comentarios desde la raíz del JSON sin requerir la clave `por_ciclo`, evitando sobrescrituras silenciosas de la variable global de comentarios.
+- Corrección del desajuste de IDs estáticos del DOM ( `intensidad-positivos-container` e `intensidad-negativos-container`) y la función JavaScript `_renderList` que impedían el renderizado visual de los gráficos de intensidad de aspectos.
+- Incorporación de reglas defensivas de strings ('todas') en `getFilteredSubset` para evitar filtros huérfanos que truncaban silenciosamente los paneles "Aspectos más positivos", "Aspectos más negativos" y "Respuestas por carrera" tras retenciones agresivas de estado local en ciertos navegadores.
+
+---
+
 ## [3.0.3] — 2026-06-12
 
 ### Added

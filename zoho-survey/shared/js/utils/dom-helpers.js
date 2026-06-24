@@ -5,7 +5,7 @@
  * Centralizadas aquí para evitar duplicación (A2 de auditoría v2.0).
  *
  * @module utils/dom-helpers
- * @version 1.0.0
+ * @version 1.1.0
  */
 window.SurveyDOMHelpers = (() => {
   'use strict';
@@ -71,12 +71,13 @@ window.SurveyDOMHelpers = (() => {
    * Formatea la etiqueta de un multiselect mostrando conteo.
    * @param {string[]} values - Valores seleccionados
    * @param {string} placeholder - Texto cuando no hay selección
+   * @param {string} [itemName='ciclos'] - Sustantivo plural para el conteo (ej. 'ciclos', 'categorías')
    * @returns {string}
    */
-  function formatMultiselectLabel(values, placeholder) {
+  function formatMultiselectLabel(values, placeholder, itemName = 'ciclos') {
     if (!values || !values.length) return placeholder;
     if (values.length === 1) return values[0];
-    return `${values.length} ciclos seleccionados`;
+    return `${values.length} ${itemName} seleccionados`;
   }
 
   return {

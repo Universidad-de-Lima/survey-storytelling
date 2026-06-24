@@ -2,21 +2,22 @@
   "metadata": {
     "version": "1.0",
     "total_encuestas": 63,
-    "total_fragmentos": 111,
+    "total_fragmentos": 128,
     "stats_normalizacion": {
-      "alias": 14,
-      "embedding": 41,
-      "fallback": 56,
+      "alias": 67,
+      "embedding": 16,
+      "embedding_fallback": 3,
+      "fallback": 42,
       "ninguno": 0,
-      "total": 111
+      "total": 128
     },
     "stats_sentimiento": {
-      "total_opinion_units": 111,
-      "positivos": 80,
-      "negativos": 24,
-      "neutros": 7,
-      "confianza_promedio": 0.7473,
-      "intensidad_promedio": 3.06
+      "total_opinion_units": 128,
+      "positivos": 88,
+      "negativos": 31,
+      "neutros": 9,
+      "confianza_promedio": 0.7484,
+      "intensidad_promedio": 3.03
     }
   },
   "data": [
@@ -31,8 +32,8 @@
       "satisfaccion_global": "Insatisfecho",
       "texto": "Hay mucho peso en los trabajos grupales",
       "aspecto_detectado": "peso",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Habilidades para trabajar en equipo",
+      "categoria_padre": "Desarrollo Profesional",
       "sub_aspectos": [
         "peso",
         "trabajos"
@@ -93,16 +94,16 @@
       "nps_score": 8,
       "segmento_nps": "Pasivo",
       "satisfaccion_global": "Satisfecho",
-      "texto": "Material adecuado",
+      "texto": "Presenta muchos material adecuado",
       "aspecto_detectado": "material adecuado",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Claridad de los recursos académicos",
+      "categoria_padre": "Académico",
       "sub_aspectos": [
         "material"
       ],
       "sentimiento": "positivo",
       "intensidad": 3,
-      "confianza_sentimiento": 0.4825,
+      "confianza_sentimiento": 0.5962,
       "comentario_original": "Presenta muchos beneficios y material adecuado pero siento que podria actualizar mar los cursos y materiales."
     },
     {
@@ -114,18 +115,17 @@
       "nps_score": 8,
       "segmento_nps": "Pasivo",
       "satisfaccion_global": "Satisfecho",
-      "texto": "Siento que podria actualizar mar los cursos",
-      "aspecto_detectado": "siento",
+      "texto": "Podria actualizar mar",
+      "aspecto_detectado": "podria actualizar mar",
       "aspecto_normalizado": "Pendiente de Clasificación",
       "categoria_padre": "Pendiente de Clasificación",
       "sub_aspectos": [
-        "siento",
-        "mar",
-        "cursos"
+        "podria",
+        "mar"
       ],
       "sentimiento": "positivo",
       "intensidad": 2,
-      "confianza_sentimiento": 0.8571,
+      "confianza_sentimiento": 0.4704,
       "comentario_original": "Presenta muchos beneficios y material adecuado pero siento que podria actualizar mar los cursos y materiales."
     },
     {
@@ -137,16 +137,39 @@
       "nps_score": 8,
       "segmento_nps": "Pasivo",
       "satisfaccion_global": "Satisfecho",
-      "texto": "Materiales",
-      "aspecto_detectado": "materiales",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "texto": "Podria actualizar los cursos",
+      "aspecto_detectado": "podria",
+      "aspecto_normalizado": "Cursos del programa y contenidos",
+      "categoria_padre": "Académico",
       "sub_aspectos": [
-        "materiales"
+        "podria",
+        "cursos"
       ],
       "sentimiento": "positivo",
-      "intensidad": 3,
-      "confianza_sentimiento": 0.4922,
+      "intensidad": 2,
+      "confianza_sentimiento": 0.8418,
+      "comentario_original": "Presenta muchos beneficios y material adecuado pero siento que podria actualizar mar los cursos y materiales."
+    },
+    {
+      "id_encuesta": "84t6h2O6",
+      "id_fragmento": "84t6h2O6_05",
+      "facultad": "Facultad de Ciencias Empresariales",
+      "carrera": "Administración",
+      "ciclo": "NA",
+      "nps_score": 8,
+      "segmento_nps": "Pasivo",
+      "satisfaccion_global": "Satisfecho",
+      "texto": "Podria actualizar los materiales",
+      "aspecto_detectado": "podria",
+      "aspecto_normalizado": "Claridad de los recursos académicos",
+      "categoria_padre": "Académico",
+      "sub_aspectos": [
+        "podria",
+        "materiales"
+      ],
+      "sentimiento": "negativo",
+      "intensidad": 2,
+      "confianza_sentimiento": 0.4564,
       "comentario_original": "Presenta muchos beneficios y material adecuado pero siento que podria actualizar mar los cursos y materiales."
     },
     {
@@ -160,7 +183,7 @@
       "satisfaccion_global": "Satisfecho",
       "texto": "En temas académicos siento que se quedan atrás de universidades como la esan",
       "aspecto_detectado": "universidades",
-      "aspecto_normalizado": "Intercambio estudiantil",
+      "aspecto_normalizado": "Cursos del programa y contenidos",
       "categoria_padre": "Académico",
       "sub_aspectos": [
         "universidades"
@@ -202,8 +225,8 @@
       "satisfaccion_global": "Satisfecho",
       "texto": "Llena de gente",
       "aspecto_detectado": "llena",
-      "aspecto_normalizado": "Compromiso",
-      "categoria_padre": "Docencia",
+      "aspecto_normalizado": "Pendiente de Clasificación",
+      "categoria_padre": "Pendiente de Clasificación",
       "sub_aspectos": [
         "llena",
         "gente"
@@ -224,8 +247,8 @@
       "satisfaccion_global": "Muy satisfecho",
       "texto": "Muy buena universidad con recursos",
       "aspecto_detectado": "muy buena universidad",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Claridad de los recursos académicos",
+      "categoria_padre": "Académico",
       "sub_aspectos": [
         "universidad",
         "recursos"
@@ -246,8 +269,8 @@
       "satisfaccion_global": "Muy satisfecho",
       "texto": "Espacio",
       "aspecto_detectado": "espacio",
-      "aspecto_normalizado": "Compromiso",
-      "categoria_padre": "Docencia",
+      "aspecto_normalizado": "Pendiente de Clasificación",
+      "categoria_padre": "Pendiente de Clasificación",
       "sub_aspectos": [
         "espacio"
       ],
@@ -265,16 +288,16 @@
       "nps_score": 8,
       "segmento_nps": "Pasivo",
       "satisfaccion_global": "Muy satisfecho",
-      "texto": "Tecnología",
-      "aspecto_detectado": "tecnología",
-      "aspecto_normalizado": "Soporte técnico del sistema informático",
-      "categoria_padre": "Tecnología",
+      "texto": "Tecnología interesantes",
+      "aspecto_detectado": "tecnología interesantes",
+      "aspecto_normalizado": "Equipamiento tecnológico en laboratorios",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "tecnología"
       ],
       "sentimiento": "negativo",
       "intensidad": 3,
-      "confianza_sentimiento": 0.7834,
+      "confianza_sentimiento": 0.6699,
       "comentario_original": "Muy buena universidad con recursos, espacio, tecnología y cursos interesantes"
     },
     {
@@ -288,7 +311,7 @@
       "satisfaccion_global": "Muy satisfecho",
       "texto": "Cursos interesantes",
       "aspecto_detectado": "cursos interesantes",
-      "aspecto_normalizado": "Plan curricular y perfil de egreso",
+      "aspecto_normalizado": "Cursos del programa y contenidos",
       "categoria_padre": "Académico",
       "sub_aspectos": [
         "cursos"
@@ -309,8 +332,8 @@
       "satisfaccion_global": "Satisfecho",
       "texto": "Porque cumplió con mis espectativas",
       "aspecto_detectado": "espectativas",
-      "aspecto_normalizado": "Compromiso",
-      "categoria_padre": "Docencia",
+      "aspecto_normalizado": "Pendiente de Clasificación",
+      "categoria_padre": "Pendiente de Clasificación",
       "sub_aspectos": [
         "espectativas"
       ],
@@ -328,12 +351,11 @@
       "nps_score": 7,
       "segmento_nps": "Pasivo",
       "satisfaccion_global": "Satisfecho",
-      "texto": "Siento que hay muchos ámbitos en los que la universidad debe mejorar desde la psicológica hacia sus alumnos hasta el tipo de profesores",
-      "aspecto_detectado": "siento",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "texto": "Hay muchos ámbitos en los que la universidad debe mejorar desde la psicológica hacia sus alumnos hasta el tipo de profesores",
+      "aspecto_detectado": "ámbitos",
+      "aspecto_normalizado": "Calidad de la enseñanza en la carrera",
+      "categoria_padre": "Académico",
       "sub_aspectos": [
-        "siento",
         "ámbitos",
         "universidad",
         "alumnos",
@@ -342,7 +364,7 @@
       ],
       "sentimiento": "positivo",
       "intensidad": 3,
-      "confianza_sentimiento": 0.6432,
+      "confianza_sentimiento": 0.6391,
       "comentario_original": "Siento que hay muchos ámbitos en los que la universidad debe mejorar desde la psicológica hacia sus alumnos hasta el tipo de profesores y su metodología de aprendizaje."
     },
     {
@@ -354,17 +376,17 @@
       "nps_score": 7,
       "segmento_nps": "Pasivo",
       "satisfaccion_global": "Satisfecho",
-      "texto": "Su metodología de aprendizaje",
+      "texto": "Hay muchos su metodología de aprendizaje",
       "aspecto_detectado": "metodología",
-      "aspecto_normalizado": "Metodologías",
-      "categoria_padre": "Docencia",
+      "aspecto_normalizado": "Calidad de la formación académica",
+      "categoria_padre": "Académico",
       "sub_aspectos": [
         "metodología",
         "aprendizaje"
       ],
       "sentimiento": "positivo",
       "intensidad": 3,
-      "confianza_sentimiento": 0.6961,
+      "confianza_sentimiento": 0.6764,
       "comentario_original": "Siento que hay muchos ámbitos en los que la universidad debe mejorar desde la psicológica hacia sus alumnos hasta el tipo de profesores y su metodología de aprendizaje."
     },
     {
@@ -376,18 +398,16 @@
       "nps_score": 7,
       "segmento_nps": "Pasivo",
       "satisfaccion_global": "Satisfecho",
-      "texto": "Si bien la enseñanza es buena, podrían haber algunos talleres extra como excel",
+      "texto": "Si bien la enseñanza es buena",
       "aspecto_detectado": "enseñanza",
       "aspecto_normalizado": "Calidad de la enseñanza en la carrera",
       "categoria_padre": "Académico",
       "sub_aspectos": [
-        "enseñanza",
-        "talleres",
-        "excel"
+        "enseñanza"
       ],
       "sentimiento": "positivo",
       "intensidad": 3,
-      "confianza_sentimiento": 0.8998,
+      "confianza_sentimiento": 0.9451,
       "comentario_original": "Si bien la enseñanza es buena, podrían haber algunos talleres extra como Excel y habilidades blandas"
     },
     {
@@ -399,7 +419,29 @@
       "nps_score": 7,
       "segmento_nps": "Pasivo",
       "satisfaccion_global": "Satisfecho",
-      "texto": "Habilidades blandas",
+      "texto": "Podrían haber algunos talleres extra como excel",
+      "aspecto_detectado": "talleres extra",
+      "aspecto_normalizado": "Talleres de actividades artísticas y culturales",
+      "categoria_padre": "Administrativo y Bienestar",
+      "sub_aspectos": [
+        "talleres",
+        "excel"
+      ],
+      "sentimiento": "positivo",
+      "intensidad": 3,
+      "confianza_sentimiento": 0.714,
+      "comentario_original": "Si bien la enseñanza es buena, podrían haber algunos talleres extra como Excel y habilidades blandas"
+    },
+    {
+      "id_encuesta": "QvtmaVlT",
+      "id_fragmento": "QvtmaVlT_03",
+      "facultad": "Facultad de Comunicación",
+      "carrera": "Comunicación",
+      "ciclo": "NA",
+      "nps_score": 7,
+      "segmento_nps": "Pasivo",
+      "satisfaccion_global": "Satisfecho",
+      "texto": "Podrían haber algunos habilidades blandas",
       "aspecto_detectado": "habilidades blandas",
       "aspecto_normalizado": "Pendiente de Clasificación",
       "categoria_padre": "Pendiente de Clasificación",
@@ -408,7 +450,7 @@
       ],
       "sentimiento": "negativo",
       "intensidad": 3,
-      "confianza_sentimiento": 0.795,
+      "confianza_sentimiento": 0.5366,
       "comentario_original": "Si bien la enseñanza es buena, podrían haber algunos talleres extra como Excel y habilidades blandas"
     },
     {
@@ -422,14 +464,14 @@
       "satisfaccion_global": "Satisfecho",
       "texto": "Dependería del enfoque a la carrera",
       "aspecto_detectado": "enfoque",
-      "aspecto_normalizado": "Metodologías",
-      "categoria_padre": "Docencia",
+      "aspecto_normalizado": "La carrera",
+      "categoria_padre": "Académico",
       "sub_aspectos": [
         "enfoque",
         "carrera"
       ],
-      "sentimiento": "positivo",
-      "intensidad": 3,
+      "sentimiento": "neutro",
+      "intensidad": 2,
       "confianza_sentimiento": 0.3771,
       "comentario_original": "Dependería del enfoque a la carrera pero en general si"
     },
@@ -442,16 +484,16 @@
       "nps_score": 8,
       "segmento_nps": "Pasivo",
       "satisfaccion_global": "Satisfecho",
-      "texto": "En general si",
+      "texto": "Dependería del en general si",
       "aspecto_detectado": "general",
       "aspecto_normalizado": "Pendiente de Clasificación",
       "categoria_padre": "Pendiente de Clasificación",
       "sub_aspectos": [
         "general"
       ],
-      "sentimiento": "positivo",
-      "intensidad": 3,
-      "confianza_sentimiento": 0.4947,
+      "sentimiento": "neutro",
+      "intensidad": 2,
+      "confianza_sentimiento": 0.8846,
       "comentario_original": "Dependería del enfoque a la carrera pero en general si"
     },
     {
@@ -463,18 +505,38 @@
       "nps_score": 7,
       "segmento_nps": "Pasivo",
       "satisfaccion_global": "Satisfecho",
-      "texto": "Tienen buenos profesores que enseñan lo idoneo para la carrera de comunicación",
+      "texto": "Tienen buenos profesores",
       "aspecto_detectado": "buenos profesores",
       "aspecto_normalizado": "Calidad de la enseñanza en la carrera",
       "categoria_padre": "Académico",
       "sub_aspectos": [
-        "profesores",
+        "profesores"
+      ],
+      "sentimiento": "positivo",
+      "intensidad": 3,
+      "confianza_sentimiento": 0.9791,
+      "comentario_original": "Tienen buenos profesores que enseñan lo idoneo para la carrera de comunicación"
+    },
+    {
+      "id_encuesta": "lLC5ZJ9N",
+      "id_fragmento": "lLC5ZJ9N_02",
+      "facultad": "Facultad de Comunicación",
+      "carrera": "Comunicación",
+      "ciclo": "NA",
+      "nps_score": 7,
+      "segmento_nps": "Pasivo",
+      "satisfaccion_global": "Satisfecho",
+      "texto": "Que enseñan lo idoneo para la carrera de comunicación",
+      "aspecto_detectado": "carrera",
+      "aspecto_normalizado": "La carrera",
+      "categoria_padre": "Académico",
+      "sub_aspectos": [
         "carrera",
         "comunicación"
       ],
       "sentimiento": "positivo",
       "intensidad": 3,
-      "confianza_sentimiento": 0.9507,
+      "confianza_sentimiento": 0.7763,
       "comentario_original": "Tienen buenos profesores que enseñan lo idoneo para la carrera de comunicación"
     },
     {
@@ -486,18 +548,38 @@
       "nps_score": 8,
       "segmento_nps": "Pasivo",
       "satisfaccion_global": "Muy satisfecho",
-      "texto": "He notado que últimamente hubo censura con algunos proyectos académicos, no creo que eso deba pasar en una institución educativa",
+      "texto": "He notado que últimamente hubo censura con algunos proyectos académicos",
       "aspecto_detectado": "censura",
       "aspecto_normalizado": "Pendiente de Clasificación",
       "categoria_padre": "Pendiente de Clasificación",
       "sub_aspectos": [
         "censura",
-        "proyectos",
+        "proyectos"
+      ],
+      "sentimiento": "negativo",
+      "intensidad": 3,
+      "confianza_sentimiento": 0.4535,
+      "comentario_original": "He notado que últimamente hubo censura con algunos proyectos académicos, no creo que eso deba pasar en una institución educativa"
+    },
+    {
+      "id_encuesta": "NbC27Gvg",
+      "id_fragmento": "NbC27Gvg_02",
+      "facultad": "Facultad de Comunicación",
+      "carrera": "Comunicación",
+      "ciclo": "NA",
+      "nps_score": 8,
+      "segmento_nps": "Pasivo",
+      "satisfaccion_global": "Muy satisfecho",
+      "texto": "No creo que eso deba pasar en una institución educativa",
+      "aspecto_detectado": "institución educativa",
+      "aspecto_normalizado": "Pendiente de Clasificación",
+      "categoria_padre": "Pendiente de Clasificación",
+      "sub_aspectos": [
         "institución"
       ],
-      "sentimiento": "neutro",
-      "intensidad": 2,
-      "confianza_sentimiento": 0.4358,
+      "sentimiento": "negativo",
+      "intensidad": 3,
+      "confianza_sentimiento": 0.4713,
       "comentario_original": "He notado que últimamente hubo censura con algunos proyectos académicos, no creo que eso deba pasar en una institución educativa"
     },
     {
@@ -509,18 +591,17 @@
       "nps_score": 8,
       "segmento_nps": "Pasivo",
       "satisfaccion_global": "Satisfecho",
-      "texto": "Siento que se podría mejorar la comunicación con ciertas áreas administrativas",
-      "aspecto_detectado": "siento",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "texto": "Se podría mejorar la comunicación con ciertas áreas administrativas",
+      "aspecto_detectado": "comunicación",
+      "aspecto_normalizado": "Ambientes y salas para estudio",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
-        "siento",
         "comunicación",
         "áreas"
       ],
       "sentimiento": "negativo",
       "intensidad": 2,
-      "confianza_sentimiento": 0.4812,
+      "confianza_sentimiento": 0.5383,
       "comentario_original": "Siento que se podría mejorar la comunicación con ciertas áreas administrativas."
     },
     {
@@ -534,8 +615,8 @@
       "satisfaccion_global": "Satisfecho",
       "texto": "Es un buen lugar para educación superior",
       "aspecto_detectado": "es buen lugar",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Satisfacción estudiantil",
+      "categoria_padre": "Académico",
       "sub_aspectos": [
         "lugar",
         "educación"
@@ -554,18 +635,17 @@
       "nps_score": 8,
       "segmento_nps": "Pasivo",
       "satisfaccion_global": "Satisfecho",
-      "texto": "Siento que puede avanzar mucho más en cuanto a metodologías",
-      "aspecto_detectado": "siento",
+      "texto": "Puede avanzar mucho más en cuanto a metodologías",
+      "aspecto_detectado": "cuanto a metodologías",
       "aspecto_normalizado": "Pendiente de Clasificación",
       "categoria_padre": "Pendiente de Clasificación",
       "sub_aspectos": [
-        "siento",
         "cuanto",
         "metodologías"
       ],
       "sentimiento": "negativo",
       "intensidad": 3,
-      "confianza_sentimiento": 0.4835,
+      "confianza_sentimiento": 0.6956,
       "comentario_original": "Es un buen lugar para educación superior sin embargo siento que puede avanzar mucho más en cuanto a metodologías y temas de enseñanza"
     },
     {
@@ -598,18 +678,17 @@
       "nps_score": 8,
       "segmento_nps": "Pasivo",
       "satisfaccion_global": "Satisfecho",
-      "texto": "Siento que lo recomendaría para la carrera de la comunicación",
-      "aspecto_detectado": "siento",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "texto": "Lo recomendaría para la carrera de la comunicación",
+      "aspecto_detectado": "carrera",
+      "aspecto_normalizado": "La carrera",
+      "categoria_padre": "Académico",
       "sub_aspectos": [
-        "siento",
         "carrera",
         "comunicación"
       ],
       "sentimiento": "positivo",
       "intensidad": 3,
-      "confianza_sentimiento": 0.8543,
+      "confianza_sentimiento": 0.8319,
       "comentario_original": "Siento que lo recomendaría para la carrera de la Comunicación"
     },
     {
@@ -623,8 +702,8 @@
       "satisfaccion_global": "Satisfecho",
       "texto": "Buena",
       "aspecto_detectado": "buena",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Satisfacción estudiantil",
+      "categoria_padre": "Académico",
       "sub_aspectos": [
         "buena"
       ],
@@ -663,17 +742,16 @@
       "nps_score": 8,
       "segmento_nps": "Pasivo",
       "satisfaccion_global": "Satisfecho",
-      "texto": "Me parece que es una buena universidad, tienes todos los recursos necesarios",
-      "aspecto_detectado": "recursos necesarios",
-      "aspecto_normalizado": "Exigencia académica",
+      "texto": "Es una buena universidad",
+      "aspecto_detectado": "es buena universidad",
+      "aspecto_normalizado": "Satisfacción estudiantil",
       "categoria_padre": "Académico",
       "sub_aspectos": [
-        "universidad",
-        "recursos"
+        "universidad"
       ],
       "sentimiento": "positivo",
       "intensidad": 3,
-      "confianza_sentimiento": 0.9584,
+      "confianza_sentimiento": 0.9497,
       "comentario_original": "Me parece que es una buena universidad, tienes todos los recursos necesarios, pero siento que admiten a demasiados alumnos que la capacidad de la universidad está quedando pequeña para espacios comunes. Sería ver bien ese tema"
     },
     {
@@ -685,20 +763,16 @@
       "nps_score": 8,
       "segmento_nps": "Pasivo",
       "satisfaccion_global": "Satisfecho",
-      "texto": "Siento que admiten a demasiados alumnos que la capacidad de la universidad está quedando pequeña para espacios comunes",
-      "aspecto_detectado": "siento",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "texto": "Tienes todos los recursos necesarios",
+      "aspecto_detectado": "recursos necesarios",
+      "aspecto_normalizado": "Claridad de los recursos académicos",
+      "categoria_padre": "Académico",
       "sub_aspectos": [
-        "siento",
-        "alumnos",
-        "capacidad",
-        "universidad",
-        "espacios"
+        "recursos"
       ],
-      "sentimiento": "negativo",
+      "sentimiento": "positivo",
       "intensidad": 3,
-      "confianza_sentimiento": 0.6497,
+      "confianza_sentimiento": 0.7883,
       "comentario_original": "Me parece que es una buena universidad, tienes todos los recursos necesarios, pero siento que admiten a demasiados alumnos que la capacidad de la universidad está quedando pequeña para espacios comunes. Sería ver bien ese tema"
     },
     {
@@ -710,10 +784,34 @@
       "nps_score": 8,
       "segmento_nps": "Pasivo",
       "satisfaccion_global": "Satisfecho",
-      "texto": "Sería ver bien ese tema",
-      "aspecto_detectado": "sería ver bien ese tema",
+      "texto": "Admiten a demasiados alumnos que la capacidad de la universidad está quedando pequeña para espacios comunes",
+      "aspecto_detectado": "alumnos",
       "aspecto_normalizado": "Pendiente de Clasificación",
       "categoria_padre": "Pendiente de Clasificación",
+      "sub_aspectos": [
+        "alumnos",
+        "capacidad",
+        "universidad",
+        "espacios"
+      ],
+      "sentimiento": "negativo",
+      "intensidad": 3,
+      "confianza_sentimiento": 0.6424,
+      "comentario_original": "Me parece que es una buena universidad, tienes todos los recursos necesarios, pero siento que admiten a demasiados alumnos que la capacidad de la universidad está quedando pequeña para espacios comunes. Sería ver bien ese tema"
+    },
+    {
+      "id_encuesta": "ENC5PDoA",
+      "id_fragmento": "ENC5PDoA_04",
+      "facultad": "Facultad de Comunicación",
+      "carrera": "Comunicación",
+      "ciclo": "NA",
+      "nps_score": 8,
+      "segmento_nps": "Pasivo",
+      "satisfaccion_global": "Satisfecho",
+      "texto": "Sería ver bien ese tema",
+      "aspecto_detectado": "sería ver bien ese tema",
+      "aspecto_normalizado": "Satisfacción estudiantil",
+      "categoria_padre": "Académico",
       "sub_aspectos": [],
       "sentimiento": "positivo",
       "intensidad": 3,
@@ -731,8 +829,8 @@
       "satisfaccion_global": "Satisfecho",
       "texto": "Hay buenos equipos",
       "aspecto_detectado": "buenos equipos",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Equipamiento tecnológico en laboratorios",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "equipos"
       ],
@@ -752,8 +850,8 @@
       "satisfaccion_global": "Muy satisfecho",
       "texto": "Es una gran oportunidad para poder crecer como profesional",
       "aspecto_detectado": "es gran oportunidad",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "La carrera",
+      "categoria_padre": "Académico",
       "sub_aspectos": [
         "oportunidad",
         "profesional"
@@ -772,16 +870,16 @@
       "nps_score": 8,
       "segmento_nps": "Pasivo",
       "satisfaccion_global": "Muy satisfecho",
-      "texto": "Como comunicador",
+      "texto": "Es una gran como comunicador",
       "aspecto_detectado": "como comunicador",
-      "aspecto_normalizado": "Habilidades de comunicación",
-      "categoria_padre": "Desarrollo Profesional",
+      "aspecto_normalizado": "Pendiente de Clasificación",
+      "categoria_padre": "Pendiente de Clasificación",
       "sub_aspectos": [
         "comunicador"
       ],
       "sentimiento": "positivo",
       "intensidad": 3,
-      "confianza_sentimiento": 0.5789,
+      "confianza_sentimiento": 0.6096,
       "comentario_original": "Es una gran oportunidad para poder crecer como profesional y como comunicador. Estoy muy satisfecho"
     },
     {
@@ -795,8 +893,8 @@
       "satisfaccion_global": "Muy satisfecho",
       "texto": "Estoy muy satisfecho",
       "aspecto_detectado": "satisfecho",
-      "aspecto_normalizado": "Compromiso",
-      "categoria_padre": "Docencia",
+      "aspecto_normalizado": "Satisfacción estudiantil",
+      "categoria_padre": "Académico",
       "sub_aspectos": [],
       "sentimiento": "positivo",
       "intensidad": 4,
@@ -814,8 +912,8 @@
       "satisfaccion_global": "Insatisfecho",
       "texto": "Porque no les importa lo social <3",
       "aspecto_detectado": "importar",
-      "aspecto_normalizado": "Compromiso",
-      "categoria_padre": "Docencia",
+      "aspecto_normalizado": "Pendiente de Clasificación",
+      "categoria_padre": "Pendiente de Clasificación",
       "sub_aspectos": [
         "<3"
       ],
@@ -833,16 +931,35 @@
       "nps_score": 6,
       "segmento_nps": "Detractor",
       "satisfaccion_global": "Satisfecho",
-      "texto": "Porque no toman en cuenta los problemas sociales",
+      "texto": "Porque no toman en cuenta",
       "aspecto_detectado": "cuenta",
-      "aspecto_normalizado": "Compromiso",
-      "categoria_padre": "Docencia",
+      "aspecto_normalizado": "Pendiente de Clasificación",
+      "categoria_padre": "Pendiente de Clasificación",
       "sub_aspectos": [
         "cuenta"
       ],
       "sentimiento": "neutro",
       "intensidad": 2,
-      "confianza_sentimiento": 0.6412,
+      "confianza_sentimiento": 0.5344,
+      "comentario_original": "Porque no toman en cuenta los problemas sociales"
+    },
+    {
+      "id_encuesta": "ZNC26d7p",
+      "id_fragmento": "ZNC26d7p_02",
+      "facultad": "Facultad de Comunicación",
+      "carrera": "Comunicación",
+      "ciclo": "NA",
+      "nps_score": 6,
+      "segmento_nps": "Detractor",
+      "satisfaccion_global": "Satisfecho",
+      "texto": "Porque no toman en los problemas sociales",
+      "aspecto_detectado": "tomar",
+      "aspecto_normalizado": "Pendiente de Clasificación",
+      "categoria_padre": "Pendiente de Clasificación",
+      "sub_aspectos": [],
+      "sentimiento": "neutro",
+      "intensidad": 2,
+      "confianza_sentimiento": 0.6151,
       "comentario_original": "Porque no toman en cuenta los problemas sociales"
     },
     {
@@ -897,7 +1014,7 @@
       "satisfaccion_global": "Satisfecho",
       "texto": "Hay muchos alumnos",
       "aspecto_detectado": "alumnos",
-      "aspecto_normalizado": "Intercambio estudiantil",
+      "aspecto_normalizado": "Plan curricular y perfil de egreso",
       "categoria_padre": "Académico",
       "sub_aspectos": [
         "alumnos"
@@ -916,7 +1033,7 @@
       "nps_score": 8,
       "segmento_nps": "Pasivo",
       "satisfaccion_global": "Satisfecho",
-      "texto": "Poco espacios en el campus",
+      "texto": "Hay muchos poco espacios en el campus",
       "aspecto_detectado": "poco espacios",
       "aspecto_normalizado": "Pendiente de Clasificación",
       "categoria_padre": "Pendiente de Clasificación",
@@ -926,7 +1043,7 @@
       ],
       "sentimiento": "negativo",
       "intensidad": 3,
-      "confianza_sentimiento": 0.5861,
+      "confianza_sentimiento": 0.6382,
       "comentario_original": "Hay muchos alumnos y poco espacios en el campus"
     },
     {
@@ -940,7 +1057,7 @@
       "satisfaccion_global": "Muy satisfecho",
       "texto": "Me gusta que la universidad siga creciendo",
       "aspecto_detectado": "universidad",
-      "aspecto_normalizado": "Intercambio estudiantil",
+      "aspecto_normalizado": "Satisfacción estudiantil",
       "categoria_padre": "Académico",
       "sub_aspectos": [
         "universidad"
@@ -961,8 +1078,8 @@
       "satisfaccion_global": "Muy satisfecho",
       "texto": "En mi carrera aún le faltó explorar aspectos más a fondo como el guion",
       "aspecto_detectado": "como guion",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "La carrera",
+      "categoria_padre": "Académico",
       "sub_aspectos": [
         "carrera",
         "fondo",
@@ -1005,8 +1122,8 @@
       "satisfaccion_global": "Satisfecho",
       "texto": "Bolsa trabajo limitada",
       "aspecto_detectado": "bolsa",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Empleabilidad, vinculación y ALUMNI",
+      "categoria_padre": "Administrativo y Bienestar",
       "sub_aspectos": [
         "bolsa"
       ],
@@ -1024,16 +1141,14 @@
       "nps_score": 4,
       "segmento_nps": "Detractor",
       "satisfaccion_global": "Satisfecho",
-      "texto": "Siento que hay mucho alumnado",
-      "aspecto_detectado": "siento",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
-      "sub_aspectos": [
-        "siento"
-      ],
+      "texto": "Hay mucho alumnado",
+      "aspecto_detectado": "hay mucho alumnado",
+      "aspecto_normalizado": "Plan curricular y perfil de egreso",
+      "categoria_padre": "Académico",
+      "sub_aspectos": [],
       "sentimiento": "positivo",
       "intensidad": 3,
-      "confianza_sentimiento": 0.8568,
+      "confianza_sentimiento": 0.8798,
       "comentario_original": "Siento que hay mucho alumnado"
     },
     {
@@ -1047,8 +1162,8 @@
       "satisfaccion_global": "Satisfecho",
       "texto": "Le falta áreas verdes",
       "aspecto_detectado": "áreas verdes",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Ambientes y salas para estudio",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "áreas"
       ],
@@ -1066,17 +1181,38 @@
       "nps_score": 8,
       "segmento_nps": "Pasivo",
       "satisfaccion_global": "Satisfecho",
-      "texto": "Es una universidad que invierte bastante en la infraestructura",
+      "texto": "Es una universidad",
       "aspecto_detectado": "es universidad",
-      "aspecto_normalizado": "Intercambio estudiantil",
+      "aspecto_normalizado": "La carrera",
       "categoria_padre": "Académico",
       "sub_aspectos": [
-        "universidad",
-        "infraestructura"
+        "universidad"
       ],
       "sentimiento": "positivo",
       "intensidad": 3,
-      "confianza_sentimiento": 0.6967,
+      "confianza_sentimiento": 0.8839,
+      "comentario_original": "Es una universidad que invierte bastante en la infraestructura"
+    },
+    {
+      "id_encuesta": "ygDBZWKq",
+      "id_fragmento": "ygDBZWKq_02",
+      "facultad": "Facultad de Ingeniería",
+      "carrera": "Ingeniería Industrial",
+      "ciclo": "NA",
+      "nps_score": 8,
+      "segmento_nps": "Pasivo",
+      "satisfaccion_global": "Satisfecho",
+      "texto": "Que invierte bastante en la infraestructura",
+      "aspecto_detectado": "que invierte",
+      "aspecto_normalizado": "Pendiente de Clasificación",
+      "categoria_padre": "Pendiente de Clasificación",
+      "sub_aspectos": [
+        "invierte",
+        "infraestructura"
+      ],
+      "sentimiento": "negativo",
+      "intensidad": 3,
+      "confianza_sentimiento": 0.8102,
       "comentario_original": "Es una universidad que invierte bastante en la infraestructura"
     },
     {
@@ -1088,7 +1224,7 @@
       "nps_score": 8,
       "segmento_nps": "Pasivo",
       "satisfaccion_global": "Satisfecho",
-      "texto": "Me parece que han abierto la posibilidad a demasiadas personas, se ha vuelto muy comercial",
+      "texto": "Han abierto la posibilidad a demasiadas personas",
       "aspecto_detectado": "posibilidad",
       "aspecto_normalizado": "Pendiente de Clasificación",
       "categoria_padre": "Pendiente de Clasificación",
@@ -1097,8 +1233,27 @@
         "personas"
       ],
       "sentimiento": "negativo",
+      "intensidad": 3,
+      "confianza_sentimiento": 0.6693,
+      "comentario_original": "Me parece que han abierto la posibilidad a demasiadas personas, se ha vuelto muy comercial"
+    },
+    {
+      "id_encuesta": "UgC5V9aX",
+      "id_fragmento": "UgC5V9aX_02",
+      "facultad": "Facultad de Ingeniería",
+      "carrera": "Ingeniería Industrial",
+      "ciclo": "NA",
+      "nps_score": 8,
+      "segmento_nps": "Pasivo",
+      "satisfaccion_global": "Satisfecho",
+      "texto": "Se ha vuelto muy comercial",
+      "aspecto_detectado": "volver",
+      "aspecto_normalizado": "Pendiente de Clasificación",
+      "categoria_padre": "Pendiente de Clasificación",
+      "sub_aspectos": [],
+      "sentimiento": "negativo",
       "intensidad": 4,
-      "confianza_sentimiento": 0.6911,
+      "confianza_sentimiento": 0.4172,
       "comentario_original": "Me parece que han abierto la posibilidad a demasiadas personas, se ha vuelto muy comercial"
     },
     {
@@ -1156,8 +1311,8 @@
       "satisfaccion_global": "Muy satisfecho",
       "texto": "Confianza",
       "aspecto_detectado": "confianza",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Compromiso",
+      "categoria_padre": "Docencia",
       "sub_aspectos": [
         "confianza"
       ],
@@ -1198,7 +1353,7 @@
       "satisfaccion_global": "Muy satisfecho",
       "texto": "Es una universidad de categoría",
       "aspecto_detectado": "es universidad",
-      "aspecto_normalizado": "Intercambio estudiantil",
+      "aspecto_normalizado": "La carrera",
       "categoria_padre": "Académico",
       "sub_aspectos": [
         "universidad",
@@ -1220,7 +1375,7 @@
       "satisfaccion_global": "Totalmente satisfecho",
       "texto": "Universidad completa",
       "aspecto_detectado": "universidad",
-      "aspecto_normalizado": "Intercambio estudiantil",
+      "aspecto_normalizado": "La carrera",
       "categoria_padre": "Académico",
       "sub_aspectos": [
         "universidad"
@@ -1241,7 +1396,7 @@
       "satisfaccion_global": "Totalmente satisfecho",
       "texto": "Prestigio",
       "aspecto_detectado": "prestigio",
-      "aspecto_normalizado": "La carrera",
+      "aspecto_normalizado": "Calidad de la formación académica",
       "categoria_padre": "Académico",
       "sub_aspectos": [
         "prestigio"
@@ -1283,8 +1438,8 @@
       "satisfaccion_global": "Totalmente satisfecho",
       "texto": "Nivel de profesionales",
       "aspecto_detectado": "nivel",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Exigencia académica",
+      "categoria_padre": "Académico",
       "sub_aspectos": [
         "nivel",
         "profesionales"
@@ -1326,8 +1481,8 @@
       "satisfaccion_global": "Muy satisfecho",
       "texto": "Compromiso notable con la educación",
       "aspecto_detectado": "compromiso notable con educación",
-      "aspecto_normalizado": "Calidad de la formación académica",
-      "categoria_padre": "Académico",
+      "aspecto_normalizado": "Compromiso",
+      "categoria_padre": "Docencia",
       "sub_aspectos": [
         "compromiso",
         "educación"
@@ -1348,8 +1503,8 @@
       "satisfaccion_global": "Muy satisfecho",
       "texto": "Perfil completo",
       "aspecto_detectado": "perfil completo",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Perfil del egreso de la carrera",
+      "categoria_padre": "Académico",
       "sub_aspectos": [
         "perfil"
       ],
@@ -1412,8 +1567,8 @@
       "satisfaccion_global": "Totalmente satisfecho",
       "texto": "La última tecnologia",
       "aspecto_detectado": "última tecnologia",
-      "aspecto_normalizado": "Soporte técnico del sistema informático",
-      "categoria_padre": "Tecnología",
+      "aspecto_normalizado": "Conocimientos actualizados",
+      "categoria_padre": "Docencia",
       "sub_aspectos": [
         "tecnologia"
       ],
@@ -1431,16 +1586,16 @@
       "nps_score": 10,
       "segmento_nps": "Promotor",
       "satisfaccion_global": "Totalmente satisfecho",
-      "texto": "La infraestructura es excelente, siempre buscan mejorar ese aspecto",
+      "texto": "La infraestructura es excelente",
       "aspecto_detectado": "infraestructura",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Satisfacción estudiantil",
+      "categoria_padre": "Académico",
       "sub_aspectos": [
         "infraestructura"
       ],
-      "sentimiento": "negativo",
-      "intensidad": 5,
-      "confianza_sentimiento": 0.5873,
+      "sentimiento": "positivo",
+      "intensidad": 4,
+      "confianza_sentimiento": 0.7391,
       "comentario_original": "La infraestructura es excelente, siempre buscan mejorar ese aspecto, calidad de ensañanza exigencia también."
     },
     {
@@ -1452,9 +1607,28 @@
       "nps_score": 10,
       "segmento_nps": "Promotor",
       "satisfaccion_global": "Totalmente satisfecho",
-      "texto": "Calidad de ensañanza exigencia también",
-      "aspecto_detectado": "calidad de ensañanza exigencia también",
-      "aspecto_normalizado": "Evaluación del aprendizaje",
+      "texto": "Siempre buscan mejorar ese aspecto",
+      "aspecto_detectado": "buscar",
+      "aspecto_normalizado": "Pendiente de Clasificación",
+      "categoria_padre": "Pendiente de Clasificación",
+      "sub_aspectos": [],
+      "sentimiento": "negativo",
+      "intensidad": 4,
+      "confianza_sentimiento": 0.498,
+      "comentario_original": "La infraestructura es excelente, siempre buscan mejorar ese aspecto, calidad de ensañanza exigencia también."
+    },
+    {
+      "id_encuesta": "z2BR6EUo",
+      "id_fragmento": "z2BR6EUo_03",
+      "facultad": "Facultad de Ciencias Empresariales",
+      "carrera": "Negocios Internacionales",
+      "ciclo": "NA",
+      "nps_score": 10,
+      "segmento_nps": "Promotor",
+      "satisfaccion_global": "Totalmente satisfecho",
+      "texto": "Siempre buscan mejorar ese calidad de ensañanza exigencia también",
+      "aspecto_detectado": "calidad",
+      "aspecto_normalizado": "Exigencia académica",
       "categoria_padre": "Académico",
       "sub_aspectos": [
         "calidad",
@@ -1462,8 +1636,8 @@
         "exigencia"
       ],
       "sentimiento": "negativo",
-      "intensidad": 3,
-      "confianza_sentimiento": 0.704,
+      "intensidad": 4,
+      "confianza_sentimiento": 0.5376,
       "comentario_original": "La infraestructura es excelente, siempre buscan mejorar ese aspecto, calidad de ensañanza exigencia también."
     },
     {
@@ -1477,8 +1651,8 @@
       "satisfaccion_global": "Totalmente satisfecho",
       "texto": "Buena universidad",
       "aspecto_detectado": "buen",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Satisfacción estudiantil",
+      "categoria_padre": "Académico",
       "sub_aspectos": [
         "universidad"
       ],
@@ -1496,10 +1670,10 @@
       "nps_score": 10,
       "segmento_nps": "Promotor",
       "satisfaccion_global": "Muy satisfecho",
-      "texto": "La calidad del nivel educativo es muy bueno y los contactos que puedes tener aquí ayudan mucho",
+      "texto": "La calidad del nivel educativo es muy bueno y los contactos",
       "aspecto_detectado": "calidad",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Calidad de la formación académica",
+      "categoria_padre": "Académico",
       "sub_aspectos": [
         "calidad",
         "nivel",
@@ -1507,7 +1681,26 @@
       ],
       "sentimiento": "positivo",
       "intensidad": 4,
-      "confianza_sentimiento": 0.9855,
+      "confianza_sentimiento": 0.978,
+      "comentario_original": "La calidad del nivel educativo es muy bueno y los contactos que puedes tener aquí ayudan mucho"
+    },
+    {
+      "id_encuesta": "ZjBBabCQ",
+      "id_fragmento": "ZjBBabCQ_02",
+      "facultad": "Facultad de Ciencias Empresariales",
+      "carrera": "Negocios Internacionales",
+      "ciclo": "NA",
+      "nps_score": 10,
+      "segmento_nps": "Promotor",
+      "satisfaccion_global": "Muy satisfecho",
+      "texto": "Que puedes tener aquí ayudan mucho",
+      "aspecto_detectado": "ayudar",
+      "aspecto_normalizado": "Pendiente de Clasificación",
+      "categoria_padre": "Pendiente de Clasificación",
+      "sub_aspectos": [],
+      "sentimiento": "positivo",
+      "intensidad": 3,
+      "confianza_sentimiento": 0.8731,
       "comentario_original": "La calidad del nivel educativo es muy bueno y los contactos que puedes tener aquí ayudan mucho"
     },
     {
@@ -1519,17 +1712,16 @@
       "nps_score": 10,
       "segmento_nps": "Promotor",
       "satisfaccion_global": "Totalmente satisfecho",
-      "texto": "Sin duda me dio demasiado conocimiento",
-      "aspecto_detectado": "demasiado conocimiento",
-      "aspecto_normalizado": "Transmisión de conocimientos",
-      "categoria_padre": "Docencia",
+      "texto": "Sin duda",
+      "aspecto_detectado": "duda",
+      "aspecto_normalizado": "Pendiente de Clasificación",
+      "categoria_padre": "Pendiente de Clasificación",
       "sub_aspectos": [
-        "duda",
-        "conocimiento"
+        "duda"
       ],
       "sentimiento": "positivo",
-      "intensidad": 4,
-      "confianza_sentimiento": 0.5161,
+      "intensidad": 3,
+      "confianza_sentimiento": 0.7712,
       "comentario_original": "Sin duda me dio demasiado conocimiento, el cual aplicó y lo veo en situaciones de mi día día corporativo"
     },
     {
@@ -1541,10 +1733,31 @@
       "nps_score": 10,
       "segmento_nps": "Promotor",
       "satisfaccion_global": "Totalmente satisfecho",
+      "texto": "Me dio demasiado conocimiento",
+      "aspecto_detectado": "demasiado conocimiento",
+      "aspecto_normalizado": "Transmisión de conocimientos",
+      "categoria_padre": "Docencia",
+      "sub_aspectos": [
+        "conocimiento"
+      ],
+      "sentimiento": "negativo",
+      "intensidad": 4,
+      "confianza_sentimiento": 0.5127,
+      "comentario_original": "Sin duda me dio demasiado conocimiento, el cual aplicó y lo veo en situaciones de mi día día corporativo"
+    },
+    {
+      "id_encuesta": "4SBnsw4O",
+      "id_fragmento": "4SBnsw4O_03",
+      "facultad": "Facultad de Ciencias Empresariales",
+      "carrera": "Negocios Internacionales",
+      "ciclo": "NA",
+      "nps_score": 10,
+      "segmento_nps": "Promotor",
+      "satisfaccion_global": "Totalmente satisfecho",
       "texto": "El cual aplicó",
       "aspecto_detectado": "aplicar",
-      "aspecto_normalizado": "Compromiso",
-      "categoria_padre": "Docencia",
+      "aspecto_normalizado": "Pendiente de Clasificación",
+      "categoria_padre": "Pendiente de Clasificación",
       "sub_aspectos": [],
       "sentimiento": "positivo",
       "intensidad": 3,
@@ -1553,7 +1766,7 @@
     },
     {
       "id_encuesta": "4SBnsw4O",
-      "id_fragmento": "4SBnsw4O_03",
+      "id_fragmento": "4SBnsw4O_04",
       "facultad": "Facultad de Ciencias Empresariales",
       "carrera": "Negocios Internacionales",
       "ciclo": "NA",
@@ -1605,8 +1818,8 @@
       "satisfaccion_global": "Totalmente satisfecho",
       "texto": "Networking",
       "aspecto_detectado": "networking",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Conexión Wi-Fi en el campus",
+      "categoria_padre": "Tecnología",
       "sub_aspectos": [
         "networking"
       ],
@@ -1669,8 +1882,8 @@
       "satisfaccion_global": "Totalmente satisfecho",
       "texto": "Programa de estudios muy completo",
       "aspecto_detectado": "programa",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Cumplimiento de normas y programas",
+      "categoria_padre": "Docencia",
       "sub_aspectos": [
         "programa",
         "estudios"
@@ -1691,8 +1904,8 @@
       "satisfaccion_global": "Totalmente satisfecho",
       "texto": "Oportunidades laborales amplias",
       "aspecto_detectado": "oportunidades laborales",
-      "aspecto_normalizado": "Mejora en perspectivas de empleo",
-      "categoria_padre": "Desarrollo Profesional",
+      "aspecto_normalizado": "Empleabilidad, vinculación y ALUMNI",
+      "categoria_padre": "Administrativo y Bienestar",
       "sub_aspectos": [
         "oportunidades"
       ],
@@ -1731,17 +1944,37 @@
       "nps_score": 9,
       "segmento_nps": "Promotor",
       "satisfaccion_global": "Satisfecho",
-      "texto": "Porque es una gran universidad que apoya al alumno",
+      "texto": "Porque es una gran universidad",
       "aspecto_detectado": "porque es gran universidad",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Satisfacción estudiantil",
+      "categoria_padre": "Académico",
       "sub_aspectos": [
-        "universidad",
+        "universidad"
+      ],
+      "sentimiento": "positivo",
+      "intensidad": 3,
+      "confianza_sentimiento": 0.9191,
+      "comentario_original": "porque es una gran universidad que apoya al alumno"
+    },
+    {
+      "id_encuesta": "SDBnv1fa",
+      "id_fragmento": "SDBnv1fa_02",
+      "facultad": "Facultad de Ciencias Empresariales",
+      "carrera": "Negocios Internacionales",
+      "ciclo": "NA",
+      "nps_score": 9,
+      "segmento_nps": "Promotor",
+      "satisfaccion_global": "Satisfecho",
+      "texto": "Que apoya al alumno",
+      "aspecto_detectado": "alumno",
+      "aspecto_normalizado": "Satisfacción estudiantil",
+      "categoria_padre": "Académico",
+      "sub_aspectos": [
         "alumno"
       ],
       "sentimiento": "positivo",
       "intensidad": 3,
-      "confianza_sentimiento": 0.9601,
+      "confianza_sentimiento": 0.948,
       "comentario_original": "porque es una gran universidad que apoya al alumno"
     },
     {
@@ -1755,8 +1988,8 @@
       "satisfaccion_global": "Satisfecho",
       "texto": "Muy buena universidad",
       "aspecto_detectado": "muy buena universidad",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Satisfacción estudiantil",
+      "categoria_padre": "Académico",
       "sub_aspectos": [
         "universidad"
       ],
@@ -1798,7 +2031,7 @@
       "satisfaccion_global": "Muy satisfecho",
       "texto": "Una universidad muy completa",
       "aspecto_detectado": "universidad muy completa",
-      "aspecto_normalizado": "Intercambio estudiantil",
+      "aspecto_normalizado": "La carrera",
       "categoria_padre": "Académico",
       "sub_aspectos": [
         "universidad"
@@ -1819,8 +2052,8 @@
       "satisfaccion_global": "Totalmente satisfecho",
       "texto": "Simplemente la mejor universidad",
       "aspecto_detectado": "simplemente mejor universidad",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Satisfacción estudiantil",
+      "categoria_padre": "Académico",
       "sub_aspectos": [
         "universidad"
       ],
@@ -1838,19 +2071,40 @@
       "nps_score": 10,
       "segmento_nps": "Promotor",
       "satisfaccion_global": "Totalmente satisfecho",
-      "texto": "Mi casa de estudios me dio todos los recursos posibles para poder terminar mi carrera!",
+      "texto": "Mi casa de estudios posibles para poder terminar mi carrera!",
       "aspecto_detectado": "casa",
-      "aspecto_normalizado": "Compromiso",
-      "categoria_padre": "Docencia",
+      "aspecto_normalizado": "La carrera",
+      "categoria_padre": "Académico",
       "sub_aspectos": [
         "casa",
         "estudios",
+        "carrera"
+      ],
+      "sentimiento": "positivo",
+      "intensidad": 3,
+      "confianza_sentimiento": 0.918,
+      "comentario_original": "Mi casa de estudios me dio todos los recursos posibles para poder terminar mi carrera!"
+    },
+    {
+      "id_encuesta": "pEjEKM7e",
+      "id_fragmento": "pEjEKM7e_02",
+      "facultad": "Facultad de Ciencias Empresariales",
+      "carrera": "Negocios Internacionales",
+      "ciclo": "NA",
+      "nps_score": 10,
+      "segmento_nps": "Promotor",
+      "satisfaccion_global": "Totalmente satisfecho",
+      "texto": "Me dio todos los recursos posibles para poder terminar mi carrera!",
+      "aspecto_detectado": "recursos posibles",
+      "aspecto_normalizado": "Claridad de los recursos académicos",
+      "categoria_padre": "Académico",
+      "sub_aspectos": [
         "recursos",
         "carrera"
       ],
       "sentimiento": "positivo",
       "intensidad": 3,
-      "confianza_sentimiento": 0.9051,
+      "confianza_sentimiento": 0.8647,
       "comentario_original": "Mi casa de estudios me dio todos los recursos posibles para poder terminar mi carrera!"
     },
     {
@@ -1904,20 +2158,60 @@
       "nps_score": 10,
       "segmento_nps": "Promotor",
       "satisfaccion_global": "Satisfecho",
-      "texto": "Deben actuar más rápido en la incorporación de programas softwares, programas etc conforme se necesita en el mercado",
+      "texto": "Deben actuar más rápido en la incorporación de programas softwares",
       "aspecto_detectado": "incorporación",
-      "aspecto_normalizado": "Compromiso",
-      "categoria_padre": "Docencia",
+      "aspecto_normalizado": "Pendiente de Clasificación",
+      "categoria_padre": "Pendiente de Clasificación",
       "sub_aspectos": [
         "incorporación",
+        "programas"
+      ],
+      "sentimiento": "negativo",
+      "intensidad": 3,
+      "confianza_sentimiento": 0.9022,
+      "comentario_original": "Deben actuar más rápido en la incorporación de programas softwares, programas etc conforme se necesita en el mercado"
+    },
+    {
+      "id_encuesta": "ZHDFH3LT",
+      "id_fragmento": "ZHDFH3LT_02",
+      "facultad": "Facultad de Ciencias Empresariales",
+      "carrera": "Negocios Internacionales",
+      "ciclo": "NA",
+      "nps_score": 10,
+      "segmento_nps": "Promotor",
+      "satisfaccion_global": "Satisfecho",
+      "texto": "Programas etc conforme",
+      "aspecto_detectado": "programas",
+      "aspecto_normalizado": "Satisfacción estudiantil",
+      "categoria_padre": "Académico",
+      "sub_aspectos": [
         "programas",
-        "programas",
-        "conforme",
+        "conforme"
+      ],
+      "sentimiento": "negativo",
+      "intensidad": 3,
+      "confianza_sentimiento": 0.6382,
+      "comentario_original": "Deben actuar más rápido en la incorporación de programas softwares, programas etc conforme se necesita en el mercado"
+    },
+    {
+      "id_encuesta": "ZHDFH3LT",
+      "id_fragmento": "ZHDFH3LT_03",
+      "facultad": "Facultad de Ciencias Empresariales",
+      "carrera": "Negocios Internacionales",
+      "ciclo": "NA",
+      "nps_score": 10,
+      "segmento_nps": "Promotor",
+      "satisfaccion_global": "Satisfecho",
+      "texto": "Se necesita en el mercado",
+      "aspecto_detectado": "mercado",
+      "aspecto_normalizado": "Pendiente de Clasificación",
+      "categoria_padre": "Pendiente de Clasificación",
+      "sub_aspectos": [
         "mercado"
       ],
       "sentimiento": "negativo",
       "intensidad": 3,
-      "confianza_sentimiento": 0.9168,
+      "confianza_sentimiento": 0.6179,
       "comentario_original": "Deben actuar más rápido en la incorporación de programas softwares, programas etc conforme se necesita en el mercado"
     },
     {
@@ -1950,9 +2244,9 @@
       "nps_score": 9,
       "segmento_nps": "Promotor",
       "satisfaccion_global": "Totalmente satisfecho",
-      "texto": "La universidad, siento que me ha preparado bien para lo que me apasiona en cuestión a la linea de carrera que quiero continuar",
+      "texto": "La universidad, siento que me ha preparado bien para lo que me apasiona en cuestión a la linea de carrera",
       "aspecto_detectado": "universidad",
-      "aspecto_normalizado": "Intercambio estudiantil",
+      "aspecto_normalizado": "La carrera",
       "categoria_padre": "Académico",
       "sub_aspectos": [
         "universidad",
@@ -1962,7 +2256,7 @@
       ],
       "sentimiento": "positivo",
       "intensidad": 3,
-      "confianza_sentimiento": 0.9114,
+      "confianza_sentimiento": 0.9292,
       "comentario_original": "Me encanta mi carrera y la universidad, siento que me ha preparado bien para lo que me apasiona en cuestión a la linea de carrera que quiero continuar y me siento muy orgulloso de ser egresado de la Universidad de Lima."
     },
     {
@@ -1974,9 +2268,28 @@
       "nps_score": 9,
       "segmento_nps": "Promotor",
       "satisfaccion_global": "Totalmente satisfecho",
+      "texto": "Que quiero continuar",
+      "aspecto_detectado": "querer",
+      "aspecto_normalizado": "Pendiente de Clasificación",
+      "categoria_padre": "Pendiente de Clasificación",
+      "sub_aspectos": [],
+      "sentimiento": "positivo",
+      "intensidad": 3,
+      "confianza_sentimiento": 0.679,
+      "comentario_original": "Me encanta mi carrera y la universidad, siento que me ha preparado bien para lo que me apasiona en cuestión a la linea de carrera que quiero continuar y me siento muy orgulloso de ser egresado de la Universidad de Lima."
+    },
+    {
+      "id_encuesta": "DZC5THRL",
+      "id_fragmento": "DZC5THRL_04",
+      "facultad": "Facultad de Ciencias Empresariales",
+      "carrera": "Negocios Internacionales",
+      "ciclo": "NA",
+      "nps_score": 9,
+      "segmento_nps": "Promotor",
+      "satisfaccion_global": "Totalmente satisfecho",
       "texto": "Me siento muy orgulloso de ser egresado de la universidad de lima",
       "aspecto_detectado": "universidad de lima",
-      "aspecto_normalizado": "Intercambio estudiantil",
+      "aspecto_normalizado": "Perfil del egreso de la carrera",
       "categoria_padre": "Académico",
       "sub_aspectos": [
         "universidad",
@@ -1998,8 +2311,8 @@
       "satisfaccion_global": "Totalmente satisfecho",
       "texto": "Universidad completa, brindando oportunidades",
       "aspecto_detectado": "universidad completa",
-      "aspecto_normalizado": "Intercambio estudiantil",
-      "categoria_padre": "Académico",
+      "aspecto_normalizado": "Empleabilidad, vinculación y ALUMNI",
+      "categoria_padre": "Administrativo y Bienestar",
       "sub_aspectos": [
         "universidad",
         "oportunidades"
@@ -2039,17 +2352,16 @@
       "nps_score": 10,
       "segmento_nps": "Promotor",
       "satisfaccion_global": "Totalmente satisfecho",
-      "texto": "Porque es una universidad que te brinda todos los conocimientos",
+      "texto": "Porque es una universidad",
       "aspecto_detectado": "porque es universidad",
-      "aspecto_normalizado": "Intercambio estudiantil",
+      "aspecto_normalizado": "La carrera",
       "categoria_padre": "Académico",
       "sub_aspectos": [
-        "universidad",
-        "conocimientos"
+        "universidad"
       ],
       "sentimiento": "positivo",
       "intensidad": 3,
-      "confianza_sentimiento": 0.9487,
+      "confianza_sentimiento": 0.8649,
       "comentario_original": "Porque es una universidad que te brinda todos los conocimientos, contactos y profesores para desempeñarte en el mundo laboral de manera eficaz"
     },
     {
@@ -2061,16 +2373,16 @@
       "nps_score": 10,
       "segmento_nps": "Promotor",
       "satisfaccion_global": "Totalmente satisfecho",
-      "texto": "Contactos",
-      "aspecto_detectado": "contactos",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "texto": "Que te brinda todos los conocimientos",
+      "aspecto_detectado": "conocimientos",
+      "aspecto_normalizado": "Transmisión de conocimientos",
+      "categoria_padre": "Docencia",
       "sub_aspectos": [
-        "contactos"
+        "conocimientos"
       ],
       "sentimiento": "positivo",
       "intensidad": 3,
-      "confianza_sentimiento": 0.4854,
+      "confianza_sentimiento": 0.8868,
       "comentario_original": "Porque es una universidad que te brinda todos los conocimientos, contactos y profesores para desempeñarte en el mundo laboral de manera eficaz"
     },
     {
@@ -2082,7 +2394,28 @@
       "nps_score": 10,
       "segmento_nps": "Promotor",
       "satisfaccion_global": "Totalmente satisfecho",
-      "texto": "Profesores para desempeñarte en el mundo laboral de manera eficaz",
+      "texto": "Que te brinda todos los contactos",
+      "aspecto_detectado": "contactos",
+      "aspecto_normalizado": "Pendiente de Clasificación",
+      "categoria_padre": "Pendiente de Clasificación",
+      "sub_aspectos": [
+        "contactos"
+      ],
+      "sentimiento": "positivo",
+      "intensidad": 3,
+      "confianza_sentimiento": 0.8143,
+      "comentario_original": "Porque es una universidad que te brinda todos los conocimientos, contactos y profesores para desempeñarte en el mundo laboral de manera eficaz"
+    },
+    {
+      "id_encuesta": "n6C2QF9z",
+      "id_fragmento": "n6C2QF9z_04",
+      "facultad": "Facultad de Ciencias Empresariales",
+      "carrera": "Negocios Internacionales",
+      "ciclo": "NA",
+      "nps_score": 10,
+      "segmento_nps": "Promotor",
+      "satisfaccion_global": "Totalmente satisfecho",
+      "texto": "Que te brinda todos los profesores para desempeñarte en el mundo laboral de manera eficaz",
       "aspecto_detectado": "profesores",
       "aspecto_normalizado": "Calidad de la enseñanza en la carrera",
       "categoria_padre": "Académico",
@@ -2094,7 +2427,7 @@
       ],
       "sentimiento": "positivo",
       "intensidad": 3,
-      "confianza_sentimiento": 0.952,
+      "confianza_sentimiento": 0.9637,
       "comentario_original": "Porque es una universidad que te brinda todos los conocimientos, contactos y profesores para desempeñarte en el mundo laboral de manera eficaz"
     },
     {
@@ -2108,7 +2441,7 @@
       "satisfaccion_global": "Totalmente satisfecho",
       "texto": "La mejor universidad",
       "aspecto_detectado": "mejor universidad",
-      "aspecto_normalizado": "Calidad de la formación académica",
+      "aspecto_normalizado": "La carrera",
       "categoria_padre": "Académico",
       "sub_aspectos": [
         "universidad"
@@ -2150,8 +2483,8 @@
       "satisfaccion_global": "Muy satisfecho",
       "texto": "Buena",
       "aspecto_detectado": "buena",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Satisfacción estudiantil",
+      "categoria_padre": "Académico",
       "sub_aspectos": [
         "buena"
       ],
@@ -2169,37 +2502,17 @@
       "nps_score": 10,
       "segmento_nps": "Promotor",
       "satisfaccion_global": "Satisfecho",
-      "texto": "Buena infraestructura",
-      "aspecto_detectado": "infraestructura",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
-      "sub_aspectos": [
-        "infraestructura"
-      ],
-      "sentimiento": "negativo",
-      "intensidad": 3,
-      "confianza_sentimiento": 0.5333,
-      "comentario_original": "Buena infraestructura, profesores capacitados"
-    },
-    {
-      "id_encuesta": "HGC2Upmm",
-      "id_fragmento": "HGC2Upmm_02",
-      "facultad": "Facultad de Ciencias Empresariales",
-      "carrera": "Negocios Internacionales",
-      "ciclo": "NA",
-      "nps_score": 10,
-      "segmento_nps": "Promotor",
-      "satisfaccion_global": "Satisfecho",
-      "texto": "Profesores capacitados",
-      "aspecto_detectado": "profesores capacitados",
+      "texto": "Buena infraestructura, profesores capacitados",
+      "aspecto_detectado": ", profesores capacitados",
       "aspecto_normalizado": "Calidad de la enseñanza en la carrera",
       "categoria_padre": "Académico",
       "sub_aspectos": [
+        "infraestructura",
         "profesores"
       ],
       "sentimiento": "positivo",
       "intensidad": 3,
-      "confianza_sentimiento": 0.9605,
+      "confianza_sentimiento": 0.9321,
       "comentario_original": "Buena infraestructura, profesores capacitados"
     },
     {
@@ -2213,8 +2526,8 @@
       "satisfaccion_global": "Totalmente satisfecho",
       "texto": "Buena estructura",
       "aspecto_detectado": "buena estructura",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Satisfacción estudiantil",
+      "categoria_padre": "Académico",
       "sub_aspectos": [
         "estructura"
       ],
@@ -2234,7 +2547,7 @@
       "satisfaccion_global": "Totalmente satisfecho",
       "texto": "Cursos",
       "aspecto_detectado": "cursos",
-      "aspecto_normalizado": "Plan curricular y perfil de egreso",
+      "aspecto_normalizado": "Cursos del programa y contenidos",
       "categoria_padre": "Académico",
       "sub_aspectos": [
         "cursos"
@@ -2274,8 +2587,8 @@
       "nps_score": 10,
       "segmento_nps": "Promotor",
       "satisfaccion_global": "Totalmente satisfecho",
-      "texto": "Infraestructura",
-      "aspecto_detectado": "infraestructura",
+      "texto": "Infraestructura internacionales y más",
+      "aspecto_detectado": "infraestructura internacionales",
       "aspecto_normalizado": "Pendiente de Clasificación",
       "categoria_padre": "Pendiente de Clasificación",
       "sub_aspectos": [
@@ -2283,7 +2596,7 @@
       ],
       "sentimiento": "negativo",
       "intensidad": 3,
-      "confianza_sentimiento": 0.7323,
+      "confianza_sentimiento": 0.6111,
       "comentario_original": "Buena estructura, cursos, profesores, infraestructura, convenios internacionales y más. Institución con prestigio."
     },
     {
@@ -2297,8 +2610,8 @@
       "satisfaccion_global": "Totalmente satisfecho",
       "texto": "Convenios internacionales y más",
       "aspecto_detectado": "convenios internacionales",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Intercambio estudiantil",
+      "categoria_padre": "Académico",
       "sub_aspectos": [
         "convenios"
       ],
@@ -2318,7 +2631,7 @@
       "satisfaccion_global": "Totalmente satisfecho",
       "texto": "Institución con prestigio",
       "aspecto_detectado": "institución",
-      "aspecto_normalizado": "La carrera",
+      "aspecto_normalizado": "Calidad de la formación académica",
       "categoria_padre": "Académico",
       "sub_aspectos": [
         "institución",
@@ -2340,8 +2653,8 @@
       "satisfaccion_global": "Satisfecho",
       "texto": "Es una buena universidad",
       "aspecto_detectado": "es buena universidad",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Satisfacción estudiantil",
+      "categoria_padre": "Académico",
       "sub_aspectos": [
         "universidad"
       ],
@@ -2359,14 +2672,14 @@
       "nps_score": 10,
       "segmento_nps": "Promotor",
       "satisfaccion_global": "Satisfecho",
-      "texto": "Prestigiosa",
-      "aspecto_detectado": "prestigioso",
-      "aspecto_normalizado": "La carrera",
+      "texto": "Es una buena prestigiosa",
+      "aspecto_detectado": "buen",
+      "aspecto_normalizado": "Satisfacción estudiantil",
       "categoria_padre": "Académico",
       "sub_aspectos": [],
       "sentimiento": "positivo",
       "intensidad": 3,
-      "confianza_sentimiento": 0.8198,
+      "confianza_sentimiento": 0.9531,
       "comentario_original": "Es una buena universidad y prestigiosa"
     },
     {
@@ -2378,9 +2691,9 @@
       "nps_score": 10,
       "segmento_nps": "Promotor",
       "satisfaccion_global": "Totalmente satisfecho",
-      "texto": "La universidad de lima es una ambiente muy amigable y su doctrina de enseñanza excelente, acompañado de buenos profesores que te acompañaban en el proceso",
+      "texto": "La universidad de lima es una ambiente muy amigable y su doctrina de enseñanza excelente, acompañado de buenos profesores",
       "aspecto_detectado": "universidad de lima",
-      "aspecto_normalizado": "Intercambio estudiantil",
+      "aspecto_normalizado": "Calidad de la enseñanza en la carrera",
       "categoria_padre": "Académico",
       "sub_aspectos": [
         "universidad",
@@ -2388,17 +2701,37 @@
         "ambiente",
         "doctrina",
         "enseñanza",
-        "profesores",
-        "proceso"
+        "profesores"
       ],
       "sentimiento": "positivo",
       "intensidad": 5,
-      "confianza_sentimiento": 0.9892,
+      "confianza_sentimiento": 0.9832,
       "comentario_original": "La universidad de Lima es una ambiente muy amigable y su doctrina de enseñanza excelente, acompañado de buenos profesores que te acompañaban en el proceso. Así mismo, la infraestructura ha mejorado excelentemente"
     },
     {
       "id_encuesta": "hbBhs7Tk",
       "id_fragmento": "hbBhs7Tk_02",
+      "facultad": "Facultad de Ciencias Empresariales",
+      "carrera": "Negocios Internacionales",
+      "ciclo": "NA",
+      "nps_score": 10,
+      "segmento_nps": "Promotor",
+      "satisfaccion_global": "Totalmente satisfecho",
+      "texto": "Que te acompañaban en el proceso",
+      "aspecto_detectado": "proceso",
+      "aspecto_normalizado": "Pendiente de Clasificación",
+      "categoria_padre": "Pendiente de Clasificación",
+      "sub_aspectos": [
+        "proceso"
+      ],
+      "sentimiento": "positivo",
+      "intensidad": 3,
+      "confianza_sentimiento": 0.8151,
+      "comentario_original": "La universidad de Lima es una ambiente muy amigable y su doctrina de enseñanza excelente, acompañado de buenos profesores que te acompañaban en el proceso. Así mismo, la infraestructura ha mejorado excelentemente"
+    },
+    {
+      "id_encuesta": "hbBhs7Tk",
+      "id_fragmento": "hbBhs7Tk_03",
       "facultad": "Facultad de Ciencias Empresariales",
       "carrera": "Negocios Internacionales",
       "ciclo": "NA",

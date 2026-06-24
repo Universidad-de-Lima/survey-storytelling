@@ -271,8 +271,8 @@ window.SurveyRadarChart = (() => {
 
       parts.push(`<text x="${l.x}" y="${l.y}" font-size="10" font-weight="500" fill="#6B7280" style="cursor:pointer;"
                   text-anchor="${l.anchor}" dominant-baseline="middle"
-                  onmousemove="window.SurveyTooltip.show(event,'${_fmt.formatDimensionNameForAttr(l.dim)}: ${_fmt.formatPercent(l.pct, 2)}')"
-                  onmouseleave="window.SurveyTooltip.hide()">${_fmt.formatDimensionNameSVG(l.dim, RADAR_LABEL_MAXLEN)}</text>`);
+                  data-dim="${_fmt.formatDimensionNameForAttr(l.dim)}"
+                  data-pct="${_fmt.formatPercent(l.pct, 2)}">${_fmt.formatDimensionNameSVG(l.dim, RADAR_LABEL_MAXLEN)}</text>`);
     });
 
     // Puntos del polígono de datos
@@ -314,6 +314,17 @@ window.SurveyRadarChart = (() => {
     });
 
     svg.innerHTML = parts.join('');
+
+    // Bind tooltip events to radar labels via addEventListener (CSP-friendly)
+    const _ttp = window.SurveyTooltip;
+    if (_ttp) {
+      svg.querySelectorAll('text[data-dim]').forEach((txt) => {
+        const dim = txt.getAttribute('data-dim');
+        const pct = txt.getAttribute('data-pct');
+        txt.addEventListener('mousemove', (e) => _ttp.show(e, `${dim}: ${pct}`));
+        txt.addEventListener('mouseleave', () => _ttp.hide());
+      });
+    }
 
     // Disparar las animaciones inmediatamente
     setTimeout(() => {

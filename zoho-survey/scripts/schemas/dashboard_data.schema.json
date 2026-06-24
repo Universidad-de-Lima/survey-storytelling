@@ -2,9 +2,10 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://universidad-de-lima.github.io/survey-storytelling/schemas/dashboard_data.json",
   "title": "Dashboard Data",
-  "description": "Contrato de datos agregados del dashboard (KPIs ejecutivos, NPS, CSAT, hallazgos).",
+  "description": "Contrato de datos agregados del dashboard (KPIs ejecutivos, NPS, CSAT, hallazgos). Fuente de verdad: build_json.py. El ETL produce claves en minúsculas para NPS; el frontend acepta ambos casings vía nullish coalescing. El contrato canónico es minúsculas.",
   "type": "object",
   "required": ["version", "resumen", "hallazgos", "nps", "csat"],
+  "additionalProperties": false,
   "properties": {
     "version": {
       "type": "string",
@@ -13,7 +14,8 @@
     },
     "resumen": {
       "type": "object",
-      "required": ["encuestas", "fecha_inicio", "fecha_fin", "nps", "csat"],
+      "required": ["encuestas", "fecha_inicio", "fecha_fin", "año", "nps", "csat"],
+      "additionalProperties": false,
       "properties": {
         "encuestas": { "type": "integer", "minimum": 0 },
         "carreras": { "type": "integer", "minimum": 0 },
@@ -27,6 +29,7 @@
         "nps": {
           "type": "object",
           "required": ["score", "promotores", "pasivos", "detractores", "total"],
+          "additionalProperties": false,
           "properties": {
             "score": { "type": "number", "minimum": -100, "maximum": 100 },
             "promotores": { "type": "integer", "minimum": 0 },
@@ -38,6 +41,7 @@
         "csat": {
           "type": "object",
           "required": ["score", "t3b", "total"],
+          "additionalProperties": false,
           "properties": {
             "score": { "type": "number", "minimum": 0, "maximum": 100 },
             "t3b": { "type": "integer", "minimum": 0 },
@@ -48,6 +52,7 @@
           "description": "Tasa de empleabilidad (solo encuestas de graduados). Calculada como empleados / total de respuestas a 'Situación laboral'.",
           "type": "object",
           "required": ["score", "empleados", "total"],
+          "additionalProperties": false,
           "properties": {
             "score": { "type": "number", "minimum": 0, "maximum": 100 },
             "empleados": { "type": "integer", "minimum": 0 },
@@ -59,30 +64,61 @@
     "hallazgos": {
       "type": "object",
       "required": ["csat_pct", "nps_score", "nps_tipo", "nps_etapas", "tendencia", "delta"],
+      "additionalProperties": false,
       "properties": {
-        "csat_pct": { "type": "integer" },
-        "nps_score": { "type": "integer" },
+        "csat_pct": { "type": "integer", "minimum": 0, "maximum": 100 },
+        "nps_score": { "type": "integer", "minimum": -100, "maximum": 100 },
         "nps_tipo": { "type": "string", "enum": ["Excelente", "Bueno", "Regular", "Pésimo"] },
-        "nps_etapas": { "type": "object" },
+        "nps_etapas": {
+          "type": "object",
+          "description": "NPS por etapa académica (Inicial, Intermedio, Avanzado). Objeto vacío si no hay ciclos.",
+          "additionalProperties": { "type": "number" }
+        },
         "tendencia": { "type": "string", "enum": ["disminuye", "aumenta", "se mantiene"] },
         "delta": { "type": "integer", "minimum": 0 },
-        "top_dimensiones": { "type": "array" },
-        "top_facultades": { "type": "array" }
+        "top_dimensiones": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name", "score"],
+            "additionalProperties": false,
+            "properties": {
+              "name": { "type": "string" },
+              "score": { "type": "number" }
+            }
+          }
+        },
+        "top_facultades": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name", "score"],
+            "additionalProperties": false,
+            "properties": {
+              "name": { "type": "string" },
+              "score": { "type": "number" }
+            }
+          }
+        }
       }
     },
     "nps": {
       "type": "object",
-      "required": ["Promotores", "Pasivos", "Detractores"],
+      "description": "Distribución NPS global. Claves en minúsculas (canónicas); el frontend acepta ambos casings vía nullish coalescing por compatibilidad backward.",
+      "required": ["promotores", "pasivos", "detractores"],
+      "additionalProperties": false,
       "properties": {
-        "Promotores": { "type": "integer", "minimum": 0 },
-        "Pasivos": { "type": "integer", "minimum": 0 },
-        "Detractores": { "type": "integer", "minimum": 0 },
-        "score": { "type": "number" }
+        "promotores": { "type": "integer", "minimum": 0 },
+        "pasivos": { "type": "integer", "minimum": 0 },
+        "detractores": { "type": "integer", "minimum": 0 },
+        "score": { "type": "number", "minimum": -100, "maximum": 100 }
       }
     },
     "csat": {
       "type": "object",
+      "description": "Distribución CSAT global con los 5 niveles Zoho Survey + 2 claves opcionales de visibilidad.",
       "required": ["Totalmente satisfecho", "Muy satisfecho", "Satisfecho", "Insatisfecho", "Totalmente insatisfecho"],
+      "additionalProperties": false,
       "properties": {
         "Totalmente satisfecho": { "type": "integer", "minimum": 0 },
         "Muy satisfecho": { "type": "integer", "minimum": 0 },
@@ -91,7 +127,7 @@
         "Totalmente insatisfecho": { "type": "integer", "minimum": 0 },
         "No utilizo": { "type": "integer", "minimum": 0 },
         "No conozco": { "type": "integer", "minimum": 0 },
-        "score": { "type": "number" }
+        "score": { "type": "number", "minimum": 0, "maximum": 100 }
       }
     }
   }

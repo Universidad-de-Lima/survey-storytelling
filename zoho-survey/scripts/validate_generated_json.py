@@ -1,11 +1,23 @@
 """
 SURVEY VALIDATION — Validador de contratos de datos para encuestas.
 
-Inspecciona los archivos JSON generados para cada periodo y nivel, asegurando
-que cumplan con los tipos, claves y restricciones de los contratos v2.0.
-También valida que los index.html tengan las secciones cualitativas requeridas.
+Valida estructura, tipos y claves de los JSON generados por periodo usando:
+  1. JSON Schema Draft-07 (schemas en scripts/schemas/*.schema.json) — fuente canónica de tipos.
+  2. Invariantes de negocio cruzadas (no expresables en JSON Schema).
+
+Tambien valida que los index.html tengan las secciones cualitativas requeridas.
+
+Fuentes de verdad:
+  - Schemas Draft-07 en scripts/schemas/*.schema.json (unico contrato formal de tipos).
+  - ETL (build_json.py) produce los JSONs consumidos por el frontend.
+  - CONTRACTS.md documenta los contratos en lenguaje humano.
+
+El validador NO debe ser mas permisivo que el schema. Si el schema rechaza, el validador rechaza.
+Las validaciones custom adicionales (suma > 0, facultad_carrera cubre facultades, etc.) son
+complementarias y se aplican despues del schema.
 """
 
+import json
 import sys
 from pathlib import Path
 from typing import Dict, List, Set, Tuple
@@ -14,9 +26,34 @@ from typing import Dict, List, Set, Tuple
 from lib.config import RESPUESTAS_TEXTO
 from lib.io_helper import load_json
 
+# Import opcional de jsonschema (Draft-07). Si no esta instalado, se omite la
+# validacion formal y se reporta como warning al usuario.
+try:
+    import jsonschema
+    from jsonschema import Draft7Validator
+    HAVE_JSONSCHEMA = True
+except ImportError:
+    HAVE_JSONSCHEMA = False
+
 BASE_DIR: Path = Path(__file__).resolve().parent
 ROOT_DIR: Path = BASE_DIR.parent / "students"
+SCHEMAS_DIR: Path = BASE_DIR / "schemas"
 
+# ---------------------------------------------------------------------------
+# Mapping de archivo -> schema filename. Solo se validan con schema los archivos
+# que tienen uno formal definido. Los archivos legacy no se validan con schema.
+# ---------------------------------------------------------------------------
+SCHEMA_BY_FILE: Dict[str, str] = {
+    "dashboard_data.json": "dashboard_data.schema.json",
+    "filtros.json": "filtros.schema.json",
+    "sentimiento.json": "sentimiento.schema.json",
+    "dimensiones.json": "dimensiones.schema.json",
+    "ids.json": "ids.schema.json",
+    "nps_ciclo_carrera.json": "nps_ciclo_carrera.schema.json",
+    "csat_ciclo_carrera.json": "csat_ciclo_carrera.schema.json",
+}
+
+# Archivos obligatorios por periodo (shape minimo; el schema formal vive en SCHEMA_BY_FILE).
 REQUIRED_PERIOD_FILES: Dict[str, Dict[str, any]] = {
     "dashboard_data.json": dict(type=dict, non_empty=True),
     "dimensiones.json": dict(type=list, non_empty=True),
@@ -27,48 +64,71 @@ REQUIRED_PERIOD_FILES: Dict[str, Dict[str, any]] = {
     "sentimiento.json": dict(type=dict, non_empty=True),
 }
 
-# Archivos legacy: validados si existen, pero su ausencia no genera error
+# Archivos legacy: validados si existen, pero su ausencia no genera error.
 LEGACY_PERIOD_FILES: Dict[str, Dict[str, any]] = {
     "nps_carrera.json": dict(type=list, non_empty=True),
     "csat_carrera.json": dict(type=list, non_empty=True),
 }
 
-# Derivar llaves de respuestas del catálogo central
+# Derivar llaves de respuestas del catalogo central
 SAT_KEYS: Set[str] = set(RESPUESTAS_TEXTO[:5])
 VISIBILITY_KEYS: Set[str] = set(RESPUESTAS_TEXTO[5:7])
 REQUIRED_RESPONSE_KEYS: Set[str] = SAT_KEYS | VISIBILITY_KEYS
 
-REQUIRED_DASHBOARD_KEYS: Set[str] = {"resumen", "hallazgos", "nps", "csat"}
-REQUIRED_RESUMEN_KEYS: Set[str] = {"encuestas", "fecha_inicio", "fecha_fin", "nps", "csat"}
-REQUIRED_SCORE_KEYS: Set[str] = {"score"}
-REQUIRED_HALLAZGOS_KEYS: Set[str] = {
-    "csat_pct", "nps_score", "nps_tipo", "nps_etapas", "tendencia", "delta",
-}
 REQUIRED_FILTROS_KEYS: Set[str] = {"has_ciclo", "facultades", "carreras", "ciclos", "facultad_carrera"}
-REQUIRED_DIMENSION_KEYS: Set[str] = (
-    {"facultad", "carrera", "ciclo", "categoria", "dimension", "t3b", "b2b", "total", "t3b_pct", "no_utilizo", "no_conozco"}
-    | REQUIRED_RESPONSE_KEYS
-)
-REQUIRED_ID_KEYS: Set[str] = {"facultad", "carrera", "ciclo", "count"}
 REQUIRED_CROSS_KEYS: Set[str] = {"facultad", "carrera", "ciclo"}
-REQUIRED_SENTIMIENTO_KEYS: Set[str] = {"version", "resumen", "insights_ia", "topicos", "comentarios", "por_carrera", "por_ciclo"}
-REQUIRED_SENTIMIENTO_RESUMEN_KEYS: Set[str] = {
-    "total_respuestas", "total_con_comentario", "total_analizados", "comentarios_invalidos", "distribucion_sentimiento", "distribucion_intensidad", "pasivos", "detractores", "nota",
-}
-REQUIRED_TOPICO_KEYS: Set[str] = {
-    "topico", "categoria_padre", "tipo", "icono", "total_comentarios", "detractores", "pasivos", "sentimiento_predominante", "intensidad_promedio", "frases_representativas", "por_facultad", "por_carrera", "por_ciclo",
-}
-REQUIRED_COMENTARIO_KEYS: Set[str] = {
-    "id", "carrera", "facultad", "ciclo", "nps_score", "sentimiento", "intensidad", "categoria", "categoria_padre", "fragmento_original", "fragmento_mostrar", "es_valido",
-}
 
 
+# ---------------------------------------------------------------------------
+# Carga y cache de schemas
+# ---------------------------------------------------------------------------
+_SCHEMA_CACHE: Dict[str, dict] = {}
+
+
+def load_schema(schema_filename: str) -> dict:
+    """Carga y cachea un JSON Schema desde scripts/schemas/."""
+    if schema_filename in _SCHEMA_CACHE:
+        return _SCHEMA_CACHE[schema_filename]
+    path = SCHEMAS_DIR / schema_filename
+    if not path.exists():
+        raise FileNotFoundError(f"Schema no encontrado: {path}")
+    schema = load_json(path)
+    _SCHEMA_CACHE[schema_filename] = schema
+    return schema
+
+
+def validate_with_schema(value: any, schema_filename: str, json_path: Path) -> List[str]:
+    """
+    Valida un valor contra un JSON Schema Draft-07.
+    Retorna una lista de mensajes de error (vacia si es valido).
+    """
+    if not HAVE_JSONSCHEMA:
+        return [f"[{json_path.name}] validacion JSON Schema omitida: libreria jsonschema no instalada"]
+
+    try:
+        schema = load_schema(schema_filename)
+    except (FileNotFoundError, ValueError) as exc:
+        return [f"[{json_path.name}] no se pudo cargar schema {schema_filename}: {exc}"]
+
+    errors: List[str] = []
+    validator = Draft7Validator(schema)
+    for err in validator.iter_errors(value):
+        # Formatear ruta legible: /resumen/nps/score
+        location = "/".join(str(p) for p in err.absolute_path) or "(raiz)"
+        errors.append(f"[{json_path.name}] schema {schema_filename}: {location}: {err.message}")
+
+    return errors
+
+
+# ---------------------------------------------------------------------------
+# Validaciones de shape y helpers (mantenidas por retrocompatibilidad)
+# ---------------------------------------------------------------------------
 def validate_shape(value: any, expected_type: type, non_empty: bool) -> None:
-    """Verifica que un valor coincida con el tipo y restricción de vacío esperados."""
+    """Verifica que un valor coincida con el tipo y restriccion de vacio esperados."""
     if not isinstance(value, expected_type):
-        raise ValueError(f"se esperaba {expected_type.__name__}, se encontró {type(value).__name__}")
+        raise ValueError(f"se esperaba {expected_type.__name__}, se encontro {type(value).__name__}")
     if non_empty and not value:
-        raise ValueError("estructura vacía")
+        raise ValueError("estructura vacia")
 
 
 def require_keys(value: any, keys: Set[str], label: str) -> None:
@@ -81,64 +141,38 @@ def require_keys(value: any, keys: Set[str], label: str) -> None:
 
 
 def require_numeric(value: dict, keys: Set[str], label: str) -> None:
-    """Valida que los campos declarados dentro de un diccionario sean valores numéricos."""
+    """Valida que los campos declarados dentro de un diccionario sean valores numericos."""
     for key in keys:
         if not isinstance(value.get(key), (int, float)):
-            raise ValueError(f"{label}.{key} debe ser numérico")
+            raise ValueError(f"{label}.{key} debe ser numerico")
 
 
-def validate_dashboard(value: dict) -> None:
-    """Valida la estructura interna de dashboard_data.json."""
-    require_keys(value, REQUIRED_DASHBOARD_KEYS, "dashboard_data.json")
-    resumen = value.get("resumen") or {}
-    hallazgos = value.get("hallazgos") or {}
-
-    require_keys(resumen, REQUIRED_RESUMEN_KEYS, "dashboard_data.resumen")
-    if "año" not in resumen and "ano" not in resumen:
-        raise ValueError("dashboard_data.resumen no contiene la llave año")
-        
-    require_keys(hallazgos, REQUIRED_HALLAZGOS_KEYS, "dashboard_data.hallazgos")
-    require_keys(resumen.get("nps") or {}, REQUIRED_SCORE_KEYS, "dashboard_data.resumen.nps")
-    require_keys(resumen.get("csat") or {}, REQUIRED_SCORE_KEYS, "dashboard_data.resumen.csat")
-    
-    require_numeric(resumen, {"encuestas"}, "dashboard_data.resumen")
-    require_numeric(resumen["nps"], {"score"}, "dashboard_data.resumen.nps")
-    require_numeric(resumen["csat"], {"score"}, "dashboard_data.resumen.csat")
-    require_numeric(hallazgos, {"csat_pct", "nps_score", "delta"}, "dashboard_data.hallazgos")
-
-    nps_keys = value["nps"].keys()
-    has_upper = all(k in nps_keys for k in ("Promotores", "Pasivos", "Detractores"))
-    has_lower = all(k in nps_keys for k in ("promotores", "pasivos", "detractores"))
-    if not has_upper and not has_lower:
-        raise ValueError("dashboard_data.nps no contiene las llaves NPS requeridas (mayúsculas o minúsculas)")
-        
-    missing_csat = SAT_KEYS - value["csat"].keys()
-    if missing_csat:
-        raise ValueError(f"dashboard_data.csat no contiene las llaves requeridas: {sorted(missing_csat)}")
-
-
-def validate_filtros(value: dict) -> None:
-    """Valida el contenido y coherencia del archivo filtros.json."""
+# ---------------------------------------------------------------------------
+# Validaciones de invariantes de negocio (complementarias al schema)
+# ---------------------------------------------------------------------------
+def validate_filtros_invariants(value: dict) -> None:
+    """Valida invariantes de filtros.json no expresables en JSON Schema."""
     require_keys(value, REQUIRED_FILTROS_KEYS, "filtros.json")
     has_ciclo = value.get("has_ciclo", True)
 
     for key in ("facultades", "carreras"):
         if not isinstance(value.get(key), list) or not value[key]:
-            raise ValueError(f"filtros.{key} debe ser una lista no vacía")
+            raise ValueError(f"filtros.{key} debe ser una lista no vacia")
         if not all(isinstance(item, str) and item.strip() for item in value[key]):
-            raise ValueError(f"filtros.{key} debe contener únicamente textos no vacíos")
+            raise ValueError(f"filtros.{key} debe contener unicamente textos no vacios")
 
     if not isinstance(value.get("ciclos"), list):
         raise ValueError("filtros.ciclos debe ser una lista")
     if has_ciclo and not value["ciclos"]:
-        raise ValueError("filtros.ciclos debe ser una lista no vacía cuando has_ciclo=true")
+        raise ValueError("filtros.ciclos debe ser una lista no vacia cuando has_ciclo=true")
     if value["ciclos"] and not all(isinstance(item, str) and item.strip() for item in value["ciclos"]):
-        raise ValueError("filtros.ciclos debe contener únicamente textos no vacíos")
+        raise ValueError("filtros.ciclos debe contener unicamente textos no vacios")
 
     facultad_carrera = value.get("facultad_carrera")
     if not isinstance(facultad_carrera, dict) or not facultad_carrera:
-        raise ValueError("filtros.facultad_carrera debe ser un objeto no vacío")
-        
+        raise ValueError("filtros.facultad_carrera debe ser un objeto no vacio")
+
+    # Invariante: facultad_carrera debe cubrir TODAS las facultades listadas
     for facultad in value["facultades"]:
         if facultad not in facultad_carrera:
             raise ValueError(f"filtros.facultad_carrera no mapea la facultad: {facultad}")
@@ -146,85 +180,77 @@ def validate_filtros(value: dict) -> None:
             raise ValueError(f"filtros.facultad_carrera.{facultad} debe ser una lista")
 
 
-def validate_dimensiones(value: List[dict]) -> None:
-    """Valida los agregados de dimensiones.json."""
-    rows_with_data = 0
-    for index, row in enumerate(value):
-        if not isinstance(row, dict):
-            raise ValueError(f"dimensiones[{index}] debe ser un objeto")
-        require_keys(row, REQUIRED_DIMENSION_KEYS, f"dimensiones[{index}]")
-        require_numeric(row, {"t3b", "b2b", "total", "t3b_pct", "no_utilizo", "no_conozco"}, f"dimensiones[{index}]")
-        require_numeric(row, REQUIRED_RESPONSE_KEYS, f"dimensiones[{index}]")
-        if row.get("total", 0) > 0:
-            rows_with_data += 1
-
+def validate_dimensiones_invariants(value: List[dict]) -> None:
+    """Invariante: al menos una fila con total > 0."""
+    rows_with_data = sum(1 for row in value if isinstance(row, dict) and row.get("total", 0) > 0)
     if not rows_with_data:
-        raise ValueError("dimensiones.json no contiene filas válidas con total > 0")
+        raise ValueError("dimensiones.json no contiene filas validas con total > 0")
 
 
-def validate_id_rows(value: List[dict], filename: str) -> None:
-    """Valida que los registros de conteo contengan valores positivos sumados."""
+def validate_id_rows_invariants(value: List[dict], filename: str) -> None:
+    """Invariante: la suma total debe ser > 0."""
     total = 0
     for index, row in enumerate(value):
         if not isinstance(row, dict):
             raise ValueError(f"{filename}[{index}] debe ser un objeto")
+        # Soporta 'total' (canonico) y 'count' (legacy)
         key = "total" if "total" in row else "count"
-        require_keys(row, {"facultad", "carrera", "ciclo", key}, f"{filename}[{index}]")
-        require_numeric(row, {key}, f"{filename}[{index}]")
+        if key not in row:
+            raise ValueError(f"{filename}[{index}] no contiene 'total' ni 'count'")
+        if not isinstance(row.get(key), (int, float)):
+            raise ValueError(f"{filename}[{index}].{key} debe ser numerico")
         total += row.get(key, 0)
     if total <= 0:
         raise ValueError(f"{filename} no contiene conteos acumulados positivos")
 
 
-def validate_cross_rows(value: List[dict], filename: str, response_keys: Set[str]) -> None:
-    """Valida la integridad de las llaves cruzadas en los archivos combinados de ciclo y carrera."""
-    required_keys = REQUIRED_CROSS_KEYS | response_keys
-    for index, row in enumerate(value):
-        if not isinstance(row, dict):
-            raise ValueError(f"{filename}[{index}] debe ser un objeto")
-        require_keys(row, required_keys, f"{filename}[{index}]")
-        require_numeric(row, response_keys, f"{filename}[{index}]")
-
-
-def validate_sentimiento(value: dict) -> None:
-    """Valida la estructura de tópicos del archivo sentimiento.json."""
-    require_keys(value, REQUIRED_SENTIMIENTO_KEYS, "sentimiento.json")
-    require_keys(value.get("resumen") or {}, REQUIRED_SENTIMIENTO_RESUMEN_KEYS, "sentimiento.resumen")
-    require_numeric(value["resumen"], {"total_respuestas", "total_con_comentario", "total_analizados", "comentarios_invalidos", "pasivos", "detractores"}, "sentimiento.resumen")
-
-    # Validar distribución de sentimiento e intensidad
-    resumen = value["resumen"]
-    for dist_key in ("distribucion_sentimiento", "distribucion_intensidad"):
-        if not isinstance(resumen.get(dist_key), dict):
-            raise ValueError(f"sentimiento.resumen.{dist_key} debe ser un objeto")
-
-    for key in ("topicos", "comentarios", "por_carrera", "por_ciclo"):
-        if not isinstance(value.get(key), list):
-            raise ValueError(f"sentimiento.{key} debe ser una lista")
-
-    # Validar comentarios individuales
-    for index, comentario in enumerate(value["comentarios"]):
+def validate_sentimiento_invariants(value: dict) -> None:
+    """Valida invariantes de sentimiento.json no expresables en JSON Schema."""
+    # Validar que cada comentario tenga 'es_valido' booleano (reafirmacion)
+    for index, comentario in enumerate(value.get("comentarios", [])):
         if not isinstance(comentario, dict):
             raise ValueError(f"sentimiento.comentarios[{index}] debe ser un objeto")
-        require_keys(comentario, REQUIRED_COMENTARIO_KEYS, f"sentimiento.comentarios[{index}]")
-        require_numeric(comentario, {"nps_score", "intensidad"}, f"sentimiento.comentarios[{index}]")
         if not isinstance(comentario.get("es_valido"), bool):
             raise ValueError(f"sentimiento.comentarios[{index}].es_valido debe ser booleano")
 
-    for index, topico in enumerate(value["topicos"]):
-        if not isinstance(topico, dict):
-            raise ValueError(f"sentimiento.topicos[{index}] debe ser un objeto")
-        require_keys(topico, REQUIRED_TOPICO_KEYS, f"sentimiento.topicos[{index}]")
-        if topico.get("tipo") not in {"negativo", "mejora", "positivo"}:
-            raise ValueError(f"sentimiento.topicos[{index}].tipo tiene un valor inválido: {topico.get('tipo')}")
-        require_numeric(topico, {"total_comentarios", "detractores", "pasivos", "intensidad_promedio"}, f"sentimiento.topicos[{index}]")
-        for map_key in ("por_facultad", "por_carrera", "por_ciclo"):
-            if not isinstance(topico.get(map_key), dict):
-                raise ValueError(f"sentimiento.topicos[{index}].{map_key} debe ser un objeto")
+
+# ---------------------------------------------------------------------------
+# Despachador principal de validacion por archivo
+# ---------------------------------------------------------------------------
+def validate_json_file(json_dir: Path, filename: str, spec: Dict[str, any]) -> Tuple[any, List[str]]:
+    """
+    Carga y valida un archivo JSON individual.
+    Retorna (value, lista_de_errores_schema).
+    Las validaciones custom lanzan ValueError; los errores de schema se acumulan.
+    """
+    path = json_dir / filename
+    if not path.exists():
+        raise ValueError("archivo requerido ausente")
+    value = load_json(path)
+    validate_shape(value, spec["type"], spec["non_empty"])
+
+    schema_errors: List[str] = []
+    if filename in SCHEMA_BY_FILE:
+        schema_errors = validate_with_schema(value, SCHEMA_BY_FILE[filename], path)
+
+    # Invariantes de negocio (complementarias al schema)
+    if filename == "filtros.json":
+        validate_filtros_invariants(value)
+    elif filename == "dimensiones.json":
+        validate_dimensiones_invariants(value)
+    elif filename == "ids.json":
+        validate_id_rows_invariants(value, filename)
+    elif filename == "sentimiento.json":
+        validate_sentimiento_invariants(value)
+
+    return value, schema_errors
 
 
+# ---------------------------------------------------------------------------
+# Validacion del HTML del periodo (sin cambios funcionales)
+# ---------------------------------------------------------------------------
 def validate_period_html(period_dir: Path) -> List[str]:
-    """Verifica que el index.html del periodo contenga los enlaces y contenedores del módulo cualitativo."""
+    """Verifica que el index.html del periodo contenga los enlaces y contenedores del modulo cualitativo."""
     path = period_dir / "index.html"
     if not path.exists():
         return [f"{path}: archivo index.html requerido ausente"]
@@ -253,38 +279,13 @@ def validate_period_html(period_dir: Path) -> List[str]:
     return errors
 
 
-def validate_json_file(json_dir: Path, filename: str, spec: Dict[str, any]) -> any:
-    """Carga y valida un archivo JSON individual según las especificaciones de su contrato."""
-    path = json_dir / filename
-    if not path.exists():
-        raise ValueError("archivo requerido ausente")
-    value = load_json(path)
-    validate_shape(value, spec["type"], spec["non_empty"])
-
-    if filename == "dashboard_data.json":
-        validate_dashboard(value)
-    elif filename == "filtros.json":
-        validate_filtros(value)
-    elif filename == "dimensiones.json":
-        validate_dimensiones(value)
-    elif filename == "ids.json":
-        validate_id_rows(value, filename)
-    elif filename == "nps_ciclo_carrera.json":
-        first_row = value[0] if value else {}
-        keys = {"promotores", "pasivos", "detractores"} if "promotores" in first_row else {"Promotores", "Pasivos", "Detractores"}
-        validate_cross_rows(value, filename, keys)
-    elif filename == "csat_ciclo_carrera.json":
-        validate_cross_rows(value, filename, SAT_KEYS)
-    elif filename == "sentimiento.json":
-        validate_sentimiento(value)
-
-    return value
-
-
+# ---------------------------------------------------------------------------
+# Orquestacion por periodo y por nivel
+# ---------------------------------------------------------------------------
 def validate_period(period_dir: Path) -> Tuple[List[str], List[str]]:
     """Valida por completo un directorio de periodo (JSONs y index.html)."""
-    errors = []
-    warnings = []
+    errors: List[str] = []
+    warnings: List[str] = []
     json_dir = period_dir / "json"
     if not json_dir.is_dir():
         return [f"{period_dir}: no existe carpeta json"], warnings
@@ -303,14 +304,15 @@ def validate_period(period_dir: Path) -> Tuple[List[str], List[str]]:
 
     required = dict(REQUIRED_PERIOD_FILES)
     if not has_ciclo:
-        # Si no hay ciclos escolares, estos archivos pueden estar vacíos
+        # Si no hay ciclos escolares, estos archivos pueden estar vacios
         required["nps_ciclo_carrera.json"] = dict(type=list, non_empty=False)
         required["csat_ciclo_carrera.json"] = dict(type=list, non_empty=False)
 
     for filename, spec in required.items():
         path = json_dir / filename
         try:
-            validate_json_file(json_dir, filename, spec)
+            _, schema_errors = validate_json_file(json_dir, filename, spec)
+            errors.extend(schema_errors)
         except ValueError as exc:
             errors.append(f"{path}: {exc}")
 
@@ -322,7 +324,7 @@ def validate_period(period_dir: Path) -> Tuple[List[str], List[str]]:
             value = load_json(path)
             validate_shape(value, spec["type"], spec["non_empty"])
         except ValueError as exc:
-            errors.append(f"{path}: archivo legado inválido: {exc}")
+            errors.append(f"{path}: archivo legado invalido: {exc}")
         else:
             warnings.append(f"{path}: archivo legado/deprecado; no debe ser contrato obligatorio")
 
@@ -330,11 +332,11 @@ def validate_period(period_dir: Path) -> Tuple[List[str], List[str]]:
 
 
 def read_periods(level_dir: Path) -> List[str]:
-    """Lee y valida el catálogo periodos.json de un nivel académico."""
+    """Lee y valida el catalogo periodos.json de un nivel academico."""
     periodos_path = level_dir / "periodos.json"
     periodos = load_json(periodos_path)
     if not isinstance(periodos, list) or not periodos:
-        raise ValueError(f"{periodos_path}: debe ser una lista no vacía")
+        raise ValueError(f"{periodos_path}: debe ser una lista no vacia")
 
     ids = []
     seen = set()
@@ -357,14 +359,19 @@ def read_periods(level_dir: Path) -> List[str]:
 
 
 def main() -> int:
+    if not HAVE_JSONSCHEMA:
+        print("ADVERTENCIA: la libreria 'jsonschema' no esta instalada; la validacion formal Draft-07 se omitira.")
+        print("             Instalar con: pip install jsonschema")
+        print()
+
     levels = sys.argv[1:] or ["undergraduate", "graduate"]
-    all_errors = []
-    all_warnings = []
+    all_errors: List[str] = []
+    all_warnings: List[str] = []
 
     for level in levels:
         level_dir = ROOT_DIR / level
         if not level_dir.is_dir():
-            all_errors.append(f"{level_dir}: nivel académico inexistente")
+            all_errors.append(f"{level_dir}: nivel academico inexistente")
             continue
 
         try:
@@ -382,6 +389,7 @@ def main() -> int:
         print("Advertencias de contrato JSON:")
         for warning in all_warnings:
             print(f"- {warning}")
+        print()
 
     if all_errors:
         print("Errores de contrato JSON:")
@@ -389,7 +397,7 @@ def main() -> int:
             print(f"- {err}")
         return 1
 
-    print("Contratos JSON válidos.")
+    print("Contratos JSON validos (schema Draft-07 + invariantes de negocio).")
     return 0
 
 

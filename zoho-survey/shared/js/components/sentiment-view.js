@@ -30,8 +30,7 @@ window.SurveySentimentView = (() => {
     originalComments: [],
     filteredComments: [],
     currentPage: 0,
-    pageSize: 10,
-    showCorregido: true,
+    pageSize: 7,
     sentimentCache: null
   };
 
@@ -96,7 +95,7 @@ window.SurveySentimentView = (() => {
       if (item.value === 0) return;
       
       const pct = Math.round((item.value / total) * 100);
-      const barValueOutside = pct < 12;
+      const barValueOutside = pct < 20;
 
       const barItem = document.createElement('div');
       barItem.className = 'bar-item';
@@ -104,7 +103,7 @@ window.SurveySentimentView = (() => {
         <div class="bar-label" style="width: 80px;">${item.label}</div>
         <div class="bar-container">
           <div class="bar-fill animated" style="width:${pct}%; background-color:${item.color}; animation-delay:${index * 0.08}s">
-            <span class="bar-value${barValueOutside ? ' bar-value-outside' : ''}" style="${barValueOutside ? 'color: var(--dark);' : 'color: white;'}">${_fmt.formatInteger(item.value)}</span>
+            <span class="bar-value${barValueOutside ? ' bar-value-outside' : ''}" style="${barValueOutside ? 'color: var(--dark);' : 'color: white;'}">${pct}%</span>
           </div>
         </div>
       `;
@@ -135,8 +134,9 @@ window.SurveySentimentView = (() => {
     const kpiGrid = $('sentiment-kpis');
     if (!kpiGrid) return;
     
-    // Sincronización global desde dashboard_data.json (para que cuadre matemáticamente con 4024)
-    const totalGlobal = window.cache?.dashboard?.resumen?.encuestas || totalRespuestasGlobal || comments.length;
+    // totalRespuestasGlobal es el valor exacto de dashboard_data.json.resumen.encuestas
+    // pasado por dashboard.js. Fallback a comments.length si no está disponible.
+    const totalGlobal = totalRespuestasGlobal || comments.length;
     const totalRespuestas = totalGlobal;
     
     let textAbierto = 0, ideas = 0, neg = 0, pos = 0, neu = 0, sumInt = 0;
@@ -155,7 +155,7 @@ window.SurveySentimentView = (() => {
     textAbierto = uniqueIds.size;
 
     // Sincronización directa con el DOM del visual "Composición del Índice de Promotores Netos" (Ejecutivo)
-    // Ya que window.cache es privado en dashboard.js, extraemos el valor exacto renderizado en la leyenda.
+    // Extraemos el valor exacto renderizado en la leyenda, ya que cache es privado en dashboard.js.
     let promotores = 0, pasivos = 0, detractores = 0;
     const npsLegend = document.getElementById('nps-legend');
     if (npsLegend) {
@@ -242,7 +242,7 @@ window.SurveySentimentView = (() => {
     comments.forEach(c => {
       if (!c.es_valido) return;
       const cat = c.categoria_padre || c.categoria || 'Otros';
-      if (!stats[cat]) stats[cat] = { pos: 0, neu: 0, neg: 0, total: 0 };
+      if (!stats[cat]) stats[cat] = { total: 0 };
       stats[cat][c.sentimiento] = (stats[cat][c.sentimiento] || 0) + 1;
       stats[cat].total++;
     });
@@ -261,18 +261,22 @@ window.SurveySentimentView = (() => {
       const s = stats[cat];
       const heightPct = Math.max(10, (s.total / maxTotal) * 100);
       
-      const pPct = (s.pos / s.total) * 100;
-      const nPct = (s.neu / s.total) * 100;
-      const negPct = (s.neg / s.total) * 100;
+      const posCount = s['positivo'] || 0;
+      const neuCount = s['neutro'] || 0;
+      const negCount = s['negativo'] || 0;
+
+      const pPct = (posCount / s.total) * 100;
+      const nPct = (neuCount / s.total) * 100;
+      const negPct = (negCount / s.total) * 100;
 
       const col = document.createElement('div');
       col.style.cssText = 'display:flex; flex-direction:column; align-items:center; flex:1; height:100%; justify-content:flex-end; gap:6px;';
       col.innerHTML = `
         <div style="font-size:11px; font-weight:600; color:var(--text2);">${s.total}</div>
         <div style="width:36px; height:${heightPct}%; background:var(--gray-200); border-radius:4px 4px 0 0; overflow:hidden; display:flex; flex-direction:column; justify-content:flex-end;">
-          <div style="width:100%; height:${nPct}%; background:var(--gray-400);" title="Neutro: ${s.neu}"></div>
-          <div style="width:100%; height:${pPct}%; background:var(--success-text);" title="Positivo: ${s.pos}"></div>
-          <div style="width:100%; height:${negPct}%; background:var(--ulima-red);" title="Negativo: ${s.neg}"></div>
+          <div style="width:100%; height:${pPct}%; background:var(--success-text);" title="Positivo: ${posCount}"></div>
+          <div style="width:100%; height:${nPct}%; background:var(--gray-400);" title="Neutro: ${neuCount}"></div>
+          <div style="width:100%; height:${negPct}%; background:var(--ulima-red);" title="Negativo: ${negCount}"></div>
         </div>
         <div style="font-size:10px; font-weight:600; color:var(--dark); text-align:center; white-space:normal; line-height:1.1; max-width:64px; height:24px; overflow:hidden;">${_san.escapeHTML(cat)}</div>
       `;
@@ -323,7 +327,7 @@ window.SurveySentimentView = (() => {
       if (item.value === 0) return;
       
       const pct = Math.round((item.value / totalIdeas) * 100);
-      const barValueOutside = pct < 12;
+      const barValueOutside = pct < 20;
 
       const barItem = document.createElement('div');
       barItem.className = 'bar-item';
@@ -331,7 +335,7 @@ window.SurveySentimentView = (() => {
         <div class="bar-label" style="width: 80px;">${item.label}</div>
         <div class="bar-container">
           <div class="bar-fill animated" style="width:${pct}%; background-color:${item.color}; animation-delay:${index * 0.08}s">
-            <span class="bar-value${barValueOutside ? ' bar-value-outside' : ''}" style="${barValueOutside ? 'color: var(--dark);' : 'color: white;'}">${_fmt.formatInteger(item.value)}</span>
+            <span class="bar-value${barValueOutside ? ' bar-value-outside' : ''}" style="${barValueOutside ? 'color: var(--dark);' : 'color: white;'}">${pct}%</span>
           </div>
         </div>
       `;
@@ -367,6 +371,7 @@ window.SurveySentimentView = (() => {
       container.innerHTML = '<span style="font-size:12px; color:var(--gray-500);">Data insuficiente</span>';
       return;
     }
+    
     const maxVal = Math.max(...data.map(d => d.val));
     const fragment = document.createDocumentFragment();
 
@@ -381,7 +386,7 @@ window.SurveySentimentView = (() => {
         displayVal = _fmt.formatInteger(item.val);
       }
       pct = Math.round(pct);
-      const barValueOutside = pct < 12;
+      const barValueOutside = pct < 20;
       const color = isPos ? 'var(--success-text)' : 'var(--ulima-red)';
 
       const barItem = document.createElement('div');
@@ -411,10 +416,12 @@ window.SurveySentimentView = (() => {
   }
 
   function getAspectData(comments, filterSentimiento, isIntensity) {
+    let total = 0;
     const aspStats = {};
     comments.forEach(c => {
       if (!c.es_valido) return;
       if (c.sentimiento !== filterSentimiento) return;
+      total++;
       const aspect = c.aspecto_normalizado || c.categoria || 'Otros';
       if (!aspStats[aspect]) aspStats[aspect] = { count: 0, intSum: 0 };
       aspStats[aspect].count++;
@@ -422,31 +429,37 @@ window.SurveySentimentView = (() => {
     });
     
     const aspects = Object.keys(aspStats);
+    let result = [];
     if (isIntensity) {
-      return aspects.map(a => ({ name: a, val: aspStats[a].count > 0 ? (aspStats[a].intSum / aspStats[a].count) : 0, count: aspStats[a].count }))
+      result = aspects.map(a => ({ name: a, val: aspStats[a].count > 0 ? (aspStats[a].intSum / aspStats[a].count) : 0, count: aspStats[a].count }))
         .filter(a => a.count > 0)
         .sort((a, b) => b.val - a.val).slice(0, 5);
     } else {
-      return aspects.map(a => ({ name: a, val: aspStats[a].count }))
+      result = aspects.map(a => ({ name: a, val: aspStats[a].count }))
         .filter(a => a.val > 0)
         .sort((a, b) => b.val - a.val).slice(0, 5);
     }
+    return { data: result, total };
   }
 
   function renderPositiveAspects(comments) {
-    _renderList('aspectos-positivos-container', getAspectData(comments, 'positivo', false), false, true);
+    const res = getAspectData(comments, 'positivo', false);
+    _renderList('aspectos-positivos-container', res.data, false, true);
   }
 
   function renderNegativeAspects(comments) {
-    _renderList('aspectos-negativos-container', getAspectData(comments, 'negativo', false), false, false);
+    const res = getAspectData(comments, 'negativo', false);
+    _renderList('aspectos-negativos-container', res.data, false, false);
   }
 
   function renderPositiveIntensity(comments) {
-    _renderList('intensidad-positivos-container', getAspectData(comments, 'positivo', true), true, true);
+    const res = getAspectData(comments, 'positivo', true);
+    _renderList('intensidad-positivos-container', res.data, true, true);
   }
 
   function renderNegativeIntensity(comments) {
-    _renderList('intensidad-negativos-container', getAspectData(comments, 'negativo', true), true, false);
+    const res = getAspectData(comments, 'negativo', true);
+    _renderList('intensidad-negativos-container', res.data, true, false);
   }
 
   function renderCareerNPSTable(comments) {
@@ -457,26 +470,46 @@ window.SurveySentimentView = (() => {
     const carStats = {};
     comments.forEach(c => {
       const car = c.carrera || 'No Definida';
-      if (!carStats[car]) carStats[car] = { total: 0, prom: 0, pas: 0, det: 0 };
-      carStats[car].total++;
-      if (c.nps_score >= 9) carStats[car].prom++;
-      else if (c.nps_score >= 7) carStats[car].pas++;
-      else carStats[car].det++;
+      if (!carStats[car]) {
+        carStats[car] = {
+          totalIdeas: 0,
+          uniqueComments: new Set(),
+          prom: 0,
+          pas: 0,
+          det: 0
+        };
+      }
+      carStats[car].totalIdeas++;
+      const commentId = c.comentario_id_original || c.id || c.comentario_original;
+      if (commentId) {
+        if (!carStats[car].uniqueComments.has(commentId)) {
+          carStats[car].uniqueComments.add(commentId);
+          if (c.nps_score >= 9) carStats[car].prom++;
+          else if (c.nps_score >= 7) carStats[car].pas++;
+          else carStats[car].det++;
+        }
+      } else {
+        if (c.nps_score >= 9) carStats[car].prom++;
+        else if (c.nps_score >= 7) carStats[car].pas++;
+        else carStats[car].det++;
+      }
     });
 
-    const sortedCars = Object.keys(carStats).sort((a, b) => carStats[b].total - carStats[a].total);
+    const sortedCars = Object.keys(carStats).sort((a, b) => 
+      (carStats[b].uniqueComments.size - carStats[a].uniqueComments.size) || 
+      (carStats[b].totalIdeas - carStats[a].totalIdeas)
+    );
     
     sortedCars.forEach(car => {
       const s = carStats[car];
-      const pctNps = s.total > 0 ? Math.round(((s.prom - s.det) / s.total) * 100) : 0;
       const tr = document.createElement('tr');
       tr.innerHTML = `
-        <td style="font-size:12px; font-weight:600; color:var(--dark);">${_san.escapeHTML(car)}</td>
-        <td class="text-center" style="font-size:12px;">${s.total}</td>
-        <td class="text-center" style="font-size:12px; color:var(--success-text);">${s.prom}</td>
-        <td class="text-center" style="font-size:12px; color:var(--ulima-orange);">${s.pas}</td>
-        <td class="text-center" style="font-size:12px; color:var(--ulima-red);">${s.det}</td>
-        <td class="text-center" style="font-size:12px; font-weight:600;">${pctNps}%</td>
+        <td style="color:var(--dark);">${_san.escapeHTML(car)}</td>
+        <td class="text-center">${s.uniqueComments.size}</td>
+        <td class="text-center">${s.totalIdeas}</td>
+        <td class="text-center" style="font-weight:600; color:var(--success-text);">${s.prom}</td>
+        <td class="text-center" style="font-weight:600; color:var(--dark);">${s.pas}</td>
+        <td class="text-center" style="font-weight:600; color:var(--ulima-red);">${s.det}</td>
       `;
       tbody.appendChild(tr);
     });
@@ -489,7 +522,7 @@ window.SurveySentimentView = (() => {
     if (!select) return;
 
     const currentVal = select.value;
-    const categories = [...new Set(comentarios.filter(c => c.es_valido).map(c => c.categoria))].sort();
+    const categories = [...new Set(comentarios.filter(c => c.es_valido).map(c => c.categoria_padre || c.categoria))].filter(Boolean).sort();
 
     select.innerHTML = '<option value="">Todos los temas</option>';
     categories.forEach(cat => {
@@ -502,6 +535,29 @@ window.SurveySentimentView = (() => {
     if (categories.includes(currentVal)) {
       select.value = currentVal;
     }
+
+    if (select.__custom) {
+      select.__custom.update();
+    }
+  }
+
+  function resetExploradorFilters() {
+    const searchInput = $('explorador-search');
+    if (searchInput) searchInput.value = '';
+    
+    const catSelect = $('explorador-categoria');
+    if (catSelect) {
+      catSelect.value = '';
+      if (catSelect.__custom) catSelect.__custom.update();
+    }
+    
+    const sentSelect = $('explorador-sentimiento');
+    if (sentSelect) {
+      sentSelect.value = '';
+      if (sentSelect.__custom) sentSelect.__custom.update();
+    }
+    
+    applyExploradorFilters();
   }
 
   // Filter comments for the paginated list
@@ -510,32 +566,20 @@ window.SurveySentimentView = (() => {
     const catVal = $('explorador-categoria')?.value || '';
     const sentVal = $('explorador-sentimiento')?.value || '';
 
-    const filtroFac = $('filter-facultad-sent')?.value || '';
-    const filtroCar = $('filter-carrera-sent')?.value || '';
-    const filtroCiclo = _dh.getSelectedValues($('filter-ciclo-sent')) || '';
+    // First, apply the independent business filters for this specific block
+    const baseComments = getFilteredSubset('sent');
 
-    state.filteredComments = state.originalComments.filter(c => {
-      if (filtroCar && c.carrera !== filtroCar) return false;
-      if (filtroFac) {
-        if (esEstudiosGen(filtroFac)) {
-          const cycles = filtroCiclo ? (Array.isArray(filtroCiclo) ? filtroCiclo : [filtroCiclo]) : CICLOS_ESTUDIOS_GENERALES;
-          if (!cycles.includes(c.ciclo)) return false;
-        } else if (c.facultad !== filtroFac) {
-          return false;
-        }
-      } else if (filtroCiclo) {
-        const selectedCycles = Array.isArray(filtroCiclo) ? filtroCiclo : [filtroCiclo];
-        if (selectedCycles.length > 0 && !selectedCycles.includes(c.ciclo)) return false;
-      }
-
-      if (catVal && c.categoria !== catVal) return false;
+    // Then, apply the explorador specific filters
+    state.filteredComments = baseComments.filter(c => {
+      const itemParent = c.categoria_padre || c.categoria;
+      if (catVal && itemParent !== catVal) return false;
       if (sentVal && c.sentimiento !== sentVal) return false;
 
       if (searchVal) {
         const inOrig = c.fragmento_original?.toLowerCase().includes(searchVal);
         const inCorregido = c.fragmento_mostrar?.toLowerCase().includes(searchVal);
         const inCarrera = c.carrera?.toLowerCase().includes(searchVal);
-        const inCat = c.categoria?.toLowerCase().includes(searchVal);
+        const inCat = itemParent?.toLowerCase().includes(searchVal);
         if (!inOrig && !inCorregido && !inCarrera && !inCat) return false;
       }
 
@@ -597,30 +641,28 @@ window.SurveySentimentView = (() => {
       }
       const npsBadge = `<span style="background:${npsBg}; color:${npsFg}; border-radius:50%; width:24px; height:24px; display:inline-flex; align-items:center; justify-content:center; font-size:11px; font-weight:700;">${c.nps_score}</span>`;
 
-      const commentText = state.showCorregido ? (c.fragmento_mostrar || c.fragmento_original) : c.fragmento_original;
-      const displayComment = c.es_valido 
-        ? _san.escapeHTML(commentText) 
-        : `<span style="color:var(--gray-400); font-style:italic;">[Invalidado: ${c.motivo_invalidez}]</span> "${_san.escapeHTML(commentText)}"`;
-
-      const cId = c.id_fragmento || c.id || c.comentario_id_original || '-';
-
-      let computedSeg = c.segmento_nps;
-      if (!computedSeg) {
-        if (c.nps_score >= 9) computedSeg = 'Promotor';
-        else if (c.nps_score >= 7) computedSeg = 'Pasivo';
-        else computedSeg = 'Detractor';
+      let safeCiclo = '-';
+      if (c.ciclo) {
+        safeCiclo = _fmt.formatCicloText(c.ciclo).replace(/\s*ciclo\s*/i, '');
       }
 
+      const textoAbiertoText = c.comentario_original || c.fragmento_original;
+      const textoAbierto = _san.escapeHTML(textoAbiertoText);
+
+      const ideaAnalizadaText = c.fragmento_mostrar || c.fragmento_original;
+      const displayIdeaAnalizada = c.es_valido 
+        ? _san.escapeHTML(ideaAnalizadaText) 
+        : `<span style="color:var(--gray-400); font-style:italic;">[Invalidado: ${c.motivo_invalidez}]</span> "${_san.escapeHTML(ideaAnalizadaText)}"`;
+
       tr.innerHTML = `
-        <td style="font-size:11px; color:var(--text2);">${_san.escapeHTML(cId)}</td>
-        <td style="font-size:11px; font-weight:600; color:var(--dark);">${_san.escapeHTML(c.carrera)}</td>
-        <td class="text-center" style="font-size:11px; color:var(--text2);">${_san.escapeHTML(c.ciclo || '-')}</td>
-        <td class="text-center" style="font-size:11px; font-weight:600;">${_san.escapeHTML(computedSeg)}</td>
+        <td style="color:var(--dark); text-align:left;">${_san.escapeHTML(c.carrera)}</td>
+        <td class="text-center" style="color:var(--text2);">${safeCiclo}</td>
         <td class="text-center">${npsBadge}</td>
-        <td style="font-size:11px; line-height:1.4; color:var(--text); text-align:left;">${displayComment}</td>
-        <td style="font-size:11px; color:var(--text2);">${_san.escapeHTML(c.categoria_padre || c.categoria || '-')}</td>
+        <td style="line-height:1.4; color:var(--text); text-align:left;">${textoAbierto}</td>
+        <td style="line-height:1.4; color:var(--text); text-align:left;">${displayIdeaAnalizada}</td>
+        <td style="color:var(--text2);">${_san.escapeHTML(c.categoria || '-')}</td>
         <td class="text-center">${sentBadge}</td>
-        <td class="text-center" style="font-size:11px; font-weight:600; color:var(--dark);">${c.intensidad ? Math.round(c.intensidad * 100) + '%' : '-'}</td>
+        <td class="text-center" style="font-weight:600; color:var(--dark);">${c.intensidad ? Math.round(Number(c.intensidad)) : '-'}</td>
       `;
       fragment.appendChild(tr);
     });
@@ -706,30 +748,23 @@ window.SurveySentimentView = (() => {
       searchInput.dataset.listener = 'true';
     }
 
+    const _cs = window.SurveyCustomSelect;
+
     const catSelect = $('explorador-categoria');
-    if (catSelect && !catSelect.dataset.listener) {
-      catSelect.addEventListener('change', () => {
+    if (catSelect && !catSelect.__custom && _cs) {
+      catSelect.__custom = _cs.create(catSelect, () => {
         applyExploradorFilters();
       });
-      catSelect.dataset.listener = 'true';
     }
 
     const sentSelect = $('explorador-sentimiento');
-    if (sentSelect && !sentSelect.dataset.listener) {
-      sentSelect.addEventListener('change', () => {
+    if (sentSelect && !sentSelect.__custom && _cs) {
+      sentSelect.__custom = _cs.create(sentSelect, () => {
         applyExploradorFilters();
       });
-      sentSelect.dataset.listener = 'true';
     }
 
-    const toggleText = $('explorador-toggle-texto');
-    if (toggleText && !toggleText.dataset.listener) {
-      toggleText.addEventListener('change', (e) => {
-        state.showCorregido = e.target.checked;
-        renderExplorerTable();
-      });
-      toggleText.dataset.listener = 'true';
-    }
+
 
     const exportBtn = $('explorador-export-csv');
     if (exportBtn && !exportBtn.dataset.listener) {
@@ -737,6 +772,14 @@ window.SurveySentimentView = (() => {
         exportCSV();
       });
       exportBtn.dataset.listener = 'true';
+    }
+
+    const resetBtn = $('explorador-reset');
+    if (resetBtn && !resetBtn.dataset.listener) {
+      resetBtn.addEventListener('click', () => {
+        resetExploradorFilters();
+      });
+      resetBtn.dataset.listener = 'true';
     }
 
     const prevBtn = $('explorador-btn-prev');
@@ -765,28 +808,17 @@ window.SurveySentimentView = (() => {
     }
   }
 
-  // Main render function
-  function render(sentimentCache, totalRespuestasGlobal) {
-    const kpiGrid = $('sentiment-kpis');
-    if (!kpiGrid) return;
+  function getFilteredSubset(prefix) {
+    if (!state.originalComments) return [];
+    let filtroFac = $(`filter-facultad-${prefix}`)?.value || '';
+    let filtroCar = $(`filter-carrera-${prefix}`)?.value || '';
+    const filtroCiclo = _dh.getSelectedValues($(`filter-ciclo-${prefix}`)) || '';
+    
+    // Defensa extra contra valores residuales del select original (placeholders sin value vacío)
+    if (filtroFac.toLowerCase().includes('todas')) filtroFac = '';
+    if (filtroCar.toLowerCase().includes('todas')) filtroCar = '';
 
-    if (!sentimentCache || !sentimentCache.topicos || !sentimentCache.topicos.length) {
-      kpiGrid.innerHTML = `<p style="color:var(--gray-500);font-size:13px;padding:20px 0;">
-        No hay datos de análisis semántico disponibles para este período.</p>`;
-      return;
-    }
-
-    renderMetricCards(sentimentCache.comentarios || [], sentimentCache, totalRespuestasGlobal);
-
-    state.originalComments = sentimentCache.comentarios || [];
-    state.sentimentCache = sentimentCache;
-
-    // Filter based on active selectors
-    const filtroFac = $('filter-facultad-sent')?.value || '';
-    const filtroCar = $('filter-carrera-sent')?.value || '';
-    const filtroCiclo = _dh.getSelectedValues($('filter-ciclo-sent')) || '';
-
-    const businessFilteredComments = state.originalComments.filter(c => {
+    return state.originalComments.filter(c => {
       if (filtroCar && c.carrera !== filtroCar) return false;
       if (filtroFac) {
         if (esEstudiosGen(filtroFac)) {
@@ -801,29 +833,57 @@ window.SurveySentimentView = (() => {
       }
       return true;
     });
+  }
 
-    const validFilteredComments = businessFilteredComments.filter(c => c.es_valido);
-    const posCount = validFilteredComments.filter(c => c.sentimiento === 'positivo').length;
-    const neuCount = validFilteredComments.filter(c => c.sentimiento === 'neutro').length;
-    const negCount = validFilteredComments.filter(c => c.sentimiento === 'negativo').length;
-    
-    renderSentimentDistribution(businessFilteredComments);
-    renderNPSSegmentBars(businessFilteredComments);
-    renderTopCategoriesBars(businessFilteredComments);
-    renderPositiveAspects(businessFilteredComments);
-    renderNegativeAspects(businessFilteredComments);
-    renderPositiveIntensity(businessFilteredComments);
-    renderNegativeIntensity(businessFilteredComments);
-    renderCareerNPSTable(businessFilteredComments);
+  function init(sentimientoData, totalRespuestasGlobal) {
+    if (!sentimientoData) return;
 
-    // Populate category filter and activate explorador
-    populateExploradorTopicsDropdown(businessFilteredComments);
+    // Cargar comentarios directamente desde la raíz del JSON
+    state.originalComments = sentimientoData.comentarios || [];
+    state.sentimentCache = sentimientoData;
+    state.totalRespuestasGlobal = totalRespuestasGlobal;
+
+    const kpiGrid = $('sentiment-kpis');
+    if (kpiGrid && (!sentimientoData.topicos || !sentimientoData.topicos.length)) {
+      kpiGrid.innerHTML = `<p style="color:var(--gray-500);font-size:13px;padding:20px 0;">
+        No hay datos de análisis semántico disponibles para este período.</p>`;
+    }
+  }
+
+  function updateMacro() {
+    const subset = getFilteredSubset('sent');
+    renderMetricCards(subset, state.sentimentCache, state.totalRespuestasGlobal);
+    renderSentimentDistribution(subset);
+    renderNPSSegmentBars(subset);
+    renderTopCategoriesBars(subset);
+  }
+
+  function updateAspectos() {
+    const subset = getFilteredSubset('sent');
+    renderPositiveAspects(subset);
+    renderNegativeAspects(subset);
+    renderPositiveIntensity(subset);
+    renderNegativeIntensity(subset);
+  }
+
+  function updateNpsCarrera() {
+    const subset = getFilteredSubset('sent');
+    renderCareerNPSTable(subset);
+  }
+
+  function updateDetalle() {
+    const subset = getFilteredSubset('sent');
+    populateExploradorTopicsDropdown(subset);
     setupExploradorListeners();
     applyExploradorFilters();
   }
 
   return {
-    render,
+    init,
+    updateMacro,
+    updateAspectos,
+    updateNpsCarrera,
+    updateDetalle,
     applyExploradorFilters
   };
 })();

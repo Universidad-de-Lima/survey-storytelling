@@ -27,7 +27,8 @@
 /* ── Centrado de encabezados en tablas específicas ── */
 #tabla-preguntas th.text-center,
 #tabla-detalle th.text-center,
-#tabla-visibilidad th.text-center {
+#tabla-visibilidad th.text-center,
+#tabla-nps-carrera th.text-center {
   text-align: center !important;
 }
 
@@ -146,7 +147,22 @@
     gap: var(--space-md);
   }
   .bar-label { width: 140px; font-size: 10px; }
-  .bar-value { font-size: 10px; min-width: 38px; }
+  .bar-container {
+    margin-right: 40px;
+  }
+  .bar-value {
+    position: absolute;
+    left: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--dark) !important;
+    margin-left: 6px;
+    min-width: auto;
+    font-size: 10px;
+  }
+  .bar-value::before, .bar-value-outside::before {
+    display: none !important;
+  }
   .card { padding: var(--space-lg); }
   .card-title { font-size: 12px; }
   .insight-box { padding: var(--space-md) var(--space-lg); }
@@ -184,8 +200,37 @@
     font-size: 14px !important;
     font-weight: var(--font-bold) !important;
   }
-  .bar-label { width: 100px; font-size: 9px; }
-  .bar-item { gap: var(--space-xs); }
+  .bar-item {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 4px;
+    margin-bottom: var(--space-md);
+  }
+  .bar-label {
+    width: 100%;
+    text-align: left;
+    justify-content: flex-start;
+    min-height: auto;
+    font-size: 10px;
+  }
+  .bar-container {
+    margin-right: 40px;
+  }
+  .bar-value {
+    position: absolute;
+    left: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--dark) !important;
+    margin-left: 6px;
+    min-width: auto;
+  }
+  .bar-value::before {
+    display: none !important;
+  }
+  .bar-value-outside::before {
+    display: none !important;
+  }
   .csat-bar { font-size: 9px; }
   .legend { font-size: 9px; }
   .footer-logo-img { width: 140px; }

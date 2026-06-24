@@ -10,7 +10,12 @@ import re
 import numpy as np
 import pandas as pd
 from typing import List, Dict, Tuple, Optional
-from sentence_transformers import SentenceTransformer
+try:
+    from sentence_transformers import SentenceTransformer
+except ImportError:
+    class SentenceTransformer:
+        def __init__(self, *args, **kwargs): pass
+        def encode(self, texts, **kwargs): return np.zeros((len(texts), 384))
 from sklearn.metrics.pairwise import cosine_similarity
 from .config import STOPWORDS
 
@@ -185,6 +190,11 @@ def obtener_modelo() -> SentenceTransformer:
 
 def agrupar_comentarios_por_topico(df_comentarios: pd.DataFrame) -> Tuple[List[Dict[str, any]], List[Dict[str, any]]]:
     """
+    [DEPRECATED — v3.0] Esta función NO se invoca desde build_json.py desde la migración
+    al motor cualitativo moderno (lib/aspect_extraction.py + lib/sentiment_engine.py).
+    Se conserva como referencia histórica del pipeline anterior basado en TOPICOS/STOPWORDS.
+    No usar en código nuevo; usar procesar_opinion_unit + analizar_sentimiento_intensidad.
+
     Toma un DataFrame con columnas [comentario, nps_score, carrera, facultad, ciclo]
     y realiza la clasificación semántica local (sentimiento y tópicos).
     Retorna (topicos_resultado, comentarios_detallados).

@@ -1,14 +1,28 @@
 /**
  * SURVEY SANITIZER — Funciones de sanitización HTML.
- * 
+ *
  * Previene XSS en contenido dinámico insertado vía innerHTML.
  * Extraído de dashboard.js (v2.0). Sin dependencias externas.
- * 
+ *
+ * Contrato:
+ * - escapeHTML(str): escapa & < > " '. Devuelve string seguro.
+ * - sanitizeHTML(html): permite solo tags <br>, <strong>, <em>, <i>, <span>
+ *   SIN atributos. Cualquier atributo (incluidos on*) se elimina. Tags no
+ *   permitidos se escapan (se muestran como texto literal).
+ *
+ * Algoritmo de sanitizeHTML:
+ *   1. Extrae placeholders para tags permitidos (open y close) en el string original.
+ *   2. Reemplaza cada tag permitido por un placeholder seguro (token único).
+ *   3. Escapa TODO el resto (incluye cualquier tag no permitido y cualquier atributo).
+ *   4. Restaura los placeholders a los tags permitidos limpios (sin atributos).
+ *
  * @module utils/sanitizer
- * @version 1.0.0
+ * @version 1.1.0
  */
 window.SurveySanitizer = (() => {
   'use strict';
+
+  const ALLOWED_TAGS = ['br', 'strong', 'em', 'i', 'span'];
 
   /**
    * Escapa caracteres HTML peligrosos.
@@ -26,28 +40,57 @@ window.SurveySanitizer = (() => {
   };
 
   /**
-   * Sanitiza HTML permitiendo solo una whitelist mínima de tags.
-   * Tags permitidos: <br>, <strong>, <em>, <i>, <span> (sin atributos on*).
+   * Sanitiza HTML permitiendo solo una whitelist mínima de tags sin atributos.
+   * Tags permitidos: <br>, <strong>, <em>, <i>, <span>.
+   * Cualquier atributo (incluidos on*) se elimina silenciosamente.
    * @param {string} html - HTML potencialmente inseguro
    * @returns {string} HTML sanitizado
    */
   const sanitizeHTML = (html) => {
     if (!html || typeof html !== 'string') return '';
-    const allowedTags = ['br', 'strong', 'em', 'i', 'span'];
-    // 1. Escapar todo
-    let safe = escapeHTML(html);
-    // 2. Restaurar tags permitidos (escapados a &lt; y &gt;)
-    allowedTags.forEach((tag) => {
-      const openEscaped = `&lt;${tag}&gt;`;
-      const openReal = `<${tag}>`;
-      const closeEscaped = `&lt;/${tag}&gt;`;
-      const closeReal = `</${tag}>`;
-      safe = safe.split(openEscaped).join(openReal);
-      safe = safe.split(closeEscaped).join(closeReal);
+
+    // Construir regex que casa cualquier tag permitido (open o close) con o sin atributos.
+    // Ejemplos que casa:
+    //   <span>, <span class="x">, <span onclick="alert(1)">, </span>, <br/>, <br />
+    const allowedPattern = new RegExp(
+      '</?(?:' + ALLOWED_TAGS.join('|') + ')\\b[^>]*?/?>',
+      'gi'
+    );
+
+    // 1. Reemplazar cada tag permitido por un placeholder seguro.
+    //    Los placeholders no contienen < > para sobrevivir al escapeHTML.
+    const placeholders = [];
+    let safe = html.replace(allowedPattern, (match) => {
+      // Determinar si es open o close tag
+      const isClose = match.startsWith('</');
+      // Extraer nombre del tag
+      const tagMatch = match.match(/^<\/?([a-z]+)/i);
+      const tagName = tagMatch ? tagMatch[1].toLowerCase() : '';
+      // Self-closing? (ej. <br/>)
+      const isSelfClosing = match.endsWith('/>') || tagName === 'br';
+      // Generar placeholder único
+      const placeholder = `\x00PH${placeholders.length}\x00`;
+      if (isClose) {
+        placeholders.push(`</${tagName}>`);
+      } else if (isSelfClosing) {
+        placeholders.push(`<${tagName}>`);
+      } else {
+        placeholders.push(`<${tagName}>`);
+      }
+      return placeholder;
     });
-    // 3. Remover atributos on* remanentes
-    safe = safe.replace(/\s+on\w+\s*=\s*["'][^"']*["']/gi, '');
-    safe = safe.replace(/\s+on\w+\s*=\s*[^\s>]*/gi, '');
+
+    // 2. Escapar TODO el resto. Esto escapa cualquier tag no permitido y
+    //    cualquier atributo que haya quedado fuera de un tag permitido.
+    safe = escapeHTML(safe);
+
+    // 3. Restaurar placeholders a los tags permitidos limpios.
+    //    Los placeholders sobrevivieron al escapeHTML porque no contienen < > " ' &.
+    placeholders.forEach((replacement, idx) => {
+      const placeholder = `\x00PH${idx}\x00`;
+      safe = safe.split(placeholder).join(replacement);
+    });
+
     return safe;
   };
 

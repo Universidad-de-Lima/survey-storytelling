@@ -81,7 +81,8 @@
       <div class="section-header">
         <h2 class="section-title" id="operativo-heading">ANÁLISIS OPERATIVO</h2>
       </div>
-      <div class="filter-container" role="group" aria-label="Filtros de análisis operativo">
+      <h3 class="subsection-title">Nivel de satisfacción</h3>
+      <div class="filter-container" role="group" aria-label="Filtros de análisis operativo" style="margin-top: 16px;">
         <div class="filter-group">
           <label class="filter-label" for="filter-facultad-top3">Facultad:</label>
           <select class="filter-select" id="filter-facultad-top3"><option value="">Todas las unidades académicas</option></select>
@@ -98,7 +99,6 @@
         </div>
         <button class="filter-reset" id="reset-top3" type="button">Limpiar</button>
       </div>
-      <h3 class="subsection-title">Nivel de satisfacción</h3>
       <div class="grid-2" id="top3-cards">
         <div class="card"><div class="card-title">Académico</div><div class="bar-chart" id="chart-academico"></div></div>
         <div class="card"><div class="card-title">Servicios al estudiante</div><div class="bar-chart" id="chart-admin-bienestar"></div></div>
@@ -171,10 +171,11 @@
       <table class="survey-table" id="tabla-preguntas">
         <thead>
           <tr>
-            <th scope="col" style="width: 36%;">DIMENSIÓN</th>
-            <th scope="col" class="text-center" style="width: 16%;">Top 3 Box</th>
-            <th scope="col" class="text-center" style="width: 18%;">CATEGORÍA</th>
-            <th scope="col" class="text-center" style="width: 30%;">DISTRIBUCIÓN</th>
+            <th scope="col" style="width: 35%;">DIMENSIÓN</th>
+            <th scope="col" class="text-center" style="width: 15%;">ENCUESTAS</th>
+            <th scope="col" class="text-center" style="width: 15%;">Top 3 Box</th>
+            <th scope="col" class="text-center" style="width: 15%;">CATEGORÍA</th>
+            <th scope="col" class="text-center" style="width: 20%;">DISTRIBUCIÓN</th>
           </tr>
         </thead>
         <tbody id="tbody-preguntas"></tbody>
@@ -213,10 +214,10 @@
       <table class="survey-table" id="tabla-detalle">
         <thead>
           <tr>
-            <th scope="col" style="width: 24%;">CARRERA</th>
-            <th scope="col" class="text-center" style="width: 10%;">ENCUESTAS</th>
-            <th scope="col" class="text-center" style="width: 16%;">Nivel de Satisfacción</th>
-            <th scope="col" class="text-center" style="width: 16%;">VS PROMEDIO <span id="detalle-promedio-ref"></span></th>
+            <th scope="col" style="width: 15%;">CARRERA</th>
+            <th scope="col" class="text-center" style="width: 17%;">ENCUESTAS</th>
+            <th scope="col" class="text-center" style="width: 17%;">Nivel de Satisfacción</th>
+            <th scope="col" class="text-center" style="width: 17%;">VS PROMEDIO <span id="detalle-promedio-ref"></span></th>
             <th scope="col" class="text-center" style="width: 17%;">Índice de Promotores Netos</th>
             <th scope="col" class="text-center" style="width: 17%;">VS PROMEDIO <span id="detalle-promedio-nps-ref"></span></th>
           </tr>
@@ -246,10 +247,11 @@
       <table class="survey-table" id="tabla-visibilidad">
         <thead>
           <tr>
-            <th scope="col" style="width: 36%;">DIMENSIÓN</th>
-            <th scope="col" class="text-center" style="width: 16%;">NO CONOZCO</th>
-            <th scope="col" class="text-center" style="width: 18%;">NO UTILIZO</th>
-            <th scope="col" class="text-center" style="width: 30%;">DISTRIBUCIÓN</th>
+            <th scope="col" style="width: 35%;">DIMENSIÓN</th>
+            <th scope="col" class="text-center" style="width: 15%;">ENCUESTAS</th>
+            <th scope="col" class="text-center" style="width: 15%;">NO CONOZCO</th>
+            <th scope="col" class="text-center" style="width: 15%;">NO UTILIZO</th>
+            <th scope="col" class="text-center" style="width: 20%;">DISTRIBUCIÓN</th>
           </tr>
         </thead>
         <tbody id="tbody-visibilidad"></tbody>
@@ -271,31 +273,12 @@
       <div class="section-header">
         <h2 class="section-title" id="cualitativo-heading">ANÁLISIS CUALITATIVO</h2>
       </div>
-      <p style="color:var(--gray-500); font-size:13px; margin-bottom:20px; line-height:1.7;">
-        Análisis semántico automatizado de los comentarios de alumnos. Los comentarios se agrupan en categorías temáticas y se analiza su sentimiento e intensidad mediante modelos de embeddings locales (offline).
-      </p>
+
+
 
       <div class="kpi-grid" id="sentiment-kpis"></div>
 
-
-      <!-- Filtros de Negocio (Sincronizados) -->
-      <div class="filter-container" role="group" aria-label="Filtros de análisis cualitativo" style="margin-top: 20px;">
-        <div class="filter-group">
-          <label class="filter-label" for="filter-facultad-sent">Facultad:</label>
-          <select class="filter-select" id="filter-facultad-sent"><option value="">Todas las unidades académicas</option></select>
-        </div>
-        <div class="filter-group">
-          <label class="filter-label" for="filter-carrera-sent">Carrera:</label>
-          <select class="filter-select" id="filter-carrera-sent"><option value="">Todas las carreras</option></select>
-        </div>
-        <div class="filter-ciclo-actions">
-          <div class="filter-group">
-            <label class="filter-label" for="filter-ciclo-sent">Ciclo:</label>
-            <select class="filter-select" id="filter-ciclo-sent" data-multiselect="true"><option value="">Todos los ciclos</option></select>
-          </div>
-        </div>
-        <button class="filter-reset" id="reset-sent" type="button">Limpiar</button>
-      </div>
+      <h3 class="subsection-title" style="margin-top: 32px;">Respuestas por sentimiento</h3>
 
       <!-- Métricas Macro y Distribuciones -->
       <div class="grid-2">
@@ -316,7 +299,9 @@
         </div>
       </div>
 
-      <div class="grid-2" style="margin-top: 24px;">
+
+
+      <div class="grid-2">
         <div class="card">
           <div class="card-title">Aspectos más positivos</div>
           <div class="bar-chart" id="aspectos-positivos-container"></div>
@@ -335,34 +320,21 @@
         </div>
       </div>
 
-      <h3 class="subsection-title" style="margin-top:28px;">Temas más mencionados (Insights con Frases)</h3>
-      <div id="temas-container" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:16px;"></div>
-
-      <div class="filter-container" role="group" aria-label="Filtro de tipo de insight" style="margin-top:8px;">
-        <div class="filter-group">
-          <label class="filter-label" for="filter-sentimiento">Mostrar temas con tendencia:</label>
-          <select class="filter-select" id="filter-sentimiento">
-            <option value="todos">Todos los temas</option>
-            <option value="negativo">Predomina Insatisfacción</option>
-            <option value="mejora">Predomina Oportunidad de mejora</option>
-            <option value="positivo">Predomina Fortaleza</option>
-          </select>
-        </div>
-      </div>
-
-      <div id="insights-container" style="margin-top:16px;"></div>
 
       <h3 class="subsection-title" style="margin-top:32px;">Respuestas por carrera — distribución NPS completa</h3>
+      
+
+
       <div class="table-scroll" style="margin-bottom: 24px;">
         <table class="survey-table" id="tabla-nps-carrera">
           <thead>
             <tr>
               <th scope="col" style="width: 20%;">CARRERA</th>
-              <th scope="col" class="text-center" style="width: 16%;">TOTAL IDEAS</th>
+              <th scope="col" class="text-center" style="width: 16%;">TEXTO ABIERTO</th>
+              <th scope="col" class="text-center" style="width: 16%;">IDEAS ANALIZADAS</th>
               <th scope="col" class="text-center" style="width: 16%;">PROMOTORES</th>
               <th scope="col" class="text-center" style="width: 16%;">PASIVOS</th>
               <th scope="col" class="text-center" style="width: 16%;">DETRACTORES</th>
-              <th scope="col" class="text-center" style="width: 16%;">NPS</th>
             </tr>
           </thead>
           <tbody id="tbody-nps-carrera">
@@ -373,16 +345,17 @@
       <!-- Detalle de ideas -->
       <h3 class="subsection-title" style="margin-top:32px;">Detalle de ideas</h3>
       <p style="color:var(--gray-500); font-size:12px; margin-bottom:12px; line-height:1.5;">
-        Busque y filtre las respuestas textuales de los alumnos. El texto corregido corrige faltas ortográficas y modismos comunes para facilitar su lectura rápida sin alterar su significado original.
+        Busque y filtre las respuestas textuales de los alumnos. La columna "Idea analizada" corrige faltas ortográficas y modismos comunes para facilitar su lectura rápida sin alterar su significado original.
       </p>
+
 
       <!-- Explorador Controls -->
       <div class="filter-container" role="group" aria-label="Controles del explorador cualitativo" style="margin-bottom: 16px; display: flex; flex-wrap: wrap; gap: 12px; align-items: center;">
         <div class="filter-group" style="flex: 1; min-width: 200px;">
-          <input type="text" id="explorador-search" class="filter-select" placeholder="Buscar palabras clave en comentarios..." style="width: 100%; padding: 6px 12px; border-radius: 4px; border: 1px solid var(--border); font-size: 13px;">
+          <input type="text" id="explorador-search" class="filter-select" placeholder="Buscar palabras clave en comentarios..." style="width: 100%; padding: 6px 10px; border-radius: var(--radius-md); border: 1px solid var(--gray-300); font-size: var(--text-md); font-family: inherit; background-image: none; cursor: text;">
         </div>
         <div class="filter-group">
-          <label class="filter-label" for="explorador-categoria">Tema:</label>
+          <label class="filter-label" for="explorador-categoria">Tema Padre:</label>
           <select class="filter-select" id="explorador-categoria">
             <option value="">Todos los temas</option>
           </select>
@@ -396,16 +369,9 @@
             <option value="negativo">Negativo</option>
           </select>
         </div>
-        <div class="filter-group" style="display: flex; align-items: center; gap: 8px;">
-          <span class="filter-label" style="margin-bottom: 0;">Texto:</span>
-          <label class="switch" style="position: relative; display: inline-block; width: 44px; height: 22px;">
-            <input type="checkbox" id="explorador-toggle-texto" checked style="opacity: 0; width: 0; height: 0;">
-            <span class="slider round" style="position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: var(--gray); transition: .4s; border-radius: 22px;"></span>
-          </label>
-          <span style="font-size: 12px; font-weight: 600; color: var(--dark);">Corregido</span>
-        </div>
-        <button class="filter-reset" id="explorador-export-csv" type="button" style="margin-left: auto; background: var(--blue); color: white; border: none; border-radius: 4px; padding: 6px 12px; font-weight: 600; cursor: pointer; transition: background 0.2s;">
-          📥 Exportar CSV
+
+        <button class="filter-reset" id="explorador-reset" type="button" style="margin-left: auto;">
+          Limpiar
         </button>
       </div>
 
@@ -414,12 +380,14 @@
         <table class="survey-table" id="tabla-explorador-comentarios">
           <thead>
             <tr>
-              <th scope="col" style="width: 15%;">Carrera</th>
-              <th scope="col" style="width: 10%;" class="text-center">Ciclo</th>
-              <th scope="col" style="width: 12%;" class="text-center">Sentimiento</th>
-              <th scope="col" style="width: 8%;" class="text-center">NPS</th>
-              <th scope="col" style="width: 15%;">Tema</th>
-              <th scope="col" style="width: 40%;">Comentario</th>
+              <th scope="col" style="width: 16%; text-align: left;">Carrera</th>
+              <th scope="col" style="width: 5%;" class="text-center">Ciclo</th>
+              <th scope="col" style="width: 5%;" class="text-center">NPS</th>
+              <th scope="col" style="width: 34%;">Texto abierto</th>
+              <th scope="col" style="width: 18%;">Idea analizada</th>
+              <th scope="col" style="width: 12%;">Tema</th>
+              <th scope="col" style="width: 5%;" class="text-center">Sentimiento</th>
+              <th scope="col" style="width: 5%;" class="text-center">Intensidad</th>
             </tr>
           </thead>
           <tbody id="tbody-explorador-comentarios">
@@ -432,6 +400,7 @@
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 28px;">
         <span id="explorador-pagination-info" style="font-size: 12px; color: var(--text2); font-weight: 500;">Mostrando 0-0 de 0 comentarios</span>
         <div style="display: flex; gap: 8px;">
+          <button id="explorador-export-csv" class="filter-reset" style="padding: 4px 10px; font-size: 12px;">Descargar</button>
           <button id="explorador-btn-prev" class="filter-reset" style="padding: 4px 10px; font-size: 12px;" disabled>Anterior</button>
           <button id="explorador-btn-next" class="filter-reset" style="padding: 4px 10px; font-size: 12px;" disabled>Siguiente</button>
         </div>
@@ -440,6 +409,13 @@
       <div class="insight-box info" aria-live="polite" style="margin-top:20px; display:none;">
         <div class="insight-title">Análisis</div>
         <p class="insight-text" id="insight-cualitativo">Cargando...</p>
+      </div>
+
+      <div class="insight-box warning" style="margin-top: 20px;">
+        <div class="insight-title">Nota</div>
+        <p class="insight-text">
+          Análisis semántico automatizado de los comentarios de alumnos. Los comentarios se agrupan en categorías temáticas y se analiza su sentimiento e intensidad mediante modelos de embeddings locales (offline).
+        </p>
       </div>
   </section>
 

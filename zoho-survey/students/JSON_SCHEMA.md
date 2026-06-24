@@ -1,5 +1,7 @@
 # Contratos JSON del dashboard de encuestas
 
+> **Nota:** Este documento es una referencia histórica. La fuente canónica y actualizada de los contratos de datos es `CONTRACTS.md` en la raíz del repositorio.
+
 Este documento define el contrato minimo que debe respetar cada periodo academico en `zoho-survey/students/<nivel>/<periodo>/json/` para que `shared/js/dashboard.js` pueda renderizar sin fallos.
 
 ## Archivos obligatorios
@@ -106,9 +108,9 @@ Cada fila debe incluir:
 - `facultad`
 - `carrera`
 - `ciclo`
-- `count`
+- `total`
 
-La suma de `count` debe ser positiva.
+La suma de `total` debe ser positiva.
 
 ## `nps_ciclo_carrera.json`
 
@@ -154,13 +156,10 @@ Claves requeridas:
 Cada topico requiere:
 
 - `topico`
-- `tipo`: `negativo`, `mejora` o `positivo`
-- `icono`
 - `total_comentarios`
-- `por_facultad`
-- `por_carrera`
-- `por_ciclo`
-- `frases_representativas`
+- `positivos`
+- `negativos`
+- `neutros`
 
 ## HTML de periodo
 
@@ -168,10 +167,6 @@ Cada `periodo/index.html` debe conservar los IDs consumidos por `dashboard.js`, 
 
 - `id="sentimiento"`
 - `id="sentimiento-heading"`
-- `filter-facultad-sent`
-- `filter-carrera-sent`
-- `filter-ciclo-sent`
-- `filter-sentimiento`
 
 La etiqueta visible del visual debe ser `Cualitativo` y el titulo debe ser `ANALISIS CUALITATIVO`.
 

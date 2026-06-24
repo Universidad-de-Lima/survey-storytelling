@@ -1,9 +1,16 @@
 /**
  * SURVEY FORMATTERS — Funciones puras de formateo.
- * 
+ *
  * Extraídas de dashboard.js (v2.0). Sin dependencias externas.
  * Usar como: SurveyFormatters.formatDecimal(3.14159, 2) → "3,14"
- * 
+ *
+ * Contrato:
+ * - formatDecimal(n, digits=2): siempre muestra `digits` decimales, excepto
+ *   cuando TODOS son cero (caso entero) que devuelve el entero sin decimales.
+ *   Ejemplo: formatDecimal(1.5) → "1,50"; formatDecimal(3.0) → "3".
+ *   Usa toFixed() que trunca (no redondea) en casos de float impreciso
+ *   (ej. 1.2345 → "1,234" porque 1.2345 en float es 1.2344999...).
+ *
  * @module utils/formatters
  * @version 1.0.0
  */

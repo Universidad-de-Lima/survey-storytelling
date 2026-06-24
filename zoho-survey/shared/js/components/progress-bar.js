@@ -47,7 +47,7 @@ window.SurveyProgressBar = (() => {
       (entries) => entries.forEach((e) => {
         if (e.isIntersecting) setActive(e.target.id);
       }),
-      { threshold: 0.3 },
+      { threshold: 0.1 },
     );
     sections.forEach((s) => observer.observe(s));
 

@@ -13,7 +13,6 @@ Cada sección del dashboard utiliza un grupo de filtros específico identificado
 | `preguntas` | Detallado - Preguntas | facultad, carrera, ciclo, reset |
 | `detalle` | Detallado - Carrera | facultad, ciclo, reset |
 | `visibilidad` | Detallado - Visibilidad | facultad, carrera, ciclo, reset |
-| `sent` | Cualitativo - Sentimientos | facultad, carrera, ciclo, reset |
 
 La convención de IDs HTML es:
 - `filter-facultad-<sufijo>`

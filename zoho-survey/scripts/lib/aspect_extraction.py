@@ -6,7 +6,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 from .nlp import obtener_modelo
 import json
 import os
-from .config import CATEGORIA_DIMENSION_PREGRADO, CATEGORIA_DIMENSION_POSGRADO
+from .config import CATEGORIA_DIMENSION_PREGRADO, CATEGORIA_DIMENSION_GRADUADO
 
 # Cargar stop aspectos
 _STOP_ASPECTOS = set()
@@ -18,32 +18,81 @@ except Exception:
     _STOP_ASPECTOS = {"falta", "cosa", "cosas", "problema", "problemas", "mejora", "mejoras"}
 
 # Cargar spacy
+# El modelo es_core_news_sm debe instalarse explícitamente vía:
+#   python -m spacy download es_core_news_sm
+# o venir preinstalado en la imagen de CI. No se auto-descarga en runtime
+# para mantener determinismo y evitar fallos en entornos sin internet.
 try:
     nlp_spacy = spacy.load("es_core_news_sm")
-except OSError:
-    import spacy.cli
-    spacy.cli.download("es_core_news_sm")
-    nlp_spacy = spacy.load("es_core_news_sm")
+except OSError as exc:
+    raise OSError(
+        "Modelo de spaCy 'es_core_news_sm' no encontrado. "
+        "Instalarlo con: python -m spacy download es_core_news_sm"
+    ) from exc
 
 # 1. Unificar dimensiones oficiales desde config
 CATEGORIA_PADRE_MAP = {}
 CATEGORIA_PADRE_MAP.update(CATEGORIA_DIMENSION_PREGRADO)
-CATEGORIA_PADRE_MAP.update(CATEGORIA_DIMENSION_POSGRADO)
+CATEGORIA_PADRE_MAP.update(CATEGORIA_DIMENSION_GRADUADO)
 CATEGORIA_PADRE_MAP["Pendiente de Clasificación"] = "Pendiente de Clasificación"
 
 # 2. Diccionario interno de alias muy comunes para atajo rápido (Fase 1)
 ALIAS_DICT_MANUAL = {
-    "Aulas de clase": ["aula", "aulas", "salon", "salones", "carpeta", "carpetas", "silla", "sillas", "comodidad", "mobiliario", "pizarra", "pizarras"],
-    "Ambientes y salas para estudio": ["espacio de estudio", "espacios de estudio", "cubiculo", "cubiculos", "biblioteca", "mesas", "mesas libres"],
+    # Académico
+    "Perfil del egreso de la carrera": ["perfil", "egreso", "egresado", "perfil del egresado"],
+    "Plan curricular y perfil de egreso": ["malla", "curricula", "plan de estudios", "silabo"],
+    "Cursos del programa y contenidos": ["curso", "cursos", "electivo", "electivos", "temas", "contenido", "clases virtuales"],
     "Calidad de la enseñanza en la carrera": ["profesor", "profesores", "docente", "docentes", "profe", "profes", "enseñanza", "pedagogia", "trato", "explicacion", "metodologia"],
-    "Evaluación del aprendizaje": ["examen", "examenes", "evaluacion", "evaluaciones", "practica", "practicas", "nota", "notas", "calificacion", "exigencia"],
-    "Plan curricular y perfil de egreso": ["malla", "curricula", "curso", "cursos", "electivo", "electivos", "plan de estudios", "temas", "silabo"],
-    "Habilidades para trabajar en equipo": ["trabajo grupal", "trabajos grupales", "grupo", "grupos", "equipo", "compañeros", "compañero"],
+    "Claridad de los recursos académicos": ["recursos", "materiales", "diapositivas", "lecturas"],
+    "Calidad de la formación académica": ["formacion", "calidad", "educacion", "nivel educativo", "prestigio", "academico", "nivel academico", "aprendizaje", "preparacion"],
+    "Exigencia académica": ["exigencia", "dificultad", "nivel", "exigente", "facil", "dificil"],
+    "Evaluación del aprendizaje": ["examen", "examenes", "evaluacion", "evaluaciones", "practica", "practicas", "nota", "notas", "calificacion", "rubrica", "evaluar"],
+    "Intercambio estudiantil": ["intercambio", "viaje", "extranjero", "convenio", "convenios"],
+    "La carrera": ["carrera", "facultad"],
+    "Satisfacción estudiantil": ["satisfecho", "satisfecha", "recomiendo", "recomendaria", "buena", "bien", "genial", "excelente", "me gusta", "conforme", "estandarizada", "universidad si", "buen camino", "cosas buenas"],
+    
+    # Administrativo y Bienestar
+    "Información sobre el récord académico": ["record", "notas", "promedio", "ponderado", "quinto", "tercio", "rendimiento"],
+    "Material bibliográfico en la biblioteca": ["libro", "libros", "bibliografia", "revista", "revistas", "base de datos"],
+    "Atención del personal administrativo": ["atencion", "personal", "administrativo", "secretaria", "orientacion", "trato"],
+    "Procedimientos administrativos": ["matricula", "inscripcion", "cupo", "cupos", "turno", "turnos", "sistema de matricula", "tramites", "burocracia", "organización", "organizado"],
+    "Ayuda financiera": ["pension", "pensiones", "pago", "pagos", "beca", "becas", "economia", "economico", "recategorizacion", "categorizacion", "boleta", "asequibilidad"],
+    "Servicio médico y su infraestructura": ["medico", "topico", "salud", "enfermeria", "emergencia"],
+    "Servicio de atención psicopedagógica": ["psicologo", "psicologia", "psicopedagogico", "psicologica", "salud mental", "terapia"],
+    "Talleres de actividades artísticas y culturales": ["taller", "talleres", "arte", "cultura", "danza", "musica", "teatro"],
+    "Actividades deportivas": ["deporte", "deportes", "cancha", "canchas", "gimnasio", "gym", "entrenamiento", "seleccion", "variedad deportiva"],
+    "Empleabilidad, vinculación y ALUMNI": ["empleabilidad", "trabajo", "practicas", "bolsa de trabajo", "alumni", "egresados", "contacto con empresas", "oportunidades", "empleo", "laboral"],
+    
+    # Infraestructura
+    "Aulas de clase": ["aula", "aulas", "salon", "salones", "carpeta", "carpetas", "silla", "sillas", "comodidad", "mobiliario", "pizarra", "pizarras", "aire acondicionado", "ventilacion", "enchufe", "enchufes", "instalaciones", "ascensor", "ascensores", "elevador", "elevadores"],
+    "Ambientes y salas para estudio": ["espacio de estudio", "espacios de estudio", "cubiculo", "cubiculos", "biblioteca", "mesas", "mesas libres", "zona de estudio", "áreas", "construcciones", "construccion", "aire"],
+    "Equipamiento tecnológico en laboratorios": ["laboratorio", "laboratorios", "pc", "pcs", "computadora", "computadoras", "mac", "macs", "impresora", "impresoras", "equipo", "equipos", "tecnología"],
+    "Condiciones ambientales en laboratorios": ["condiciones del laboratorio", "ruido en laboratorio", "iluminacion", "seguridad"],
+    "Ubicación": ["ubicacion", "lejos", "lejania", "distancia", "trafico", "llegar", "transporte", "bus"],
+    "Espacios de alimentación": ["comida", "comedor", "cafeteria", "cafeterias", "kiosko", "kioskos", "precio", "almuerzo", "menu", "patio de comidas", "patio", "colas", "microondas", "sobrepoblacion"],
+    
+    # Tecnología
+    "Software especializado empleado en la carrera": ["software", "programa", "licencia", "licencias", "aplicacion"],
     "Portal web de la Universidad (Mi Ulima)": ["miulima", "portal", "sistema"],
-    "Aula virtual": ["blackboard", "correo", "zoom", "intranet"],
-    "Conexión Wi-Fi en el campus": ["wifi", "wi-fi", "internet", "red", "señal", "conexion", "conectividad"],
-    "Procedimientos administrativos": ["matricula", "inscripcion", "cupo", "cupos", "turno", "turnos", "sistema de matricula", "tramites"],
-    "Equipamiento tecnológico en laboratorios": ["laboratorio", "laboratorios", "pc", "pcs", "computadora", "computadoras", "mac", "macs", "impresora", "impresoras"]
+    "Aula virtual": ["blackboard", "correo", "zoom", "intranet", "clases virtuales", "virtual"],
+    "Conexión Wi-Fi en el campus": ["wifi", "wi-fi", "internet", "red", "señal", "conexion", "conectividad", "datos"],
+    "Soporte técnico del sistema informático": ["soporte", "tecnico", "ayuda tecnica", "fallas", "mesa de ayuda"],
+
+    # Docencia
+    "Transmisión de conocimientos": ["conocimiento", "conocimientos", "sabe", "saben", "dominio"],
+    "Transmisión de experiencias": ["experiencia", "experiencias", "casos", "vida real"],
+    "Metodologías": ["metodologia", "didactica", "forma de enseñar", "metodo"],
+    "Conocimientos actualizados": ["actualizado", "actualizados", "moderno", "modernos", "vanguardia", "obsoleto"],
+    "Compromiso": ["compromiso", "interes", "dedicacion", "se preocupa"],
+    "Retroalimentación": ["feedback", "retroalimentacion", "correccion", "correcciones"],
+    "Disponibilidad para asesorías": ["asesoria", "asesorias", "consulta", "consultas", "dudas", "tiempo", "disponibilidad"],
+    "Cumplimiento de normas y programas": ["puntualidad", "tarde", "normas", "reglas", "programa", "silabo"],
+
+    # Desarrollo Profesional
+    "Habilidades para trabajar en equipo": ["trabajo grupal", "trabajos grupales", "grupo", "grupos", "equipo", "compañeros", "compañero", "amistades"],
+    "Habilidades de comunicación": ["comunicacion", "hablar", "exposicion", "exposiciones", "expresion"],
+    "Habilidades para aportar nuevas ideas": ["ideas", "innovacion", "creatividad", "aporte"],
+    "Mejora en perspectivas de empleo": ["perspectiva", "futuro", "oportunidad laboral"]
 }
 
 # Solo registramos alias exactos para las dimensiones que sí existen en la config actual
@@ -153,16 +202,20 @@ def extraer_aspecto_detectado(opinion_unit: str) -> Tuple[str, list]:
     # Si todo falla, devolver la oracion completa normalizada
     return opinion_unit.lower(), sub_aspectos
 
-def normalizar_aspecto(aspecto_detectado: str) -> Tuple[str, str, str]:
+def normalizar_aspecto(aspecto_detectado: str, contexto_completo: str = "") -> Tuple[str, str, str]:
     """Retorna (Aspecto Normalizado, Categoria Padre, Metodo_Usado)"""
-    if not aspecto_detectado:
+    if not aspecto_detectado and not contexto_completo:
         return "Pendiente de Clasificación", "Pendiente de Clasificación", "ninguno"
         
-    aspecto_clean = re.sub(r'[^a-záéíóúñ\s-]', '', aspecto_detectado.lower()).strip()
+    aspecto_clean = re.sub(r'[^a-záéíóúñ\s-]', '', aspecto_detectado.lower()).strip() if aspecto_detectado else ""
+    contexto_clean = re.sub(r'[^a-záéíóúñ\s-]', '', contexto_completo.lower()).strip() if contexto_completo else aspecto_clean
+    
+    # Usar el string completo (contexto_clean) para que los alias tengan mas exito
+    target_clean = contexto_clean if contexto_clean else aspecto_clean
     
     # 1. Exact Match (Diccionario Alias)
     for alias, bucket in EXACT_MATCH.items():
-        if re.search(rf"\b{re.escape(alias)}\b", aspecto_clean):
+        if re.search(rf"\b{re.escape(alias)}\b", target_clean):
             return bucket, CATEGORIA_PADRE_MAP[bucket], "alias"
 
     # Si es exactamente igual (por si el regex falla por algun caso)
@@ -173,24 +226,29 @@ def normalizar_aspecto(aspecto_detectado: str) -> Tuple[str, str, str]:
     # 2. Semantic Matching Vectorial
     _inicializar_embeddings()
     model = obtener_modelo()
-    emb = model.encode([aspecto_clean])
+    emb = model.encode([target_clean])
     sim = cosine_similarity(emb, _ANCHORS_EMBEDDINGS)[0]
     
     max_idx = np.argmax(sim)
     max_score = sim[max_idx]
     
     # Umbral estricto para evitar falsos positivos
-    if max_score > 0.65:
+    if max_score > 0.55:
         bucket = _ANCHORS_KEYS[max_idx]
         return bucket, CATEGORIA_PADRE_MAP[bucket], "embedding"
         
+    # Paso extra para fragmentos muy cortos (ej. "construcciones innecesarias")
+    if max_score > 0.45 and len(target_clean.split()) <= 4:
+        bucket = _ANCHORS_KEYS[max_idx]
+        return bucket, CATEGORIA_PADRE_MAP[bucket], "embedding_fallback"
+
     # 3. Fallback
     return "Pendiente de Clasificación", "Pendiente de Clasificación", "fallback"
 
 def procesar_opinion_unit(texto: str) -> Dict[str, str]:
     """Flujo completo para una opinion unit."""
     aspecto_detectado, sub_aspectos = extraer_aspecto_detectado(texto)
-    aspecto_normalizado, categoria_padre, metodo = normalizar_aspecto(aspecto_detectado)
+    aspecto_normalizado, categoria_padre, metodo = normalizar_aspecto(aspecto_detectado, texto)
     
     return {
         "aspecto_detectado": aspecto_detectado,

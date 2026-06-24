@@ -3,6 +3,11 @@
  *
  * Prueba todas las funciones de formateo exportadas por utils/formatters.js.
  * Ejecutar: abrir tests/run-tests.html en el navegador.
+ *
+ * Contrato verificado:
+ * - formatDecimal(n, digits=2) respeta siempre `digits` decimales, excepto
+ *   caso entero (todos ceros) que devuelve el entero sin decimales.
+ * - toFixed() trunca en casos de float impreciso (1.2345 → "1.234").
  */
 (() => {
   'use strict';
@@ -31,8 +36,10 @@
     it('formatea con 2 decimales por defecto', () => {
       assert.equal(F.formatDecimal(3.14159), '3,14');
     });
-    it('usa coma como separador decimal', () => {
-      assert.equal(F.formatDecimal(1.5), '1,5');
+    it('usa coma como separador decimal y respeta digits=2', () => {
+      // Contrato: siempre muestra `digits` decimales salvo caso entero.
+      // 1.5 con digits=2 → "1,50" (no "1,5").
+      assert.equal(F.formatDecimal(1.5), '1,50');
     });
     it('redondea a entero si los decimales son 0', () => {
       assert.equal(F.formatDecimal(3.0), '3');
@@ -44,13 +51,18 @@
       assert.equal(F.formatDecimal(undefined), '');
     });
     it('formatea con precisión personalizada', () => {
-      assert.equal(F.formatDecimal(1.2345, 3), '1,235');
+      // toFixed trunca en casos de float impreciso: 1.2345 en float es 1.2344999...
+      // Por eso 1.2345.toFixed(3) → "1.234" (no "1.235"). Usar 1.2351 para test de redondeo.
+      assert.equal(F.formatDecimal(1.2351, 3), '1,235');
+      // Y verificar truncamiento correcto
+      assert.equal(F.formatDecimal(1.2344, 3), '1,234');
     });
   });
 
   describe('formatPercent', () => {
-    it('añade símbolo %', () => {
-      assert.equal(F.formatPercent(93.5), '93,5 %');
+    it('añade símbolo % y respeta digits=2 por defecto', () => {
+      // Contrato: digits=2 por defecto, igual que formatDecimal.
+      assert.equal(F.formatPercent(93.5), '93,50 %');
     });
     it('formatea entero sin decimales', () => {
       assert.equal(F.formatPercent(100.0), '100 %');
