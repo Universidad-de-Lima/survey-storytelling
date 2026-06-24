@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Encuestas de Satisfacción — Universidad de Lima</title>
+<link rel="icon" href="shared/img/favicon.png" type="image/x-icon">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/css/tokens.css">
+<link rel="stylesheet" href="shared/css/reset.css">
+<link rel="stylesheet" href="shared/css/loader.css">
+</head>
+<body>
+<div id="splash">
+  <img src="shared/img/logo-vertical.png" alt="Universidad de Lima">
+</div>
+
+<div id="overlay">
+  <div class="overlay-inner">
+    <div class="spinner"></div>
+    <div class="overlay-text" id="overlay-msg">Cargando…</div>
+  </div>
+</div>
+
+<header id="topbar">
+  <img class="topbar-logo" src="shared/img/logo-horizontal.png" alt="Universidad de Lima">
+  <div class="topbar-right">
+    <div class="bar-left">
+      <span class="survey-label-wrap"><span class="survey-label">ENCUESTA</span></span>
+      <div class="survey-tabs" id="survey-tabs"></div>
+      <div class="survey-select-wrap">
+        <select class="survey-select" id="survey-select"></select>
+        <span class="select-arrow">▾</span>
+      </div>
+    </div>
+    <div id="period-bar" class="period-bar">
+      <span class="period-label">PERIODO</span>
+      <div class="pills" id="pills-container"></div>
+      <div class="select-wrap">
+        <select class="period-select" id="period-select"></select>
+        <span class="select-arrow">▾</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div id="frame-wrap">
+  <iframe id="dashboard-frame" title="Dashboard" allowfullscreen></iframe>
+</div>
+
+<script src="shared/js/utils/dom-helpers.js"></script>
+<script src="shared/js/components/custom-select.js"></script>
+<script src="shared/js/loader.js"></script>
+</body>
+</html>

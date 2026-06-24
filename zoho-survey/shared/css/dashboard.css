@@ -1,0 +1,16 @@
+﻿/* ============================================================
+   DASHBOARD.CSS — Entry point (v2.0 modular)
+
+   Este archivo es el punto de entrada para compatibilidad backward.
+   Los HTMLs existentes que cargan solo dashboard.css reciben todos
+   los estilos via @import.
+
+   Para nuevos periodos se recomienda cargar los archivos modulares
+   directamente con <link> tags (ver template/index.html).
+   ============================================================ */
+
+@import 'tokens.css';
+@import 'reset.css';
+@import 'layout.css';
+@import 'components.css';
+@import 'sections.css';
