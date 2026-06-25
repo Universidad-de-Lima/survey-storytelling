@@ -74,6 +74,99 @@ class TestAspectExtraction(unittest.TestCase):
         self.assertEqual(res["aspecto_normalizado"], "Pendiente de Clasificación")
         self.assertEqual(res["categoria_padre"], "Pendiente de Clasificación")
 
+    # ── Fase 10.1: alias nuevos para recuperación de Pendiente de Clasificación ──
+
+    def test_estacionamiento(self):
+        """'estacionamiento' debe normalizar a 'Ubicación' (Infraestructura)."""
+        res = procesar_opinion_unit("Falta estacionamiento en la universidad")
+        self.assertEqual(res["aspecto_normalizado"], "Ubicación")
+        self.assertEqual(res["categoria_padre"], "Infraestructura")
+        self.assertEqual(res["metodo"], "alias")
+
+    def test_estacionamientos_plural(self):
+        """'estacionamientos' (plural) también debe clasificar a 'Ubicación'."""
+        res = procesar_opinion_unit("Los estacionamientos son insuficientes")
+        self.assertEqual(res["aspecto_normalizado"], "Ubicación")
+
+    def test_banos(self):
+        """'baños' debe normalizar a 'Aulas de clase' (Infraestructura)."""
+        res = procesar_opinion_unit("Los baños están sucios")
+        self.assertEqual(res["aspecto_normalizado"], "Aulas de clase")
+        self.assertEqual(res["categoria_padre"], "Infraestructura")
+        self.assertEqual(res["metodo"], "alias")
+
+    def test_bano_singular(self):
+        """'baño' (singular) también debe clasificar a 'Aulas de clase'."""
+        res = procesar_opinion_unit("El baño del tercer piso no funciona")
+        self.assertEqual(res["aspecto_normalizado"], "Aulas de clase")
+
+    def test_edificio(self):
+        """'edificio' debe normalizar a 'Aulas de clase' (Infraestructura)."""
+        res = procesar_opinion_unit("El edificio H está lejos")
+        self.assertEqual(res["aspecto_normalizado"], "Aulas de clase")
+        self.assertEqual(res["categoria_padre"], "Infraestructura")
+        self.assertEqual(res["metodo"], "alias")
+
+    def test_edificios_plural(self):
+        """'edificios' (plural) también debe clasificar a 'Aulas de clase'."""
+        res = procesar_opinion_unit("Los edificios nuevos son modernos")
+        self.assertEqual(res["aspecto_normalizado"], "Aulas de clase")
+
+    def test_espacios(self):
+        """'espacios' debe normalizar a 'Ambientes y salas para estudio' (Infraestructura)."""
+        res = procesar_opinion_unit("Hay pocos espacios para estudiar")
+        self.assertEqual(res["aspecto_normalizado"], "Ambientes y salas para estudio")
+        self.assertEqual(res["categoria_padre"], "Infraestructura")
+        self.assertEqual(res["metodo"], "alias")
+
+    def test_espacio_singular(self):
+        """'espacio' (singular) también debe clasificar a 'Ambientes y salas para estudio'."""
+        res = procesar_opinion_unit("Falta espacio en la biblioteca")
+        self.assertEqual(res["aspecto_normalizado"], "Ambientes y salas para estudio")
+
+    def test_ppt(self):
+        """'ppt' debe normalizar a 'Claridad de los recursos académicos' (Académico)."""
+        res = procesar_opinion_unit("Muchas ppt en clase, poco práctica")
+        self.assertEqual(res["aspecto_normalizado"], "Claridad de los recursos académicos")
+        self.assertEqual(res["categoria_padre"], "Académico")
+        self.assertEqual(res["metodo"], "alias")
+
+    def test_ppts_plural(self):
+        """'ppts' (plural) también debe clasificar a 'Claridad de los recursos académicos'."""
+        res = procesar_opinion_unit("Las ppts son aburridas")
+        self.assertEqual(res["aspecto_normalizado"], "Claridad de los recursos académicos")
+
+    def test_maquetas(self):
+        """'maquetas' debe normalizar a 'Cursos del programa y contenidos' (Académico)."""
+        res = procesar_opinion_unit("No hay espacios para maquetas")
+        self.assertEqual(res["aspecto_normalizado"], "Cursos del programa y contenidos")
+        self.assertEqual(res["categoria_padre"], "Académico")
+        self.assertEqual(res["metodo"], "alias")
+
+    def test_maqueta_singular(self):
+        """'maqueta' (singular) también debe clasificar a 'Cursos del programa y contenidos'."""
+        res = procesar_opinion_unit("La maqueta del proyecto final")
+        self.assertEqual(res["aspecto_normalizado"], "Cursos del programa y contenidos")
+
+    def test_alias_antiguos_siguen_funcionando(self):
+        """Regresión: alias existentes antes de Fase 10.1 deben seguir clasificando igual."""
+        casos = [
+            ("El internet se cae", "Conexión Wi-Fi en el campus"),
+            ("Los elevadores de O fallan", "Aulas de clase"),
+            ("Los profes explican muy bien", "Calidad de la enseñanza en la carrera"),
+            ("El sistema de inscripcion es lento", "Procedimientos administrativos"),
+        ]
+        for texto, esperado in casos:
+            with self.subTest(texto=texto):
+                res = procesar_opinion_unit(texto)
+                self.assertEqual(res["aspecto_normalizado"], esperado,
+                                 f"Regresión: '{texto}' debería ser '{esperado}' pero fue '{res['aspecto_normalizado']}'")
+
+    def test_sin_match_sigue_como_pendiente(self):
+        """Regresión: comentarios sin alias reconocible siguen en Pendiente de Clasificación."""
+        res = procesar_opinion_unit("hay cosas que mejorar")
+        self.assertEqual(res["aspecto_normalizado"], "Pendiente de Clasificación")
+
 
 if __name__ == '__main__':
     unittest.main()

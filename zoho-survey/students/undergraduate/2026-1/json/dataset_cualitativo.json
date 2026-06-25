@@ -4,10 +4,10 @@
     "total_encuestas": 918,
     "total_fragmentos": 2296,
     "stats_normalizacion": {
-      "alias": 1244,
-      "embedding": 226,
-      "embedding_fallback": 71,
-      "fallback": 755,
+      "alias": 1321,
+      "embedding": 212,
+      "embedding_fallback": 66,
+      "fallback": 697,
       "ninguno": 0,
       "total": 2296
     },
@@ -757,7 +757,7 @@
       "satisfaccion_global": "Muy satisfecho",
       "texto": "Una sola persona por patio atiende a todo la inmensa fila y no todos logran tener espacio en mesa",
       "aspecto_detectado": "sola persona",
-      "aspecto_normalizado": "Espacios de alimentación",
+      "aspecto_normalizado": "Ambientes y salas para estudio",
       "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "persona",
@@ -1201,8 +1201,8 @@
       "satisfaccion_global": "Satisfecho",
       "texto": "el edificio H",
       "aspecto_detectado": "edificio",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Aulas de clase",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "edificio",
         "h"
@@ -2761,7 +2761,7 @@
       "satisfaccion_global": "Insatisfecho",
       "texto": "Lo que falla son los espacios para almorzar",
       "aspecto_detectado": "espacios",
-      "aspecto_normalizado": "Espacios de alimentación",
+      "aspecto_normalizado": "Ambientes y salas para estudio",
       "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "espacios"
@@ -2957,8 +2957,8 @@
       "satisfaccion_global": "Muy satisfecho",
       "texto": "Mas edificios",
       "aspecto_detectado": "mas edificios",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Aulas de clase",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "mas",
         "edificios"
@@ -3366,8 +3366,8 @@
       "satisfaccion_global": "Satisfecho",
       "texto": "Hay demasiada gente, los espacios",
       "aspecto_detectado": "gente",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Ambientes y salas para estudio",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "gente",
         "espacios"
@@ -3671,7 +3671,7 @@
       ],
       "sentimiento": "positivo",
       "intensidad": 3,
-      "confianza_sentimiento": 0.5233,
+      "confianza_sentimiento": 0.5234,
       "comentario_original": "Tiene buena infraestructura y profes pero me gustaría q en mi carrera se enfoquen más en casos prácticos para poder aplicarlo en situaciones tal y como pasan en las empresas, como una simulación"
     },
     {
@@ -3818,8 +3818,8 @@
       "satisfaccion_global": "Satisfecho",
       "texto": "Nos deja sin espacios para estudiar o comer",
       "aspecto_detectado": "espacios",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Ambientes y salas para estudio",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "espacios"
       ],
@@ -4846,8 +4846,8 @@
       "satisfaccion_global": "Satisfecho",
       "texto": "Cantidad de personas hace que el espacio",
       "aspecto_detectado": "cantidad",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Ambientes y salas para estudio",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "cantidad",
         "personas",
@@ -5922,8 +5922,8 @@
       "satisfaccion_global": "Muy satisfecho",
       "texto": "Espacios para dormir",
       "aspecto_detectado": "espacios",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Ambientes y salas para estudio",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "espacios"
       ],
@@ -6739,7 +6739,7 @@
       ],
       "sentimiento": "positivo",
       "intensidad": 3,
-      "confianza_sentimiento": 0.5233,
+      "confianza_sentimiento": 0.5234,
       "comentario_original": "Tiene buena infraestructura, hay profesores buenos y las mallas curriculares se alinean a lo que pide el mercado laboral"
     },
     {
@@ -6984,8 +6984,8 @@
       "satisfaccion_global": "Satisfecho",
       "texto": "No solo leer ppts",
       "aspecto_detectado": "solo",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Claridad de los recursos académicos",
+      "categoria_padre": "Académico",
       "sub_aspectos": [
         "solo",
         "ppts"
@@ -7862,8 +7862,8 @@
       "satisfaccion_global": "Muy satisfecho",
       "texto": "Que hay hace difícilaprovechar los espacios de descanso",
       "aspecto_detectado": "espacios",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Ambientes y salas para estudio",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "espacios",
         "descanso"
@@ -8764,8 +8764,8 @@
       "satisfaccion_global": "Satisfecho",
       "texto": "Sería ideal que hubieran mejor mantenimiento en algunos espacios",
       "aspecto_detectado": "mejor mantenimiento",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Ambientes y salas para estudio",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "mantenimiento",
         "espacios"
@@ -9062,8 +9062,8 @@
       "satisfaccion_global": "Insatisfecho",
       "texto": "Irracionales, faltan estacionamientos",
       "aspecto_detectado": "irracionales",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Ubicación",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "irracionales",
         "estacionamientos"
@@ -9779,8 +9779,8 @@
       "satisfaccion_global": "Insatisfecho",
       "texto": "El wifi últimamente falla no hay estacionamiento suficiente",
       "aspecto_detectado": "wifi últimamente falla",
-      "aspecto_normalizado": "Conexión Wi-Fi en el campus",
-      "categoria_padre": "Tecnología",
+      "aspecto_normalizado": "Ubicación",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "wifi",
         "falla",
@@ -9847,7 +9847,7 @@
       "satisfaccion_global": "Muy satisfecho",
       "texto": "Donde los alumnos puedan descansar, en la el edificio D3 falta aire condicionado",
       "aspecto_detectado": "alumnos",
-      "aspecto_normalizado": "Ambientes y salas para estudio",
+      "aspecto_normalizado": "Aulas de clase",
       "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "alumnos",
@@ -9940,8 +9940,8 @@
       "satisfaccion_global": "Insatisfecho",
       "texto": "Faltan estacionamientos!! el wifi falla constantemente por algun motivo",
       "aspecto_detectado": "estacionamientos",
-      "aspecto_normalizado": "Conexión Wi-Fi en el campus",
-      "categoria_padre": "Tecnología",
+      "aspecto_normalizado": "Ubicación",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "estacionamientos",
         "wifi",
@@ -10370,8 +10370,8 @@
       "satisfaccion_global": "Muy satisfecho",
       "texto": "Hay demasiadas persona, hay edificios como el el edificio D3",
       "aspecto_detectado": "persona",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Aulas de clase",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "persona",
         "edificios",
@@ -10413,8 +10413,8 @@
       "satisfaccion_global": "Muy satisfecho",
       "texto": "Los baños apestan siempre",
       "aspecto_detectado": "baños",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Aulas de clase",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "baños"
       ],
@@ -10509,8 +10509,8 @@
       "satisfaccion_global": "Muy satisfecho",
       "texto": "Deberían demoler el edificio d no es justo que sea solo para psicología y las otras carreras",
       "aspecto_detectado": "edificio d",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Aulas de clase",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "edificio",
         "d",
@@ -10533,8 +10533,8 @@
       "satisfaccion_global": "Muy satisfecho",
       "texto": "La pasan increíble en sus edificios",
       "aspecto_detectado": "edificios",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Aulas de clase",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "edificios"
       ],
@@ -10575,7 +10575,7 @@
       "satisfaccion_global": "Muy satisfecho",
       "texto": "Muchos alumnos, poco estacionamiento",
       "aspecto_detectado": "alumnos",
-      "aspecto_normalizado": "Aulas de clase",
+      "aspecto_normalizado": "Ubicación",
       "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "alumnos"
@@ -10863,8 +10863,8 @@
       "satisfaccion_global": "Satisfecho",
       "texto": "Asimismo, hay edificios",
       "aspecto_detectado": "edificios",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Aulas de clase",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "edificios"
       ],
@@ -11505,8 +11505,8 @@
       "satisfaccion_global": "Satisfecho",
       "texto": "Cuenta con pocos espacios pra poder hacer maqueta",
       "aspecto_detectado": "espacios",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Ambientes y salas para estudio",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "espacios",
         "maqueta"
@@ -11678,8 +11678,8 @@
       "satisfaccion_global": "Satisfecho",
       "texto": "Le hace falta mucho más espacio para la cantidad de alumnos",
       "aspecto_detectado": "mucho más espacio",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Ambientes y salas para estudio",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "espacio",
         "cantidad",
@@ -11724,8 +11724,8 @@
       "satisfaccion_global": "Muy satisfecho",
       "texto": "Espacios para otras carreras mas no aplica lo mismo para la carrera de arquitectura",
       "aspecto_detectado": "espacios",
-      "aspecto_normalizado": "La carrera",
-      "categoria_padre": "Académico",
+      "aspecto_normalizado": "Ambientes y salas para estudio",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "espacios",
         "carreras",
@@ -11865,7 +11865,7 @@
       ],
       "sentimiento": "positivo",
       "intensidad": 3,
-      "confianza_sentimiento": 0.5233,
+      "confianza_sentimiento": 0.5234,
       "comentario_original": "Tiene buena infraestructura aunque para la carrera de arquitectura le falta facilitar cosas , como los talleres de modelacion el deosito que quedan muy lejos de las aulas"
     },
     {
@@ -12009,8 +12009,8 @@
       "satisfaccion_global": "Satisfecho",
       "texto": "Con más espacios culturales y de compartir como olimpiadas",
       "aspecto_detectado": "más espacios culturales y de compartir como olimpiadas",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Ambientes y salas para estudio",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "espacios",
         "olimpiadas"
@@ -12445,8 +12445,8 @@
       "satisfaccion_global": "Satisfecho",
       "texto": "Deberían empezar a demoler esos edificios viejos…",
       "aspecto_detectado": "edificios viejos",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Aulas de clase",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "edificios"
       ],
@@ -12918,8 +12918,8 @@
       "satisfaccion_global": "Satisfecho",
       "texto": "Al tener tantos espacios de descanso no permite que su uso sea el correspondiente",
       "aspecto_detectado": "espacios",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Ambientes y salas para estudio",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "espacios",
         "descanso",
@@ -13160,8 +13160,8 @@
       "satisfaccion_global": "Satisfecho",
       "texto": "En arquitectura no tenemos espacios para realizar maquetas",
       "aspecto_detectado": "espacios",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Cursos del programa y contenidos",
+      "categoria_padre": "Académico",
       "sub_aspectos": [
         "arquitectura",
         "espacios",
@@ -13254,7 +13254,7 @@
       ],
       "sentimiento": "positivo",
       "intensidad": 3,
-      "confianza_sentimiento": 0.5233,
+      "confianza_sentimiento": 0.5234,
       "comentario_original": "Tiene buena infraestructura y cuenta con servicios técnologicos de alto nivel. Asimismo cuenta con áreas comunes amplias y cómodas"
     },
     {
@@ -13609,8 +13609,8 @@
       "satisfaccion_global": "Muy satisfecho",
       "texto": "Me gustaria que le den prioridad a mas espacios para la carrera de arquitectura",
       "aspecto_detectado": "prioridad",
-      "aspecto_normalizado": "La carrera",
-      "categoria_padre": "Académico",
+      "aspecto_normalizado": "Ambientes y salas para estudio",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "prioridad",
         "espacios",
@@ -14645,8 +14645,8 @@
       "satisfaccion_global": "Satisfecho",
       "texto": "Se sienten brujas como las del el edificio N además el portal de mi ulima",
       "aspecto_detectado": "brujas",
-      "aspecto_normalizado": "Portal web de la Universidad (Mi Ulima)",
-      "categoria_padre": "Tecnología",
+      "aspecto_normalizado": "Aulas de clase",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "brujas",
         "edificio",
@@ -15306,8 +15306,8 @@
       "satisfaccion_global": "Satisfecho",
       "texto": "Capacidad de estacionamientos",
       "aspecto_detectado": "capacidad",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Ubicación",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "capacidad",
         "estacionamientos"
@@ -15804,8 +15804,8 @@
       "satisfaccion_global": "Insatisfecho",
       "texto": "Material",
       "aspecto_detectado": "material",
-      "aspecto_normalizado": "Claridad de los recursos académicos",
-      "categoria_padre": "Académico",
+      "aspecto_normalizado": "Pendiente de Clasificación",
+      "categoria_padre": "Pendiente de Clasificación",
       "sub_aspectos": [
         "material"
       ],
@@ -16827,7 +16827,7 @@
       ],
       "sentimiento": "negativo",
       "intensidad": 3,
-      "confianza_sentimiento": 0.4332,
+      "confianza_sentimiento": 0.4333,
       "comentario_original": "El espacio de estudio sigue siendo bastante reducido y difícil de obtener. En una gran mayoría de tiempo los espacios diseñados para el correcto estudio están ocupadas"
     },
     {
@@ -16863,8 +16863,8 @@
       "satisfaccion_global": "Satisfecho",
       "texto": "No hay muchos espacios para estudiar",
       "aspecto_detectado": "espacios",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Ambientes y salas para estudio",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "espacios"
       ],
@@ -17640,8 +17640,8 @@
       "satisfaccion_global": "Satisfecho",
       "texto": "Que deberian mejorar tanto academicamente como infraestructuralmente, en los baños a veces no hay jabones liquido",
       "aspecto_detectado": "jabones liquido",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Aulas de clase",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "baños",
         "veces",
@@ -18394,7 +18394,7 @@
       "satisfaccion_global": "Insatisfecho",
       "texto": "Pocos espacios para comer",
       "aspecto_detectado": "espacios",
-      "aspecto_normalizado": "Espacios de alimentación",
+      "aspecto_normalizado": "Ambientes y salas para estudio",
       "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "espacios"
@@ -18792,8 +18792,8 @@
       "satisfaccion_global": "Muy satisfecho",
       "texto": "Donde se lee bastante,que se nos de esa facilidad a los estudiantes",
       "aspecto_detectado": "facilidad",
-      "aspecto_normalizado": "Claridad de los recursos académicos",
-      "categoria_padre": "Académico",
+      "aspecto_normalizado": "Pendiente de Clasificación",
+      "categoria_padre": "Pendiente de Clasificación",
       "sub_aspectos": [
         "facilidad",
         "estudiantes"
@@ -19420,8 +19420,8 @@
       "satisfaccion_global": "Insatisfecho",
       "texto": "Espacio para todo ahora",
       "aspecto_detectado": "espacio",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Ambientes y salas para estudio",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "espacio"
       ],
@@ -19462,8 +19462,8 @@
       "satisfaccion_global": "Insatisfecho",
       "texto": "No hay espacio",
       "aspecto_detectado": "espacio",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Ambientes y salas para estudio",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "espacio"
       ],
@@ -19917,8 +19917,8 @@
       "satisfaccion_global": "Satisfecho",
       "texto": "Menos espacio",
       "aspecto_detectado": "menos espacio",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Ambientes y salas para estudio",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "espacio"
       ],
@@ -21281,8 +21281,8 @@
       "satisfaccion_global": "Totalmente insatisfecho",
       "texto": "Construir/inhabilitar espacios al mismo tiempo que desean ampliar la cantidad de alumnos durante un desborde humano en la infraestructura",
       "aspecto_detectado": "espacios",
-      "aspecto_normalizado": "Disponibilidad para asesorías",
-      "categoria_padre": "Docencia",
+      "aspecto_normalizado": "Ambientes y salas para estudio",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "espacios",
         "tiempo",
@@ -23220,8 +23220,8 @@
       "satisfaccion_global": "Satisfecho",
       "texto": "Siento que el campus es un poco limitado en cuestión de espacios",
       "aspecto_detectado": "siento",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Ambientes y salas para estudio",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "siento",
         "campus",
@@ -24804,7 +24804,7 @@
       ],
       "sentimiento": "positivo",
       "intensidad": 3,
-      "confianza_sentimiento": 0.5233,
+      "confianza_sentimiento": 0.5234,
       "comentario_original": "Tiene buena infraestructura y clases pero no hay recategorización disponible, solo becas para primeros lugares."
     },
     {
@@ -27311,8 +27311,8 @@
       "satisfaccion_global": "Muy satisfecho",
       "texto": "No hay espacio en las tardes",
       "aspecto_detectado": "espacio",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Ambientes y salas para estudio",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "espacio",
         "tardes"
@@ -27659,8 +27659,8 @@
       "satisfaccion_global": "Satisfecho",
       "texto": "Más estacionamientos en los sótanos debido a que se llena muy rápido",
       "aspecto_detectado": "más estacionamientos",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Ubicación",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "estacionamientos",
         "sótanos"
@@ -27726,8 +27726,8 @@
       "satisfaccion_global": "Satisfecho",
       "texto": "Porque hay demasiado gente, jamás hay espacios para comer ni estudiar porque todo para repleto en la universidad y más en las horas pico",
       "aspecto_detectado": "demasiado gente",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Ambientes y salas para estudio",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "gente",
         "espacios",
@@ -27860,7 +27860,7 @@
       ],
       "sentimiento": "positivo",
       "intensidad": 3,
-      "confianza_sentimiento": 0.5233,
+      "confianza_sentimiento": 0.5234,
       "comentario_original": "Tiene buena infraestructura pero creo que falta comunicación con los alumnos sobre cómo van las clases"
     },
     {
@@ -28536,8 +28536,8 @@
       "satisfaccion_global": "Muy satisfecho",
       "texto": "Incómodas (el edificio D3) como otras son muy cómodas",
       "aspecto_detectado": "incómodas",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Aulas de clase",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "incómodas",
         "edificio",
@@ -29856,8 +29856,8 @@
       "satisfaccion_global": "Satisfecho",
       "texto": "Hay muchas ppts",
       "aspecto_detectado": "ppts",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Claridad de los recursos académicos",
+      "categoria_padre": "Académico",
       "sub_aspectos": [
         "ppts"
       ],
@@ -29919,8 +29919,8 @@
       "satisfaccion_global": "Muy satisfecho",
       "texto": "Me gustaría que moderninicen todos los edificios, en el especial",
       "aspecto_detectado": "edificios",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Aulas de clase",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "edificios"
       ],
@@ -29940,8 +29940,8 @@
       "satisfaccion_global": "Muy satisfecho",
       "texto": "Me gustaría que moderninicen todos los el el edificio A1",
       "aspecto_detectado": "edificio",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Aulas de clase",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "edificio",
         "a1"
@@ -29962,8 +29962,8 @@
       "satisfaccion_global": "Muy satisfecho",
       "texto": "Me gustaría que moderninicen todos los el el edificio A2",
       "aspecto_detectado": "edificio",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Aulas de clase",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "edificio",
         "a2"
@@ -30686,8 +30686,8 @@
       "satisfaccion_global": "Satisfecho",
       "texto": "Cerraron la puerta de salida atras del edificio el edificio N",
       "aspecto_detectado": "puerta",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Aulas de clase",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "puerta",
         "salida",
@@ -31074,8 +31074,8 @@
       "satisfaccion_global": "Satisfecho",
       "texto": "el edificio O2",
       "aspecto_detectado": "edificio",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Aulas de clase",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "edificio",
         "o2"
@@ -32985,8 +32985,8 @@
       "satisfaccion_global": "Satisfecho",
       "texto": "Le falta bastantes cosas como mejoras en el estacionamiento",
       "aspecto_detectado": "como mejoras",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Ubicación",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "estacionamiento"
       ],
@@ -33068,8 +33068,8 @@
       "satisfaccion_global": "Muy satisfecho",
       "texto": "Material de estudio, junto a los espacios de estudios y demás es buena",
       "aspecto_detectado": "material",
-      "aspecto_normalizado": "Satisfacción estudiantil",
-      "categoria_padre": "Académico",
+      "aspecto_normalizado": "Ambientes y salas para estudio",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "material",
         "estudio",
@@ -34031,8 +34031,8 @@
       "satisfaccion_global": "Totalmente satisfecho",
       "texto": "el edificio M",
       "aspecto_detectado": "edificio",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Aulas de clase",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "edificio",
         "m"
@@ -34222,8 +34222,8 @@
       "satisfaccion_global": "Satisfecho",
       "texto": "el edificio H",
       "aspecto_detectado": "edificio",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Aulas de clase",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "edificio",
         "h"
@@ -34884,7 +34884,7 @@
       ],
       "sentimiento": "positivo",
       "intensidad": 3,
-      "confianza_sentimiento": 0.5269,
+      "confianza_sentimiento": 0.5268,
       "comentario_original": "Universidad con infraestructura y recursos de primer nivel."
     },
     {
@@ -35112,8 +35112,8 @@
       "satisfaccion_global": "Satisfecho",
       "texto": "Bonita infraestructura",
       "aspecto_detectado": "bonita infraestructura",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Ubicación",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "bonita",
         "infraestructura"
@@ -35688,8 +35688,8 @@
       "satisfaccion_global": "Satisfecho",
       "texto": "Hay poco espacio para la cantidad de alumnos",
       "aspecto_detectado": "espacio",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Ambientes y salas para estudio",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "espacio",
         "cantidad",
@@ -35730,8 +35730,8 @@
       "satisfaccion_global": "Satisfecho",
       "texto": "el edificio N",
       "aspecto_detectado": "edificio",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Aulas de clase",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "edificio",
         "n"
@@ -36157,8 +36157,8 @@
       "satisfaccion_global": "Muy satisfecho",
       "texto": "Porque, creo que las pruebas deben ser más exigentes y tener más espacio para la cantidad de alumnos",
       "aspecto_detectado": "pruebas",
-      "aspecto_normalizado": "Exigencia académica",
-      "categoria_padre": "Académico",
+      "aspecto_normalizado": "Ambientes y salas para estudio",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "pruebas",
         "espacio",
@@ -36585,7 +36585,7 @@
       "satisfaccion_global": "Satisfecho",
       "texto": "Mas espacios para comer",
       "aspecto_detectado": "mas espacios",
-      "aspecto_normalizado": "Espacios de alimentación",
+      "aspecto_normalizado": "Ambientes y salas para estudio",
       "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "espacios"
@@ -36797,7 +36797,7 @@
       ],
       "sentimiento": "positivo",
       "intensidad": 3,
-      "confianza_sentimiento": 0.5233,
+      "confianza_sentimiento": 0.5234,
       "comentario_original": "Es una prestigiosa institución, el campus es precioso, tiene buena infraestructura, una roportunidades reales al egresar de la carrera. Sin embargo considero que fomentar más actividades de integración entre los estudiantes."
     },
     {
@@ -37060,8 +37060,8 @@
       "satisfaccion_global": "Satisfecho",
       "texto": "Hay zonas",
       "aspecto_detectado": "zonas",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Ubicación",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "zonas"
       ],
@@ -37164,8 +37164,8 @@
       "satisfaccion_global": "Satisfecho",
       "texto": "Que aveces es muy pequeño el espacio",
       "aspecto_detectado": "aveces",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Ambientes y salas para estudio",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "aveces",
         "espacio"
@@ -37961,8 +37961,8 @@
       "satisfaccion_global": "Satisfecho",
       "texto": "Además deben hacer algo con el estacionamiento porque ya no entran carros",
       "aspecto_detectado": "carros",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Ubicación",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "estacionamiento",
         "carros"
@@ -38066,7 +38066,7 @@
       "satisfaccion_global": "Satisfecho",
       "texto": "Pocos espacios para almorzar",
       "aspecto_detectado": "espacios",
-      "aspecto_normalizado": "Espacios de alimentación",
+      "aspecto_normalizado": "Ambientes y salas para estudio",
       "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "espacios"
@@ -39779,8 +39779,8 @@
       "satisfaccion_global": "Muy satisfecho",
       "texto": "Es muy pequeño el espacio",
       "aspecto_detectado": "espacio",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Ambientes y salas para estudio",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "espacio"
       ],
@@ -40025,8 +40025,8 @@
       "satisfaccion_global": "Totalmente satisfecho",
       "texto": "Últimamente los espacios de estudios estan buenos",
       "aspecto_detectado": "espacios",
-      "aspecto_normalizado": "Satisfacción estudiantil",
-      "categoria_padre": "Académico",
+      "aspecto_normalizado": "Ambientes y salas para estudio",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "espacios",
         "estudios"
@@ -40230,8 +40230,8 @@
       "satisfaccion_global": "Satisfecho",
       "texto": "Aún le faltan algunas cosas como las espacios para estudiar y almorzar",
       "aspecto_detectado": "como espacios estudiar y almorzar",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Ambientes y salas para estudio",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "espacios"
       ],
@@ -40295,8 +40295,8 @@
       "satisfaccion_global": "Satisfecho",
       "texto": "Aveces queda menos espacio por la cantidad de alumnos",
       "aspecto_detectado": "aveces",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Ambientes y salas para estudio",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "aveces",
         "espacio",
@@ -40796,8 +40796,8 @@
       "satisfaccion_global": "Satisfecho",
       "texto": "Que brindan para poder avanzar con maquetas son pocos y casi siempre paran llenos",
       "aspecto_detectado": "llenos",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Cursos del programa y contenidos",
+      "categoria_padre": "Académico",
       "sub_aspectos": [
         "maquetas",
         "llenos"
@@ -40880,8 +40880,8 @@
       "satisfaccion_global": "Satisfecho",
       "texto": "Yo que estudio arquitectura",
       "aspecto_detectado": "arquitectura",
-      "aspecto_normalizado": "Ambientes y salas para estudio",
-      "categoria_padre": "Infraestructura",
+      "aspecto_normalizado": "Pendiente de Clasificación",
+      "categoria_padre": "Pendiente de Clasificación",
       "sub_aspectos": [
         "arquitectura"
       ],
@@ -40901,8 +40901,8 @@
       "satisfaccion_global": "Satisfecho",
       "texto": "Hace mucha falta más espacios para maquetear",
       "aspecto_detectado": "espacios",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Ambientes y salas para estudio",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "espacios"
       ],
@@ -41815,8 +41815,8 @@
       "satisfaccion_global": "Muy satisfecho",
       "texto": "La situacion con el estacionamiento, la falta de parqueo es importante",
       "aspecto_detectado": "estacionamiento",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Ubicación",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "estacionamiento",
         "parqueo"
@@ -42174,8 +42174,8 @@
       "satisfaccion_global": "Muy satisfecho",
       "texto": "Aparte los baños están atorados",
       "aspecto_detectado": "baños",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Aulas de clase",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "baños"
       ],
@@ -42416,8 +42416,8 @@
       "satisfaccion_global": "Satisfecho",
       "texto": "Que nuestros espacios para maquetas estén en los sótanos",
       "aspecto_detectado": "espacios",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Cursos del programa y contenidos",
+      "categoria_padre": "Académico",
       "sub_aspectos": [
         "espacios",
         "maquetas",
@@ -44941,8 +44941,8 @@
       "satisfaccion_global": "Satisfecho",
       "texto": "Es una completa, con buenos espacios para todas las necesidades",
       "aspecto_detectado": "es completa",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Ambientes y salas para estudio",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "completa",
         "espacios",
@@ -45881,8 +45881,8 @@
       "satisfaccion_global": "Satisfecho",
       "texto": "Los edificios deberían seleccionarlos por facultades",
       "aspecto_detectado": "edificios",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Aulas de clase",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "edificios",
         "facultades"
@@ -45903,8 +45903,8 @@
       "satisfaccion_global": "Satisfecho",
       "texto": "Es pesado ir del a al el edificio N",
       "aspecto_detectado": "a al edificio",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Aulas de clase",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "edificio",
         "n"
@@ -46354,8 +46354,8 @@
       "satisfaccion_global": "Satisfecho",
       "texto": "A pesar que existan más espacios es un exceso",
       "aspecto_detectado": "más espacios",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Ambientes y salas para estudio",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "pesar",
         "espacios",
@@ -47438,8 +47438,8 @@
       "satisfaccion_global": "Satisfecho",
       "texto": "Porque para lá categoria que tienen deverian tenes y ser todo el edificio A1 y aún a hay michi que mejorar",
       "aspecto_detectado": "tenes",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Aulas de clase",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "lá",
         "tenes",
@@ -48084,8 +48084,8 @@
       "satisfaccion_global": "Satisfecho",
       "texto": "De podría cambiar los individuales del el edificio O1",
       "aspecto_detectado": "individuales",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Aulas de clase",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "individuales",
         "edificio",
@@ -49310,8 +49310,8 @@
       "satisfaccion_global": "Totalmente satisfecho",
       "texto": "Gran espacio formativa",
       "aspecto_detectado": "gran espacio formativa",
-      "aspecto_normalizado": "La carrera",
-      "categoria_padre": "Académico",
+      "aspecto_normalizado": "Ambientes y salas para estudio",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "espacio"
       ],

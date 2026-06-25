@@ -4,10 +4,10 @@
     "total_encuestas": 63,
     "total_fragmentos": 128,
     "stats_normalizacion": {
-      "alias": 67,
+      "alias": 71,
       "embedding": 16,
-      "embedding_fallback": 3,
-      "fallback": 42,
+      "embedding_fallback": 2,
+      "fallback": 39,
       "ninguno": 0,
       "total": 128
     },
@@ -96,8 +96,8 @@
       "satisfaccion_global": "Satisfecho",
       "texto": "Presenta muchos material adecuado",
       "aspecto_detectado": "material adecuado",
-      "aspecto_normalizado": "Claridad de los recursos académicos",
-      "categoria_padre": "Académico",
+      "aspecto_normalizado": "Pendiente de Clasificación",
+      "categoria_padre": "Pendiente de Clasificación",
       "sub_aspectos": [
         "material"
       ],
@@ -269,8 +269,8 @@
       "satisfaccion_global": "Muy satisfecho",
       "texto": "Espacio",
       "aspecto_detectado": "espacio",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Ambientes y salas para estudio",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "espacio"
       ],
@@ -786,8 +786,8 @@
       "satisfaccion_global": "Satisfecho",
       "texto": "Admiten a demasiados alumnos que la capacidad de la universidad está quedando pequeña para espacios comunes",
       "aspecto_detectado": "alumnos",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Ambientes y salas para estudio",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "alumnos",
         "capacidad",
@@ -1035,8 +1035,8 @@
       "satisfaccion_global": "Satisfecho",
       "texto": "Hay muchos poco espacios en el campus",
       "aspecto_detectado": "poco espacios",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Ambientes y salas para estudio",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "espacios",
         "campus"
@@ -2009,8 +2009,8 @@
       "satisfaccion_global": "Totalmente satisfecho",
       "texto": "el edificio N",
       "aspecto_detectado": "edificio",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Aulas de clase",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "edificio",
         "n"

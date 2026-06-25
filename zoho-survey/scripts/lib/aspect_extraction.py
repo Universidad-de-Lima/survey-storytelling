@@ -41,9 +41,9 @@ ALIAS_DICT_MANUAL = {
     # Académico
     "Perfil del egreso de la carrera": ["perfil", "egreso", "egresado", "perfil del egresado"],
     "Plan curricular y perfil de egreso": ["malla", "curricula", "plan de estudios", "silabo"],
-    "Cursos del programa y contenidos": ["curso", "cursos", "electivo", "electivos", "temas", "contenido", "clases virtuales"],
+    "Cursos del programa y contenidos": ["curso", "cursos", "electivo", "electivos", "temas", "contenido", "clases virtuales", "maqueta", "maquetas"],
     "Calidad de la enseñanza en la carrera": ["profesor", "profesores", "docente", "docentes", "profe", "profes", "enseñanza", "pedagogia", "trato", "explicacion", "metodologia"],
-    "Claridad de los recursos académicos": ["recursos", "materiales", "diapositivas", "lecturas"],
+    "Claridad de los recursos académicos": ["recursos", "materiales", "diapositivas", "lecturas", "ppt", "ppts"],
     "Calidad de la formación académica": ["formacion", "calidad", "educacion", "nivel educativo", "prestigio", "academico", "nivel academico", "aprendizaje", "preparacion"],
     "Exigencia académica": ["exigencia", "dificultad", "nivel", "exigente", "facil", "dificil"],
     "Evaluación del aprendizaje": ["examen", "examenes", "evaluacion", "evaluaciones", "practica", "practicas", "nota", "notas", "calificacion", "rubrica", "evaluar"],
@@ -64,11 +64,11 @@ ALIAS_DICT_MANUAL = {
     "Empleabilidad, vinculación y ALUMNI": ["empleabilidad", "trabajo", "practicas", "bolsa de trabajo", "alumni", "egresados", "contacto con empresas", "oportunidades", "empleo", "laboral"],
     
     # Infraestructura
-    "Aulas de clase": ["aula", "aulas", "salon", "salones", "carpeta", "carpetas", "silla", "sillas", "comodidad", "mobiliario", "pizarra", "pizarras", "aire acondicionado", "ventilacion", "enchufe", "enchufes", "instalaciones", "ascensor", "ascensores", "elevador", "elevadores"],
-    "Ambientes y salas para estudio": ["espacio de estudio", "espacios de estudio", "cubiculo", "cubiculos", "biblioteca", "mesas", "mesas libres", "zona de estudio", "áreas", "construcciones", "construccion", "aire"],
+    "Aulas de clase": ["aula", "aulas", "salon", "salones", "carpeta", "carpetas", "silla", "sillas", "comodidad", "mobiliario", "pizarra", "pizarras", "aire acondicionado", "ventilacion", "enchufe", "enchufes", "instalaciones", "ascensor", "ascensores", "elevador", "elevadores", "baño", "baños", "edificio", "edificios"],
+    "Ambientes y salas para estudio": ["espacio de estudio", "espacios de estudio", "cubiculo", "cubiculos", "biblioteca", "mesas", "mesas libres", "zona de estudio", "áreas", "construcciones", "construccion", "aire", "espacios", "espacio"],
     "Equipamiento tecnológico en laboratorios": ["laboratorio", "laboratorios", "pc", "pcs", "computadora", "computadoras", "mac", "macs", "impresora", "impresoras", "equipo", "equipos", "tecnología"],
     "Condiciones ambientales en laboratorios": ["condiciones del laboratorio", "ruido en laboratorio", "iluminacion", "seguridad"],
-    "Ubicación": ["ubicacion", "lejos", "lejania", "distancia", "trafico", "llegar", "transporte", "bus"],
+    "Ubicación": ["ubicacion", "lejos", "lejania", "distancia", "trafico", "llegar", "transporte", "bus", "estacionamiento", "estacionamientos"],
     "Espacios de alimentación": ["comida", "comedor", "cafeteria", "cafeterias", "kiosko", "kioskos", "precio", "almuerzo", "menu", "patio de comidas", "patio", "colas", "microondas", "sobrepoblacion"],
     
     # Tecnología
