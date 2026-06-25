@@ -23,7 +23,8 @@ global.document = dom.window.document;
 global.navigator = dom.window.navigator;
 
 // Cargar módulos en orden
-const basePath = '/home/z/my-project/work/survey-storytelling';
+// Usar __dirname para resolver rutas relativas (compatible con cualquier entorno: local, CI, GitHub Actions)
+const basePath = path.resolve(__dirname, '..', '..');
 require(path.join(basePath, 'zoho-survey/shared/js/config/constants.js'));
 require(path.join(basePath, 'zoho-survey/shared/js/utils/formatters.js'));
 require(path.join(basePath, 'zoho-survey/shared/js/utils/sanitizer.js'));
