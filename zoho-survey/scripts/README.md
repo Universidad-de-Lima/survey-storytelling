@@ -40,8 +40,9 @@ Los contratos formales de tipos viven en `schemas/*.schema.json` (JSON Schema Dr
 | 16. Filtros | `filtros.json` | `version`, `has_ciclo`, `facultades` (sorted), `carreras` (sorted), `ciclos` (sorted), `facultad_carrera`. |
 | 17. Fragmentacion NPS | `fragmentos_nps.json` | Por cada comentario NPS con texto, `fragmentar_comentario_nps()` (spaCy). |
 | 18. Dataset cualitativo | `dataset_cualitativo.json` | Por cada fragmento, `procesar_opinion_unit()` + `analizar_sentimiento_intensidad()`. |
-| 19. Sentimiento v3.0 | `sentimiento.json` | Transformacion UI del dataset_cualitativo. |
-| 20. Periodos | `periodos.json` (por nivel) | Sorted por año-semestre, marca `isNew: true` solo en el ultimo. |
+| 19. Insights IA (Fase 8) | `sentimiento.json` (insights_ia) | `generar_insights_ia()` desde `lib/insights_generator.py`. Síntesis determinista, NO LLM. |
+| 20. Sentimiento v3.0 | `sentimiento.json` | Transformacion UI del dataset_cualitativo. |
+| 21. Periodos | `periodos.json` (por nivel) | Sorted por año-semestre, marca `isNew: true` solo en el ultimo. |
 
 ### Motor cualitativo moderno (v3.0)
 
@@ -55,6 +56,7 @@ Comentario NPS
     ↓ fragmentar_comentario_nps (lib/segmentacion_nps.py, spaCy)
     ↓ procesar_opinion_unit (lib/aspect_extraction.py, spaCy noun chunks + embeddings)
     ↓ analizar_sentimiento_intensidad (lib/sentiment_engine.py, embeddings + reglas lexicas)
+    ↓ generar_insights_ia (lib/insights_generator.py, Fase 8: síntesis determinista)
     ↓
 sentimiento.json v3.0
 ```
@@ -107,17 +109,18 @@ sentimiento.json v3.0
 
 **No es parte del CI**. Es una herramienta interna para evaluar cambios en la calibracion del motor.
 
-### `lib/` (7 modulos)
+### `lib/` (8 modulos)
 
 | Modulo | Lineas | Responsabilidad | Estado |
 | --- | --- | --- | --- |
-| `config.py` | 382 | Mapeos de columnas, catalogos de negocio, topicos (legacy, sin uso), stopwords (legacy, sin uso). | Activo. |
+| `config.py` | 405 | Mapeos de columnas, catalogos de negocio, `SENTIMENT_CONFIDENCE_THRESHOLD` (Fase 7). Topicos y stopwords marcados DEPRECATED. | Activo. |
 | `metrics.py` | 26 | `calc_nps(p, pa, d)` y `calc_csat(t3b, total)`. Funciones puras. | Activo. |
 | `io_helper.py` | 81 | `load_json` (BOM-safe), `read_csv_robust` (UTF-8 con fallback latin-1), `normalize_dates`. | Activo. |
-| `nlp.py` | 457 | `sanitizar_comentario` (activo) + `agrupar_comentarios_por_topico` (267 lineas, **MUERTO**: importado por build_json.py pero no invocado). | Parcialmente obsoleto. |
-| `segmentacion_nps.py` | 324 | Fragmentacion de comentarios NPS en Meaning Units con spaCy. | Activo. |
-| `aspect_extraction.py` | 254 | Extraccion de aspecto literal (spaCy noun chunks) + normalizacion a dimension oficial. | Activo. |
-| `sentiment_engine.py` | 135 | Clasificacion hibrida sentimiento + intensidad (1-5). | Activo. |
+| `nlp.py` | 457 | `sanitizar_comentario` (activo) + `agrupar_comentarios_por_topico` (267 lineas, **DEPRECATED**: no se invoca desde v3.0). | Parcialmente obsoleto. |
+| `segmentacion_nps.py` | 322 | Fragmentacion de comentarios NPS en Meaning Units con spaCy. | Activo. |
+| `aspect_extraction.py` | 260 | Extraccion de aspecto literal (spaCy noun chunks) + normalizacion a dimension oficial via alias + embeddings. | Activo. |
+| `sentiment_engine.py` | 165 | Clasificacion hibrida sentimiento + intensidad (1-5) con calibracion Fase 7 (umbral confianza 0.4). | Activo. |
+| `insights_generator.py` | 200 | **Fase 8**: Genera `insights_ia` (síntesis narrativa determinista) a partir de datos del ETL. NO usa LLM. | Activo. |
 
 ### `schemas/` (7 JSON Schemas Draft-07)
 
@@ -127,21 +130,27 @@ Fuente formal de tipos. Cargados por `validate_generated_json.py`.
 
 Lista de 24 stopwords para extraccion de aspectos (consumido por `aspect_extraction.py`).
 
-### `tests/` (4 suites Python)
+### `tests/` (9 suites Python, 149 tests)
 
 - `test_sentiment_engine.py` (11 tests, unittest + mocking para modelo funcional)
-- `test_segmentacion.py` (8 tests, unittest)
-- `test_aspect_extraction.py` (5 tests, unittest — **pendiente verificar**: assertions esperan buckets que pueden no existir en `CATEGORIA_PADRE_MAP`)
+- `test_segmentacion.py` (9 tests, unittest)
+- `test_aspect_extraction.py` (19 tests, unittest — incluye alias Fase 10.1)
+- `test_insights_generator.py` (13 tests, unittest — Fase 8)
+- `test_config.py` (18 tests, unittest — Fase 9)
+- `test_io_helper.py` (14 tests, unittest — Fase 9)
+- `test_metrics.py` (19 tests, unittest — Fase 9)
+- `test_validate_generated_json.py` (27 tests, unittest — Fase 9)
+- `test_pipeline_integration.py` (8 tests, unittest — Fase 9, smoke test con CSV mock)
 - `test_calibracion.py` (3 casos, script print-based, no unittest)
 
-**Nota:** Estos tests no se ejecutan en CI actualmente. Solo se ejecutan manualmente.
+**CI:** Estos tests se ejecutan automaticamente en cada PR via `.github/workflows/tests.yml`.
 
 ## Dependencies
 
 - **Runtime ETL**: Python 3.11+ (fijado en CI), `pandas`, `sentence-transformers`, `scikit-learn`, `spacy`, `numpy` (transitivo).
 - **Modelos externos**: `paraphrase-multilingual-MiniLM-L12-v2` (Hugging Face), `es_core_news_sm` (spaCy).
 - **Validador**: Python 3.11+, `jsonschema` (Draft-07).
-- **CI**: GitHub Actions (`.github/workflows/build_students.yml`, `.github/workflows/validate-survey-json.yml`).
+- **CI**: GitHub Actions (`.github/workflows/build_students.yml`, `.github/workflows/validate-survey-json.yml`, `.github/workflows/tests.yml`).
 
 ## Execution
 
@@ -160,7 +169,7 @@ python zoho-survey/scripts/validate_generated_json.py undergraduate graduate
 # O usando npm
 npm run validate:json
 
-# Ejecutar tests Python (manualmente, no en CI)
+# Ejecutar tests Python (tambien se ejecutan en CI via tests.yml)
 cd zoho-survey/scripts
 python -m unittest discover tests/
 
@@ -179,9 +188,10 @@ python zoho-survey/scripts/validacion_empirica_sentimiento.py
 | `CATEGORIA_DIMENSION_GRADUADO` | Dict[str, str] | 6 categorias: agrega Docencia y Desarrollo Profesional. |
 | `RESPUESTAS_TEXTO` | List[str] | 7 valores Zoho Survey (5 SAT + "No utilizo" + "No conozco"). |
 | `ETAPA_MAP` | Dict[int, str] | Ciclos 1-2 Inicial, 3-5 Intermedio, 6-12 Avanzado. |
-| `TOPICOS` | Dict[str, any] | 8 topicos con palabras, tipo, icono. **Legacy: no usado en modulos activos.** |
-| `STOPWORDS` | Set[str] | ~90 stopwords en español. **Legacy: importado en nlp.py pero no usado.** |
+| `TOPICOS` | Dict[str, any] | 8 topicos con palabras, tipo, icono. **DEPRECATED: no usado en modulos activos.** |
+| `STOPWORDS` | Set[str] | ~90 stopwords en español. **DEPRECATED: importado en nlp.py pero no usado.** |
 | `EMPLEABILIDAD_CATEGORIAS` | List[str] | 4 categorias de empleado. |
+| `SENTIMENT_CONFIDENCE_THRESHOLD` | float | **Fase 7**: Umbral de confianza del motor de sentimiento (0.4 por defecto). Si confianza < umbral, fuerza neutro. |
 
 ## Technical Debt
 
@@ -190,11 +200,10 @@ python zoho-survey/scripts/validacion_empirica_sentimiento.py
 - **Acoplamiento a nombres de columna Zoho**: cualquier cambio en nombres de columna de Zoho Survey rompe el pipeline. No hay paso de validacion temprana.
 - **Generacion legacy**: `nps_carrera.json` y `csat_carrera.json` se siguen generando aunque son legacy.
 - **No hay procesamiento incremental**: rebuilds all periods on every run, even if only one CSV changed.
-- **Codigo muerto en nlp.py**: `agrupar_comentarios_por_topico` (267 lineas) importado pero no invocado.
+- **Codigo DEPRECATED en nlp.py**: `agrupar_comentarios_por_topico` (267 lineas) marcado DEPRECATED, no se invoca desde v3.0.
 - **Auto-download de spaCy eliminado (Fase 6)**: `aspect_extraction.py` y `sentiment_engine.py` ya NO llaman `spacy.cli.download()` en runtime. El modelo `es_core_news_sm` debe instalarse explícitamente vía `python -m spacy download es_core_news_sm` (documentado en `requirements.txt` y CI). Si no está disponible, los módulos fallan explícitamente con `OSError` en lugar de intentar descarga silenciosa.
-- **Print de depuracion**: `segmentacion_nps.py:181` contiene `print()` activo.
-- **Tests no ejecutados en CI**: los tests Python no corren automaticamente en PRs.
 - **Idempotencia edge case**: si el CSV no tiene fechas validas, `build_json.py` usa `pd.Timestamp.now()` como fallback, rompiendo idempotencia teorica.
+- **Pendiente de Clasificación**: ~33% de comentarios caen en "Pendiente de Clasificación". Fase 10.1 agregó 12 alias (estacionamiento, baños, edificio, espacios, ppt, maquetas) recuperando ~107 comentarios. El resto son comentarios ambiguos (75%) o fragmentos cortos (17%) no recuperables sin LLM.
 
 ## AI Agent Notes
 
@@ -205,3 +214,5 @@ python zoho-survey/scripts/validacion_empirica_sentimiento.py
 - **Cuando agregar nuevos topicos**: ya NO se usa `TOPICOS` en config.py. El motor moderno usa `ALIAS_DICT_MANUAL` en `aspect_extraction.py`. Para agregar un nuevo aspecto, editar ese diccionario.
 - **Convencion de claves**: NPS en minusculas (`promotores, pasivos, detractores`); CSAT capitalizado (`Totalmente satisfecho`, etc.). Ver `CONTRACTS.md`.
 - **Schemas como fuente de verdad**: antes de modificar la estructura de cualquier JSON, actualizar el schema correspondiente en `schemas/` y el validador en el mismo PR.
+- **insights_generator.py (Fase 8)**: genera `insights_ia` determinista (sin LLM). NO clasifica sentimiento ni aspectos; solo sintetiza texto a partir de datos ya procesados. Excluye "Pendiente de Clasificación" de temas relevantes.
+- **Tests en CI**: los tests Python y JS se ejecutan automaticamente en cada PR via `.github/workflows/tests.yml`. Cualquier cambio debe pasar los 149 tests Python + 91 tests JS.

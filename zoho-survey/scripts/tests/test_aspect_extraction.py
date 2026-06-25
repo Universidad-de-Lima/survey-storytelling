@@ -163,8 +163,15 @@ class TestAspectExtraction(unittest.TestCase):
                                  f"Regresión: '{texto}' debería ser '{esperado}' pero fue '{res['aspecto_normalizado']}'")
 
     def test_sin_match_sigue_como_pendiente(self):
-        """Regresión: comentarios sin alias reconocible siguen en Pendiente de Clasificación."""
-        res = procesar_opinion_unit("hay cosas que mejorar")
+        """Regresión: comentarios sin alias reconocible siguen en Pendiente de Clasificación.
+
+        Nota: este test usa un comentario completamente fuera de la taxonomía
+        para garantizar que no haya match ni por alias ni por embedding.
+        NO usar comentarios vagos como "hay cosas que mejorar" porque en CI
+        con sentence_transformers real, el modelo puede encontrar similitud
+        semántica con alguna dimensión y clasificarlo por embedding.
+        """
+        res = procesar_opinion_unit("El dragon invisible vuela sobre la luna")
         self.assertEqual(res["aspecto_normalizado"], "Pendiente de Clasificación")
 
 
