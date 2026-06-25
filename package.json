@@ -1,0 +1,19 @@
+{
+  "name": "survey-storytelling",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Dashboard estático de encuestas de satisfacción — Universidad de Lima",
+  "scripts": {
+    "build:json": "cd zoho-survey/students && python ../scripts/build_json.py",
+    "validate:json": "python zoho-survey/scripts/validate_generated_json.py undergraduate graduate",
+    "start": "python -m http.server 8080",
+    "test:js": "node -e \"global.window={};global.document={getElementById:()=>null,querySelectorAll:()=>[],addEventListener:()=>{},createElement:()=>({style:{},classList:{add:()=>{}},setAttribute:()=>{},appendChild:()=>{}})};require('./zoho-survey/shared/js/config/constants.js');require('./zoho-survey/shared/js/utils/formatters.js');require('./zoho-survey/shared/js/utils/sanitizer.js');require('./zoho-survey/shared/js/utils/dom-helpers.js');require('./zoho-survey/shared/js/components/tooltip.js');require('./zoho-survey/shared/js/components/sentiment-view.js');require('./tests/test-framework.js');require('./tests/unit/test-config.js');require('./tests/unit/test-formatters.js');require('./tests/unit/test-sanitizer.js');require('./tests/unit/test-insights-ia.js');const r=window.TestFramework.summary();console.log('Tests: '+r.passed+' passed, '+r.failed+' failed, '+r.total+' total');if(r.failed>0){r.results.filter(x=>x.type==='fail').forEach(t=>console.log('FAIL: '+t.name+' -> '+t.error));process.exit(1);}\"",
+    "test:js:dom": "node tests/unit/test-dom.js"
+  },
+  "devDependencies": {
+    "jsdom": "^25.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

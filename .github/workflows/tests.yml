@@ -72,6 +72,9 @@ jobs:
         with:
           node-version: '18'
 
+      - name: Install JS dependencies (jsdom for DOM tests)
+        run: npm install
+
       - name: Verify JS syntax (all modules)
         run: |
           for f in zoho-survey/shared/js/config/*.js \
@@ -114,9 +117,6 @@ jobs:
           }
           console.log('✓ Todos los tests JS pasaron');
           "
-
-      - name: Install jsdom for DOM tests
-        run: npm install jsdom --no-save
 
       - name: Run JS DOM tests (jsdom)
         run: node tests/unit/test-dom.js
