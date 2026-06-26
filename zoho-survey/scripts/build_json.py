@@ -53,6 +53,135 @@ SURVEY_DIRS: Dict[str, Path] = {
 SUPPORTED_EXTENSIONS: List[str] = [".csv"]
 
 
+# ============================================================
+# FUNCIONES EXTRAÍDAS (Fase 11: refactorización estructural)
+# Funciones puras testeables extraídas de main() para mejorar mantenibilidad.
+# NO cambian comportamiento: mismo CSV → mismo JSON.
+# ============================================================
+
+def _detectar_nivel(filename: str) -> str:
+    """Detecta el nivel de encuesta desde el nombre del archivo.
+    
+    Usa substring matching sobre el filename en mayúsculas.
+    Retorna el nivel o None si no se puede determinar.
+    """
+    filename_upper = filename.upper()
+    if "NO DOCENTES" in filename_upper:
+        return "nonfaculty"
+    elif "EMPLEADORES" in filename_upper:
+        return "employers"
+    elif "EGRESADOS" in filename_upper:
+        return "alumni-pg" if "POSGRADO" in filename_upper else "alumni-ug"
+    elif "DOCENTES" in filename_upper:
+        return "faculty-pg" if "POSGRADO" in filename_upper else "faculty-ug"
+    elif "GRADUADOS" in filename_upper:
+        return "graduate"
+    elif "ESTUDIANTIL" in filename_upper or "ESTUDIANTES" in filename_upper:
+        return "posgraduate" if "POSGRADO" in filename_upper else "undergraduate"
+    else:
+        return None
+
+
+def _inyectar_html(template_index: Path, index_file: Path, periodo_dir: Path, zoho_dir: Path) -> bool:
+    """Copia el template HTML al directorio del periodo, reemplazando {{SHARED_PATH}}.
+    
+    Retorna True si tuvo éxito con inyección, False si usó fallback (copyfile directo).
+    """
+    try:
+        rel_parent = periodo_dir.relative_to(zoho_dir)
+        depth = len(rel_parent.parts)
+        shared_path = "/".join([".."] * depth) + "/shared"
+        
+        html_content = template_index.read_text(encoding="utf-8")
+        html_content = html_content.replace("{{SHARED_PATH}}", shared_path)
+        index_file.write_text(html_content, encoding="utf-8")
+        logging.info(f"Plantilla HTML copiada e inyectada con shared_path '{shared_path}' para {periodo_dir.relative_to(zoho_dir)}")
+        return True
+    except Exception as html_err:
+        logging.error(f"Error al escribir index.html con shared_path para {periodo_dir}: {html_err}")
+        copyfile(template_index, index_file)
+        return False
+
+
+def _calcular_nps_carrera(df_nps, nps_col: str) -> list:
+    """Calcula NPS por carrera desde df_nps.
+    
+    Retorna lista de dicts con: carrera, promotores, pasivos, detractores, score.
+    """
+    nps_carrera = []
+    for carrera, sub in df_nps.groupby("Carrera"):
+        p = int((sub[nps_col] >= 9).sum())
+        pa = int(((sub[nps_col] >= 7) & (sub[nps_col] <= 8)).sum())
+        d = int((sub[nps_col] <= 6).sum())
+        nps_carrera.append({
+            "carrera": carrera,
+            "promotores": p,
+            "pasivos": pa,
+            "detractores": d,
+            "score": calc_nps(p, pa, d)
+        })
+    return nps_carrera
+
+
+def _calcular_csat_carrera(df, csat_col: str) -> list:
+    """Calcula CSAT por carrera desde df.
+    
+    Retorna lista de dicts con: carrera, facultad, conteos por respuesta, score.
+    """
+    csat_carrera = []
+    for (car, fac), sub in df.groupby(["Carrera", "Facultad"]):
+        serie = sub[csat_col].dropna()
+        row = {"carrera": car, "facultad": fac}
+        for r in RESPUESTAS_TEXTO:
+            row[r] = int((serie == r).sum())
+        t3b = row["Totalmente satisfecho"] + row["Muy satisfecho"] + row["Satisfecho"]
+        total = t3b + row["Insatisfecho"] + row["Totalmente insatisfecho"]
+        row["score"] = calc_csat(t3b, total)
+        csat_carrera.append(row)
+    return csat_carrera
+
+
+def _construir_dashboard_data(
+    resumen: dict,
+    csat_score: float,
+    nps_score: float,
+    nps_etapas: dict,
+    top_dims: list,
+    top_facs: list,
+    promotores_total: int,
+    pasivos_total: int,
+    detractores_total: int,
+    serie_csat,
+) -> dict:
+    """Construye el objeto dashboard_data.json desde sus componentes.
+    
+    Recibe todas las métricas pre-calculadas y las ensambla en la estructura final.
+    """
+    return {
+        "version": "2.0",
+        "resumen": resumen,
+        "hallazgos": {
+            "csat_pct": int(csat_score),
+            "nps_score": int(nps_score),
+            "nps_tipo": "Excelente" if nps_score >= 60 else "Bueno" if nps_score >= 30 else "Regular" if nps_score >= 0 else "Pésimo",
+            "nps_etapas": nps_etapas,
+            "tendencia": "disminuye" if nps_etapas.get("Inicial", 0) > nps_etapas.get("Avanzado", 0)
+                         else "aumenta" if nps_etapas.get("Inicial", 0) < nps_etapas.get("Avanzado", 0)
+                         else "se mantiene",
+            "delta": abs(int(nps_etapas.get("Inicial", 0) - nps_etapas.get("Avanzado", 0))),
+            "top_dimensiones": top_dims,
+            "top_facultades": top_facs
+        },
+        "nps": {
+            "promotores": promotores_total,
+            "pasivos": pasivos_total,
+            "detractores": detractores_total,
+            "score": nps_score
+        },
+        "csat": {r: int((serie_csat == r).sum()) for r in RESPUESTAS_TEXTO}
+    }
+
+
 def main() -> None:
     if not DATA_DIR.is_dir():
         logging.error(f"El directorio de datos de entrada no existe: {DATA_DIR}")
@@ -75,20 +204,9 @@ def main() -> None:
         filename = csv_file.name.upper()
         logging.info(f"Iniciando procesamiento de: {csv_file.name}")
 
-        # Detección del nivel de encuesta
-        if "NO DOCENTES" in filename:
-            nivel = "nonfaculty"
-        elif "EMPLEADORES" in filename:
-            nivel = "employers"
-        elif "EGRESADOS" in filename:
-            nivel = "alumni-pg" if "POSGRADO" in filename else "alumni-ug"
-        elif "DOCENTES" in filename:
-            nivel = "faculty-pg" if "POSGRADO" in filename else "faculty-ug"
-        elif "GRADUADOS" in filename:
-            nivel = "graduate"
-        elif "ESTUDIANTIL" in filename or "ESTUDIANTES" in filename:
-            nivel = "posgraduate" if "POSGRADO" in filename else "undergraduate"
-        else:
+        # Detección del nivel de encuesta (Fase 11: delegado a _detectar_nivel)
+        nivel = _detectar_nivel(filename)
+        if nivel is None:
             logging.warning(f"No se pudo determinar el nivel para el archivo: {csv_file.name}")
             continue
 
@@ -109,19 +227,8 @@ def main() -> None:
         index_file: Path = periodo_dir / "index.html"
         template_index: Path = ZOHO_DIR / "template" / "index.html"
         
-        # Inyección dinámica de la ruta a la carpeta shared según la profundidad (H-01)
-        try:
-            rel_parent = periodo_dir.relative_to(ZOHO_DIR)
-            depth = len(rel_parent.parts)
-            shared_path = "/".join([".."] * depth) + "/shared"
-            
-            html_content = template_index.read_text(encoding="utf-8")
-            html_content = html_content.replace("{{SHARED_PATH}}", shared_path)
-            index_file.write_text(html_content, encoding="utf-8")
-            logging.info(f"Plantilla HTML copiada e inyectada con shared_path '{shared_path}' para {nivel}/{periodo}")
-        except Exception as html_err:
-            logging.error(f"Error al escribir index.html con shared_path para {nivel}/{periodo}: {html_err}")
-            copyfile(template_index, index_file)
+        # Inyección dinámica de la ruta a la carpeta shared (Fase 11: delegado a _inyectar_html)
+        _inyectar_html(template_index, index_file, periodo_dir, ZOHO_DIR)
 
         # Lectura robusta de CSV
         try:
@@ -201,19 +308,8 @@ def main() -> None:
                     "total": total_emp
                 }
 
-        # NPS Carrera
-        nps_carrera: List[Dict[str, any]] = []
-        for carrera, sub in df_nps.groupby("Carrera"):
-            p = int((sub[nps_col] >= 9).sum())
-            pa = int(((sub[nps_col] >= 7) & (sub[nps_col] <= 8)).sum())
-            d = int((sub[nps_col] <= 6).sum())
-            nps_carrera.append({
-                "carrera": carrera,
-                "promotores": p,
-                "pasivos": pa,
-                "detractores": d,
-                "score": calc_nps(p, pa, d)
-            })
+        # NPS Carrera (Fase 11: delegado a _calcular_nps_carrera)
+        nps_carrera = _calcular_nps_carrera(df_nps, nps_col)
         with open(ruta_salida / "nps_carrera.json", "w", encoding="utf-8") as f:
             json.dump(nps_carrera, f, ensure_ascii=False, indent=2)
 
@@ -236,17 +332,8 @@ def main() -> None:
         with open(ruta_salida / "nps_ciclo_carrera.json", "w", encoding="utf-8") as f:
             json.dump(nps_ciclo_carrera, f, ensure_ascii=False)
 
-        # CSAT Carrera
-        csat_carrera: List[Dict[str, any]] = []
-        for (car, fac), sub in df.groupby(["Carrera", "Facultad"]):
-            serie = sub[csat_col].dropna()
-            row = {"carrera": car, "facultad": fac}
-            for r in RESPUESTAS_TEXTO:
-                row[r] = int((serie == r).sum())
-            t3b = row["Totalmente satisfecho"] + row["Muy satisfecho"] + row["Satisfecho"]
-            total = t3b + row["Insatisfecho"] + row["Totalmente insatisfecho"]
-            row["score"] = calc_csat(t3b, total)
-            csat_carrera.append(row)
+        # CSAT Carrera (Fase 11: delegado a _calcular_csat_carrera)
+        csat_carrera = _calcular_csat_carrera(df, csat_col)
         with open(ruta_salida / "csat_carrera.json", "w", encoding="utf-8") as f:
             json.dump(csat_carrera, f, ensure_ascii=False, indent=2)
 
@@ -377,30 +464,19 @@ def main() -> None:
         if empleabilidad:
             resumen["empleabilidad"] = empleabilidad
 
-        # Generar dashboard_data.json
-        dashboard_data = {
-            "version": "2.0",
-            "resumen": resumen,
-            "hallazgos": {
-                "csat_pct": int(csat_score),
-                "nps_score": int(nps_score),
-                "nps_tipo": "Excelente" if nps_score >= 60 else "Bueno" if nps_score >= 30 else "Regular" if nps_score >= 0 else "Pésimo",
-                "nps_etapas": nps_etapas,
-                "tendencia": "disminuye" if nps_etapas.get("Inicial", 0) > nps_etapas.get("Avanzado", 0)
-                             else "aumenta" if nps_etapas.get("Inicial", 0) < nps_etapas.get("Avanzado", 0)
-                             else "se mantiene",
-                "delta": abs(int(nps_etapas.get("Inicial", 0) - nps_etapas.get("Avanzado", 0))),
-                "top_dimensiones": top_dims,
-                "top_facultades": top_facs
-            },
-            "nps": {
-                "promotores": promotores_total,
-                "pasivos": pasivos_total,
-                "detractores": detractores_total,
-                "score": nps_score
-            },
-            "csat": {r: int((serie_csat == r).sum()) for r in RESPUESTAS_TEXTO}
-        }
+        # Generar dashboard_data.json (Fase 11: delegado a _construir_dashboard_data)
+        dashboard_data = _construir_dashboard_data(
+            resumen=resumen,
+            csat_score=csat_score,
+            nps_score=nps_score,
+            nps_etapas=nps_etapas,
+            top_dims=top_dims,
+            top_facs=top_facs,
+            promotores_total=promotores_total,
+            pasivos_total=pasivos_total,
+            detractores_total=detractores_total,
+            serie_csat=serie_csat,
+        )
         with open(ruta_salida / "dashboard_data.json", "w", encoding="utf-8") as f:
             json.dump(dashboard_data, f, ensure_ascii=False, indent=2)
 
