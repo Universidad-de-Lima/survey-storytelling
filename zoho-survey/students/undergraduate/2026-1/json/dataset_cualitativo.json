@@ -5,9 +5,9 @@
     "total_fragmentos": 2296,
     "stats_normalizacion": {
       "alias": 1321,
-      "embedding": 212,
-      "embedding_fallback": 66,
-      "fallback": 697,
+      "embedding": 223,
+      "embedding_fallback": 107,
+      "fallback": 645,
       "ninguno": 0,
       "total": 2296
     },
@@ -714,8 +714,8 @@
       "satisfaccion_global": "Satisfecho",
       "texto": "Esta regular",
       "aspecto_detectado": "regular",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Espacios comunes",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [],
       "sentimiento": "neutro",
       "intensidad": 2,
@@ -1754,8 +1754,8 @@
       "satisfaccion_global": "Satisfecho",
       "texto": "La infraestructura es cómoda",
       "aspecto_detectado": "infraestructura",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Espacios comunes",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "infraestructura"
       ],
@@ -1775,8 +1775,8 @@
       "satisfaccion_global": "Satisfecho",
       "texto": "Los ambientes de igual manera",
       "aspecto_detectado": "ambientes",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Espacios comunes",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "ambientes",
         "manera"
@@ -1839,8 +1839,8 @@
       "satisfaccion_global": "Muy satisfecho",
       "texto": "La gente",
       "aspecto_detectado": "gente",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Espacios comunes",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "gente"
       ],
@@ -2438,8 +2438,8 @@
       "satisfaccion_global": "Satisfecho",
       "texto": "Tiene varias aveces",
       "aspecto_detectado": "aveces",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Espacios comunes",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "aveces"
       ],
@@ -5381,8 +5381,8 @@
       "satisfaccion_global": "Satisfecho",
       "texto": "Social",
       "aspecto_detectado": "social",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Espacios comunes",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "social"
       ],
@@ -5684,8 +5684,8 @@
       "satisfaccion_global": "Insatisfecho",
       "texto": "Separenos",
       "aspecto_detectado": "separenos",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Espacios comunes",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "separenos"
       ],
@@ -5812,8 +5812,8 @@
       "satisfaccion_global": "Satisfecho",
       "texto": "Círculos",
       "aspecto_detectado": "círculos",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Espacios comunes",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "círculos"
       ],
@@ -8324,8 +8324,8 @@
       "satisfaccion_global": "Satisfecho",
       "texto": "Acca",
       "aspecto_detectado": "acca",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Espacios comunes",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "acca"
       ],
@@ -8479,8 +8479,8 @@
       "satisfaccion_global": "Insatisfecho",
       "texto": "Ambientes",
       "aspecto_detectado": "ambientes",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Espacios comunes",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "ambientes"
       ],
@@ -9566,8 +9566,8 @@
       "satisfaccion_global": "Muy satisfecho",
       "texto": "Faltan etc",
       "aspecto_detectado": "faltan etc",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Espacios comunes",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "faltan",
         "etc"
@@ -9826,8 +9826,8 @@
       "satisfaccion_global": "Muy satisfecho",
       "texto": "Le falta un ambiente",
       "aspecto_detectado": "ambiente",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Espacios comunes",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "ambiente"
       ],
@@ -10052,8 +10052,8 @@
       "satisfaccion_global": "Satisfecho",
       "texto": "En centrada",
       "aspecto_detectado": "centrado",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Espacios comunes",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [],
       "sentimiento": "positivo",
       "intensidad": 3,
@@ -11527,8 +11527,8 @@
       "satisfaccion_global": "Satisfecho",
       "texto": "Cuenta con pocos lugares",
       "aspecto_detectado": "lugares",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Espacios comunes",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "lugares"
       ],
@@ -13311,8 +13311,8 @@
       "satisfaccion_global": "Satisfecho",
       "texto": "Asimismo cuenta con cómodas",
       "aspecto_detectado": "cómodas",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Espacios comunes",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "cómodas"
       ],
@@ -13506,8 +13506,8 @@
       "satisfaccion_global": "Muy satisfecho",
       "texto": "Apruebe",
       "aspecto_detectado": "apruebe",
-      "aspecto_normalizado": "Compromiso",
-      "categoria_padre": "Docencia",
+      "aspecto_normalizado": "Espacios comunes",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "apruebe"
       ],
@@ -13724,8 +13724,8 @@
       "satisfaccion_global": "Insatisfecho",
       "texto": "Pfc",
       "aspecto_detectado": "pfc",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Espacios comunes",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "pfc"
       ],
@@ -15697,8 +15697,8 @@
       "satisfaccion_global": "Insatisfecho",
       "texto": "En derecho",
       "aspecto_detectado": "derecho",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Espacios comunes",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "derecho"
       ],
@@ -16167,8 +16167,8 @@
       "satisfaccion_global": "Satisfecho",
       "texto": "Proyecto",
       "aspecto_detectado": "proyecto",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Espacios comunes",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "proyecto"
       ],
@@ -16647,8 +16647,8 @@
       "satisfaccion_global": "Muy satisfecho",
       "texto": "Buen ambiente",
       "aspecto_detectado": "buen ambiente",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Espacios comunes",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "buen",
         "ambiente"
@@ -18628,8 +18628,8 @@
       "satisfaccion_global": "Satisfecho",
       "texto": "Hay cosas",
       "aspecto_detectado": "hay cosas",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Espacios comunes",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [],
       "sentimiento": "positivo",
       "intensidad": 3,
@@ -18727,8 +18727,8 @@
       "satisfaccion_global": "Muy satisfecho",
       "texto": "Le falta un área",
       "aspecto_detectado": "área",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Espacios comunes",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "área"
       ],
@@ -22989,8 +22989,8 @@
       "satisfaccion_global": "Muy satisfecho",
       "texto": "Hay detalles",
       "aspecto_detectado": "hay detalles",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Espacios comunes",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [],
       "sentimiento": "positivo",
       "intensidad": 3,
@@ -23308,8 +23308,8 @@
       "satisfaccion_global": "Muy satisfecho",
       "texto": "Hay aspectos",
       "aspecto_detectado": "hay aspectos",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Espacios comunes",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [],
       "sentimiento": "positivo",
       "intensidad": 3,
@@ -23370,8 +23370,8 @@
       "satisfaccion_global": "Muy satisfecho",
       "texto": "Que brindan",
       "aspecto_detectado": "brindar",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Espacios comunes",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [],
       "sentimiento": "positivo",
       "intensidad": 3,
@@ -23389,8 +23389,8 @@
       "satisfaccion_global": "Muy satisfecho",
       "texto": "Consideración",
       "aspecto_detectado": "consideración",
-      "aspecto_normalizado": "Compromiso",
-      "categoria_padre": "Docencia",
+      "aspecto_normalizado": "Espacios comunes",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "consideración"
       ],
@@ -23717,8 +23717,8 @@
       "satisfaccion_global": "Muy satisfecho",
       "texto": "Actividades",
       "aspecto_detectado": "actividades",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Espacios comunes",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "actividades"
       ],
@@ -24316,8 +24316,8 @@
       "satisfaccion_global": "Satisfecho",
       "texto": "Descuidadas",
       "aspecto_detectado": "descuidadas",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Espacios comunes",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "descuidadas"
       ],
@@ -24950,8 +24950,8 @@
       "satisfaccion_global": "Muy satisfecho",
       "texto": "Limpios",
       "aspecto_detectado": "limpios",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Espacios comunes",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "limpios"
       ],
@@ -25407,8 +25407,8 @@
       "satisfaccion_global": "Satisfecho",
       "texto": "No tengas ubicación relativa",
       "aspecto_detectado": "ubicación",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Espacios comunes",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "ubicación"
       ],
@@ -26591,8 +26591,8 @@
       "satisfaccion_global": "Satisfecho",
       "texto": "Hay algunos aspectos",
       "aspecto_detectado": "hay algunos aspectos",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Espacios comunes",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [],
       "sentimiento": "positivo",
       "intensidad": 3,
@@ -26693,8 +26693,8 @@
       "satisfaccion_global": "Satisfecho",
       "texto": "En general",
       "aspecto_detectado": "general",
-      "aspecto_normalizado": "La carrera",
-      "categoria_padre": "Académico",
+      "aspecto_normalizado": "Espacios comunes",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "general"
       ],
@@ -27292,8 +27292,8 @@
       "satisfaccion_global": "Muy satisfecho",
       "texto": "Todos se amontonan",
       "aspecto_detectado": "amontonar",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Espacios comunes",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [],
       "sentimiento": "neutro",
       "intensidad": 2,
@@ -28410,8 +28410,8 @@
       "satisfaccion_global": "Muy satisfecho",
       "texto": "Que brinda",
       "aspecto_detectado": "brindar",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Espacios comunes",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [],
       "sentimiento": "positivo",
       "intensidad": 3,
@@ -28429,8 +28429,8 @@
       "satisfaccion_global": "Muy satisfecho",
       "texto": "La infraestructura",
       "aspecto_detectado": "infraestructura",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Espacios comunes",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "infraestructura"
       ],
@@ -28733,8 +28733,8 @@
       "satisfaccion_global": "Satisfecho",
       "texto": "Muy general",
       "aspecto_detectado": "general",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Espacios comunes",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [],
       "sentimiento": "positivo",
       "intensidad": 4,
@@ -29103,8 +29103,8 @@
       "satisfaccion_global": "Muy satisfecho",
       "texto": "Actividades",
       "aspecto_detectado": "actividades",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Espacios comunes",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "actividades"
       ],
@@ -30969,8 +30969,8 @@
       "satisfaccion_global": "Satisfecho",
       "texto": "Hay cosas",
       "aspecto_detectado": "hay cosas",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Espacios comunes",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [],
       "sentimiento": "positivo",
       "intensidad": 3,
@@ -31296,8 +31296,8 @@
       "satisfaccion_global": "Satisfecho",
       "texto": "Repleto",
       "aspecto_detectado": "repleto",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Espacios comunes",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "repleto"
       ],
@@ -31818,8 +31818,8 @@
       "satisfaccion_global": "Muy satisfecho",
       "texto": "Concidero",
       "aspecto_detectado": "concidero",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Espacios comunes",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "concidero"
       ],
@@ -31839,8 +31839,8 @@
       "satisfaccion_global": "Muy satisfecho",
       "texto": "Que",
       "aspecto_detectado": "que",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Espacios comunes",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [],
       "sentimiento": "positivo",
       "intensidad": 3,
@@ -32593,8 +32593,8 @@
       "satisfaccion_global": "Satisfecho",
       "texto": "30 anda abarrotado",
       "aspecto_detectado": "30 anda abarrotado",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Espacios comunes",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "anda"
       ],
@@ -35112,7 +35112,7 @@
       "satisfaccion_global": "Satisfecho",
       "texto": "Bonita infraestructura",
       "aspecto_detectado": "bonita infraestructura",
-      "aspecto_normalizado": "Ubicación",
+      "aspecto_normalizado": "Espacios comunes",
       "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "bonita",
@@ -35257,8 +35257,8 @@
       "satisfaccion_global": "Muy satisfecho",
       "texto": "Hay algunos aspectos",
       "aspecto_detectado": "hay algunos aspectos",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Espacios comunes",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [],
       "sentimiento": "positivo",
       "intensidad": 3,
@@ -35604,8 +35604,8 @@
       "satisfaccion_global": "Satisfecho",
       "texto": "Mejorar zonas o y f",
       "aspecto_detectado": "zonas",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Espacios comunes",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "zonas"
       ],
@@ -36221,8 +36221,8 @@
       "satisfaccion_global": "Muy satisfecho",
       "texto": "Con facilidades",
       "aspecto_detectado": "facilidades",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Espacios comunes",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "facilidades"
       ],
@@ -36326,8 +36326,8 @@
       "satisfaccion_global": "Totalmente satisfecho",
       "texto": "Hay cosas",
       "aspecto_detectado": "hay cosas",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Espacios comunes",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [],
       "sentimiento": "positivo",
       "intensidad": 3,
@@ -37060,7 +37060,7 @@
       "satisfaccion_global": "Satisfecho",
       "texto": "Hay zonas",
       "aspecto_detectado": "zonas",
-      "aspecto_normalizado": "Ubicación",
+      "aspecto_normalizado": "Espacios comunes",
       "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "zonas"
@@ -37774,8 +37774,8 @@
       "satisfaccion_global": "Muy satisfecho",
       "texto": "Hay cosas",
       "aspecto_detectado": "hay cosas",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Espacios comunes",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [],
       "sentimiento": "positivo",
       "intensidad": 3,
@@ -38701,8 +38701,8 @@
       "satisfaccion_global": "Satisfecho",
       "texto": "Debería ser más amplio",
       "aspecto_detectado": "amplio",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Espacios comunes",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [],
       "sentimiento": "negativo",
       "intensidad": 3,
@@ -38742,8 +38742,8 @@
       "satisfaccion_global": "Muy satisfecho",
       "texto": "Buen ambiente en general",
       "aspecto_detectado": "buen ambiente en general",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Espacios comunes",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "buen",
         "ambiente",
@@ -43097,8 +43097,8 @@
       "satisfaccion_global": "Muy satisfecho",
       "texto": "Versátil",
       "aspecto_detectado": "versátil",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Espacios comunes",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "versátil"
       ],
@@ -43118,8 +43118,8 @@
       "satisfaccion_global": "Muy satisfecho",
       "texto": "Variada",
       "aspecto_detectado": "variado",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Espacios comunes",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [],
       "sentimiento": "neutro",
       "intensidad": 2,
@@ -44901,8 +44901,8 @@
       "satisfaccion_global": "Muy satisfecho",
       "texto": "Les falta",
       "aspecto_detectado": "faltar",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Espacios comunes",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [],
       "sentimiento": "negativo",
       "intensidad": 3,
@@ -46053,8 +46053,8 @@
       "satisfaccion_global": "Satisfecho",
       "texto": "Un particular",
       "aspecto_detectado": "particular",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Espacios comunes",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "particular"
       ],
@@ -47173,8 +47173,8 @@
       "satisfaccion_global": "Muy satisfecho",
       "texto": "Que brindan",
       "aspecto_detectado": "brindar",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Espacios comunes",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [],
       "sentimiento": "positivo",
       "intensidad": 3,
@@ -48042,8 +48042,8 @@
       "satisfaccion_global": "Satisfecho",
       "texto": "Que pasan desapercibidos",
       "aspecto_detectado": "pasar",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Espacios comunes",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [],
       "sentimiento": "negativo",
       "intensidad": 3,

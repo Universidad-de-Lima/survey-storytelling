@@ -5,9 +5,9 @@
     "total_fragmentos": 148,
     "stats_normalizacion": {
       "alias": 82,
-      "embedding": 22,
-      "embedding_fallback": 4,
-      "fallback": 40,
+      "embedding": 23,
+      "embedding_fallback": 5,
+      "fallback": 38,
       "ninguno": 0,
       "total": 148
     },
@@ -1524,8 +1524,8 @@
       "satisfaccion_global": "Muy satisfecho",
       "texto": "Entorno adecuado",
       "aspecto_detectado": "entorno adecuado",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Espacios comunes",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "entorno"
       ],
@@ -1839,8 +1839,8 @@
       "satisfaccion_global": "Totalmente satisfecho",
       "texto": "Reconocimientos",
       "aspecto_detectado": "reconocimientos",
-      "aspecto_normalizado": "Pendiente de Clasificación",
-      "categoria_padre": "Pendiente de Clasificación",
+      "aspecto_normalizado": "Espacios comunes",
+      "categoria_padre": "Infraestructura",
       "sub_aspectos": [
         "reconocimientos"
       ],
