@@ -168,7 +168,10 @@ CATEGORIA_DIMENSION_PREGRADO: Dict[str, str] = {
     "Condiciones ambientales en laboratorios": "Infraestructura",
     "Ubicación": "Infraestructura",
     "Espacios de alimentación": "Infraestructura",
-    
+    # Fase IA: dimensión catch-all para referencias genéricas a espacios del campus
+    # (no tiene pregunta CSAT directa en Zoho; se infiere del comentario).
+    "Espacios comunes": "Infraestructura",
+   
     # Tecnología
     "Software especializado empleado en la carrera": "Tecnología",
     "Portal web de la Universidad (Mi Ulima)": "Tecnología",
@@ -226,13 +229,28 @@ CATEGORIA_DIMENSION_GRADUADO: Dict[str, str] = {
     "Condiciones ambientales en laboratorios": "Infraestructura",
     "Ubicación": "Infraestructura",
     "Espacios de alimentación": "Infraestructura",
-    
+    "Espacios comunes": "Infraestructura",
+   
     # Tecnología
     "Software especializado empleado en la carrera": "Tecnología",
     "Portal web de la Universidad (Mi Ulima)": "Tecnología",
     "Aula virtual": "Tecnología",
     "Conexión Wi-Fi en el campus": "Tecnología",
     "Soporte técnico del sistema informático": "Tecnología",
+}
+
+# ============================================================
+# 3b. DIMENSIONES SIN PREGUNTA CSAT DIRECTA (catch-all)
+# ============================================================
+# Estas dimensiones se usan en el análisis cualitativo pero NO tienen una
+# columna CSV de calificación CSAT asociada. El cross-reference
+# dimension_evaluada_rating devolverá null para ellas.
+DIMENSIONES_SIN_CSAT: Set[str] = {
+    "Satisfacción estudiantil",
+    "Espacios comunes",
+    "La carrera",
+    "La Universidad de Lima",
+    "Pendiente de Clasificación",
 }
 
 # ============================================================

@@ -44,6 +44,16 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-hf-models-
 
+      - name: Cache IA Cualitativo (DeepSeek)
+        # Caché persistente de resultados IA por hash(comentario + contexto).
+        # Evita re-llamar a la API en builds subsiguientes si el CSV no cambió.
+        uses: actions/cache@v4
+        with:
+          path: zoho-survey/scripts/ia_cache.json
+          key: ia-cache-${{ hashFiles('data/**') }}
+          restore-keys: |
+            ia-cache-
+
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
@@ -51,6 +61,11 @@ jobs:
           python -m spacy download es_core_news_sm
 
       - name: Run build_json.py
+        # DEEPSEEK_API_KEY se inyecta desde GitHub Secrets.
+        # Si no está definida, el pipeline cae automáticamente al modo legacy
+        # (spaCy + sentence-transformers) sin fallo.
+        env:
+          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
         run: |
           python zoho-survey/scripts/build_json.py
 
@@ -77,4 +92,3 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v5
-
