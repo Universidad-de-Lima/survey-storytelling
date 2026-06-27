@@ -38,6 +38,13 @@ from typing import Dict, List, Optional, Any, Tuple
 from urllib import request as urllib_request
 from urllib.error import HTTPError, URLError
 
+# pandas se usa solo para cleaning defensivo en analizar_dataset_cualitativo.
+# Si no está disponible (entorno mínimo), los checks del bucle usan fallback.
+try:
+    import pandas as _pd
+except ImportError:
+    _pd = None
+
 from .prompts_cualitativo import (
     build_system_prompt,
     build_user_prompt,
@@ -496,6 +503,25 @@ def analizar_dataset_cualitativo(
     cache = CacheManager(cache_path) if cache_path else None
     categorias_padre = sorted(set(taxonomia.values()))
 
+    # ── CLEANING DEFENSIVO ──────────────────────────────────────
+    # Garantiza que df_sent no tenga NaN en nps_score ni comentarios
+    # vacíos, independientemente del cleaning upstream en build_json.py.
+    # Esto es crítico porque build_json.py puede añadir columnas CSAT
+    # vía `df_sent[col] = df[col]` que en algunos casos de pandas
+    # SettingWithCopyWarning puede interferir con el dropna previo.
+    if _pd is not None:
+        try:
+            df_sent = df_sent.copy()
+            df_sent["nps_score"] = _pd.to_numeric(df_sent["nps_score"], errors="coerce")
+            df_sent = df_sent.dropna(subset=["nps_score"]).reset_index(drop=True)
+            df_sent["comentario"] = df_sent["comentario"].fillna("").astype(str)
+            # Filtrar comentarios vacíos o que sean solo whitespace
+            df_sent = df_sent[df_sent["comentario"].str.strip() != ""]
+            # Filtrar el string "nan" que aparece cuando str(NaN) se cuela
+            df_sent = df_sent[df_sent["comentario"].str.strip().str.lower() != "nan"]
+        except Exception as clean_err:
+            logger.warning(f"Cleaning defensivo falló (continuando con df original): {clean_err}")
+
     dataset_cualitativo: List[Dict[str, Any]] = []
     total_comentarios = 0
     total_unidades = 0
@@ -507,12 +533,27 @@ def analizar_dataset_cualitativo(
     logger.info(f"Iniciando análisis IA de {total_rows} comentarios con DeepSeek (modelo: {client.model}).")
 
     for idx, row in df_sent.iterrows():
-        comentario = str(row["comentario"]).strip()
-        if not comentario:
+        # Extraer y validar comentario (defensivo vs NaN y "nan" string)
+        comentario_val = row["comentario"]
+        if _pd is not None and _pd.isna(comentario_val):
+            continue
+        if comentario_val is None:
+            continue
+        comentario = str(comentario_val).strip()
+        if not comentario or comentario.lower() == "nan":
+            continue
+
+        # Extraer y validar nps_score (defensivo vs NaN)
+        nps_val = row["nps_score"]
+        if _pd is not None and _pd.isna(nps_val):
+            continue
+        try:
+            nps = int(nps_val)
+        except (ValueError, TypeError):
+            logger.warning(f"Skip fila {idx}: nps_score inválido = {nps_val!r}")
             continue
 
         total_comentarios += 1
-        nps = int(row["nps_score"])
         seg_nps = "Promotor" if nps >= 9 else ("Pasivo" if nps >= 7 else "Detractor")
         res_id = str(row.get("ID", f"R_{idx}"))
 
