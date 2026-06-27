@@ -1,8 +1,8 @@
 {
   "metadata": {
     "version": "1.0",
-    "total_encuestas": 63,
-    "total_fragmentos": 128
+    "total_encuestas": 74,
+    "total_fragmentos": 148
   },
   "data": [
     {
@@ -1270,6 +1270,218 @@
         {
           "id_fragmento": "hbBhs7Tk_03",
           "texto": "Así mismo, la infraestructura ha mejorado excelentemente"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "cSBRfbFN",
+      "facultad": "Facultad de Ciencias Empresariales",
+      "carrera": "Contabilidad y Finanzas",
+      "ciclo": "NA",
+      "nps_score": 10,
+      "segmento_nps": "Promotor",
+      "satisfaccion_global": "Totalmente satisfecho",
+      "comentario_original": "Pase un grato momento en mi carrera universitaria y los conocimientos que tuve fueron muy buenos y provechosos",
+      "fragmentos": [
+        {
+          "id_fragmento": "cSBRfbFN_01",
+          "texto": "Pase un grato momento en mi carrera universitaria y los conocimientos"
+        },
+        {
+          "id_fragmento": "cSBRfbFN_02",
+          "texto": "Que tuve fueron muy buenos"
+        },
+        {
+          "id_fragmento": "cSBRfbFN_03",
+          "texto": "Provechosos"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "S3DFFf3e",
+      "facultad": "Facultad de Ciencias Empresariales",
+      "carrera": "Contabilidad y Finanzas",
+      "ciclo": "NA",
+      "nps_score": 10,
+      "segmento_nps": "Promotor",
+      "satisfaccion_global": "Totalmente satisfecho",
+      "comentario_original": "La Universidad de Lima brinda las herramientas necesarias para que el alumno pueda desarrollar todo su potencial. Además, cuenta con profesores con gran trayectoria y con vocación por enseñar. Todo excelente.",
+      "fragmentos": [
+        {
+          "id_fragmento": "S3DFFf3e_01",
+          "texto": "La universidad de lima brinda las herramientas necesarias para que el alumno pueda desarrollar todo su potencial"
+        },
+        {
+          "id_fragmento": "S3DFFf3e_02",
+          "texto": "Además, cuenta con profesores con gran trayectoria"
+        },
+        {
+          "id_fragmento": "S3DFFf3e_03",
+          "texto": "Con vocación por enseñar"
+        },
+        {
+          "id_fragmento": "S3DFFf3e_04",
+          "texto": "Todo excelente"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "26toqKVx",
+      "facultad": "Facultad de Ciencias Empresariales",
+      "carrera": "Contabilidad y Finanzas",
+      "ciclo": "NA",
+      "nps_score": 10,
+      "segmento_nps": "Promotor",
+      "satisfaccion_global": "Totalmente satisfecho",
+      "comentario_original": "Calidad en todos los sentidos, gran red de negocios",
+      "fragmentos": [
+        {
+          "id_fragmento": "26toqKVx_01",
+          "texto": "Calidad en todos los sentidos gran red de negocios"
+        },
+        {
+          "id_fragmento": "26toqKVx_02",
+          "texto": "Gran red de negocios"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "ZpDFnc7p",
+      "facultad": "Facultad de Ciencias Empresariales",
+      "carrera": "Contabilidad y Finanzas",
+      "ciclo": "NA",
+      "nps_score": 10,
+      "segmento_nps": "Promotor",
+      "satisfaccion_global": "Totalmente satisfecho",
+      "comentario_original": "Muy buena universidad, te brinda muchas oportunidades laborales y las enseñanzas son buenas",
+      "fragmentos": [
+        {
+          "id_fragmento": "ZpDFnc7p_01",
+          "texto": "Muy buena universidad"
+        },
+        {
+          "id_fragmento": "ZpDFnc7p_02",
+          "texto": "Te brinda muchas oportunidades laborales y las enseñanzas son buenas"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "3rBhsAam",
+      "facultad": "Facultad de Ciencias Empresariales",
+      "carrera": "Contabilidad y Finanzas",
+      "ciclo": "NA",
+      "nps_score": 9,
+      "segmento_nps": "Promotor",
+      "satisfaccion_global": "Satisfecho",
+      "comentario_original": "Es una universidad completa",
+      "fragmentos": [
+        {
+          "id_fragmento": "3rBhsAam_01",
+          "texto": "Es una universidad completa"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "aVzKkfx2",
+      "facultad": "Facultad de Ciencias Empresariales",
+      "carrera": "Contabilidad y Finanzas",
+      "ciclo": "NA",
+      "nps_score": 9,
+      "segmento_nps": "Promotor",
+      "satisfaccion_global": "Muy satisfecho",
+      "comentario_original": "Siento que la universidad posee una infraestructura solida y los cursos están bien estructurados para salir al campo laboral",
+      "fragmentos": [
+        {
+          "id_fragmento": "aVzKkfx2_01",
+          "texto": "La universidad posee una infraestructura solida y los cursos están bien estructurados para salir al campo laboral"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "vpzXI4Mt",
+      "facultad": "Facultad de Ciencias Empresariales",
+      "carrera": "Contabilidad y Finanzas",
+      "ciclo": "NA",
+      "nps_score": 10,
+      "segmento_nps": "Promotor",
+      "satisfaccion_global": "Totalmente satisfecho",
+      "comentario_original": "Muy bueno",
+      "fragmentos": [
+        {
+          "id_fragmento": "vpzXI4Mt_01",
+          "texto": "Muy bueno"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "qzBhpvce",
+      "facultad": "Facultad de Ciencias Empresariales",
+      "carrera": "Contabilidad y Finanzas",
+      "ciclo": "NA",
+      "nps_score": 10,
+      "segmento_nps": "Promotor",
+      "satisfaccion_global": "Totalmente satisfecho",
+      "comentario_original": "La universidad es un lugar acogedor para estudiar, las carreras son lo suficientemente exigentes y el nivel académico es bueno.",
+      "fragmentos": [
+        {
+          "id_fragmento": "qzBhpvce_01",
+          "texto": "La universidad es un lugar acogedor para estudiar"
+        },
+        {
+          "id_fragmento": "qzBhpvce_02",
+          "texto": "Las carreras son lo suficientemente exigentes"
+        },
+        {
+          "id_fragmento": "qzBhpvce_03",
+          "texto": "El nivel académico es bueno"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "KNBBXijD",
+      "facultad": "Facultad de Ciencias Empresariales",
+      "carrera": "Contabilidad y Finanzas",
+      "ciclo": "NA",
+      "nps_score": 10,
+      "segmento_nps": "Promotor",
+      "satisfaccion_global": "Totalmente satisfecho",
+      "comentario_original": "Muy buena universidad en lo técnico como la infraestructura",
+      "fragmentos": [
+        {
+          "id_fragmento": "KNBBXijD_01",
+          "texto": "Muy buena universidad en lo técnico como la infraestructura"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "i5C5Q7S8",
+      "facultad": "Facultad de Ciencias Empresariales",
+      "carrera": "Contabilidad y Finanzas",
+      "ciclo": "NA",
+      "nps_score": 7,
+      "segmento_nps": "Pasivo",
+      "satisfaccion_global": "Totalmente satisfecho",
+      "comentario_original": "Porque considero que la universidad da las optimas condiciones",
+      "fragmentos": [
+        {
+          "id_fragmento": "i5C5Q7S8_01",
+          "texto": "Porque considero que la universidad da las optimas condiciones"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "g4CZwT4M",
+      "facultad": "Facultad de Ciencias Empresariales",
+      "carrera": "Negocios Internacionales",
+      "ciclo": "NA",
+      "nps_score": 4,
+      "segmento_nps": "Detractor",
+      "satisfaccion_global": "Insatisfecho",
+      "comentario_original": "No siento que exista una comunidad universitaria por más que se venda esa idea, ya que no hay un sentido de identidad dentro de este espacio",
+      "fragmentos": [
+        {
+          "id_fragmento": "g4CZwT4M_01",
+          "texto": "No siento que exista una comunidad universitaria por más que se venda esa idea, ya que no hay un sentido de identidad dentro de este espacio"
         }
       ]
     }

@@ -24,6 +24,18 @@
     "score": 98.85
   },
   {
+    "carrera": "Contabilidad y Finanzas",
+    "facultad": "Facultad de Ciencias Empresariales",
+    "Totalmente satisfecho": 8,
+    "Muy satisfecho": 2,
+    "Satisfecho": 2,
+    "Insatisfecho": 0,
+    "Totalmente insatisfecho": 0,
+    "No utilizo": 0,
+    "No conozco": 0,
+    "score": 100.0
+  },
+  {
     "carrera": "Ingeniería Ambiental",
     "facultad": "Facultad de Ingeniería",
     "Totalmente satisfecho": 1,
@@ -65,10 +77,10 @@
     "Totalmente satisfecho": 20,
     "Muy satisfecho": 13,
     "Satisfecho": 5,
-    "Insatisfecho": 0,
+    "Insatisfecho": 1,
     "Totalmente insatisfecho": 0,
     "No utilizo": 0,
     "No conozco": 0,
-    "score": 100.0
+    "score": 97.44
   }
 ]

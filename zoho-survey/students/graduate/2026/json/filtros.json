@@ -9,6 +9,7 @@
   "carreras": [
     "Administración",
     "Comunicación",
+    "Contabilidad y Finanzas",
     "Ingeniería Ambiental",
     "Ingeniería Civil",
     "Ingeniería Industrial",
@@ -18,6 +19,7 @@
   "facultad_carrera": {
     "Facultad de Ciencias Empresariales": [
       "Administración",
+      "Contabilidad y Finanzas",
       "Negocios Internacionales"
     ],
     "Facultad de Comunicación": [

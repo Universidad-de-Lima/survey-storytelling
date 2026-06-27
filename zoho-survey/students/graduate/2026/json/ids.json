@@ -7,9 +7,15 @@
   },
   {
     "facultad": "Facultad de Ciencias Empresariales",
+    "carrera": "Contabilidad y Finanzas",
+    "ciclo": "NA",
+    "total": 12
+  },
+  {
+    "facultad": "Facultad de Ciencias Empresariales",
     "carrera": "Negocios Internacionales",
     "ciclo": "NA",
-    "total": 38
+    "total": 39
   },
   {
     "facultad": "Facultad de Comunicación",

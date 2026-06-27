@@ -1,36 +1,36 @@
 {
   "version": "2.0",
   "resumen": {
-    "encuestas": 293,
-    "carreras": 6,
+    "encuestas": 306,
+    "carreras": 7,
     "facultades": 3,
     "fecha_inicio": "2026-04-16",
-    "fecha_fin": "2026-06-18",
-    "dias": 64,
-    "dias_recoleccion": 7,
+    "fecha_fin": "2026-06-22",
+    "dias": 68,
+    "dias_recoleccion": 9,
     "año": 2026,
     "periodo": "2026",
     "nps": {
-      "score": 87.71,
-      "promotores": 262,
-      "pasivos": 26,
-      "detractores": 5,
-      "total": 293
+      "score": 86.6,
+      "promotores": 271,
+      "pasivos": 29,
+      "detractores": 6,
+      "total": 306
     },
     "csat": {
-      "score": 99.32,
-      "t3b": 291,
-      "total": 293
+      "score": 99.02,
+      "t3b": 303,
+      "total": 306
     },
     "empleabilidad": {
-      "score": 87.37,
-      "empleados": 256,
-      "total": 293
+      "score": 87.58,
+      "empleados": 268,
+      "total": 306
     }
   },
   "hallazgos": {
     "csat_pct": 99,
-    "nps_score": 87,
+    "nps_score": 86,
     "nps_tipo": "Excelente",
     "nps_etapas": {},
     "tendencia": "se mantiene",
@@ -38,11 +38,11 @@
     "top_dimensiones": [
       {
         "name": "Habilidades para aportar nuevas ideas",
-        "score": 100.0
+        "score": 99.67
       },
       {
-        "name": "Transmisión de conocimientos",
-        "score": 99.66
+        "name": "Calidad de la formación académica",
+        "score": 99.67
       }
     ],
     "top_facultades": [
@@ -51,22 +51,22 @@
         "score": 100.0
       },
       {
-        "name": "Facultad de Ciencias Empresariales",
-        "score": 98.97
+        "name": "Facultad de Comunicación",
+        "score": 98.85
       }
     ]
   },
   "nps": {
-    "promotores": 262,
-    "pasivos": 26,
-    "detractores": 5,
-    "score": 87.71
+    "promotores": 271,
+    "pasivos": 29,
+    "detractores": 6,
+    "score": 86.6
   },
   "csat": {
-    "Totalmente satisfecho": 171,
-    "Muy satisfecho": 68,
-    "Satisfecho": 52,
-    "Insatisfecho": 2,
+    "Totalmente satisfecho": 179,
+    "Muy satisfecho": 70,
+    "Satisfecho": 54,
+    "Insatisfecho": 3,
     "Totalmente insatisfecho": 0,
     "No utilizo": 0,
     "No conozco": 0
