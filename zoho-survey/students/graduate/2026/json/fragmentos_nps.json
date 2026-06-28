@@ -1,8 +1,9 @@
 {
   "metadata": {
-    "version": "1.0",
-    "total_encuestas": 74,
-    "total_fragmentos": 148
+    "version": "2.0",
+    "motor": "deepseek",
+    "total_encuestas": 82,
+    "total_fragmentos": 117
   },
   "data": [
     {
@@ -21,7 +22,7 @@
         },
         {
           "id_fragmento": "CmBnRrwm_02",
-          "texto": "Con ello existen alumnos dispuestos a no apoyar"
+          "texto": "Y con ello existen alumnos dispuestos a no apoyar"
         }
       ]
     },
@@ -37,23 +38,11 @@
       "fragmentos": [
         {
           "id_fragmento": "84t6h2O6_01",
-          "texto": "Presenta muchos beneficios"
+          "texto": "Presenta muchos beneficios y material adecuado"
         },
         {
           "id_fragmento": "84t6h2O6_02",
-          "texto": "Presenta muchos material adecuado"
-        },
-        {
-          "id_fragmento": "84t6h2O6_03",
-          "texto": "Podria actualizar mar"
-        },
-        {
-          "id_fragmento": "84t6h2O6_04",
-          "texto": "Podria actualizar los cursos"
-        },
-        {
-          "id_fragmento": "84t6h2O6_05",
-          "texto": "Podria actualizar los materiales"
+          "texto": "pero siento que podria actualizar mar los cursos y materiales"
         }
       ]
     },
@@ -69,7 +58,7 @@
       "fragmentos": [
         {
           "id_fragmento": "PpCZclKG_01",
-          "texto": "En temas académicos siento que se quedan atrás de universidades como la esan"
+          "texto": "En temas académicos siento que se quedan atrás de universidades como la ESAN"
         },
         {
           "id_fragmento": "PpCZclKG_02",
@@ -77,7 +66,7 @@
         },
         {
           "id_fragmento": "PpCZclKG_03",
-          "texto": "Llena de gente"
+          "texto": "pero llena de gente"
         }
       ]
     },
@@ -93,19 +82,7 @@
       "fragmentos": [
         {
           "id_fragmento": "PczD2PF6_01",
-          "texto": "Muy buena universidad con recursos"
-        },
-        {
-          "id_fragmento": "PczD2PF6_02",
-          "texto": "Espacio"
-        },
-        {
-          "id_fragmento": "PczD2PF6_03",
-          "texto": "Tecnología interesantes"
-        },
-        {
-          "id_fragmento": "PczD2PF6_04",
-          "texto": "Cursos interesantes"
+          "texto": "Muy buena universidad con recursos, espacio, tecnología y cursos interesantes"
         }
       ]
     },
@@ -137,11 +114,7 @@
       "fragmentos": [
         {
           "id_fragmento": "Q8zluZKT_01",
-          "texto": "Hay muchos ámbitos en los que la universidad debe mejorar desde la psicológica hacia sus alumnos hasta el tipo de profesores"
-        },
-        {
-          "id_fragmento": "Q8zluZKT_02",
-          "texto": "Hay muchos su metodología de aprendizaje"
+          "texto": "Siento que hay muchos ámbitos en los que la universidad debe mejorar desde la psicológica hacia sus alumnos hasta el tipo de profesores y su metodología de aprendizaje."
         }
       ]
     },
@@ -161,11 +134,7 @@
         },
         {
           "id_fragmento": "QvtmaVlT_02",
-          "texto": "Podrían haber algunos talleres extra como excel"
-        },
-        {
-          "id_fragmento": "QvtmaVlT_03",
-          "texto": "Podrían haber algunos habilidades blandas"
+          "texto": "podrían haber algunos talleres extra como Excel y habilidades blandas"
         }
       ]
     },
@@ -181,11 +150,7 @@
       "fragmentos": [
         {
           "id_fragmento": "XZBBrvgL_01",
-          "texto": "Dependería del enfoque a la carrera"
-        },
-        {
-          "id_fragmento": "XZBBrvgL_02",
-          "texto": "Dependería del en general si"
+          "texto": "Dependería del enfoque a la carrera pero en general si"
         }
       ]
     },
@@ -201,11 +166,7 @@
       "fragmentos": [
         {
           "id_fragmento": "lLC5ZJ9N_01",
-          "texto": "Tienen buenos profesores"
-        },
-        {
-          "id_fragmento": "lLC5ZJ9N_02",
-          "texto": "Que enseñan lo idoneo para la carrera de comunicación"
+          "texto": "Tienen buenos profesores que enseñan lo idoneo para la carrera de comunicación"
         }
       ]
     },
@@ -225,7 +186,7 @@
         },
         {
           "id_fragmento": "NbC27Gvg_02",
-          "texto": "No creo que eso deba pasar en una institución educativa"
+          "texto": "no creo que eso deba pasar en una institución educativa"
         }
       ]
     },
@@ -241,7 +202,7 @@
       "fragmentos": [
         {
           "id_fragmento": "JZC5wqVr_01",
-          "texto": "Se podría mejorar la comunicación con ciertas áreas administrativas"
+          "texto": "Siento que se podría mejorar la comunicación con ciertas áreas administrativas."
         }
       ]
     },
@@ -261,11 +222,7 @@
         },
         {
           "id_fragmento": "HPBReUo5_02",
-          "texto": "Puede avanzar mucho más en cuanto a metodologías"
-        },
-        {
-          "id_fragmento": "HPBReUo5_03",
-          "texto": "Temas de enseñanza"
+          "texto": "sin embargo siento que puede avanzar mucho más en cuanto a metodologías y temas de enseñanza"
         }
       ]
     },
@@ -281,7 +238,7 @@
       "fragmentos": [
         {
           "id_fragmento": "gvz3b2jo_01",
-          "texto": "Lo recomendaría para la carrera de la comunicación"
+          "texto": "Siento que lo recomendaría para la carrera de la Comunicación"
         }
       ]
     },
@@ -297,7 +254,7 @@
       "fragmentos": [
         {
           "id_fragmento": "dhCZONA8_01",
-          "texto": "Buena"
+          "texto": "buena"
         }
       ]
     },
@@ -329,19 +286,35 @@
       "fragmentos": [
         {
           "id_fragmento": "ENC5PDoA_01",
-          "texto": "Es una buena universidad"
+          "texto": "Me parece que es una buena universidad"
         },
         {
           "id_fragmento": "ENC5PDoA_02",
-          "texto": "Tienes todos los recursos necesarios"
+          "texto": "tienes todos los recursos necesarios"
         },
         {
           "id_fragmento": "ENC5PDoA_03",
-          "texto": "Admiten a demasiados alumnos que la capacidad de la universidad está quedando pequeña para espacios comunes"
+          "texto": "pero siento que admiten a demasiados alumnos que la capacidad de la universidad está quedando pequeña para espacios comunes"
         },
         {
           "id_fragmento": "ENC5PDoA_04",
           "texto": "Sería ver bien ese tema"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "l0BnGKf9",
+      "facultad": "Facultad de Comunicación",
+      "carrera": "Comunicación",
+      "ciclo": "NA",
+      "nps_score": 7,
+      "segmento_nps": "Pasivo",
+      "satisfaccion_global": "Satisfecho",
+      "comentario_original": "Todo bien",
+      "fragmentos": [
+        {
+          "id_fragmento": "l0BnGKf9_01",
+          "texto": "Todo bien"
         }
       ]
     },
@@ -373,14 +346,10 @@
       "fragmentos": [
         {
           "id_fragmento": "muCZdRsq_01",
-          "texto": "Es una gran oportunidad para poder crecer como profesional"
+          "texto": "Es una gran oportunidad para poder crecer como profesional y como comunicador"
         },
         {
           "id_fragmento": "muCZdRsq_02",
-          "texto": "Es una gran como comunicador"
-        },
-        {
-          "id_fragmento": "muCZdRsq_03",
           "texto": "Estoy muy satisfecho"
         }
       ]
@@ -397,7 +366,7 @@
       "fragmentos": [
         {
           "id_fragmento": "G1zqbqaA_01",
-          "texto": "Porque no les importa lo social <3"
+          "texto": "porque no les importa lo social <3"
         }
       ]
     },
@@ -413,11 +382,7 @@
       "fragmentos": [
         {
           "id_fragmento": "ZNC26d7p_01",
-          "texto": "Porque no toman en cuenta"
-        },
-        {
-          "id_fragmento": "ZNC26d7p_02",
-          "texto": "Porque no toman en los problemas sociales"
+          "texto": "Porque no toman en cuenta los problemas sociales"
         }
       ]
     },
@@ -433,7 +398,7 @@
       "fragmentos": [
         {
           "id_fragmento": "yyBBSZhX_01",
-          "texto": "Pudo haber sido mejor"
+          "texto": "Pudo haber sido mejor."
         }
       ]
     },
@@ -465,11 +430,7 @@
       "fragmentos": [
         {
           "id_fragmento": "GnDBdSbu_01",
-          "texto": "Hay muchos alumnos"
-        },
-        {
-          "id_fragmento": "GnDBdSbu_02",
-          "texto": "Hay muchos poco espacios en el campus"
+          "texto": "Hay muchos alumnos y poco espacios en el campus"
         }
       ]
     },
@@ -489,11 +450,7 @@
         },
         {
           "id_fragmento": "yhBhlIC9_02",
-          "texto": "En mi carrera aún le faltó explorar aspectos más a fondo como el guion"
-        },
-        {
-          "id_fragmento": "yhBhlIC9_03",
-          "texto": "El sonido"
+          "texto": "pero en mi carrera aún le faltó explorar aspectos más a fondo como el guion o el sonido"
         }
       ]
     },
@@ -509,7 +466,7 @@
       "fragmentos": [
         {
           "id_fragmento": "WMtiv6m9_01",
-          "texto": "Bolsa trabajo limitada"
+          "texto": "bolsa trabajo limitada"
         }
       ]
     },
@@ -525,7 +482,7 @@
       "fragmentos": [
         {
           "id_fragmento": "vpBBwHCY_01",
-          "texto": "Hay mucho alumnado"
+          "texto": "Siento que hay mucho alumnado"
         }
       ]
     },
@@ -557,11 +514,7 @@
       "fragmentos": [
         {
           "id_fragmento": "ygDBZWKq_01",
-          "texto": "Es una universidad"
-        },
-        {
-          "id_fragmento": "ygDBZWKq_02",
-          "texto": "Que invierte bastante en la infraestructura"
+          "texto": "Es una universidad que invierte bastante en la infraestructura"
         }
       ]
     },
@@ -577,11 +530,11 @@
       "fragmentos": [
         {
           "id_fragmento": "UgC5V9aX_01",
-          "texto": "Han abierto la posibilidad a demasiadas personas"
+          "texto": "Me parece que han abierto la posibilidad a demasiadas personas"
         },
         {
           "id_fragmento": "UgC5V9aX_02",
-          "texto": "Se ha vuelto muy comercial"
+          "texto": "se ha vuelto muy comercial"
         }
       ]
     },
@@ -601,11 +554,23 @@
         },
         {
           "id_fragmento": "5qt78Kds_02",
-          "texto": "A veces dejan pasar a alumnos flojos solo por su amistad"
-        },
+          "texto": "pero a veces dejan pasar a alumnos flojos solo por su amistad o confianza"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "ohBhGrxi",
+      "facultad": "Facultad de Ciencias Empresariales",
+      "carrera": "Negocios Internacionales",
+      "ciclo": "NA",
+      "nps_score": 10,
+      "segmento_nps": "Promotor",
+      "satisfaccion_global": "Muy satisfecho",
+      "comentario_original": "nn",
+      "fragmentos": [
         {
-          "id_fragmento": "5qt78Kds_03",
-          "texto": "Confianza"
+          "id_fragmento": "ohBhGrxi_01",
+          "texto": "nn"
         }
       ]
     },
@@ -637,7 +602,7 @@
       "fragmentos": [
         {
           "id_fragmento": "sAtBkuyq_01",
-          "texto": "Es una universidad de categoría"
+          "texto": "Es una universidad de categoría."
         }
       ]
     },
@@ -653,19 +618,7 @@
       "fragmentos": [
         {
           "id_fragmento": "iNC5hQan_01",
-          "texto": "Universidad completa"
-        },
-        {
-          "id_fragmento": "iNC5hQan_02",
-          "texto": "Prestigio"
-        },
-        {
-          "id_fragmento": "iNC5hQan_03",
-          "texto": "Contactos"
-        },
-        {
-          "id_fragmento": "iNC5hQan_04",
-          "texto": "Nivel de profesionales"
+          "texto": "Universidad completa, prestigio, contactos y nivel de profesionales"
         }
       ]
     },
@@ -713,11 +666,7 @@
       "fragmentos": [
         {
           "id_fragmento": "REC2EDKF_01",
-          "texto": "Perfil completo"
-        },
-        {
-          "id_fragmento": "REC2EDKF_02",
-          "texto": "Entorno adecuado"
+          "texto": "Perfil completo y entorno adecuado"
         }
       ]
     },
@@ -733,11 +682,7 @@
       "fragmentos": [
         {
           "id_fragmento": "2DC5bBlH_01",
-          "texto": "Una enseñanza con casos reales"
-        },
-        {
-          "id_fragmento": "2DC5bBlH_02",
-          "texto": "La última tecnologia"
+          "texto": "Una enseñanza con casos reales y la última tecnologia"
         }
       ]
     },
@@ -757,11 +702,11 @@
         },
         {
           "id_fragmento": "z2BR6EUo_02",
-          "texto": "Siempre buscan mejorar ese aspecto"
+          "texto": "siempre buscan mejorar ese aspecto"
         },
         {
           "id_fragmento": "z2BR6EUo_03",
-          "texto": "Siempre buscan mejorar ese calidad de ensañanza exigencia también"
+          "texto": "calidad de ensañanza exigencia también"
         }
       ]
     },
@@ -793,11 +738,27 @@
       "fragmentos": [
         {
           "id_fragmento": "ZjBBabCQ_01",
-          "texto": "La calidad del nivel educativo es muy bueno y los contactos"
+          "texto": "La calidad del nivel educativo es muy bueno"
         },
         {
           "id_fragmento": "ZjBBabCQ_02",
-          "texto": "Que puedes tener aquí ayudan mucho"
+          "texto": "los contactos que puedes tener aquí ayudan mucho"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "ulz2n68A",
+      "facultad": "Facultad de Ciencias Empresariales",
+      "carrera": "Negocios Internacionales",
+      "ciclo": "NA",
+      "nps_score": 9,
+      "segmento_nps": "Promotor",
+      "satisfaccion_global": "Muy satisfecho",
+      "comentario_original": ".",
+      "fragmentos": [
+        {
+          "id_fragmento": "ulz2n68A_01",
+          "texto": "."
         }
       ]
     },
@@ -813,19 +774,7 @@
       "fragmentos": [
         {
           "id_fragmento": "4SBnsw4O_01",
-          "texto": "Sin duda"
-        },
-        {
-          "id_fragmento": "4SBnsw4O_02",
-          "texto": "Me dio demasiado conocimiento"
-        },
-        {
-          "id_fragmento": "4SBnsw4O_03",
-          "texto": "El cual aplicó"
-        },
-        {
-          "id_fragmento": "4SBnsw4O_04",
-          "texto": "Lo veo en situaciones de mi día día corporativo"
+          "texto": "Sin duda me dio demasiado conocimiento, el cual aplicó y lo veo en situaciones de mi día día corporativo"
         }
       ]
     },
@@ -841,15 +790,7 @@
       "fragmentos": [
         {
           "id_fragmento": "y4BRijDc_01",
-          "texto": "Conocimiento"
-        },
-        {
-          "id_fragmento": "y4BRijDc_02",
-          "texto": "Networking"
-        },
-        {
-          "id_fragmento": "y4BRijDc_03",
-          "texto": "Reconocimientos"
+          "texto": "Conocimiento, networking, reconocimientos"
         }
       ]
     },
@@ -885,7 +826,7 @@
         },
         {
           "id_fragmento": "PPCZqQSJ_02",
-          "texto": "Oportunidades laborales amplias"
+          "texto": "y oportunidades laborales amplias"
         }
       ]
     },
@@ -901,7 +842,7 @@
       "fragmentos": [
         {
           "id_fragmento": "rpzFyTPL_01",
-          "texto": "La calidad educativa es buena"
+          "texto": "La calidad educativa es buena."
         }
       ]
     },
@@ -917,11 +858,7 @@
       "fragmentos": [
         {
           "id_fragmento": "SDBnv1fa_01",
-          "texto": "Porque es una gran universidad"
-        },
-        {
-          "id_fragmento": "SDBnv1fa_02",
-          "texto": "Que apoya al alumno"
+          "texto": "porque es una gran universidad que apoya al alumno"
         }
       ]
     },
@@ -953,7 +890,23 @@
       "fragmentos": [
         {
           "id_fragmento": "9jC5asNK_01",
-          "texto": "el edificio N"
+          "texto": "N"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "Mpj8RF2w",
+      "facultad": "Facultad de Ciencias Empresariales",
+      "carrera": "Negocios Internacionales",
+      "ciclo": "NA",
+      "nps_score": 9,
+      "segmento_nps": "Promotor",
+      "satisfaccion_global": "Muy satisfecho",
+      "comentario_original": ";)",
+      "fragmentos": [
+        {
+          "id_fragmento": "Mpj8RF2w_01",
+          "texto": ";)"
         }
       ]
     },
@@ -970,6 +923,22 @@
         {
           "id_fragmento": "lYCZjbuy_01",
           "texto": "Una universidad muy completa"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "RPC5qBIs",
+      "facultad": "Facultad de Ciencias Empresariales",
+      "carrera": "Negocios Internacionales",
+      "ciclo": "NA",
+      "nps_score": 10,
+      "segmento_nps": "Promotor",
+      "satisfaccion_global": "Totalmente satisfecho",
+      "comentario_original": ".",
+      "fragmentos": [
+        {
+          "id_fragmento": "RPC5qBIs_01",
+          "texto": "."
         }
       ]
     },
@@ -1001,11 +970,7 @@
       "fragmentos": [
         {
           "id_fragmento": "pEjEKM7e_01",
-          "texto": "Mi casa de estudios posibles para poder terminar mi carrera!"
-        },
-        {
-          "id_fragmento": "pEjEKM7e_02",
-          "texto": "Me dio todos los recursos posibles para poder terminar mi carrera!"
+          "texto": "Mi casa de estudios me dio todos los recursos posibles para poder terminar mi carrera!"
         }
       ]
     },
@@ -1021,11 +986,23 @@
       "fragmentos": [
         {
           "id_fragmento": "5ijOUaHH_01",
-          "texto": "Muy buenos profesores"
-        },
+          "texto": "Muy buenos profesores y metodología"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "U6BnrXM8",
+      "facultad": "Facultad de Ciencias Empresariales",
+      "carrera": "Negocios Internacionales",
+      "ciclo": "NA",
+      "nps_score": 9,
+      "segmento_nps": "Promotor",
+      "satisfaccion_global": "Muy satisfecho",
+      "comentario_original": ".",
+      "fragmentos": [
         {
-          "id_fragmento": "5ijOUaHH_02",
-          "texto": "Metodología"
+          "id_fragmento": "U6BnrXM8_01",
+          "texto": "."
         }
       ]
     },
@@ -1041,15 +1018,7 @@
       "fragmentos": [
         {
           "id_fragmento": "ZHDFH3LT_01",
-          "texto": "Deben actuar más rápido en la incorporación de programas softwares"
-        },
-        {
-          "id_fragmento": "ZHDFH3LT_02",
-          "texto": "Programas etc conforme"
-        },
-        {
-          "id_fragmento": "ZHDFH3LT_03",
-          "texto": "Se necesita en el mercado"
+          "texto": "Deben actuar más rápido en la incorporación de programas softwares, programas etc conforme se necesita en el mercado"
         }
       ]
     },
@@ -1065,19 +1034,15 @@
       "fragmentos": [
         {
           "id_fragmento": "DZC5THRL_01",
-          "texto": "Me encanta mi carrera"
+          "texto": "Me encanta mi carrera y la universidad"
         },
         {
           "id_fragmento": "DZC5THRL_02",
-          "texto": "La universidad, siento que me ha preparado bien para lo que me apasiona en cuestión a la linea de carrera"
+          "texto": "siento que me ha preparado bien para lo que me apasiona en cuestión a la linea de carrera que quiero continuar"
         },
         {
           "id_fragmento": "DZC5THRL_03",
-          "texto": "Que quiero continuar"
-        },
-        {
-          "id_fragmento": "DZC5THRL_04",
-          "texto": "Me siento muy orgulloso de ser egresado de la universidad de lima"
+          "texto": "y me siento muy orgulloso de ser egresado de la Universidad de Lima"
         }
       ]
     },
@@ -1093,11 +1058,7 @@
       "fragmentos": [
         {
           "id_fragmento": "QnC2jop3_01",
-          "texto": "Universidad completa, brindando oportunidades"
-        },
-        {
-          "id_fragmento": "QnC2jop3_02",
-          "texto": "Experiencias inolvidables"
+          "texto": "Universidad completa, brindando oportunidades y experiencias inolvidables"
         }
       ]
     },
@@ -1113,19 +1074,7 @@
       "fragmentos": [
         {
           "id_fragmento": "n6C2QF9z_01",
-          "texto": "Porque es una universidad"
-        },
-        {
-          "id_fragmento": "n6C2QF9z_02",
-          "texto": "Que te brinda todos los conocimientos"
-        },
-        {
-          "id_fragmento": "n6C2QF9z_03",
-          "texto": "Que te brinda todos los contactos"
-        },
-        {
-          "id_fragmento": "n6C2QF9z_04",
-          "texto": "Que te brinda todos los profesores para desempeñarte en el mundo laboral de manera eficaz"
+          "texto": "Porque es una universidad que te brinda todos los conocimientos, contactos y profesores para desempeñarte en el mundo laboral de manera eficaz"
         }
       ]
     },
@@ -1189,7 +1138,11 @@
       "fragmentos": [
         {
           "id_fragmento": "HGC2Upmm_01",
-          "texto": "Buena infraestructura, profesores capacitados"
+          "texto": "Buena infraestructura"
+        },
+        {
+          "id_fragmento": "HGC2Upmm_02",
+          "texto": "profesores capacitados"
         }
       ]
     },
@@ -1205,27 +1158,11 @@
       "fragmentos": [
         {
           "id_fragmento": "g9BBuHv3_01",
-          "texto": "Buena estructura"
+          "texto": "Buena estructura, cursos, profesores, infraestructura, convenios internacionales y más."
         },
         {
           "id_fragmento": "g9BBuHv3_02",
-          "texto": "Cursos"
-        },
-        {
-          "id_fragmento": "g9BBuHv3_03",
-          "texto": "Profesores"
-        },
-        {
-          "id_fragmento": "g9BBuHv3_04",
-          "texto": "Infraestructura internacionales y más"
-        },
-        {
-          "id_fragmento": "g9BBuHv3_05",
-          "texto": "Convenios internacionales y más"
-        },
-        {
-          "id_fragmento": "g9BBuHv3_06",
-          "texto": "Institución con prestigio"
+          "texto": "Institución con prestigio."
         }
       ]
     },
@@ -1241,11 +1178,7 @@
       "fragmentos": [
         {
           "id_fragmento": "SBBhti7J_01",
-          "texto": "Es una buena universidad"
-        },
-        {
-          "id_fragmento": "SBBhti7J_02",
-          "texto": "Es una buena prestigiosa"
+          "texto": "Es una buena universidad y prestigiosa"
         }
       ]
     },
@@ -1261,15 +1194,19 @@
       "fragmentos": [
         {
           "id_fragmento": "hbBhs7Tk_01",
-          "texto": "La universidad de lima es una ambiente muy amigable y su doctrina de enseñanza excelente, acompañado de buenos profesores"
+          "texto": "La universidad de Lima es una ambiente muy amigable"
         },
         {
           "id_fragmento": "hbBhs7Tk_02",
-          "texto": "Que te acompañaban en el proceso"
+          "texto": "su doctrina de enseñanza excelente"
         },
         {
           "id_fragmento": "hbBhs7Tk_03",
-          "texto": "Así mismo, la infraestructura ha mejorado excelentemente"
+          "texto": "acompañado de buenos profesores que te acompañaban en el proceso"
+        },
+        {
+          "id_fragmento": "hbBhs7Tk_04",
+          "texto": "la infraestructura ha mejorado excelentemente"
         }
       ]
     },
@@ -1285,15 +1222,27 @@
       "fragmentos": [
         {
           "id_fragmento": "cSBRfbFN_01",
-          "texto": "Pase un grato momento en mi carrera universitaria y los conocimientos"
+          "texto": "Pase un grato momento en mi carrera universitaria"
         },
         {
           "id_fragmento": "cSBRfbFN_02",
-          "texto": "Que tuve fueron muy buenos"
-        },
+          "texto": "los conocimientos que tuve fueron muy buenos y provechosos"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "XKBnRVtP",
+      "facultad": "Facultad de Ciencias Empresariales",
+      "carrera": "Contabilidad y Finanzas",
+      "ciclo": "NA",
+      "nps_score": 8,
+      "segmento_nps": "Pasivo",
+      "satisfaccion_global": "Muy satisfecho",
+      "comentario_original": "a",
+      "fragmentos": [
         {
-          "id_fragmento": "cSBRfbFN_03",
-          "texto": "Provechosos"
+          "id_fragmento": "XKBnRVtP_01",
+          "texto": "a"
         }
       ]
     },
@@ -1309,19 +1258,15 @@
       "fragmentos": [
         {
           "id_fragmento": "S3DFFf3e_01",
-          "texto": "La universidad de lima brinda las herramientas necesarias para que el alumno pueda desarrollar todo su potencial"
+          "texto": "La Universidad de Lima brinda las herramientas necesarias para que el alumno pueda desarrollar todo su potencial."
         },
         {
           "id_fragmento": "S3DFFf3e_02",
-          "texto": "Además, cuenta con profesores con gran trayectoria"
+          "texto": "Además, cuenta con profesores con gran trayectoria y con vocación por enseñar."
         },
         {
           "id_fragmento": "S3DFFf3e_03",
-          "texto": "Con vocación por enseñar"
-        },
-        {
-          "id_fragmento": "S3DFFf3e_04",
-          "texto": "Todo excelente"
+          "texto": "Todo excelente."
         }
       ]
     },
@@ -1337,11 +1282,11 @@
       "fragmentos": [
         {
           "id_fragmento": "26toqKVx_01",
-          "texto": "Calidad en todos los sentidos gran red de negocios"
+          "texto": "Calidad en todos los sentidos"
         },
         {
           "id_fragmento": "26toqKVx_02",
-          "texto": "Gran red de negocios"
+          "texto": "gran red de negocios"
         }
       ]
     },
@@ -1361,7 +1306,11 @@
         },
         {
           "id_fragmento": "ZpDFnc7p_02",
-          "texto": "Te brinda muchas oportunidades laborales y las enseñanzas son buenas"
+          "texto": "te brinda muchas oportunidades laborales"
+        },
+        {
+          "id_fragmento": "ZpDFnc7p_03",
+          "texto": "las enseñanzas son buenas"
         }
       ]
     },
@@ -1393,7 +1342,11 @@
       "fragmentos": [
         {
           "id_fragmento": "aVzKkfx2_01",
-          "texto": "La universidad posee una infraestructura solida y los cursos están bien estructurados para salir al campo laboral"
+          "texto": "Siento que la universidad posee una infraestructura solida"
+        },
+        {
+          "id_fragmento": "aVzKkfx2_02",
+          "texto": "los cursos están bien estructurados para salir al campo laboral"
         }
       ]
     },
@@ -1429,11 +1382,11 @@
         },
         {
           "id_fragmento": "qzBhpvce_02",
-          "texto": "Las carreras son lo suficientemente exigentes"
+          "texto": "las carreras son lo suficientemente exigentes"
         },
         {
           "id_fragmento": "qzBhpvce_03",
-          "texto": "El nivel académico es bueno"
+          "texto": "el nivel académico es bueno"
         }
       ]
     },
@@ -1450,6 +1403,22 @@
         {
           "id_fragmento": "KNBBXijD_01",
           "texto": "Muy buena universidad en lo técnico como la infraestructura"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "tPjQgtUu",
+      "facultad": "Facultad de Ciencias Empresariales",
+      "carrera": "Contabilidad y Finanzas",
+      "ciclo": "NA",
+      "nps_score": 8,
+      "segmento_nps": "Pasivo",
+      "satisfaccion_global": "Satisfecho",
+      "comentario_original": "-",
+      "fragmentos": [
+        {
+          "id_fragmento": "tPjQgtUu_01",
+          "texto": "-"
         }
       ]
     },
@@ -1481,7 +1450,11 @@
       "fragmentos": [
         {
           "id_fragmento": "g4CZwT4M_01",
-          "texto": "No siento que exista una comunidad universitaria por más que se venda esa idea, ya que no hay un sentido de identidad dentro de este espacio"
+          "texto": "No siento que exista una comunidad universitaria por más que se venda esa idea"
+        },
+        {
+          "id_fragmento": "g4CZwT4M_02",
+          "texto": "ya que no hay un sentido de identidad dentro de este espacio"
         }
       ]
     }
