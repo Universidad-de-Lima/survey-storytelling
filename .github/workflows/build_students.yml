@@ -64,8 +64,16 @@ jobs:
         # DEEPSEEK_API_KEY se inyecta desde GitHub Secrets.
         # Si no está definida, el pipeline cae automáticamente al modo legacy
         # (spaCy + sentence-transformers) sin fallo.
+        #
+        # Variables IA_CUALITATIVO_* controlan el comportamiento del motor IA:
+        #   WORKERS=15    → 15 llamadas concurrentes a DeepSeek (speedup ~15x)
+        #   MAX_RPM=60    → rate limit global (DeepSeek permite ~60 RPM)
+        #   TIMEOUT=60    → timeout por llamada individual (segundos)
         env:
           DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+          IA_CUALITATIVO_WORKERS: "15"
+          IA_CUALITATIVO_MAX_RPM: "60"
+          IA_CUALITATIVO_TIMEOUT: "60"
         run: |
           python zoho-survey/scripts/build_json.py
 
