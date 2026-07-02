@@ -2055,6 +2055,22 @@
       ]
     },
     {
+      "id_encuesta": "s1BnNgDU",
+      "facultad": "Facultad de Comunicación",
+      "carrera": "Comunicación",
+      "ciclo": "7° Ciclo",
+      "nps_score": 7,
+      "segmento_nps": "Pasivo",
+      "satisfaccion_global": "Satisfecho",
+      "comentario_original": "Buenas instalaciones",
+      "fragmentos": [
+        {
+          "id_fragmento": "s1BnNgDU_01",
+          "texto": "Buenas instalaciones"
+        }
+      ]
+    },
+    {
       "id_encuesta": "U3DFhJ6t",
       "facultad": "Facultad de Ciencias Empresariales",
       "carrera": "Negocios Internacionales",
@@ -2207,6 +2223,22 @@
       ]
     },
     {
+      "id_encuesta": "NFBBbiVI",
+      "facultad": "Facultad de Economía",
+      "carrera": "Economía",
+      "ciclo": "7° Ciclo",
+      "nps_score": 8,
+      "segmento_nps": "Pasivo",
+      "satisfaccion_global": "Satisfecho",
+      "comentario_original": "Dependiendo de que carrera, en cuanto a economía la malla no te brinda flexibilidad para buscar practicas a tiempo debido a la exigencia de cursos en ciclos donde ya se debería practicar.",
+      "fragmentos": [
+        {
+          "id_fragmento": "NFBBbiVI_01",
+          "texto": "Dependiendo de que carrera, en cuanto a economía la malla no te brinda flexibilidad para buscar practicas a tiempo debido a la exigencia de cursos en ciclos donde ya se debería practicar."
+        }
+      ]
+    },
+    {
       "id_encuesta": "bmzRO73w",
       "facultad": "Facultad de Ciencias Empresariales",
       "carrera": "Marketing",
@@ -2247,22 +2279,6 @@
       ]
     },
     {
-      "id_encuesta": "NFBBbiVI",
-      "facultad": "Facultad de Economía",
-      "carrera": "Economía",
-      "ciclo": "7° Ciclo",
-      "nps_score": 8,
-      "segmento_nps": "Pasivo",
-      "satisfaccion_global": "Satisfecho",
-      "comentario_original": "Dependiendo de que carrera, en cuanto a economía la malla no te brinda flexibilidad para buscar practicas a tiempo debido a la exigencia de cursos en ciclos donde ya se debería practicar.",
-      "fragmentos": [
-        {
-          "id_fragmento": "NFBBbiVI_01",
-          "texto": "Dependiendo de que carrera, en cuanto a economía la malla no te brinda flexibilidad para buscar practicas a tiempo debido a la exigencia de cursos en ciclos donde ya se debería practicar."
-        }
-      ]
-    },
-    {
       "id_encuesta": "SYDB1uqo",
       "facultad": "Facultad de Economía",
       "carrera": "Economía",
@@ -2275,22 +2291,6 @@
         {
           "id_fragmento": "SYDB1uqo_01",
           "texto": "Profesores más comprensibles"
-        }
-      ]
-    },
-    {
-      "id_encuesta": "wyBnBEI6",
-      "facultad": "Facultad de Comunicación",
-      "carrera": "Comunicación",
-      "ciclo": "9° Ciclo",
-      "nps_score": 8,
-      "segmento_nps": "Pasivo",
-      "satisfaccion_global": "Satisfecho",
-      "comentario_original": "Por mi experiencia, la recomiendo por su calidad y reconocimiento que tiene a nivel educativo.",
-      "fragmentos": [
-        {
-          "id_fragmento": "wyBnBEI6_01",
-          "texto": "Por mi experiencia, la recomiendo por su calidad y reconocimiento que tiene a nivel educativo."
         }
       ]
     },
@@ -2311,6 +2311,54 @@
         {
           "id_fragmento": "Yaz68pwN_02",
           "texto": "se pasan con criterio"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "wyBnBEI6",
+      "facultad": "Facultad de Comunicación",
+      "carrera": "Comunicación",
+      "ciclo": "9° Ciclo",
+      "nps_score": 8,
+      "segmento_nps": "Pasivo",
+      "satisfaccion_global": "Satisfecho",
+      "comentario_original": "Por mi experiencia, la recomiendo por su calidad y reconocimiento que tiene a nivel educativo.",
+      "fragmentos": [
+        {
+          "id_fragmento": "wyBnBEI6_01",
+          "texto": "Por mi experiencia, la recomiendo por su calidad y reconocimiento que tiene a nivel educativo."
+        }
+      ]
+    },
+    {
+      "id_encuesta": "cRjSft7P",
+      "facultad": "Facultad de Comunicación",
+      "carrera": "Comunicación",
+      "ciclo": "3° Ciclo",
+      "nps_score": 8,
+      "segmento_nps": "Pasivo",
+      "satisfaccion_global": "Muy satisfecho",
+      "comentario_original": "Buena enseñanza",
+      "fragmentos": [
+        {
+          "id_fragmento": "cRjSft7P_01",
+          "texto": "Buena enseñanza"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "sKjTsqIa",
+      "facultad": "Facultad de Ingeniería",
+      "carrera": "Ingeniería Industrial",
+      "ciclo": "2° Ciclo",
+      "nps_score": 6,
+      "segmento_nps": "Detractor",
+      "satisfaccion_global": "Insatisfecho",
+      "comentario_original": "Mucha sobrepoblación y demasiadas colas en cada lugar",
+      "fragmentos": [
+        {
+          "id_fragmento": "sKjTsqIa_01",
+          "texto": "Mucha sobrepoblación y demasiadas colas en cada lugar"
         }
       ]
     },
@@ -2339,38 +2387,22 @@
       ]
     },
     {
-      "id_encuesta": "sKjTsqIa",
-      "facultad": "Facultad de Ingeniería",
-      "carrera": "Ingeniería Industrial",
-      "ciclo": "2° Ciclo",
-      "nps_score": 6,
-      "segmento_nps": "Detractor",
-      "satisfaccion_global": "Insatisfecho",
-      "comentario_original": "Mucha sobrepoblación y demasiadas colas en cada lugar",
-      "fragmentos": [
-        {
-          "id_fragmento": "sKjTsqIa_01",
-          "texto": "Mucha sobrepoblación y demasiadas colas en cada lugar"
-        }
-      ]
-    },
-    {
-      "id_encuesta": "ODDB08Nz",
-      "facultad": "Facultad de Ciencias Empresariales",
-      "carrera": "Negocios Internacionales",
-      "ciclo": "8° Ciclo",
-      "nps_score": 8,
+      "id_encuesta": "bTBhCytf",
+      "facultad": "Facultad de Psicología",
+      "carrera": "Psicología",
+      "ciclo": "1° Ciclo",
+      "nps_score": 7,
       "segmento_nps": "Pasivo",
       "satisfaccion_global": "Satisfecho",
-      "comentario_original": "Es una buena universidad con buena malla",
+      "comentario_original": "Considero que la exigencia no es mucha y que debería haber más exámenes que permitan llevar un control para el estudiante sobre su rendimiento.",
       "fragmentos": [
         {
-          "id_fragmento": "ODDB08Nz_01",
-          "texto": "Es una buena universidad"
+          "id_fragmento": "bTBhCytf_01",
+          "texto": "Considero que la exigencia no es mucha"
         },
         {
-          "id_fragmento": "ODDB08Nz_02",
-          "texto": "con buena malla"
+          "id_fragmento": "bTBhCytf_02",
+          "texto": "y que debería haber más exámenes que permitan llevar un control para el estudiante sobre su rendimiento"
         }
       ]
     },
@@ -2411,26 +2443,6 @@
       ]
     },
     {
-      "id_encuesta": "bTBhCytf",
-      "facultad": "Facultad de Psicología",
-      "carrera": "Psicología",
-      "ciclo": "1° Ciclo",
-      "nps_score": 7,
-      "segmento_nps": "Pasivo",
-      "satisfaccion_global": "Satisfecho",
-      "comentario_original": "Considero que la exigencia no es mucha y que debería haber más exámenes que permitan llevar un control para el estudiante sobre su rendimiento.",
-      "fragmentos": [
-        {
-          "id_fragmento": "bTBhCytf_01",
-          "texto": "Considero que la exigencia no es mucha"
-        },
-        {
-          "id_fragmento": "bTBhCytf_02",
-          "texto": "y que debería haber más exámenes que permitan llevar un control para el estudiante sobre su rendimiento"
-        }
-      ]
-    },
-    {
       "id_encuesta": "6pBnxbfQ",
       "facultad": "Facultad de Economía",
       "carrera": "Economía",
@@ -2443,26 +2455,6 @@
         {
           "id_fragmento": "6pBnxbfQ_01",
           "texto": "Hay mejores opciones"
-        }
-      ]
-    },
-    {
-      "id_encuesta": "JDBhJm78",
-      "facultad": "Facultad de Ciencias Empresariales",
-      "carrera": "Administración",
-      "ciclo": "6° Ciclo",
-      "nps_score": 8,
-      "segmento_nps": "Pasivo",
-      "satisfaccion_global": "Satisfecho",
-      "comentario_original": "Tiene buena infraestructura y profes pero me gustaría q en mi carrera se enfoquen más en casos prácticos para poder aplicarlo en situaciones tal y como pasan en las empresas, como una simulación",
-      "fragmentos": [
-        {
-          "id_fragmento": "JDBhJm78_01",
-          "texto": "Tiene buena infraestructura y profes"
-        },
-        {
-          "id_fragmento": "JDBhJm78_02",
-          "texto": "pero me gustaría q en mi carrera se enfoquen más en casos prácticos para poder aplicarlo en situaciones tal y como pasan en las empresas, como una simulación"
         }
       ]
     },
@@ -2535,6 +2527,26 @@
         {
           "id_fragmento": "8HDFYa4U_04",
           "texto": "el servicio técnico, al menos en mi experiencia, ha sido poco satisfactorio"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "JDBhJm78",
+      "facultad": "Facultad de Ciencias Empresariales",
+      "carrera": "Administración",
+      "ciclo": "6° Ciclo",
+      "nps_score": 8,
+      "segmento_nps": "Pasivo",
+      "satisfaccion_global": "Satisfecho",
+      "comentario_original": "Tiene buena infraestructura y profes pero me gustaría q en mi carrera se enfoquen más en casos prácticos para poder aplicarlo en situaciones tal y como pasan en las empresas, como una simulación",
+      "fragmentos": [
+        {
+          "id_fragmento": "JDBhJm78_01",
+          "texto": "Tiene buena infraestructura y profes"
+        },
+        {
+          "id_fragmento": "JDBhJm78_02",
+          "texto": "pero me gustaría q en mi carrera se enfoquen más en casos prácticos para poder aplicarlo en situaciones tal y como pasan en las empresas, como una simulación"
         }
       ]
     },
@@ -2767,38 +2779,6 @@
       ]
     },
     {
-      "id_encuesta": "2EBBA7CO",
-      "facultad": "Facultad de Comunicación",
-      "carrera": "Comunicación",
-      "ciclo": "3° Ciclo",
-      "nps_score": 6,
-      "segmento_nps": "Detractor",
-      "satisfaccion_global": "Satisfecho",
-      "comentario_original": "El campus es increíble por todas las cosas que puedes hacer. Admiro que se siga expandiéndose. Pero la calidad de enseñanza de muchos profesores es deficiente. Hay excepciones de muy buenos profes, pero otros parece que no tienen ganas de trabajar.",
-      "fragmentos": [
-        {
-          "id_fragmento": "2EBBA7CO_01",
-          "texto": "El campus es increíble por todas las cosas que puedes hacer"
-        },
-        {
-          "id_fragmento": "2EBBA7CO_02",
-          "texto": "Admiro que se siga expandiéndose"
-        },
-        {
-          "id_fragmento": "2EBBA7CO_03",
-          "texto": "Pero la calidad de enseñanza de muchos profesores es deficiente"
-        },
-        {
-          "id_fragmento": "2EBBA7CO_04",
-          "texto": "Hay excepciones de muy buenos profes"
-        },
-        {
-          "id_fragmento": "2EBBA7CO_05",
-          "texto": "pero otros parece que no tienen ganas de trabajar"
-        }
-      ]
-    },
-    {
       "id_encuesta": "ZhjSt1oN",
       "facultad": "Facultad de Economía",
       "carrera": "Economía",
@@ -2851,18 +2831,34 @@
       ]
     },
     {
-      "id_encuesta": "aWBngRuX",
-      "facultad": "Facultad de Ciencias Empresariales",
-      "carrera": "Administración",
-      "ciclo": "7° Ciclo",
-      "nps_score": 8,
-      "segmento_nps": "Pasivo",
-      "satisfaccion_global": "Muy satisfecho",
-      "comentario_original": "Mayor aplicación de programas en los cursos de Administración",
+      "id_encuesta": "2EBBA7CO",
+      "facultad": "Facultad de Comunicación",
+      "carrera": "Comunicación",
+      "ciclo": "3° Ciclo",
+      "nps_score": 6,
+      "segmento_nps": "Detractor",
+      "satisfaccion_global": "Satisfecho",
+      "comentario_original": "El campus es increíble por todas las cosas que puedes hacer. Admiro que se siga expandiéndose. Pero la calidad de enseñanza de muchos profesores es deficiente. Hay excepciones de muy buenos profes, pero otros parece que no tienen ganas de trabajar.",
       "fragmentos": [
         {
-          "id_fragmento": "aWBngRuX_01",
-          "texto": "Mayor aplicación de programas en los cursos de Administración"
+          "id_fragmento": "2EBBA7CO_01",
+          "texto": "El campus es increíble por todas las cosas que puedes hacer"
+        },
+        {
+          "id_fragmento": "2EBBA7CO_02",
+          "texto": "Admiro que se siga expandiéndose"
+        },
+        {
+          "id_fragmento": "2EBBA7CO_03",
+          "texto": "Pero la calidad de enseñanza de muchos profesores es deficiente"
+        },
+        {
+          "id_fragmento": "2EBBA7CO_04",
+          "texto": "Hay excepciones de muy buenos profes"
+        },
+        {
+          "id_fragmento": "2EBBA7CO_05",
+          "texto": "pero otros parece que no tienen ganas de trabajar"
         }
       ]
     },
@@ -2883,18 +2879,38 @@
       ]
     },
     {
-      "id_encuesta": "s1BnNgDU",
-      "facultad": "Facultad de Comunicación",
-      "carrera": "Comunicación",
+      "id_encuesta": "aWBngRuX",
+      "facultad": "Facultad de Ciencias Empresariales",
+      "carrera": "Administración",
       "ciclo": "7° Ciclo",
-      "nps_score": 7,
+      "nps_score": 8,
       "segmento_nps": "Pasivo",
-      "satisfaccion_global": "Satisfecho",
-      "comentario_original": "Buenas instalaciones",
+      "satisfaccion_global": "Muy satisfecho",
+      "comentario_original": "Mayor aplicación de programas en los cursos de Administración",
       "fragmentos": [
         {
-          "id_fragmento": "s1BnNgDU_01",
-          "texto": "Buenas instalaciones"
+          "id_fragmento": "aWBngRuX_01",
+          "texto": "Mayor aplicación de programas en los cursos de Administración"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "ODDB08Nz",
+      "facultad": "Facultad de Ciencias Empresariales",
+      "carrera": "Negocios Internacionales",
+      "ciclo": "8° Ciclo",
+      "nps_score": 8,
+      "segmento_nps": "Pasivo",
+      "satisfaccion_global": "Satisfecho",
+      "comentario_original": "Es una buena universidad con buena malla",
+      "fragmentos": [
+        {
+          "id_fragmento": "ODDB08Nz_01",
+          "texto": "Es una buena universidad"
+        },
+        {
+          "id_fragmento": "ODDB08Nz_02",
+          "texto": "con buena malla"
         }
       ]
     },
@@ -2915,26 +2931,6 @@
       ]
     },
     {
-      "id_encuesta": "ovBBm1jq",
-      "facultad": "Facultad de Comunicación",
-      "carrera": "Comunicación",
-      "ciclo": "3° Ciclo",
-      "nps_score": 6,
-      "segmento_nps": "Detractor",
-      "satisfaccion_global": "Satisfecho",
-      "comentario_original": "Hay demasiada gente, los espacios se hacen insuficientes",
-      "fragmentos": [
-        {
-          "id_fragmento": "ovBBm1jq_01",
-          "texto": "Hay demasiada gente"
-        },
-        {
-          "id_fragmento": "ovBBm1jq_02",
-          "texto": "los espacios se hacen insuficientes"
-        }
-      ]
-    },
-    {
       "id_encuesta": "v0DB1lOL",
       "facultad": "Facultad de Economía",
       "carrera": "Economía",
@@ -2951,6 +2947,26 @@
         {
           "id_fragmento": "v0DB1lOL_02",
           "texto": "pero en general es buena"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "ovBBm1jq",
+      "facultad": "Facultad de Comunicación",
+      "carrera": "Comunicación",
+      "ciclo": "3° Ciclo",
+      "nps_score": 6,
+      "segmento_nps": "Detractor",
+      "satisfaccion_global": "Satisfecho",
+      "comentario_original": "Hay demasiada gente, los espacios se hacen insuficientes",
+      "fragmentos": [
+        {
+          "id_fragmento": "ovBBm1jq_01",
+          "texto": "Hay demasiada gente"
+        },
+        {
+          "id_fragmento": "ovBBm1jq_02",
+          "texto": "los espacios se hacen insuficientes"
         }
       ]
     },
@@ -3071,6 +3087,22 @@
       ]
     },
     {
+      "id_encuesta": "F6tmE1II",
+      "facultad": "Facultad de Ciencias Empresariales",
+      "carrera": "Administración",
+      "ciclo": "8° Ciclo",
+      "nps_score": 8,
+      "segmento_nps": "Pasivo",
+      "satisfaccion_global": "Muy satisfecho",
+      "comentario_original": "La universidad más completa del Perú",
+      "fragmentos": [
+        {
+          "id_fragmento": "F6tmE1II_01",
+          "texto": "La universidad más completa del Perú"
+        }
+      ]
+    },
+    {
       "id_encuesta": "v7BRP8bc",
       "facultad": "Facultad de Comunicación",
       "carrera": "Comunicación",
@@ -3123,18 +3155,18 @@
       ]
     },
     {
-      "id_encuesta": "F6tmE1II",
+      "id_encuesta": "mkBRa3nj",
       "facultad": "Facultad de Ciencias Empresariales",
       "carrera": "Administración",
-      "ciclo": "8° Ciclo",
+      "ciclo": "7° Ciclo",
       "nps_score": 8,
       "segmento_nps": "Pasivo",
-      "satisfaccion_global": "Muy satisfecho",
-      "comentario_original": "La universidad más completa del Perú",
+      "satisfaccion_global": "Satisfecho",
+      "comentario_original": "es completa",
       "fragmentos": [
         {
-          "id_fragmento": "F6tmE1II_01",
-          "texto": "La universidad más completa del Perú"
+          "id_fragmento": "mkBRa3nj_01",
+          "texto": "es completa"
         }
       ]
     },
@@ -3159,22 +3191,6 @@
       ]
     },
     {
-      "id_encuesta": "mkBRa3nj",
-      "facultad": "Facultad de Ciencias Empresariales",
-      "carrera": "Administración",
-      "ciclo": "7° Ciclo",
-      "nps_score": 8,
-      "segmento_nps": "Pasivo",
-      "satisfaccion_global": "Satisfecho",
-      "comentario_original": "es completa",
-      "fragmentos": [
-        {
-          "id_fragmento": "mkBRa3nj_01",
-          "texto": "es completa"
-        }
-      ]
-    },
-    {
       "id_encuesta": "SpBn4szS",
       "facultad": "Facultad de Derecho",
       "carrera": "Derecho",
@@ -3191,6 +3207,26 @@
         {
           "id_fragmento": "SpBn4szS_02",
           "texto": "Después, todo conforme."
+        }
+      ]
+    },
+    {
+      "id_encuesta": "zCjGV0Mn",
+      "facultad": "Facultad de Ciencias Empresariales",
+      "carrera": "Contabilidad y Finanzas",
+      "ciclo": "6° Ciclo",
+      "nps_score": 8,
+      "segmento_nps": "Pasivo",
+      "satisfaccion_global": "Muy satisfecho",
+      "comentario_original": "Es una universidad con una muy buena infraestructura, pero considero que la enseñanza en la carrera va más para el lado de auditoría.",
+      "fragmentos": [
+        {
+          "id_fragmento": "zCjGV0Mn_01",
+          "texto": "Es una universidad con una muy buena infraestructura"
+        },
+        {
+          "id_fragmento": "zCjGV0Mn_02",
+          "texto": "pero considero que la enseñanza en la carrera va más para el lado de auditoría"
         }
       ]
     },
@@ -3235,26 +3271,6 @@
       ]
     },
     {
-      "id_encuesta": "zCjGV0Mn",
-      "facultad": "Facultad de Ciencias Empresariales",
-      "carrera": "Contabilidad y Finanzas",
-      "ciclo": "6° Ciclo",
-      "nps_score": 8,
-      "segmento_nps": "Pasivo",
-      "satisfaccion_global": "Muy satisfecho",
-      "comentario_original": "Es una universidad con una muy buena infraestructura, pero considero que la enseñanza en la carrera va más para el lado de auditoría.",
-      "fragmentos": [
-        {
-          "id_fragmento": "zCjGV0Mn_01",
-          "texto": "Es una universidad con una muy buena infraestructura"
-        },
-        {
-          "id_fragmento": "zCjGV0Mn_02",
-          "texto": "pero considero que la enseñanza en la carrera va más para el lado de auditoría"
-        }
-      ]
-    },
-    {
       "id_encuesta": "2qBhGlvs",
       "facultad": "Facultad de Ingeniería",
       "carrera": "Ingeniería Industrial",
@@ -3267,6 +3283,26 @@
         {
           "id_fragmento": "2qBhGlvs_01",
           "texto": "Administraron de forma pésima el cambio de malla"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "KmDFBIKB",
+      "facultad": "Facultad de Comunicación",
+      "carrera": "Comunicación",
+      "ciclo": "3° Ciclo",
+      "nps_score": 8,
+      "segmento_nps": "Pasivo",
+      "satisfaccion_global": "Satisfecho",
+      "comentario_original": "Toda con respecto la educación me parece bien. Peor me gustaría mayor accesibilidad para información de practicas profecionales",
+      "fragmentos": [
+        {
+          "id_fragmento": "KmDFBIKB_01",
+          "texto": "Toda con respecto la educación me parece bien"
+        },
+        {
+          "id_fragmento": "KmDFBIKB_02",
+          "texto": "Peor me gustaría mayor accesibilidad para información de practicas profecionales"
         }
       ]
     },
@@ -3487,30 +3523,6 @@
       ]
     },
     {
-      "id_encuesta": "9NtPOYm1",
-      "facultad": "Facultad de Ingeniería",
-      "carrera": "Ingeniería Mecatrónica",
-      "ciclo": "3° Ciclo",
-      "nps_score": 8,
-      "segmento_nps": "Pasivo",
-      "satisfaccion_global": "Satisfecho",
-      "comentario_original": "Hay demasiada gente y debería haber un bus a Mayorazgo. Buena educación y asequibilidad.",
-      "fragmentos": [
-        {
-          "id_fragmento": "9NtPOYm1_01",
-          "texto": "Hay demasiada gente"
-        },
-        {
-          "id_fragmento": "9NtPOYm1_02",
-          "texto": "debería haber un bus a Mayorazgo"
-        },
-        {
-          "id_fragmento": "9NtPOYm1_03",
-          "texto": "Buena educación y asequibilidad"
-        }
-      ]
-    },
-    {
       "id_encuesta": "tcDFzjhX",
       "facultad": "Facultad de Ciencias Empresariales",
       "carrera": "Administración",
@@ -3547,26 +3559,6 @@
       ]
     },
     {
-      "id_encuesta": "GqBBzKoC",
-      "facultad": "Facultad de Comunicación",
-      "carrera": "Comunicación",
-      "ciclo": "3° Ciclo",
-      "nps_score": 8,
-      "segmento_nps": "Pasivo",
-      "satisfaccion_global": "Satisfecho",
-      "comentario_original": "Recomendaría la universidad, sin embargo se podrían mejorar algunos servicios y accesos de la universidad.",
-      "fragmentos": [
-        {
-          "id_fragmento": "GqBBzKoC_01",
-          "texto": "Recomendaría la universidad"
-        },
-        {
-          "id_fragmento": "GqBBzKoC_02",
-          "texto": "sin embargo se podrían mejorar algunos servicios y accesos de la universidad"
-        }
-      ]
-    },
-    {
       "id_encuesta": "gcBRBqJm",
       "facultad": "Facultad de Ciencias Empresariales",
       "carrera": "Contabilidad y Finanzas",
@@ -3587,26 +3579,22 @@
       ]
     },
     {
-      "id_encuesta": "QcBh0arO",
+      "id_encuesta": "GqBBzKoC",
       "facultad": "Facultad de Comunicación",
       "carrera": "Comunicación",
       "ciclo": "3° Ciclo",
       "nps_score": 8,
       "segmento_nps": "Pasivo",
-      "satisfaccion_global": "Muy satisfecho",
-      "comentario_original": "Muy flexible en cuanto a cursos y especialidades, además de servicios que valen el precio. Sin embargo, la asistencia al tener problemas suele ser limitada y se reducen a pedir usar el sistema o mandar correos en su mayoría ante cualquier problema.",
+      "satisfaccion_global": "Satisfecho",
+      "comentario_original": "Recomendaría la universidad, sin embargo se podrían mejorar algunos servicios y accesos de la universidad.",
       "fragmentos": [
         {
-          "id_fragmento": "QcBh0arO_01",
-          "texto": "Muy flexible en cuanto a cursos y especialidades"
+          "id_fragmento": "GqBBzKoC_01",
+          "texto": "Recomendaría la universidad"
         },
         {
-          "id_fragmento": "QcBh0arO_02",
-          "texto": "además de servicios que valen el precio"
-        },
-        {
-          "id_fragmento": "QcBh0arO_03",
-          "texto": "Sin embargo, la asistencia al tener problemas suele ser limitada y se reducen a pedir usar el sistema o mandar correos en su mayoría ante cualquier problema"
+          "id_fragmento": "GqBBzKoC_02",
+          "texto": "sin embargo se podrían mejorar algunos servicios y accesos de la universidad"
         }
       ]
     },
@@ -3623,6 +3611,30 @@
         {
           "id_fragmento": "wSjryapy_01",
           "texto": "Esta regular"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "9NtPOYm1",
+      "facultad": "Facultad de Ingeniería",
+      "carrera": "Ingeniería Mecatrónica",
+      "ciclo": "3° Ciclo",
+      "nps_score": 8,
+      "segmento_nps": "Pasivo",
+      "satisfaccion_global": "Satisfecho",
+      "comentario_original": "Hay demasiada gente y debería haber un bus a Mayorazgo. Buena educación y asequibilidad.",
+      "fragmentos": [
+        {
+          "id_fragmento": "9NtPOYm1_01",
+          "texto": "Hay demasiada gente"
+        },
+        {
+          "id_fragmento": "9NtPOYm1_02",
+          "texto": "debería haber un bus a Mayorazgo"
+        },
+        {
+          "id_fragmento": "9NtPOYm1_03",
+          "texto": "Buena educación y asequibilidad"
         }
       ]
     },
@@ -3767,22 +3779,6 @@
       ]
     },
     {
-      "id_encuesta": "cRjSft7P",
-      "facultad": "Facultad de Comunicación",
-      "carrera": "Comunicación",
-      "ciclo": "3° Ciclo",
-      "nps_score": 8,
-      "segmento_nps": "Pasivo",
-      "satisfaccion_global": "Muy satisfecho",
-      "comentario_original": "Buena enseñanza",
-      "fragmentos": [
-        {
-          "id_fragmento": "cRjSft7P_01",
-          "texto": "Buena enseñanza"
-        }
-      ]
-    },
-    {
       "id_encuesta": "ClBBKbBG",
       "facultad": "Facultad de Ingeniería",
       "carrera": "Ingeniería Industrial",
@@ -3867,6 +3863,30 @@
         {
           "id_fragmento": "TiBhfZlH_01",
           "texto": "La carrera de Negocios Internacionales debería integrar la IA, no rechazar su uso."
+        }
+      ]
+    },
+    {
+      "id_encuesta": "QcBh0arO",
+      "facultad": "Facultad de Comunicación",
+      "carrera": "Comunicación",
+      "ciclo": "3° Ciclo",
+      "nps_score": 8,
+      "segmento_nps": "Pasivo",
+      "satisfaccion_global": "Muy satisfecho",
+      "comentario_original": "Muy flexible en cuanto a cursos y especialidades, además de servicios que valen el precio. Sin embargo, la asistencia al tener problemas suele ser limitada y se reducen a pedir usar el sistema o mandar correos en su mayoría ante cualquier problema.",
+      "fragmentos": [
+        {
+          "id_fragmento": "QcBh0arO_01",
+          "texto": "Muy flexible en cuanto a cursos y especialidades"
+        },
+        {
+          "id_fragmento": "QcBh0arO_02",
+          "texto": "además de servicios que valen el precio"
+        },
+        {
+          "id_fragmento": "QcBh0arO_03",
+          "texto": "Sin embargo, la asistencia al tener problemas suele ser limitada y se reducen a pedir usar el sistema o mandar correos en su mayoría ante cualquier problema"
         }
       ]
     },
@@ -4131,26 +4151,6 @@
       ]
     },
     {
-      "id_encuesta": "KmDFBIKB",
-      "facultad": "Facultad de Comunicación",
-      "carrera": "Comunicación",
-      "ciclo": "3° Ciclo",
-      "nps_score": 8,
-      "segmento_nps": "Pasivo",
-      "satisfaccion_global": "Satisfecho",
-      "comentario_original": "Toda con respecto la educación me parece bien. Peor me gustaría mayor accesibilidad para información de practicas profecionales",
-      "fragmentos": [
-        {
-          "id_fragmento": "KmDFBIKB_01",
-          "texto": "Toda con respecto la educación me parece bien"
-        },
-        {
-          "id_fragmento": "KmDFBIKB_02",
-          "texto": "Peor me gustaría mayor accesibilidad para información de practicas profecionales"
-        }
-      ]
-    },
-    {
       "id_encuesta": "KzDBE92S",
       "facultad": "Facultad de Ingeniería",
       "carrera": "Ingeniería Industrial",
@@ -4259,22 +4259,6 @@
       ]
     },
     {
-      "id_encuesta": "5UCZRiaW",
-      "facultad": "Facultad de Comunicación",
-      "carrera": "Comunicación",
-      "ciclo": "7° Ciclo",
-      "nps_score": 4,
-      "segmento_nps": "Detractor",
-      "satisfaccion_global": "Insatisfecho",
-      "comentario_original": "No cumple mis anhelos",
-      "fragmentos": [
-        {
-          "id_fragmento": "5UCZRiaW_01",
-          "texto": "No cumple mis anhelos"
-        }
-      ]
-    },
-    {
       "id_encuesta": "BoBnETJx",
       "facultad": "Facultad de Ciencias Empresariales",
       "carrera": "Contabilidad y Finanzas",
@@ -4295,6 +4279,22 @@
         {
           "id_fragmento": "BoBnETJx_03",
           "texto": "Mi carrera no la recomendaría si eres alguien social"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "5UCZRiaW",
+      "facultad": "Facultad de Comunicación",
+      "carrera": "Comunicación",
+      "ciclo": "7° Ciclo",
+      "nps_score": 4,
+      "segmento_nps": "Detractor",
+      "satisfaccion_global": "Insatisfecho",
+      "comentario_original": "No cumple mis anhelos",
+      "fragmentos": [
+        {
+          "id_fragmento": "5UCZRiaW_01",
+          "texto": "No cumple mis anhelos"
         }
       ]
     },
@@ -4355,6 +4355,26 @@
       ]
     },
     {
+      "id_encuesta": "Yij6nz4D",
+      "facultad": "Facultad de Ciencias Empresariales",
+      "carrera": "Negocios Internacionales",
+      "ciclo": "6° Ciclo",
+      "nps_score": 3,
+      "segmento_nps": "Detractor",
+      "satisfaccion_global": "Insatisfecho",
+      "comentario_original": "Simplemente, no entiendo cómo se puede ofrecer un servicio mediocre, dónde no se evalúa la capacidad fuera de memorizar respuestas.",
+      "fragmentos": [
+        {
+          "id_fragmento": "Yij6nz4D_01",
+          "texto": "Simplemente, no entiendo cómo se puede ofrecer un servicio mediocre"
+        },
+        {
+          "id_fragmento": "Yij6nz4D_02",
+          "texto": "dónde no se evalúa la capacidad fuera de memorizar respuestas"
+        }
+      ]
+    },
+    {
       "id_encuesta": "qZBnMnpf",
       "facultad": "Facultad de Ingeniería",
       "carrera": "Ingeniería Industrial",
@@ -4391,26 +4411,6 @@
         {
           "id_fragmento": "mcC2AuBa_02",
           "texto": "más no el único camino a egresar"
-        }
-      ]
-    },
-    {
-      "id_encuesta": "Yij6nz4D",
-      "facultad": "Facultad de Ciencias Empresariales",
-      "carrera": "Negocios Internacionales",
-      "ciclo": "6° Ciclo",
-      "nps_score": 3,
-      "segmento_nps": "Detractor",
-      "satisfaccion_global": "Insatisfecho",
-      "comentario_original": "Simplemente, no entiendo cómo se puede ofrecer un servicio mediocre, dónde no se evalúa la capacidad fuera de memorizar respuestas.",
-      "fragmentos": [
-        {
-          "id_fragmento": "Yij6nz4D_01",
-          "texto": "Simplemente, no entiendo cómo se puede ofrecer un servicio mediocre"
-        },
-        {
-          "id_fragmento": "Yij6nz4D_02",
-          "texto": "dónde no se evalúa la capacidad fuera de memorizar respuestas"
         }
       ]
     },
@@ -9211,26 +9211,6 @@
       ]
     },
     {
-      "id_encuesta": "SJBByL1V",
-      "facultad": "Facultad de Ciencias Empresariales",
-      "carrera": "Contabilidad y Finanzas",
-      "ciclo": "2° Ciclo",
-      "nps_score": 8,
-      "segmento_nps": "Pasivo",
-      "satisfaccion_global": "Satisfecho",
-      "comentario_original": "Es muy buena universidad , pero siento que puede mejorar en algunos aspectos .",
-      "fragmentos": [
-        {
-          "id_fragmento": "SJBByL1V_01",
-          "texto": "Es muy buena universidad"
-        },
-        {
-          "id_fragmento": "SJBByL1V_02",
-          "texto": "pero siento que puede mejorar en algunos aspectos"
-        }
-      ]
-    },
-    {
       "id_encuesta": "DvBRHSiW",
       "facultad": "Facultad de Comunicación",
       "carrera": "Comunicación",
@@ -13911,6 +13891,22 @@
       ]
     },
     {
+      "id_encuesta": "zUCZ1u38",
+      "facultad": "Facultad de Psicología",
+      "carrera": "Psicología",
+      "ciclo": "10° Ciclo",
+      "nps_score": 7,
+      "segmento_nps": "Pasivo",
+      "satisfaccion_global": "Satisfecho",
+      "comentario_original": "Porque es buena",
+      "fragmentos": [
+        {
+          "id_fragmento": "zUCZ1u38_01",
+          "texto": "Porque es buena"
+        }
+      ]
+    },
+    {
       "id_encuesta": "BkDBpSgt",
       "facultad": "Facultad de Psicología",
       "carrera": "Psicología",
@@ -14027,22 +14023,6 @@
         {
           "id_fragmento": "dIC2FZgT_01",
           "texto": "La modalidad de enseñanza"
-        }
-      ]
-    },
-    {
-      "id_encuesta": "kmBBOqB4",
-      "facultad": "Facultad de Ingeniería",
-      "carrera": "Ingeniería Industrial",
-      "ciclo": "3° Ciclo",
-      "nps_score": 8,
-      "segmento_nps": "Pasivo",
-      "satisfaccion_global": "Totalmente satisfecho",
-      "comentario_original": "Universidad con infraestructura y recursos de primer nivel.",
-      "fragmentos": [
-        {
-          "id_fragmento": "kmBBOqB4_01",
-          "texto": "Universidad con infraestructura y recursos de primer nivel."
         }
       ]
     },
@@ -18303,18 +18283,18 @@
       ]
     },
     {
-      "id_encuesta": "zUCZ1u38",
-      "facultad": "Facultad de Psicología",
-      "carrera": "Psicología",
-      "ciclo": "10° Ciclo",
-      "nps_score": 7,
+      "id_encuesta": "CbDBik32",
+      "facultad": "Facultad de Derecho",
+      "carrera": "Derecho",
+      "ciclo": "12° Ciclo",
+      "nps_score": 8,
       "segmento_nps": "Pasivo",
       "satisfaccion_global": "Satisfecho",
-      "comentario_original": "Porque es buena",
+      "comentario_original": "No se concentran más en la empleabilidad y ni están interesados en que todos los alumnos cuenten con prácticas",
       "fragmentos": [
         {
-          "id_fragmento": "zUCZ1u38_01",
-          "texto": "Porque es buena"
+          "id_fragmento": "CbDBik32_01",
+          "texto": "No se concentran más en la empleabilidad y ni están interesados en que todos los alumnos cuenten con prácticas"
         }
       ]
     },
@@ -18591,22 +18571,6 @@
         {
           "id_fragmento": "euDB5oDP_01",
           "texto": "es buena"
-        }
-      ]
-    },
-    {
-      "id_encuesta": "JfC50Zju",
-      "facultad": "Facultad de Ingeniería",
-      "carrera": "Ingeniería Industrial",
-      "ciclo": "5° Ciclo",
-      "nps_score": 8,
-      "segmento_nps": "Pasivo",
-      "satisfaccion_global": "Muy satisfecho",
-      "comentario_original": "Me parece una universidad cómoda y con muchas oportunidades,",
-      "fragmentos": [
-        {
-          "id_fragmento": "JfC50Zju_01",
-          "texto": "Me parece una universidad cómoda y con muchas oportunidades"
         }
       ]
     },
@@ -19551,18 +19515,54 @@
       ]
     },
     {
-      "id_encuesta": "CbDBik32",
-      "facultad": "Facultad de Derecho",
-      "carrera": "Derecho",
-      "ciclo": "12° Ciclo",
+      "id_encuesta": "JfC50Zju",
+      "facultad": "Facultad de Ingeniería",
+      "carrera": "Ingeniería Industrial",
+      "ciclo": "5° Ciclo",
+      "nps_score": 8,
+      "segmento_nps": "Pasivo",
+      "satisfaccion_global": "Muy satisfecho",
+      "comentario_original": "Me parece una universidad cómoda y con muchas oportunidades,",
+      "fragmentos": [
+        {
+          "id_fragmento": "JfC50Zju_01",
+          "texto": "Me parece una universidad cómoda y con muchas oportunidades"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "kmBBOqB4",
+      "facultad": "Facultad de Ingeniería",
+      "carrera": "Ingeniería Industrial",
+      "ciclo": "3° Ciclo",
+      "nps_score": 8,
+      "segmento_nps": "Pasivo",
+      "satisfaccion_global": "Totalmente satisfecho",
+      "comentario_original": "Universidad con infraestructura y recursos de primer nivel.",
+      "fragmentos": [
+        {
+          "id_fragmento": "kmBBOqB4_01",
+          "texto": "Universidad con infraestructura y recursos de primer nivel."
+        }
+      ]
+    },
+    {
+      "id_encuesta": "SJBByL1V",
+      "facultad": "Facultad de Ciencias Empresariales",
+      "carrera": "Contabilidad y Finanzas",
+      "ciclo": "2° Ciclo",
       "nps_score": 8,
       "segmento_nps": "Pasivo",
       "satisfaccion_global": "Satisfecho",
-      "comentario_original": "No se concentran más en la empleabilidad y ni están interesados en que todos los alumnos cuenten con prácticas",
+      "comentario_original": "Es muy buena universidad , pero siento que puede mejorar en algunos aspectos .",
       "fragmentos": [
         {
-          "id_fragmento": "CbDBik32_01",
-          "texto": "No se concentran más en la empleabilidad y ni están interesados en que todos los alumnos cuenten con prácticas"
+          "id_fragmento": "SJBByL1V_01",
+          "texto": "Es muy buena universidad"
+        },
+        {
+          "id_fragmento": "SJBByL1V_02",
+          "texto": "pero siento que puede mejorar en algunos aspectos"
         }
       ]
     }
