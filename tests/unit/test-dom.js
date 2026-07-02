@@ -234,8 +234,8 @@ test('formatDecimal respeta digits=2 por defecto', () => {
   assertEqual(F.formatDecimal(3.14159), '3,14');
 });
 
-test('formatDecimal caso entero sin decimales', () => {
-  assertEqual(F.formatDecimal(3.0), '3');
+test('formatDecimal SIEMPRE muestra 2 decimales incluso si son cero (v1.1.0)', () => {
+  assertEqual(F.formatDecimal(3.0), '3,00');
 });
 
 test('formatDecimal con precisión personalizada', () => {
@@ -243,14 +243,14 @@ test('formatDecimal con precisión personalizada', () => {
   assertEqual(F.formatDecimal(1.2344, 3), '1,234');
 });
 
-test('formatPercent añade % y digits=2', () => {
+test('formatPercent añade % y SIEMPRE 2 decimales (v1.1.0)', () => {
   assertEqual(F.formatPercent(93.5), '93,50 %');
-  assertEqual(F.formatPercent(100.0), '100 %');
+  assertEqual(F.formatPercent(100.0), '100,00 %');
 });
 
-test('formatPctSimple casos edge', () => {
-  assertEqual(F.formatPctSimple(3, 10), '30%');
-  assertEqual(F.formatPctSimple(5, 0), '0%');
+test('formatPctSimple con 2 decimales (v1.1.0)', () => {
+  assertEqual(F.formatPctSimple(3, 10), '30,00%');
+  assertEqual(F.formatPctSimple(5, 0), '0,00%');
 });
 
 test('formatInteger casos edge', () => {
