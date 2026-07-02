@@ -718,10 +718,18 @@ def main() -> None:
                     json.dump(cualitativo_payload, f_cual, ensure_ascii=False, indent=2)
             # ------------------------------------------
             # Migración: Conectar el Motor Nuevo (dataset_cualitativo) a la UI
+            # Fase IA v3: filtrar unidades inválidas (es_valido=false) para que
+            # NO se muestren en el dashboard. Solo se incluyen en dataset_cualitativo.json
+            # para trazabilidad, pero no en sentimiento.json (que alimenta la UI).
             comentarios_detallados = []
             topicos_dict = {}
-            
+
             for item in dataset_cualitativo:
+                # Fase IA v3: respetar es_valido del dataset; filtrar inválidas de la UI
+                es_valido_item = item.get("es_valido", True)
+                if not es_valido_item:
+                    continue  # NO se muestra en el dashboard
+
                 frag_sec = int(item["id_fragmento"].split("_")[-1]) if "_" in item["id_fragmento"] else 1
                 com_obj = {
                     "id": item["id_fragmento"],
@@ -744,7 +752,7 @@ def main() -> None:
                     "aspecto_normalizado": item["aspecto_normalizado"]
                 }
                 comentarios_detallados.append(com_obj)
-                
+
                 t = item["aspecto_normalizado"]
                 if t not in topicos_dict:
                     topicos_dict[t] = {"total": 0, "positivo": 0, "negativo": 0, "neutro": 0}

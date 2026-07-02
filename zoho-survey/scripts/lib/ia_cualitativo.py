@@ -342,9 +342,9 @@ _RUIDO_SIN_CONTEXTO = {
     "aaaa", "bbbb", "cccc", "xxxx", "zzzz", "kkkkk", "kkkk",
     "nada", "nose", "no se", "n/a", "n.a", "na", "null", "none",
     # Respuestas cortas genéricas (el manual las marca inválidas por falta de contexto)
-    "si", "sí", "no", "ok", "bien", "bien.", "muy bien", "muy buenas",
-    "muy buenos", "está bien", "esta bien", "todo bien", "todo puede mejorar",
-    "satisfecho", "calidad", "regular", "normal",
+    "si", "sí", "no", "ok", "muy buenas", "muy buenos", "normal",
+    # NOTA: "bien", "bien.", "muy bien", "satisfecho", "calidad", "regular",
+    # "está bien", "esta bien", "todo bien", "todo puede mejorar" son SI (van a _FRASES_CORTAS_VALIDAS)
     # Frases de evasión (el estudiante no quiere comentar)
     "sin comentarios", "sin comentario", "ningun comentario", "ningún comentario",
     "no hay comentarios", "no hay comentario", "no hay nada que decir",
@@ -354,34 +354,39 @@ _RUIDO_SIN_CONTEXTO = {
     "no se", "no se xd", "no gracias", "y ya", "no se, está bien.",
     "las razones estan en mis respuestas",
     "debido a que yo estudio aquí", "debido a que el comien",
-    # "Porque si" y variantes
-    "porque si", "proque si", "porque es buena", "por que si",
+    "no me deja poner mi respuesta completa.", "no me deja poner mi respuesta completa",
+    # "Porque si" y variantes (NO incluye "porque es buena" que es SI)
+    "porque si", "proque si", "por que si",
     # Palabras sueltas sin contexto evaluativo
     "aura", "separenos", "sapo eres", "buenos quesitos", "creencia de poder",
-    "peru es clave", "es una universidad", "dependiendo de la carrera",
-    "las demás carreras no se", "muy buenos mm",
+    "peru es clave", "es una universidad", "muy buenos mm",
+    # Frases coloquiales/filosóficas sin dimensión específica (calibrado v3)
+    "piola p", "ta bien", "lindo", "nadie es perfecto",
+    "no conozco muchos de sus servicios.", "no conozco muchos de sus servicios",
 }
 
 # Set de palabras/frases cortas que SÍ son válidas y se envían a la IA.
-# Calibrado contra el análisis manual: TODAS fueron marcadas como válidas
-# en al menos un caso. La IA decidirá si marcarlas inválidas según contexto.
+# Calibrado contra el análisis manual v3: TODAS fueron marcadas como válidas
+# y la IA les asignó una dimensión coherente.
 _FRASES_CORTAS_VALIDAS = {
-    # Evaluativas claras (1 palabra)
-    "lindo", "linda", "feo", "fea", "excelente", "pesimo", "pésimo",
-    "increible", "increíble", "horrible", "genial", "piola",
-    "regular",  # ambigua pero a veces válida
-    # Jerga evaluativa (2 palabras)
-    "ta bien", "piola p",
-    # Frases evaluativas cortas (2-3 palabras)
+    # Evaluativas claras (1 palabra) → IA clasifica como Satisfacción estudiantil
+    "bien", "bien.", "muy bien", "satisfecho", "regular", "calidad",
+    "debe mejorar", "es completa",
+    # "Porque es buena" → SI (Satisfacción estudiantil)
+    "porque es buena",
+    # Frases evaluativas cortas (2-3 palabras) → IA clasifica
     "todo es bueno", "todo muy adecuado", "muchos alumnos",
-    "siempre recomendaría", "nadie es perfecto",
-    "8/10 buena universidad",
-    "todo bien",  # inconsistente en manual (1 SI, 2 No) → la IA decide
-    "esta bien", "está bien",  # inconsistente (1 SI, 3 No) → la IA decide
+    "siempre recomendaría", "8/10 buena universidad",
+    "todo bien", "todo puede mejorar",
+    "esta bien", "está bien",
     "buen servicio", "me gusta", "no me gusta",
+    "dependiendo de la carrera",  # → La carrera (v3: SI)
+    "las demás carreras no se",   # → La carrera (v3: SI)
     # Palabras evaluativas aisladas
     "bueno", "buena", "malo", "mala", "cool", "nice", "wow",
     "aceptable", "buena.", "bueno.",
+    "linda", "feo", "fea", "excelente", "pesimo", "pésimo",
+    "increible", "increíble", "horrible", "genial",
 }
 
 
@@ -488,14 +493,11 @@ def _es_ruido_pre_filtro(comentario: str) -> Tuple[bool, Optional[str]]:
     if _RE_PALABRA_REPETIDA.search(c_lower):
         return True, "Ruido/Sin sentido"
 
-    # 14. Frase corta genérica no evaluativa (≤ 2 palabras, ≤ 20 chars)
-    palabras = c_lower.split()
-    if len(palabras) <= 2 and len(c) <= 20:
-        # Verificar si contiene alguna palabra evaluativa clara
-        tiene_evaluativa = any(p in _FRASES_CORTAS_VALIDAS or p.rstrip('.,;:') in _FRASES_CORTAS_VALIDAS
-                              for p in palabras)
-        if not tiene_evaluativa:
-            return True, "Ruido/Sin sentido"
+    # NOTA: La regla "frase corta genérica ≤ 2 palabras" fue eliminada (v3) porque
+    # generaba falsos positivos con frases como "Buenas instalaciones", "Lejania",
+    # "Mas edificios", "Demasiada gente", "El prestigio", "Networking" que el
+    # análisis manual marcó como SI (la IA las clasifica a una dimensión específica).
+    # Las frases cortas inválidas ya están en el set _RUIDO_SIN_CONTEXTO explícitamente.
 
     return False, None
 
