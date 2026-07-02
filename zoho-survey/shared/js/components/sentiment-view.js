@@ -193,7 +193,7 @@ window.SurveySentimentView = (() => {
         ${createKpiCard('Con texto abierto', textAbierto, 'color-emplea')}
       </div>
       <div style="display: flex; flex-wrap: wrap; gap: 16px; width: 100%;">
-        ${createKpiCard('Intensidad prom.', intensidadProm.toFixed(2), 'color-emplea')}
+        ${createKpiCard('Intensidad prom.', _fmt.formatDecimal(intensidadProm, 2), 'color-emplea')}
         ${createKpiCard('Positivas', pos, 'color-csat')}
         ${createKpiCard('Neutras', neu, 'color-emplea')}
         ${createKpiCard('Negativas', neg, 'color-negative')}
@@ -380,7 +380,7 @@ window.SurveySentimentView = (() => {
       let displayVal = '';
       if (isIntensity) {
         pct = (item.val / 5) * 100;
-        displayVal = _fmt.formatDecimal(item.val, 1);
+        displayVal = _fmt.formatInteger(Math.round(item.val));
       } else {
         pct = maxVal > 0 ? (item.val / maxVal) * 100 : 0;
         displayVal = _fmt.formatInteger(item.val);

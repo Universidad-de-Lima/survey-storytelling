@@ -4,9 +4,11 @@
  * Prueba todas las funciones de formateo exportadas por utils/formatters.js.
  * Ejecutar: abrir tests/run-tests.html en el navegador.
  *
- * Contrato verificado:
- * - formatDecimal(n, digits=2) respeta siempre `digits` decimales, excepto
- *   caso entero (todos ceros) que devuelve el entero sin decimales.
+ * Contrato verificado (v1.1.0):
+ * - formatDecimal(n, digits=2): SIEMPRE muestra `digits` decimales, incluso
+ *   cuando todos son cero. Ej: formatDecimal(3.0) → "3,00".
+ * - formatPctSimple / formatPctDecimal: siempre 2 decimales.
+ * - formatInteger: enteros sin decimales (conteos).
  * - toFixed() trunca en casos de float impreciso (1.2345 → "1.234").
  */
 (() => {
@@ -41,8 +43,8 @@
       // 1.5 con digits=2 → "1,50" (no "1,5").
       assert.equal(F.formatDecimal(1.5), '1,50');
     });
-    it('redondea a entero si los decimales son 0', () => {
-      assert.equal(F.formatDecimal(3.0), '3');
+    it('SIEMPRE muestra 2 decimales incluso si son cero (v1.1.0)', () => {
+      assert.equal(F.formatDecimal(3.0), '3,00');
     });
     it('retorna vacío para null', () => {
       assert.equal(F.formatDecimal(null), '');
@@ -61,29 +63,29 @@
 
   describe('formatPercent', () => {
     it('añade símbolo % y respeta digits=2 por defecto', () => {
-      // Contrato: digits=2 por defecto, igual que formatDecimal.
       assert.equal(F.formatPercent(93.5), '93,50 %');
     });
-    it('formatea entero sin decimales', () => {
-      assert.equal(F.formatPercent(100.0), '100 %');
+    it('SIEMPRE muestra 2 decimales incluso para enteros (v1.1.0)', () => {
+      assert.equal(F.formatPercent(100.0), '100,00 %');
     });
   });
 
   describe('formatPctSimple', () => {
-    it('calcula porcentaje simple', () => {
-      assert.equal(F.formatPctSimple(3, 10), '30%');
+    it('calcula porcentaje con 2 decimales (v1.1.0)', () => {
+      assert.equal(F.formatPctSimple(3, 10), '30,00%');
     });
-    it('retorna 0% para total cero', () => {
-      assert.equal(F.formatPctSimple(5, 0), '0%');
+    it('retorna 0,00% para total cero', () => {
+      assert.equal(F.formatPctSimple(5, 0), '0,00%');
     });
   });
 
   describe('formatPctDecimal', () => {
-    it('calcula con 1 decimal', () => {
-      assert.equal(F.formatPctDecimal(1, 3), '33,3 %');
+    it('calcula con 2 decimales (v1.1.0)', () => {
+      // 1/3 = 33.333... → "33,33 %"
+      assert.equal(F.formatPctDecimal(1, 3), '33,33 %');
     });
-    it('retorna 0,0 % para total cero', () => {
-      assert.equal(F.formatPctDecimal(5, 0), '0,0 %');
+    it('retorna 0,00 % para total cero', () => {
+      assert.equal(F.formatPctDecimal(5, 0), '0,00 %');
     });
   });
 

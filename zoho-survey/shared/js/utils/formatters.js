@@ -5,14 +5,13 @@
  * Usar como: SurveyFormatters.formatDecimal(3.14159, 2) → "3,14"
  *
  * Contrato:
- * - formatDecimal(n, digits=2): siempre muestra `digits` decimales, excepto
- *   cuando TODOS son cero (caso entero) que devuelve el entero sin decimales.
- *   Ejemplo: formatDecimal(1.5) → "1,50"; formatDecimal(3.0) → "3".
+ * - formatDecimal(n, digits=2): SIEMPRE muestra `digits` decimales, incluso
+ *   cuando todos son cero. Ejemplo: formatDecimal(1.5) → "1,50"; formatDecimal(3.0) → "3,00".
  *   Usa toFixed() que trunca (no redondea) en casos de float impreciso
  *   (ej. 1.2345 → "1,234" porque 1.2345 en float es 1.2344999...).
  *
  * @module utils/formatters
- * @version 1.0.0
+ * @version 1.1.0
  */
 window.SurveyFormatters = (() => {
   'use strict';
@@ -22,9 +21,7 @@ window.SurveyFormatters = (() => {
 
   const formatDecimal = (n, digits = 2) => {
     if (n === null || n === undefined) return '';
-    const rounded = n.toFixed(digits);
-    if (rounded.endsWith('0'.repeat(digits))) return Math.round(n).toString();
-    return rounded.replace('.', ',');
+    return n.toFixed(digits).replace('.', ',');
   };
 
   const formatPercent = (n, digits = 2) => formatDecimal(n, digits) + ' %';
@@ -36,11 +33,16 @@ window.SurveyFormatters = (() => {
     return formatDecimal(n, digits) + ' %';
   };
 
-  const formatPctSimple = (v, t) => (t === 0 ? '0%' : Math.round((v / t) * 100) + '%');
+  // Label de barra con 2 decimales (valor real). El layout ajusta el ancho
+  // si el texto desborda el segmento (ver adjustSegmentLabels en dashboard.js).
+  const formatPctSimple = (v, t) => (t === 0 ? '0,00%' : formatDecimal((v / t) * 100, 2) + '%');
+
+  // Alias explícito para casos donde se quiera 2 decimales con símbolo %.
+  const formatPctSimple2 = (v, t) => (t === 0 ? '0,00 %' : formatDecimal((v / t) * 100, 2) + ' %');
 
   const formatPctDecimal = (v, t) => {
-    if (t === 0) return '0,0 %';
-    return formatDecimal((v / t) * 100, 1) + ' %';
+    if (t === 0) return '0,00 %';
+    return formatDecimal((v / t) * 100, 2) + ' %';
   };
 
   // ── Fechas ──
@@ -87,6 +89,7 @@ window.SurveyFormatters = (() => {
     formatPercent,
     formatScore,
     formatPctSimple,
+    formatPctSimple2,
     formatPctDecimal,
     formatDate,
     formatCicloText,

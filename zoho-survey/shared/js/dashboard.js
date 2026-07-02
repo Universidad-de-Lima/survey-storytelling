@@ -191,7 +191,7 @@
 
     DOM.kpiCsatValue.textContent = _fmt.formatPercent(resumen.csat.score);
     DOM.kpiCsatBar.style.width = `${resumen.csat.score}%`;
-    DOM.kpiCsatMeta.textContent = `Meta ${_fmt.formatPercent(META_CSAT)}`;
+    DOM.kpiCsatMeta.textContent = `Meta ${_fmt.formatInteger(META_CSAT)} %`;
 
     // T2B y Promedio Ponderado: se leen precomputados del JSON y, como fallback
     // para periodos generados antes de su incorporación, se derivan de la
@@ -202,12 +202,12 @@
     if (DOM.kpiT2bValue) {
       DOM.kpiT2bValue.textContent = _fmt.formatScore(t2bPct);
       DOM.kpiT2bBar.style.width = `${Math.min(100, Math.max(0, t2bPct))}%`;
-      DOM.kpiT2bMeta.textContent = `Meta ${_fmt.formatPercent(META_T2B)}`;
+      DOM.kpiT2bMeta.textContent = `Meta ${_fmt.formatInteger(META_T2B)} %`;
     }
     if (DOM.kpiPonderadoValue) {
       DOM.kpiPonderadoValue.textContent = _fmt.formatScore(ponderadoPct);
       DOM.kpiPonderadoBar.style.width = `${Math.min(100, Math.max(0, ponderadoPct))}%`;
-      DOM.kpiPonderadoMeta.textContent = `Meta ${_fmt.formatPercent(META_PONDERADO)}`;
+      DOM.kpiPonderadoMeta.textContent = `Meta ${_fmt.formatInteger(META_PONDERADO)} %`;
     }
 
     if (DOM.kpiEmpleaCard && resumen.empleabilidad) {
@@ -692,11 +692,11 @@
         <td class="text-center">${_san.escapeHTML(catCorta)}</td>
         <td>
           <div class="distribution-bar animated">
-            <div class="distribution-segment" style="width:${item.pctTotSat}%;background:var(--gray-800);" data-label="Totalmente satisfecho" data-value="${_fmt.formatInteger(item.totSat)} (${item.total ? ((item.totSat / item.total) * 100).toFixed(2).replace('.', ',') : '0,00'}%)"></div>
-            <div class="distribution-segment" style="width:${item.pctMuySat}%;background:var(--gray-500);" data-label="Muy satisfecho" data-value="${_fmt.formatInteger(item.muySat)} (${item.total ? ((item.muySat / item.total) * 100).toFixed(2).replace('.', ',') : '0,00'}%)"></div>
-            <div class="distribution-segment" style="width:${item.pctSat}%;background:var(--gray-300);color:var(--gray-700);" data-label="Satisfecho" data-value="${_fmt.formatInteger(item.sat)} (${item.total ? ((item.sat / item.total) * 100).toFixed(2).replace('.', ',') : '0,00'}%)"></div>
-            <div class="distribution-segment" style="width:${item.pctInsat}%;background:var(--ulima-orange);" data-label="Insatisfecho" data-value="${_fmt.formatInteger(item.insat)} (${item.total ? ((item.insat / item.total) * 100).toFixed(2).replace('.', ',') : '0,00'}%)"></div>
-            <div class="distribution-segment" style="width:${item.pctTotInsat}%;background:var(--ulima-red);" data-label="Totalmente insatisfecho" data-value="${_fmt.formatInteger(item.totInsat)} (${item.total ? ((item.totInsat / item.total) * 100).toFixed(2).replace('.', ',') : '0,00'}%)"></div>
+            <div class="distribution-segment" style="width:${item.pctTotSat}%;background:var(--gray-800);" data-label="Totalmente satisfecho" data-value="${_fmt.formatInteger(item.totSat)} (${_fmt.formatPctDecimal(item.totSat, item.total)})"></div>
+            <div class="distribution-segment" style="width:${item.pctMuySat}%;background:var(--gray-500);" data-label="Muy satisfecho" data-value="${_fmt.formatInteger(item.muySat)} (${_fmt.formatPctDecimal(item.muySat, item.total)})"></div>
+            <div class="distribution-segment" style="width:${item.pctSat}%;background:var(--gray-300);color:var(--gray-700);" data-label="Satisfecho" data-value="${_fmt.formatInteger(item.sat)} (${_fmt.formatPctDecimal(item.sat, item.total)})"></div>
+            <div class="distribution-segment" style="width:${item.pctInsat}%;background:var(--ulima-orange);" data-label="Insatisfecho" data-value="${_fmt.formatInteger(item.insat)} (${_fmt.formatPctDecimal(item.insat, item.total)})"></div>
+            <div class="distribution-segment" style="width:${item.pctTotInsat}%;background:var(--ulima-red);" data-label="Totalmente insatisfecho" data-value="${_fmt.formatInteger(item.totInsat)} (${_fmt.formatPctDecimal(item.totInsat, item.total)})"></div>
           </div>
         </td>
       `;
@@ -811,13 +811,13 @@
       const tr = document.createElement('tr');
       const vsCsatTxt =
         item.vsPromCsat >= 0
-          ? `<span style="color:#00B04F;font-weight:600;">+${_fmt.formatDecimal(item.vsPromCsat, 2)}</span>`
-          : `<span style="color:#FF0000;font-weight:600;">${_fmt.formatDecimal(item.vsPromCsat, 2)}</span>`;
+          ? `<span style="color:#00B04F;font-weight:600;">+${_fmt.formatInteger(Math.round(item.vsPromCsat))}</span>`
+          : `<span style="color:#FF0000;font-weight:600;">${_fmt.formatInteger(Math.round(item.vsPromCsat))}</span>`;
 
       const vsNpsTxt =
         item.vsPromNps >= 0
-          ? `<span style="color:#00B04F;font-weight:600;">+${_fmt.formatDecimal(item.vsPromNps, 2)}</span>`
-          : `<span style="color:#FF0000;font-weight:600;">${_fmt.formatDecimal(item.vsPromNps, 2)}</span>`;
+          ? `<span style="color:#00B04F;font-weight:600;">+${_fmt.formatInteger(Math.round(item.vsPromNps))}</span>`
+          : `<span style="color:#FF0000;font-weight:600;">${_fmt.formatInteger(Math.round(item.vsPromNps))}</span>`;
 
       tr.innerHTML = `
         <td>${_san.escapeHTML(item.carrera)}</td>
@@ -877,9 +877,9 @@
         <td class="text-center">${_fmt.formatInteger(item.noUtilizo)} (${_fmt.formatDecimal(item.pctNoUtilizo, 2)} %)</td>
         <td>
           <div class="visibility-bar animated">
-            <div class="visibility-segment no-conozco" style="width:${item.pctNoConozco}%;" data-label="No conozco" data-value="${_fmt.formatInteger(item.noConozco)} (${item.total ? ((item.noConozco / item.total) * 100).toFixed(2).replace('.', ',') : '0,00'}%)"></div>
-            <div class="visibility-segment no-utilizo" style="width:${item.pctNoUtilizo}%;" data-label="No utilizo" data-value="${_fmt.formatInteger(item.noUtilizo)} (${item.total ? ((item.noUtilizo / item.total) * 100).toFixed(2).replace('.', ',') : '0,00'}%)"></div>
-            <div class="visibility-segment conocido"   style="width:${item.pctConoce}%;"    data-label="Conozco/Utilizo" data-value="${_fmt.formatInteger(item.conoce)} (${item.total ? ((item.conoce / item.total) * 100).toFixed(2).replace('.', ',') : '0,00'}%)"></div>
+            <div class="visibility-segment no-conozco" style="width:${item.pctNoConozco}%;" data-label="No conozco" data-value="${_fmt.formatInteger(item.noConozco)} (${_fmt.formatPctDecimal(item.noConozco, item.total)})"></div>
+            <div class="visibility-segment no-utilizo" style="width:${item.pctNoUtilizo}%;" data-label="No utilizo" data-value="${_fmt.formatInteger(item.noUtilizo)} (${_fmt.formatPctDecimal(item.noUtilizo, item.total)})"></div>
+            <div class="visibility-segment conocido"   style="width:${item.pctConoce}%;"    data-label="Conozco/Utilizo" data-value="${_fmt.formatInteger(item.conoce)} (${_fmt.formatPctDecimal(item.conoce, item.total)})"></div>
           </div>
         </td>
       `;
