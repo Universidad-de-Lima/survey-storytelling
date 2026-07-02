@@ -3,12 +3,23 @@ name: Build and Deploy Survey
 on:
   push:
     paths:
+      # Solo disparar cuando cambien cosas que requieran re-build.
+      # NO disparar por JSON generados (zoho-survey/students/*/json/**)
+      # ni por los index.html generados (zoho-survey/students/*/index.html).
       - 'data/**'
-      - 'zoho-survey/**'
+      - 'zoho-survey/scripts/**'
+      - 'zoho-survey/template/**'
+      - 'zoho-survey/shared/**'
+      - 'zoho-survey/students/*/periodos.json'
+      - 'zoho-survey/**/periodos.json'
+      - 'requirements.txt'
+      - '.github/workflows/build_students.yml'
 
   workflow_dispatch:
 
 concurrency:
+  # Cancela runs anteriores en la misma rama si un nuevo push llega.
+  # Esto reduce carreras: si haces 2 pushes seguidos, solo el último completa.
   group: deploy-legacy-${{ github.ref }}
   cancel-in-progress: true
 
@@ -30,6 +41,11 @@ jobs:
 
       - name: Checkout repository
         uses: actions/checkout@v5
+        # fetch-depth: 0 trae todo el historial, necesario para que
+        # `git pull --rebase` en el step de commit funcione cuando el
+        # remote tiene commits que el runner no conoce.
+        with:
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v6
@@ -78,6 +94,9 @@ jobs:
           python zoho-survey/scripts/build_json.py
 
       - name: Commit generated JSON
+        # Commit robusto: integra cambios remotos con rebase antes de push.
+        # [skip ci] evita que el commit del bot dispare un nuevo run del workflow
+        # (defensa en profundidad, aunque GITHUB_TOKEN ya no auto-dispara).
         run: |
           git config --global user.name "survey-bot"
           git config --global user.email "survey-bot@users.noreply.github.com"
@@ -85,9 +104,32 @@ jobs:
           git add zoho-survey/
           git add data/
 
-          git commit -m "Auto update survey json" || echo "No changes"
+          # Salir limpio si no hay cambios (evita commit vacío)
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
 
-          git push
+          git commit -m "Auto update survey json [skip ci]"
+
+          # Integrar cambios remotos con rebase antes de push.
+          # Reintenta hasta 3 veces si hay conflictos de JSON (poco probables
+          # porque el bot es el único que toca esos archivos).
+          for i in 1 2 3; do
+            if git pull --rebase origin main; then
+              break
+            else
+              echo "Rebase fallido, intento $i/3. Resolviendo conflictos..."
+              # Si hay conflictos en JSON generados, preferir nuestra versión
+              # (la del bot, que es la más reciente del build actual).
+              git checkout --theirs zoho-survey/ data/ 2>/dev/null || true
+              git add zoho-survey/ data/
+              git rebase --continue || break
+            fi
+            sleep 2
+          done
+
+          git push origin HEAD:main
 
       - name: Setup Pages
         uses: actions/configure-pages@v6

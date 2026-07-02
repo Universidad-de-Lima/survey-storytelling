@@ -182,6 +182,43 @@ def _construir_dashboard_data(
     }
 
 
+def _hash_csv(csv_path: Path) -> str:
+    """Calcula el hash SHA256 del contenido del CSV para detección de cambios."""
+    import hashlib as _hl
+    h = _hl.sha256()
+    with open(csv_path, "rb") as f:
+        for chunk in iter(lambda: f.read(8192), b""):
+            h.update(chunk)
+    return h.hexdigest()
+
+
+def _csv_cambiado(csv_path: Path, ruta_salida: Path) -> bool:
+    """Detecta si un CSV cambió desde el último build comparando su hash.
+
+    El hash se guarda en `<ruta_salida>/.csv_hash`. Si el archivo no existe
+    (primer build) o el hash difiere, retorna True (procesar).
+    Si el hash coincide, retorna False (saltar, los JSON ya están actualizados).
+    """
+    hash_file = ruta_salida / ".csv_hash"
+    current_hash = _hash_csv(csv_path)
+    if not hash_file.exists():
+        return True
+    try:
+        saved_hash = hash_file.read_text(encoding="utf-8").strip()
+        return saved_hash != current_hash
+    except OSError:
+        return True
+
+
+def _guardar_hash_csv(csv_path: Path, ruta_salida: Path) -> None:
+    """Guarda el hash del CSV para comparación en el próximo build."""
+    hash_file = ruta_salida / ".csv_hash"
+    try:
+        hash_file.write_text(_hash_csv(csv_path), encoding="utf-8")
+    except OSError as e:
+        logging.warning(f"No se pudo guardar hash de CSV: {e}")
+
+
 def main() -> None:
     if not DATA_DIR.is_dir():
         logging.error(f"El directorio de datos de entrada no existe: {DATA_DIR}")
@@ -223,10 +260,33 @@ def main() -> None:
         ruta_salida: Path = survey_dir / periodo / "json"
         ruta_salida.mkdir(parents=True, exist_ok=True)
 
+        # ── DETECCIÓN DE CSV MODIFICADO ──────────────────────────
+        # Si el CSV no cambió desde el último build Y los JSON ya existen,
+        # saltar el reprocesamiento completo (ahorra tiempo de CPU y ETL).
+        # El caché IA (ia_cache.json) ya evita re-pagar DeepSeek; esto
+        # adicionalmente evita releer el CSV, recalcular métricas y
+        # reescribir JSONs idénticos.
+        if not _csv_cambiado(csv_file, ruta_salida):
+            jsons_existen = all(
+                (ruta_salida / f"{j}.json").exists()
+                for j in ["dashboard_data", "filtros", "dimensiones",
+                          "nps_carrera", "nps_ciclo_carrera",
+                          "csat_carrera", "csat_ciclo_carrera",
+                          "sentimiento", "ids", "fragmentos_nps",
+                          "dataset_cualitativo"]
+            )
+            if jsons_existen:
+                logging.info(f"CSV sin cambios desde último build, saltando: {csv_file.name}")
+                continue
+            else:
+                logging.info(f"CSV sin cambios pero faltan JSONs, reprocesando: {csv_file.name}")
+        else:
+            logging.info(f"CSV modificado o primer build, procesando: {csv_file.name}")
+
         periodo_dir: Path = survey_dir / periodo
         index_file: Path = periodo_dir / "index.html"
         template_index: Path = ZOHO_DIR / "template" / "index.html"
-        
+
         # Inyección dinámica de la ruta a la carpeta shared (Fase 11: delegado a _inyectar_html)
         _inyectar_html(template_index, index_file, periodo_dir, ZOHO_DIR)
 
@@ -883,6 +943,10 @@ def main() -> None:
             json.dump(sentimiento, f, ensure_ascii=False)
 
         logging.info(f"Procesamiento finalizado con éxito para {nivel}/{periodo}.")
+
+        # Guardar hash del CSV para saltar reprocesamiento en el próximo build
+        # si el CSV no cambia. Solo se guarda si el procesamiento fue exitoso.
+        _guardar_hash_csv(csv_file, ruta_salida)
 
     # =========================================================
     # Actualizar periodos.json automáticamente por nivel
