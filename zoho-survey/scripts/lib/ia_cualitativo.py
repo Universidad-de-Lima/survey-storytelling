@@ -53,6 +53,7 @@ from .prompts_cualitativo import (
     OUTPUT_SCHEMA,
     RATING_TO_SCORE,
     rating_to_score,
+    PROMPT_VERSION,
 )
 
 logger = logging.getLogger(__name__)
@@ -81,12 +82,14 @@ class CacheManager:
     Esto evita re-llamar a la API en builds subsiguientes si el CSV no cambió.
     """
 
-    def __init__(self, cache_path: Path, save_every: int = 50):
+    def __init__(self, cache_path: Path, save_every: int = 50,
+                 prompt_version: str = ""):
         self.cache_path = Path(cache_path)
         self._cache: Dict[str, Dict[str, Any]] = {}
         self._lock = threading.Lock()
         self._save_counter = 0
         self._save_every = save_every
+        self._prompt_version = prompt_version
         self._load()
 
     def _load(self) -> None:
@@ -123,17 +126,21 @@ class CacheManager:
 
     @staticmethod
     def _make_key(comentario: str, nps_score: int,
-                  csat_ratings: Dict[str, str]) -> str:
+                  csat_ratings: Dict[str, str],
+                  prompt_version: str = "") -> str:
         # Ordenar csat_ratings para determinismo
         csat_sorted = json.dumps(csat_ratings, sort_keys=True, ensure_ascii=False)
-        payload = f"{comentario}||{nps_score}||{csat_sorted}"
+        # Incluir prompt_version para invalidar caché automáticamente cuando
+        # el system prompt cambie (evita servir resultados cacheados con el
+        # prompt viejo que tenían clasificaciones distintas).
+        payload = f"{comentario}||{nps_score}||{csat_sorted}||{prompt_version}"
         return hashlib.sha256(payload.encode("utf-8")).hexdigest()
 
     def get(self, comentario: str, nps_score: int,
             csat_ratings: Dict[str, str]) -> Optional[Dict[str, Any]]:
         if not CACHE_ENABLED:
             return None
-        key = self._make_key(comentario, nps_score, csat_ratings)
+        key = self._make_key(comentario, nps_score, csat_ratings, self._prompt_version)
         with self._lock:
             entry = self._cache.get(key)
         if entry is None:
@@ -147,7 +154,7 @@ class CacheManager:
             csat_ratings: Dict[str, str], result: Dict[str, Any]) -> None:
         if not CACHE_ENABLED:
             return
-        key = self._make_key(comentario, nps_score, csat_ratings)
+        key = self._make_key(comentario, nps_score, csat_ratings, self._prompt_version)
         should_save = False
         with self._lock:
             self._cache[key] = result
@@ -754,7 +761,7 @@ def analizar_dataset_cualitativo(
         )
 
     client = DeepSeekClient(api_key=api_key)
-    cache = CacheManager(cache_path) if cache_path else None
+    cache = CacheManager(cache_path, prompt_version=PROMPT_VERSION) if cache_path else None
     categorias_padre = sorted(set(taxonomia.values()))
 
     # ── CLEANING DEFENSIVO ──────────────────────────────────────

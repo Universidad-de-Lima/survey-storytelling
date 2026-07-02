@@ -18,6 +18,16 @@ from typing import Dict, List, Optional
 
 
 # ============================================================
+# VERSIÓN DEL PROMPT — para invalidación automática del caché IA
+# ============================================================
+# Cuando cambies el system prompt (nuevas reglas, ejemplos, mapeos),
+# incrementa este número. El CacheManager lo incluye en la clave hash,
+# así que las entradas cacheadas con versión anterior se ignoran
+# automáticamente (no se sirven resultados viejos con prompt viejo).
+PROMPT_VERSION = "v5-2025-07-02"
+
+
+# ============================================================
 # CONSTRUCCIÓN DEL SYSTEM PROMPT
 # ============================================================
 
@@ -105,6 +115,32 @@ Criterios:
 - Si menciona espacios genéricos del campus sin especificar aulas/laboratorios/biblioteca ("los espacios", "las instalaciones", "el campus"), usa "Espacios comunes".
 - Si NO puedes identificar la dimensión con confianza razonable, usa "Pendiente de Clasificación". NUNCA inventes dimensiones que no estén en la lista.
 - La `categoria_padre` se deduce automáticamente de la dimensión elegida (ver mapeo abajo).
+
+**REGLA CRÍTICA — Evita "Pendiente de Clasificación" en unidades válidas:**
+Solo usa "Pendiente de Clasificación" cuando la unidad sea genuinamente incomprensible o no relacionada con ningún aspecto universitario. Si la unidad expresa una queja, sugerencia o valoración sobre CUALQUIER aspecto de la experiencia universitaria (incluso genérico), clasifícala en la dimensión más cercana. Es preferible una clasificación aproximada que "Pendiente de Clasificación".
+
+**Mapeo de frases comunes a dimensiones (usa estas como guía):**
+- "No es accesible para todos" / "muy caro" / "becas" / "pensiones" / "servicio social" / "ayuda financiera" → **Ayuda financiera**
+- "trámites" / "burocracia" / "representación estudiantil" / "comunicación con alumnos" / "cosas que no son eficientes" / "cosas que se pueden optimizar" / "procedimientos" → **Procedimientos administrativos**
+- "Atención del personal administrativo" / "trato del personal" → **Atención del personal administrativo**
+- "Soporte técnico" / "soporte en otras áreas" / "mesa de ayuda" → **Soporte técnico del sistema informático**
+- "Malla curricular" / "cursos" / "plan de estudios" / "electivos" / "intercambio" → **Cursos del programa y contenidos** o **Plan curricular y perfil de egreso**
+- "Profesores" / "docentes" / "enseñanza" / "metodología" → **Calidad de la enseñanza en la carrera**
+- "Evaluaciones" / "exámenes" / "parciales" / "notas" → **Evaluación del aprendizaje**
+- "Aulas" / "salones" / "carpetas" / "aire acondicionado" → **Aulas de clase**
+- "Laboratorios" / "equipos" / "computadoras" → **Equipamiento tecnológico en laboratorios**
+- "Biblioteca" / "libros" / "material bibliográfico" → **Material bibliográfico en la biblioteca**
+- "Wifi" / "internet" / "conexión" → **Conexión Wi-Fi en el campus**
+- "Mi Ulima" / "portal" / "Blackboard" / "aula virtual" → **Portal web de la Universidad (Mi Ulima)** o **Aula virtual**
+- "Comida" / "cafetería" / "kiosko" → **Espacios de alimentación**
+- "Deportes" / "cancha" / "gimnasio" → **Actividades deportivas**
+- "Psicología" / "tópico" / "salud mental" → **Servicio de atención psicopedagógica** o **Servicio médico y su infraestructura**
+- "Distancia" / "ubicación" / "transporte" → **Ubicación**
+- "mi carrera" / "otras carreras" / "comunica" / "atención a la carrera" / "cesura" → **La carrera** (cuando se refiere a la carrera profesional específica del estudiante, no a la calidad docente)
+- "Libertad de expresión" / "derechos estudiantiles" / "distanciamiento de la rectora" → **Satisfacción estudiantil** (aspectos institucionales generales)
+- "Hay un par de cosas que mejorar" / "tiene fallas que pueden arreglarse" / "no me deja poner mi respuesta completa" / "no es nada relacionado a la carrera" / "podría ser mas" → **Satisfacción estudiantil** (valoración general que no encaja en una dimensión específica)
+
+**Cuando una queja mencione "soporte" o "áreas" de forma genérica, usa "Procedimientos administrativos" o "Soporte técnico del sistema informático" según contexto, NO "Pendiente de Clasificación".**
 
 ## 4. Validez de la Unidad
 Marca `es_valido = false` cuando la unidad sea:
