@@ -354,7 +354,9 @@ _RUIDO_SIN_CONTEXTO = {
     "no se", "no se xd", "no gracias", "y ya", "no se, está bien.",
     "las razones estan en mis respuestas",
     "debido a que yo estudio aquí", "debido a que el comien",
-    "no me deja poner mi respuesta completa.", "no me deja poner mi respuesta completa",
+    # NOTA: "No me deja poner mi respuesta completa." NO está en ruido (v4):
+    # es una queja sobre el sistema de encuesta → SI, la IA la clasifica
+    # como Satisfacción estudiantil / negativo / intensidad 2.
     # "Porque si" y variantes (NO incluye "porque es buena" que es SI)
     "porque si", "proque si", "por que si",
     # Palabras sueltas sin contexto evaluativo
