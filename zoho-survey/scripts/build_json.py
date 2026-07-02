@@ -22,10 +22,12 @@ from lib.config import (
     CATEGORIA_DIMENSION_PREGRADO,
     CATEGORIA_DIMENSION_GRADUADO,
     RESPUESTAS_TEXTO,
+    CSAT_WEIGHTS,
+    CSAT_SCALE_MAX,
     ETAPA_MAP,
     EMPLEABILIDAD_CATEGORIAS
 )
-from lib.metrics import calc_nps, calc_csat
+from lib.metrics import calc_nps, calc_csat, calc_promedio_ponderado
 from lib.nlp import sanitizar_comentario
 from lib.segmentacion_nps import fragmentar_comentario_nps
 from lib.io_helper import read_csv_robust, normalize_dates
@@ -352,8 +354,14 @@ def main() -> None:
         csat_col: str = "La Universidad de Lima"
         serie_csat = df[csat_col].dropna()
         csat_t3b = int(serie_csat.isin(RESPUESTAS_TEXTO[:3]).sum())
+        csat_t2b = int(serie_csat.isin(RESPUESTAS_TEXTO[:2]).sum())
         csat_total = int(serie_csat.isin(RESPUESTAS_TEXTO[:5]).sum())
         csat_score = calc_csat(csat_t3b, csat_total)
+        # T2B reutiliza calc_csat (misma fórmula de box score, distinto subset).
+        csat_t2b_pct = calc_csat(csat_t2b, csat_total)
+        # Promedio Ponderado: conteos por nivel alineados a CSAT_WEIGHTS.
+        csat_counts = [int((serie_csat == r).sum()) for r in RESPUESTAS_TEXTO[:5]]
+        csat_ponderado = calc_promedio_ponderado(csat_counts, CSAT_WEIGHTS, CSAT_SCALE_MAX)
 
         # Métrica de Empleabilidad (solo graduados)
         empleabilidad = None
@@ -518,7 +526,10 @@ def main() -> None:
             "csat": {
                 "score": csat_score,
                 "t3b": csat_t3b,
-                "total": csat_total
+                "total": csat_total,
+                "t2b": csat_t2b,
+                "t2b_pct": csat_t2b_pct,
+                "ponderado": csat_ponderado
             }
         }
         if empleabilidad:

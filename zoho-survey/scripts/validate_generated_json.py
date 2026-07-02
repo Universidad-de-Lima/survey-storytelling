@@ -23,8 +23,9 @@ from pathlib import Path
 from typing import Dict, List, Set, Tuple
 
 # Reutilizar I/O helper y configuraciones centrales
-from lib.config import RESPUESTAS_TEXTO
+from lib.config import RESPUESTAS_TEXTO, CSAT_WEIGHTS, CSAT_SCALE_MAX
 from lib.io_helper import load_json
+from lib.metrics import calc_promedio_ponderado
 
 # Import opcional de jsonschema (Draft-07). Si no esta instalado, se omite la
 # validacion formal y se reporta como warning al usuario.
@@ -214,6 +215,39 @@ def validate_sentimiento_invariants(value: dict) -> None:
             raise ValueError(f"sentimiento.comentarios[{index}].es_valido debe ser booleano")
 
 
+def validate_dashboard_csat_extended(value: dict) -> None:
+    """Invariantes de los indicadores extendidos de CSAT (T2B y Promedio Ponderado).
+
+    Son condicionales: solo se validan si los campos están presentes, para
+    mantener compatibilidad con periodos generados antes de su incorporación.
+    """
+    csat = value.get("resumen", {}).get("csat", {})
+    if not isinstance(csat, dict):
+        return
+
+    t3b = csat.get("t3b")
+    total = csat.get("total")
+
+    # Monotonia de boxes anidados: t2b <= t3b <= total
+    if "t2b" in csat and t3b is not None and total is not None:
+        t2b = csat["t2b"]
+        if not (0 <= t2b <= t3b <= total):
+            raise ValueError(
+                f"dashboard_data.resumen.csat: violates t2b <= t3b <= total (t2b={t2b}, t3b={t3b}, total={total})"
+            )
+
+    # Recalculo del promedio ponderado desde la distribucion top-level y verificacion
+    csat_dist = value.get("csat")
+    if "ponderado" in csat and isinstance(csat_dist, dict):
+        counts = [int(csat_dist.get(r, 0)) for r in RESPUESTAS_TEXTO[:5]]
+        esperado = calc_promedio_ponderado(counts, CSAT_WEIGHTS, CSAT_SCALE_MAX)
+        almacenado = csat["ponderado"]
+        if abs(esperado - almacenado) > 1e-6:
+            raise ValueError(
+                f"dashboard_data.resumen.csat.ponderado={almacenado} no coincide con el recalculo ({esperado:.6f}) desde la distribucion csat"
+            )
+
+
 # ---------------------------------------------------------------------------
 # Despachador principal de validacion por archivo
 # ---------------------------------------------------------------------------
@@ -242,6 +276,8 @@ def validate_json_file(json_dir: Path, filename: str, spec: Dict[str, any]) -> T
         validate_id_rows_invariants(value, filename)
     elif filename == "sentimiento.json":
         validate_sentimiento_invariants(value)
+    elif filename == "dashboard_data.json":
+        validate_dashboard_csat_extended(value)
 
     return value, schema_errors
 

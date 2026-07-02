@@ -79,7 +79,10 @@ Ejemplo real (undergraduate 2026-1):
     "csat": {
       "score": 97.85,
       "t3b": 4148,
-      "total": 4239
+      "total": 4239,
+      "t2b": 3087,
+      "t2b_pct": 72.82,
+      "ponderado": 82.58079735786743
     }
   },
   "hallazgos": {
@@ -125,6 +128,7 @@ Ejemplo real (undergraduate 2026-1):
 - `resumen.empleabilidad`: solo aparece cuando la encuesta lo soporta (graduados). Requiere `score`, `empleados`, `total`.
 - `resumen.año`: entero (ej. `2026`), **no** string.
 - `resumen.periodo`: string identificador del periodo (`"2026-1"` o `"2026"`).
+- `resumen.csat.t2b` / `t2b_pct` / `ponderado`: indicadores extendidos de satisfacción (Top 2 Box y Promedio Ponderado). **Opcionales** por compatibilidad con periodos generados antes de su incorporación; los nuevos periodos siempre los incluyen. El frontend deriva ambos desde la distribución `csat` top-level como fallback vía `utils/metrics.js` (gemelo JS de `lib/metrics.py`). `t2b_pct` se redondea a 2 decimales (mismo patrón que `score`); `ponderado` se almacena sin redondear (precisión interna, redondeo solo al mostrar). Invariante: `t2b ≤ t3b ≤ total`. Pesos Likert: `[5,4,3,2,1]` alineados a `RESPUESTAS_TEXTO[:5]` (definidos en `lib/config.py` y `config/constants.js`).
 
 ## `dimensiones.json`
 

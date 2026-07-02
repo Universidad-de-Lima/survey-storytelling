@@ -13,7 +13,7 @@ scripts_dir = os.path.dirname(current_dir)
 if scripts_dir not in sys.path:
     sys.path.insert(0, scripts_dir)
 
-from lib.metrics import calc_nps, calc_csat
+from lib.metrics import calc_nps, calc_csat, calc_promedio_ponderado
 
 
 class TestCalcNPS(unittest.TestCase):
@@ -115,6 +115,58 @@ class TestMetricasDeterminismo(unittest.TestCase):
         r1 = calc_csat(4148, 4239)
         r2 = calc_csat(4148, 4239)
         self.assertEqual(r1, r2)
+
+
+class TestCalcPromedioPonderado(unittest.TestCase):
+    """Tests para calc_promedio_ponderado(counts, weights, max_scale)."""
+
+    def test_ponderado_caso_real_2026_1(self):
+        # 1806, 1281, 1061, 75, 16 → 82.58 % (metodología validada)
+        counts = [1806, 1281, 1061, 75, 16]
+        result = calc_promedio_ponderado(counts, [5, 4, 3, 2, 1], 5)
+        self.assertAlmostEqual(result, 82.5810, places=3)
+
+    def test_ponderado_todos_maximos(self):
+        # Todas las respuestas en el nivel de peso máximo → 100 %.
+        self.assertEqual(calc_promedio_ponderado([100, 0, 0, 0, 0], [5, 4, 3, 2, 1], 5), 100.0)
+
+    def test_ponderado_todos_minimos(self):
+        # Todas las respuestas en el nivel de peso mínimo → 20 % (peso 1 / escala 5 * 100).
+        self.assertEqual(calc_promedio_ponderado([0, 0, 0, 0, 100], [5, 4, 3, 2, 1], 5), 20.0)
+
+    def test_ponderado_total_cero(self):
+        # Sin respuestas → 0 (evitar división por cero).
+        self.assertEqual(calc_promedio_ponderado([0, 0, 0, 0, 0], [5, 4, 3, 2, 1], 5), 0.0)
+
+    def test_ponderado_no_redondea_internamente(self):
+        # El resultado conserva precisión completa (no se trunca a 2 decimales).
+        result = calc_promedio_ponderado([1806, 1281, 1061, 75, 16], [5, 4, 3, 2, 1], 5)
+        self.assertNotEqual(round(result, 2), result)
+
+    def test_ponderado_rango_valido(self):
+        # El resultado siempre debe estar entre 0 y 100.
+        for c0 in range(0, 101, 20):
+            for c4 in range(0, 101 - c0, 20):
+                counts = [c0, 0, 0, 0, c4]
+                p = calc_promedio_ponderado(counts, [5, 4, 3, 2, 1], 5)
+                self.assertGreaterEqual(p, 0.0)
+                self.assertLessEqual(p, 100.0)
+
+
+class TestT2BReutilizaCalcCsat(unittest.TestCase):
+    """T2B reutiliza calc_csat (misma fórmula de box score, distinto subset)."""
+
+    def test_t2b_menor_o_igual_que_t3b(self):
+        # Invariante de monotonía: t2b <= t3b para cualquier distribución.
+        counts = [1806, 1281, 1061, 75, 16]
+        total = sum(counts)
+        t3b = counts[0] + counts[1] + counts[2]
+        t2b = counts[0] + counts[1]
+        self.assertLessEqual(calc_csat(t2b, total), calc_csat(t3b, total))
+
+    def test_t2b_caso_real(self):
+        # 3087 de 4239 → 72.82 %
+        self.assertEqual(calc_csat(3087, 4239), 72.82)
 
 
 if __name__ == '__main__':

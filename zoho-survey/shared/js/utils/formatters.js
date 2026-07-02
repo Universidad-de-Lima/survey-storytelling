@@ -29,6 +29,13 @@ window.SurveyFormatters = (() => {
 
   const formatPercent = (n, digits = 2) => formatDecimal(n, digits) + ' %';
 
+  // Formatea un indicador de satisfacción preservando precisión interna y
+  // redondeando únicamente al mostrar (contrato de T2B y Promedio Ponderado).
+  const formatScore = (n, digits = 2) => {
+    if (n === null || n === undefined) return '';
+    return formatDecimal(n, digits) + ' %';
+  };
+
   const formatPctSimple = (v, t) => (t === 0 ? '0%' : Math.round((v / t) * 100) + '%');
 
   const formatPctDecimal = (v, t) => {
@@ -78,6 +85,7 @@ window.SurveyFormatters = (() => {
     formatInteger,
     formatDecimal,
     formatPercent,
+    formatScore,
     formatPctSimple,
     formatPctDecimal,
     formatDate,

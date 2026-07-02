@@ -8,6 +8,8 @@
   const BASE_URL = './json';
   const META_NPS = config.META_NPS ?? 50;
   const META_CSAT = config.META_CSAT ?? 93;
+  const META_T2B = config.META_T2B ?? 70;
+  const META_PONDERADO = config.META_PONDERADO ?? 80;
   const META_EMPLEABILIDAD = config.META_EMPLEABILIDAD ?? 85;
   const CARRERAS_12_CICLOS = config.CARRERAS_12_CICLOS ?? ['Derecho', 'Psicología'];
   const FACULTADES_12_CICLOS = config.FACULTADES_12_CICLOS ?? ['Facultad de Derecho', 'Facultad de Psicología'];
@@ -23,9 +25,11 @@
     'Totalmente insatisfecho',
   ];
   const SAT_TOP3_KEYS = SAT_KEYS.slice(0, 3);
+  const SAT_TOP2_KEYS = config.SAT_TOP2_KEYS ?? SAT_KEYS.slice(0, 2);
 
   // ── Módulos Externos Reutilizables ──
   const _fmt = window.SurveyFormatters;
+  const _mt = window.SurveyMetrics;
   const _san = window.SurveySanitizer;
   const _dh = window.SurveyDOMHelpers;
   const _ttp = window.SurveyTooltip;
@@ -59,6 +63,12 @@
     kpiCsatValue: document.getElementById('kpi-csat-value'),
     kpiCsatBar: document.getElementById('kpi-csat-bar'),
     kpiCsatMeta: document.getElementById('kpi-csat-meta'),
+    kpiT2bValue: document.getElementById('kpi-t2b-value'),
+    kpiT2bBar: document.getElementById('kpi-t2b-bar'),
+    kpiT2bMeta: document.getElementById('kpi-t2b-meta'),
+    kpiPonderadoValue: document.getElementById('kpi-ponderado-value'),
+    kpiPonderadoBar: document.getElementById('kpi-ponderado-bar'),
+    kpiPonderadoMeta: document.getElementById('kpi-ponderado-meta'),
     kpiEmpleaValue: document.getElementById('kpi-emplea-value'),
     kpiEmpleaBar: document.getElementById('kpi-emplea-bar'),
     kpiEmpleaMeta: document.getElementById('kpi-emplea-meta'),
@@ -182,6 +192,23 @@
     DOM.kpiCsatValue.textContent = _fmt.formatPercent(resumen.csat.score);
     DOM.kpiCsatBar.style.width = `${resumen.csat.score}%`;
     DOM.kpiCsatMeta.textContent = `Meta ${_fmt.formatPercent(META_CSAT)}`;
+
+    // T2B y Promedio Ponderado: se leen precomputados del JSON y, como fallback
+    // para periodos generados antes de su incorporación, se derivan de la
+    // distribución CSAT top-level mediante el gemelo JS (SurveyMetrics).
+    const t2bPct = resumen.csat.t2b_pct ?? (_mt ? _mt.deriveT2B(csat, SAT_TOP2_KEYS) : 0);
+    const ponderadoPct = resumen.csat.ponderado ?? (_mt ? _mt.derivePonderado(csat) : 0);
+
+    if (DOM.kpiT2bValue) {
+      DOM.kpiT2bValue.textContent = _fmt.formatScore(t2bPct);
+      DOM.kpiT2bBar.style.width = `${Math.min(100, Math.max(0, t2bPct))}%`;
+      DOM.kpiT2bMeta.textContent = `Meta ${_fmt.formatPercent(META_T2B)}`;
+    }
+    if (DOM.kpiPonderadoValue) {
+      DOM.kpiPonderadoValue.textContent = _fmt.formatScore(ponderadoPct);
+      DOM.kpiPonderadoBar.style.width = `${Math.min(100, Math.max(0, ponderadoPct))}%`;
+      DOM.kpiPonderadoMeta.textContent = `Meta ${_fmt.formatPercent(META_PONDERADO)}`;
+    }
 
     if (DOM.kpiEmpleaCard && resumen.empleabilidad) {
       DOM.kpiEmpleaCard.style.display = '';

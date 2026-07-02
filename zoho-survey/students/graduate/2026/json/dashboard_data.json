@@ -20,7 +20,10 @@
     "csat": {
       "score": 99.02,
       "t3b": 303,
-      "total": 306
+      "total": 306,
+      "t2b": 249,
+      "t2b_pct": 81.37,
+      "ponderado": 87.77777777777779
     },
     "empleabilidad": {
       "score": 87.58,

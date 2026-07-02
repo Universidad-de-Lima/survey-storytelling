@@ -17,6 +17,8 @@ window.SURVEY_CONFIG = {
   // ── Metas institucionales ──
   META_NPS: 50,
   META_CSAT: 93,
+  META_T2B: 70,
+  META_PONDERADO: 80,
   META_EMPLEABILIDAD: 85,
 
   // ── Carreras y facultades con 12 ciclos (en lugar de 10) ──
@@ -36,6 +38,16 @@ window.SURVEY_CONFIG = {
     'Insatisfecho',
     'Totalmente insatisfecho',
   ],
+
+  // ── Subset para Top 2 Box (las dos respuestas más positivas) ──
+  // Invariante de alineación: debe ser SAT_KEYS.slice(0, 2) y mantener el
+  // orden de más positivo a más negativo, igual que CSAT_WEIGHTS.
+  SAT_TOP2_KEYS: ['Totalmente satisfecho', 'Muy satisfecho'],
+
+  // ── Pesos de la escala Likert para el Promedio Ponderado ──
+  // Debe estar alineado posicionalmente con SAT_KEYS (más positivo → peso mayor).
+  CSAT_WEIGHTS: [5, 4, 3, 2, 1],
+  CSAT_SCALE_MAX: 5,
 
   // ── Placeholder texts ──
   FACULTAD_PLACEHOLDER: 'Todas las unidades académicas',

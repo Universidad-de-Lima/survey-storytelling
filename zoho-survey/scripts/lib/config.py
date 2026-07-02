@@ -268,6 +268,15 @@ RESPUESTAS_TEXTO: List[str] = [
 ]
 
 # ============================================================
+# 4b. PESOS DE LA ESCALA LIKERT PARA EL PROMEDIO PONDERADO
+# ============================================================
+# Invariante de alineación: CSAT_WEIGHTS debe estar alineado posicionalmente
+# con RESPUESTAS_TEXTO[:5] (de más positivo a más negativo). Cualquier
+# reorden de RESPUESTAS_TEXTO rompería esta alineación.
+CSAT_WEIGHTS: List[int] = [5, 4, 3, 2, 1]
+CSAT_SCALE_MAX: int = 5
+
+# ============================================================
 # 5. MAPA DE ETAPAS (ciclo numérico → etapa académica)
 # ============================================================
 

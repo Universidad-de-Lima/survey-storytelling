@@ -58,11 +58,15 @@
 
 .color-nps { color: var(--ulima-orange); }
 .color-csat { color: var(--success-text); }
+.color-t2b { color: var(--gray-700); }
+.color-ponderado { color: var(--warning-text); }
 .color-emplea { color: var(--black); }
 .color-positive { color: #00B04F; }
 .color-negative { color: var(--ulima-red); }
 .bg-nps { background: var(--ulima-orange); }
 .bg-csat { background: var(--success-text); }
+.bg-t2b { background: var(--gray-700); }
+.bg-ponderado { background: var(--warning-text); }
 .bg-emplea { background: var(--black); }
 .bg-dias { background: var(--gray-700); }
 

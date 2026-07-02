@@ -20,7 +20,10 @@
     "csat": {
       "score": 97.85,
       "t3b": 4148,
-      "total": 4239
+      "total": 4239,
+      "t2b": 3087,
+      "t2b_pct": 72.82,
+      "ponderado": 82.58079735786743
     }
   },
   "hallazgos": {
