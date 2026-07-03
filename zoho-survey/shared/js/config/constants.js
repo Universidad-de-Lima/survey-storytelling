@@ -67,4 +67,61 @@ window.SURVEY_CONFIG = {
   // ── Visualización ──
   RADAR_LABEL_MAXLEN: 26,
   ANIMATION_FALLBACK_MS: 1200,
+
+  // ── Strings de UI (Fase 5: preparación i18n) ──
+  // Extraídos para facilitar futura internacionalización.
+  // NO traducidos aún — solo centralizados para que el frontend
+  // use SURVEY_CONFIG.strings.XXXX en lugar de strings hardcodeados.
+  strings: {
+    // Secciones del dashboard
+    sectionEjecutivo: 'ANÁLISIS EJECUTIVO',
+    sectionOperativo: 'ANÁLISIS OPERATIVO',
+    sectionDetallado: 'ANÁLISIS DETALLADO',
+    sectionCualitativo: 'ANÁLISIS CUALITATIVO',
+
+    // KPI labels
+    kpiNps: 'NPS',
+    kpiCsat: 'Nivel de Satisfacción',
+    kpiT2b: 'Top 2 Box',
+    kpiPonderado: 'Promedio Ponderado',
+    kpiEmpleabilidad: 'Empleabilidad',
+    kpiEncuestas: 'Total encuestados',
+    kpiPromotores: 'Promotores',
+    kpiPasivos: 'Pasivos',
+    kpiDetractores: 'Detractores',
+    kpiTextoAbierto: 'Con texto abierto',
+    kpiIntensidadProm: 'Intensidad prom.',
+    kpiPositivas: 'Positivas',
+    kpiNeutras: 'Neutras',
+    kpiNegativas: 'Negativas',
+    kpiIdeasAnalizadas: 'Ideas analizadas',
+
+    // Filtros
+    filterFacultad: 'Facultad',
+    filterCarrera: 'Carrera',
+    filterCiclo: 'Ciclo',
+    filterReset: 'Limpiar',
+    filterTodas: 'Todas',
+    filterTodos: 'Todos',
+
+    // Sentimiento
+    sentPositivo: 'Positivo',
+    sentNegativo: 'Negativo',
+    sentNeutro: 'Neutro',
+    sentInsatisfaccion: 'Insatisfacción',
+    sentFortaleza: 'Fortaleza reconocida',
+    sentOportunidad: 'Oportunidad de mejora',
+
+    // NPS segmentos
+    npsPromotor: 'Promotor',
+    npsPasivo: 'Pasivo',
+    npsDetractor: 'Detractor',
+
+    // Varios
+    labelEncuesta: 'ENCUESTA',
+    labelPeriodo: 'PERIODO',
+    labelNuevo: 'NUEVO',
+    labelProximamente: 'Próximamente',
+    footerFuente: 'Fuente: Encuesta de Satisfacción — Universidad de Lima',
+  }
 };

@@ -312,6 +312,30 @@ def validate_period_html(period_dir: Path) -> List[str]:
     for fragment in required_fragments:
         if fragment not in normalized and fragment not in html:
             errors.append(f"{path}: no contiene fragmento requerido: {fragment}")
+
+    # ── Fase 2: Validación de IDs de filtros (contrato público dashboard.js) ──
+    filter_suffixes = ["top3", "radar", "preguntas", "detalle", "visibilidad"]
+    for suffix in filter_suffixes:
+        if f'id="filter-facultad-{suffix}"' not in html:
+            errors.append(f"{path}: falta ID de filtro: filter-facultad-{suffix}")
+        if suffix != "detalle":
+            if f'id="filter-carrera-{suffix}"' not in html:
+                errors.append(f"{path}: falta ID de filtro: filter-carrera-{suffix}")
+        if f'id="filter-ciclo-{suffix}"' not in html:
+            errors.append(f"{path}: falta ID de filtro: filter-ciclo-{suffix}")
+        if f'id="reset-{suffix}"' not in html:
+            errors.append(f"{path}: falta ID de filtro: reset-{suffix}")
+
+    # ── Validación de sección cualitativa ──
+    sentimiento_ids = [
+        'id="sentimiento"', 'id="sentiment-kpis"', 'id="sentimiento-bar-chart"',
+        'id="explorador-search"', 'id="explorador-sentimiento"',
+        'id="explorador-tema"', 'id="explorador-carrera"',
+    ]
+    for sid in sentimiento_ids:
+        if sid not in html:
+            errors.append(f"{path}: falta ID cualitativo requerido: {sid}")
+
     return errors
 
 

@@ -9,6 +9,7 @@ import pandas as pd
 import json
 import re
 import logging
+import time
 from pathlib import Path
 from shutil import copyfile
 from collections import defaultdict
@@ -238,8 +239,11 @@ def main() -> None:
         return
 
     periodos_por_nivel = defaultdict(set)
+    _build_start = time.perf_counter()
+    _timings: Dict[str, float] = {}
 
     for csv_file in csv_files:
+        _csv_start = time.perf_counter()
         filename = csv_file.name.upper()
         logging.info(f"Iniciando procesamiento de: {csv_file.name}")
 
@@ -602,10 +606,9 @@ def main() -> None:
 
             # ================================================================
             # ANALISIS CUALITATIVO CON IA (DeepSeek) - Fase IA
-            # Reemplaza segmentacion_nps + aspect_extraction + sentiment_engine
-            # por una unica llamada DeepSeek con prompts calibrados (Bardin +
-            # Braun&Clarke) y reglas de sesgo por contexto NPS.
+            # Configuración centralizada en lib/config.py → IA_CUALITATIVO_MODE.
             # Activar con: DEEPSEEK_API_KEY en entorno (GitHub Actions Secret).
+            # Forzar legacy: IA_CUALITATIVO_FALLBACK=1 o IA_CUALITATIVO_MODE="legacy".
             # Fallback automatico al pipeline legacy si la key no esta.
             # ================================================================
             import os as _os
@@ -954,6 +957,9 @@ def main() -> None:
             json.dump(sentimiento, f, ensure_ascii=False)
 
         logging.info(f"Procesamiento finalizado con éxito para {nivel}/{periodo}.")
+        _csv_elapsed = time.perf_counter() - _csv_start
+        _timings[f"{nivel}/{periodo}"] = _csv_elapsed
+        logging.info(f"⏱️ Tiempo de procesamiento para {nivel}/{periodo}: {_csv_elapsed:.1f}s")
 
         # Guardar hash del CSV para saltar reprocesamiento en el próximo build
         # si el CSV no cambia. Solo se guarda si el procesamiento fue exitoso.
@@ -962,6 +968,11 @@ def main() -> None:
     # =========================================================
     # Actualizar periodos.json automáticamente por nivel
     # =========================================================
+    _total_elapsed = time.perf_counter() - _build_start
+    logging.info(f"⏱️ Build completado en {_total_elapsed:.1f}s | {len(_timings)} archivos procesados")
+    for _k, _v in sorted(_timings.items(), key=lambda x: x[1], reverse=True):
+        logging.info(f"   {_k}: {_v:.1f}s")
+
     def clave_periodo(p: str):
         parts = p.split('-')
         if len(parts) == 2 and parts[0].isdigit() and parts[1].isdigit():

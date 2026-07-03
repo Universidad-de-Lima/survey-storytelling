@@ -2,6 +2,31 @@
 
 Historial de cambios significativos del proyecto. Basado en [Keep a Changelog](https://keepachangelog.com/).
 
+## [3.1.0] — 2026-07-03
+
+### Added
+- Extracción de `ALIAS_DICT_MANUAL` (~200 entradas) desde `lib/aspect_extraction.py` a archivo JSON externo `scripts/config/alias_aspectos.json` (Fase 1). Facilita mantenimiento y permite validación independiente.
+- Nuevo test `test_alias_aspectos.py`: 5 tests que validan integridad del diccionario de alias (carga desde JSON, correspondencia con taxonomía oficial, no duplicados, estructura del JSON).
+- Nuevo test `test_html_contract.py`: 5 tests que validan orden canónico de carga de scripts en `template/index.html`, `zoho-survey/index.html`, y todos los `index.html` de periodos generados.
+- Nuevos tests unitarios JS: `test-sentiment-view.js` (8 tests), `test-filter-controller.js` (14 tests), `test-loader.js` (13 tests). Cobertura JS sube de 3/13 a 6/13 módulos.
+- Extensión de `test_pipeline_integration.py` con 16 nuevos casos: NPS/CSAT edge cases, detección de nivel/periodo, hash de CSV.
+- Extensión de `validate_period_html()` en `validate_generated_json.py`: ahora valida IDs de filtros en cascada (5 secciones × 4 IDs) e IDs de sección cualitativa (7 IDs).
+- Constante `IA_CUALITATIVO_MODE` en `lib/config.py` — centraliza la configuración de motores cualitativos (antes dispersa en `build_json.py`).
+- Documentación del motor IA en `ARCHITECTURE.md`: diagrama Mermaid con doble motor (IA + Legacy), tabla de 10 módulos ETL, sección de optimización `.csv_hash`.
+- Integración documentada de la skill `qualitative_research_synthesis` en `docs/developer-guide.md` como herramienta complementaria de validación humana.
+
+### Changed
+- `AGENTS.md`: corregido conteo de módulos lib (7→10), actualizada referencia de `ALIAS_DICT_MANUAL` a `config/alias_aspectos.json`.
+- `tests/run-tests.html`: agregados 6 nuevos scripts de dependencias + 3 nuevos tests.
+- `.github/workflows/tests.yml`: Node test runner actualizado con 4 nuevos módulos + 3 nuevos tests + `metrics.js`.
+- `ARCHITECTURE.md`: deuda técnica actualizada (código muerto eliminado, extracción de alias, coexistencia de motores).
+
+### Fixed
+- Eliminado `ALIAS_DICT_MANUAL` hardcodeado (~200 líneas) de `lib/aspect_extraction.py`. Ahora se carga desde JSON con fallback a dict vacío si el archivo no existe.
+- Confirmado que `DEEPSEEK_API_KEY` está configurado y el motor IA está activo en producción. Sin acción requerida.
+
+---
+
 ## [3.0.6] — 2026-06-23
 
 ### Fixed

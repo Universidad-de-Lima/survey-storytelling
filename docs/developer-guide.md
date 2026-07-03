@@ -74,3 +74,80 @@ Para detalles de adición y ejecución de pruebas unitarias, consulta [tests/REA
 - [ ] Si se modificó la estructura de datos, se actualizaron coherentemente los validadores de Python y [CONTRACTS.md](file:///q:/ANALISTA%20DE%20DATOS/6.%20Encuesta%20de%20Satisfacci%C3%B3n/6.11%20GitHub/survey-storytelling/CONTRACTS.md).
 - [ ] Se ejecutaron las pruebas unitarias locales en navegador sin fallos.
 - [ ] Se corrió con éxito `npm run validate:json` antes del commit.
+
+---
+
+## Configuración del Motor Cualitativo
+
+El sistema soporta dos motores de análisis cualitativo, controlados desde `lib/config.py`:
+
+| Variable | Valores | Efecto |
+|---|---|---|
+| `IA_CUALITATIVO_MODE` | `"auto"` (default) | IA si `DEEPSEEK_API_KEY` está configurada; si no, Legacy |
+| `IA_CUALITATIVO_MODE` | `"ia"` | Forzar DeepSeek; falla si no hay API key |
+| `IA_CUALITATIVO_MODE` | `"legacy"` | Forzar spaCy + SentenceTransformer |
+| `IA_CUALITATIVO_FALLBACK=1` | env var | Fuerza modo legacy incluso con API key |
+| `IA_CUALITATIVO_CACHE=0` | env var | Desactiva caché IA (`ia_cache.json`) |
+
+**Motor IA (DeepSeek)** — activo en producción desde Fase IA:
+- Una sola llamada API ejecuta 5 tareas: segmentación → sentimiento con reglas NPS → intensidad → clasificación taxonómica → cross-reference CSAT.
+- Caché persistente en `ia_cache.json` (hash SHA256 de comentario + contexto + prompt version).
+- Rate limit: 60 RPM, 15 workers concurrentes. Timeout: 60s por llamada.
+- Costo estimado: ~$0.50 por build completo, ~$0.05 con caché.
+
+**Motor Legacy (spaCy + embeddings)** — fallback automático:
+- 3 módulos encadenados: `segmentacion_nps.py` → `aspect_extraction.py` → `sentiment_engine.py`.
+- Precisión vs ground truth humano: sentimiento 59.7%, taxonomía 32.6%.
+- Mantenido como respaldo si DeepSeek API no está disponible.
+
+### Alternar entre motores
+
+Para forzar el motor legacy en el próximo build (incluso con API key):
+1. Ve a GitHub → Actions → `Build and Deploy Survey` → Run workflow.
+2. En el campo "environment variables", escribe: `IA_CUALITATIVO_FALLBACK=1`.
+3. O alternativamente, configura `IA_CUALITATIVO_MODE = "legacy"` en `lib/config.py` antes del push.
+
+---
+
+## Validación Cualitativa con la Skill `qualitative_research_synthesis`
+
+El repositorio incluye una skill para agentes IA en `.agents/skills/qualitative_research_synthesis/SKILL.md`. Esta skill es **complementaria** al ETL automático y se usa para:
+
+- **Revisión mensual de "Pendiente de Clasificación"**: tomar una muestra de fragmentos que el ETL no pudo clasificar y revisarlos manualmente.
+- **Validación de calidad**: comparar clasificaciones del ETL contra criterio humano en muestras aleatorias.
+- **Síntesis narrativa para reportes**: generar interpretaciones cualitativas para stakeholders no técnicos.
+
+### Flujo de revisión recomendado
+
+1. Extraer una muestra de `sentimiento.json` — filtrar por `"categoria_padre": "Pendiente de Clasificación"`.
+2. Usar un agente IA con la skill para analizar la muestra.
+3. Si se identifican patrones (ej. una dimensión nueva que debería estar en la taxonomía), actualizar `config/alias_aspectos.json`.
+4. Regenerar JSONs y verificar que "Pendiente de Clasificación" disminuye.
+
+La skill NO reemplaza al ETL. Su rol es de **síntesis e interpretación** sobre datos ya procesados.
+
+---
+
+## Rollback de Emergencia
+
+### Revertir al último build bueno
+1. Ir a GitHub → Commits. Buscar el último commit del bot (`github-actions`).
+2. Copiar el hash del commit bueno.
+3. En tu rama local: `git checkout <hash> -- zoho-survey/students/`
+4. Commit y push: `git commit -m "Rollback: restaurar JSONs" && git push`
+
+### Forzar re-build limpio
+1. GitHub → Actions → **Build and Deploy Survey** → Run workflow.
+2. Esto regenera todos los JSONs desde los CSVs en `data/`.
+3. Verificar en GitHub Pages que los dashboards cargan.
+
+### Revertir `periodos.json`
+- Borrar el archivo y hacer push → el workflow lo regenera.
+- O restaurar: `git checkout HEAD~1 -- zoho-survey/students/*/periodos.json`
+
+### Revertir caché IA (`ia_cache.json`)
+- Borrar el archivo y hacer push → se reconstruye en el próximo build (con costo de API).
+
+---
+
+## Checklist de Validación antes de Commitear

@@ -1,4 +1,8 @@
-# survey-storytelling v2.0
+# survey-storytelling v3.1.0
+
+[![Build and Deploy](https://github.com/Universidad-de-Lima/survey-storytelling/actions/workflows/build_students.yml/badge.svg)](https://github.com/Universidad-de-Lima/survey-storytelling/actions/workflows/build_students.yml)
+[![Tests](https://github.com/Universidad-de-Lima/survey-storytelling/actions/workflows/tests.yml/badge.svg)](https://github.com/Universidad-de-Lima/survey-storytelling/actions/workflows/tests.yml)
+[![Validate JSON](https://github.com/Universidad-de-Lima/survey-storytelling/actions/workflows/validate-survey-json.yml/badge.svg)](https://github.com/Universidad-de-Lima/survey-storytelling/actions/workflows/validate-survey-json.yml)
 
 Sistema estático de visualización de encuestas de satisfacción para la Universidad de Lima. Convierte CSV exportados desde Zoho Survey en dashboards interactivos, sin backend ni base de datos, desplegables en GitHub Pages.
 
@@ -33,4 +37,7 @@ Este repositorio sigue una estructura de documentación modularizada con respons
 * **Guías de Procedimiento:** [docs/developer-guide.md](file:///q:/ANALISTA%20DE%20DATOS/6.%20Encuesta%20de%20Satisfacci%C3%B3n/6.11%20GitHub/survey-storytelling/docs/developer-guide.md) detalla flujos comunes como la adición de periodos, cambio de metas u otros tópicos.
 * **Lógica del Dashboard:** [docs/filter-logic.md](file:///q:/ANALISTA%20DE%20DATOS/6.%20Encuesta%20de%20Satisfacci%C3%B3n/6.11%20GitHub/survey-storytelling/docs/filter-logic.md) describe las reglas del negocio aplicadas a los filtros en cascada del frontend.
 * **Pruebas de Unidad:** [tests/README.md](file:///q:/ANALISTA%20DE%20DATOS/6.%20Encuesta%20de%20Satisfacci%C3%B3n/6.11%20GitHub/survey-storytelling/tests/README.md) detalla cómo ejecutar y extender los tests unitarios.
-* **Changelog:** [docs/CHANGELOG.md](file:///q:/ANALISTA%20DE%20DATOS/6.%20Encuesta%20de%20Satisfacci%C3%B3n/6.11%20GitHub/survey-storytelling/docs/CHANGELOG.md) contiene el historial de cambios del proyecto.
+* **Changelog:** [docs/CHANGELOG.md](docs/CHANGELOG.md) contiene el historial de cambios del proyecto.
+* **Onboarding:** [docs/onboarding.md](docs/onboarding.md) es la guía de inicio para nuevos desarrolladores y analistas.
+* **Integración Zoho API:** [docs/zoho-api-integration.md](docs/zoho-api-integration.md) analiza la viabilidad de automatizar la descarga de CSVs.
+* **Health Check:** [zoho-survey/health.html](zoho-survey/health.html) verifica la integridad de todos los dashboards y JSONs.

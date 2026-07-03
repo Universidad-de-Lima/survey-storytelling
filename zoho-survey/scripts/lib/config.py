@@ -327,3 +327,30 @@ EMPLEABILIDAD_CATEGORIAS: List[str] = [
 # Ajustar si el modelo SentenceTransformer cambia o si se recalibran las anclas.
 SENTIMENT_CONFIDENCE_THRESHOLD: float = 0.4
 
+
+# ============================================================
+# 8. MOTOR CUALITATIVO — Configuración de motores IA vs Legacy
+# ============================================================
+
+# Modo del motor cualitativo:
+#   "auto" → IA (DeepSeek) si DEEPSEEK_API_KEY está configurada, si no Legacy.
+#   "ia"   → Forzar IA. Fallará si DEEPSEEK_API_KEY no está disponible.
+#   "legacy" → Forzar pipeline spaCy + SentenceTransformer.
+# Controlado por variable de entorno IA_CUALITATIVO_MODE (default: "auto").
+# Para forzar legacy incluso con API key: IA_CUALITATIVO_FALLBACK=1
+# Para desactivar caché IA: IA_CUALITATIVO_CACHE=0
+IA_CUALITATIVO_MODE: str = "auto"  # "auto" | "ia" | "legacy"
+
+# Calibración de sentimiento legacy (Fase 7, 2026-06-24):
+# - Ajustar si el modelo SentenceTransformer cambia.
+# - Ajustar si se observan falsos positivos/negativos en validación manual.
+# - Umbral actual (0.4): selectivo, reclasifica ~2.7% de unidades a neutro
+#   cuando la confianza del softmax es baja y no hay señal léxica fuerte.
+IA_LEGACY_CONFIDENCE_THRESHOLD: float = SENTIMENT_CONFIDENCE_THRESHOLD  # alias semántico
+
+# Umbrales de cosine similarity para matching de aspectos (modo legacy):
+# - >0.55: match de alta confianza
+# - >0.45: match de baja confianza (solo para fragmentos cortos ≤4 palabras)
+IA_LEGACY_ASPECT_THRESHOLD_HIGH: float = 0.55
+IA_LEGACY_ASPECT_THRESHOLD_LOW: float = 0.45
+

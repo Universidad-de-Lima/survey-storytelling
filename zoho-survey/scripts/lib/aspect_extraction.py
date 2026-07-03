@@ -6,7 +6,8 @@ from sklearn.metrics.pairwise import cosine_similarity
 from .nlp import obtener_modelo
 import json
 import os
-from .config import CATEGORIA_DIMENSION_PREGRADO, CATEGORIA_DIMENSION_GRADUADO
+from .config import CATEGORIA_DIMENSION_PREGRADO, CATEGORIA_DIMENSION_GRADUADO, \
+    IA_LEGACY_ASPECT_THRESHOLD_HIGH, IA_LEGACY_ASPECT_THRESHOLD_LOW
 
 # Cargar stop aspectos
 _STOP_ASPECTOS = set()
@@ -37,63 +38,26 @@ CATEGORIA_PADRE_MAP.update(CATEGORIA_DIMENSION_GRADUADO)
 CATEGORIA_PADRE_MAP["Pendiente de Clasificación"] = "Pendiente de Clasificación"
 
 # 2. Diccionario interno de alias muy comunes para atajo rápido (Fase 1)
-ALIAS_DICT_MANUAL = {
-    # Académico
-    "Perfil del egreso de la carrera": ["perfil", "egreso", "egresado", "perfil del egresado"],
-    "Plan curricular y perfil de egreso": ["malla", "curricula", "plan de estudios", "silabo"],
-    "Cursos del programa y contenidos": ["curso", "cursos", "electivo", "electivos", "temas", "contenido", "clases virtuales", "maqueta", "maquetas"],
-    "Calidad de la enseñanza en la carrera": ["profesor", "profesores", "docente", "docentes", "profe", "profes", "enseñanza", "pedagogia", "trato", "explicacion", "metodologia"],
-    "Claridad de los recursos académicos": ["recursos", "materiales", "diapositivas", "lecturas", "ppt", "ppts"],
-    "Calidad de la formación académica": ["formacion", "calidad", "educacion", "nivel educativo", "prestigio", "academico", "nivel academico", "aprendizaje", "preparacion"],
-    "Exigencia académica": ["exigencia", "dificultad", "nivel", "exigente", "facil", "dificil"],
-    "Evaluación del aprendizaje": ["examen", "examenes", "evaluacion", "evaluaciones", "practica", "practicas", "nota", "notas", "calificacion", "rubrica", "evaluar"],
-    "Intercambio estudiantil": ["intercambio", "viaje", "extranjero", "convenio", "convenios"],
-    "La carrera": ["carrera", "facultad"],
-    "Satisfacción estudiantil": ["satisfecho", "satisfecha", "recomiendo", "recomendaria", "buena", "bien", "genial", "excelente", "me gusta", "conforme", "estandarizada", "universidad si", "buen camino", "cosas buenas"],
-    
-    # Administrativo y Bienestar
-    "Información sobre el récord académico": ["record", "notas", "promedio", "ponderado", "quinto", "tercio", "rendimiento"],
-    "Material bibliográfico en la biblioteca": ["libro", "libros", "bibliografia", "revista", "revistas", "base de datos"],
-    "Atención del personal administrativo": ["atencion", "personal", "administrativo", "secretaria", "orientacion", "trato"],
-    "Procedimientos administrativos": ["matricula", "inscripcion", "cupo", "cupos", "turno", "turnos", "sistema de matricula", "tramites", "burocracia", "organización", "organizado"],
-    "Ayuda financiera": ["pension", "pensiones", "pago", "pagos", "beca", "becas", "economia", "economico", "recategorizacion", "categorizacion", "boleta", "asequibilidad"],
-    "Servicio médico y su infraestructura": ["medico", "topico", "salud", "enfermeria", "emergencia"],
-    "Servicio de atención psicopedagógica": ["psicologo", "psicologia", "psicopedagogico", "psicologica", "salud mental", "terapia"],
-    "Talleres de actividades artísticas y culturales": ["taller", "talleres", "arte", "cultura", "danza", "musica", "teatro"],
-    "Actividades deportivas": ["deporte", "deportes", "cancha", "canchas", "gimnasio", "gym", "entrenamiento", "seleccion", "variedad deportiva"],
-    "Empleabilidad, vinculación y ALUMNI": ["empleabilidad", "trabajo", "practicas", "bolsa de trabajo", "alumni", "egresados", "contacto con empresas", "oportunidades", "empleo", "laboral"],
-    
-    # Infraestructura
-    "Aulas de clase": ["aula", "aulas", "salon", "salones", "carpeta", "carpetas", "silla", "sillas", "comodidad", "mobiliario", "pizarra", "pizarras", "aire acondicionado", "ventilacion", "enchufe", "enchufes", "instalaciones", "ascensor", "ascensores", "elevador", "elevadores", "baño", "baños", "edificio", "edificios"],
-    "Ambientes y salas para estudio": ["espacio de estudio", "espacios de estudio", "cubiculo", "cubiculos", "biblioteca", "mesas", "mesas libres", "zona de estudio", "áreas", "construcciones", "construccion", "aire", "espacios", "espacio"],
-    "Equipamiento tecnológico en laboratorios": ["laboratorio", "laboratorios", "pc", "pcs", "computadora", "computadoras", "mac", "macs", "impresora", "impresoras", "equipo", "equipos", "tecnología"],
-    "Condiciones ambientales en laboratorios": ["condiciones del laboratorio", "ruido en laboratorio", "iluminacion", "seguridad"],
-    "Ubicación": ["ubicacion", "lejos", "lejania", "distancia", "trafico", "llegar", "transporte", "bus", "estacionamiento", "estacionamientos"],
-    "Espacios de alimentación": ["comida", "comedor", "cafeteria", "cafeterias", "kiosko", "kioskos", "precio", "almuerzo", "menu", "patio de comidas", "patio", "colas", "microondas", "sobrepoblacion"],
-    
-    # Tecnología
-    "Software especializado empleado en la carrera": ["software", "programa", "licencia", "licencias", "aplicacion"],
-    "Portal web de la Universidad (Mi Ulima)": ["miulima", "portal", "sistema"],
-    "Aula virtual": ["blackboard", "correo", "zoom", "intranet", "clases virtuales", "virtual"],
-    "Conexión Wi-Fi en el campus": ["wifi", "wi-fi", "internet", "red", "señal", "conexion", "conectividad", "datos"],
-    "Soporte técnico del sistema informático": ["soporte", "tecnico", "ayuda tecnica", "fallas", "mesa de ayuda"],
+# Cargado desde archivo JSON externo para facilitar mantenimiento.
+# El archivo alias_aspectos.json está organizado por categoría padre → dimensión → [aliases].
 
-    # Docencia
-    "Transmisión de conocimientos": ["conocimiento", "conocimientos", "sabe", "saben", "dominio"],
-    "Transmisión de experiencias": ["experiencia", "experiencias", "casos", "vida real"],
-    "Metodologías": ["metodologia", "didactica", "forma de enseñar", "metodo"],
-    "Conocimientos actualizados": ["actualizado", "actualizados", "moderno", "modernos", "vanguardia", "obsoleto"],
-    "Compromiso": ["compromiso", "interes", "dedicacion", "se preocupa"],
-    "Retroalimentación": ["feedback", "retroalimentacion", "correccion", "correcciones"],
-    "Disponibilidad para asesorías": ["asesoria", "asesorias", "consulta", "consultas", "dudas", "tiempo", "disponibilidad"],
-    "Cumplimiento de normas y programas": ["puntualidad", "tarde", "normas", "reglas", "programa", "silabo"],
+def _cargar_alias_dict() -> Dict[str, list]:
+    """Carga el diccionario de alias desde alias_aspectos.json (estructura agrupada por categoria padre)."""
+    alias_path = os.path.join(os.path.dirname(__file__), "..", "config", "alias_aspectos.json")
+    try:
+        with open(alias_path, "r", encoding="utf-8") as f:
+            agrupado = json.load(f)
+        # Aplanar: {dimension: [aliases]} para compatibilidad con código existente
+        plano = {}
+        for _cat, dimensiones in agrupado.items():
+            for dim, aliases in dimensiones.items():
+                plano[dim] = aliases
+        return plano
+    except Exception:
+        # Fallback mínimo si el JSON no se puede cargar (evita bloquear el pipeline)
+        return {}
 
-    # Desarrollo Profesional
-    "Habilidades para trabajar en equipo": ["trabajo grupal", "trabajos grupales", "grupo", "grupos", "equipo", "compañeros", "compañero", "amistades"],
-    "Habilidades de comunicación": ["comunicacion", "hablar", "exposicion", "exposiciones", "expresion"],
-    "Habilidades para aportar nuevas ideas": ["ideas", "innovacion", "creatividad", "aporte"],
-    "Mejora en perspectivas de empleo": ["perspectiva", "futuro", "oportunidad laboral"]
-}
+ALIAS_DICT_MANUAL = _cargar_alias_dict()
 
 # Solo registramos alias exactos para las dimensiones que sí existen en la config actual
 EXACT_MATCH_ITEMS = []
@@ -232,13 +196,13 @@ def normalizar_aspecto(aspecto_detectado: str, contexto_completo: str = "") -> T
     max_idx = np.argmax(sim)
     max_score = sim[max_idx]
     
-    # Umbral estricto para evitar falsos positivos
-    if max_score > 0.55:
+    # Umbrales configurables en lib/config.py (Fase 3)
+    if max_score > IA_LEGACY_ASPECT_THRESHOLD_HIGH:
         bucket = _ANCHORS_KEYS[max_idx]
         return bucket, CATEGORIA_PADRE_MAP[bucket], "embedding"
         
     # Paso extra para fragmentos muy cortos (ej. "construcciones innecesarias")
-    if max_score > 0.45 and len(target_clean.split()) <= 4:
+    if max_score > IA_LEGACY_ASPECT_THRESHOLD_LOW and len(target_clean.split()) <= 4:
         bucket = _ANCHORS_KEYS[max_idx]
         return bucket, CATEGORIA_PADRE_MAP[bucket], "embedding_fallback"
 

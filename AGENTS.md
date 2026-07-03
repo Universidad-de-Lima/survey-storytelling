@@ -20,14 +20,17 @@ Antes de tocar codigo, comprender la arquitectura real (no la documentacion prev
 ### ETL Python (`zoho-survey/scripts/`)
 
 - **`build_json.py`** (~820 lineas): orquestador del pipeline CSV → JSON.
-- **`lib/`** contiene **7 modulos activos** (no 4 como en documentacion previa):
+- **`lib/`** contiene **10 modulos activos** (no 4 como en documentacion previa a v3.0):
   - `config.py` — mapeos de columnas y catalogos de negocio.
   - `metrics.py` — `calc_nps`, `calc_csat` (funciones puras).
   - `io_helper.py` — `load_json`, `read_csv_robust`, `normalize_dates`.
   - `nlp.py` — `sanitizar_comentario` (activo).
   - `segmentacion_nps.py` — fragmentacion NPS con spaCy (Meaning Units).
-  - `aspect_extraction.py` — extraccion de aspectos con spaCy + embeddings.
+  - `aspect_extraction.py` — extraccion de aspectos con spaCy + embeddings. Carga alias desde `config/alias_aspectos.json`.
   - `sentiment_engine.py` — clasificacion hibrida sentimiento + intensidad.
+  - `ia_cualitativo.py` — motor IA con DeepSeek (opcional, requiere `DEEPSEEK_API_KEY`). Cache en `ia_cache.json`.
+  - `prompts_cualitativo.py` — prompts Bardin/Braun&Clarke para DeepSeek. Versionados con `PROMPT_VERSION`.
+  - `insights_generator.py` — sintesis determinista de insights (sin LLM, Fase 8).
 - **`schemas/`** contiene **7 JSON Schemas Draft-07** que son la fuente formal de tipos.
 
 ### Frontend JS (`zoho-survey/shared/js/`)
@@ -125,7 +128,7 @@ Los siguientes archivos son single points of failure. Modificarlos requiere actu
 | --- | --- |
 | `zoho-survey/scripts/build_json.py` | ETL completo falla. |
 | `zoho-survey/scripts/lib/config.py` | Mapeos de columnas y catalogos de negocio. Cambios requieren CSV fuente compatible. |
-| `zoho-survey/scripts/lib/aspect_extraction.py` | `ALIAS_DICT_MANUAL` define normalizacion de aspectos. Cambios afectan `sentimiento.json`. |
+| `zoho-survey/scripts/lib/aspect_extraction.py` | `ALIAS_DICT_MANUAL` define normalizacion de aspectos. Cambios requieren actualizar `config/alias_aspectos.json` (fuente canonica desde Fase 1). |
 | `zoho-survey/scripts/validate_generated_json.py` | Validacion de contratos. Cambios deben sincronizarse con schemas. |
 | `zoho-survey/scripts/schemas/*.schema.json` | Fuente formal de tipos. Cambios deben propagarse a ETL, validador y CONTRACTS.md. |
 | `zoho-survey/template/index.html` | IDs HTML son contratos publicos con `dashboard.js` y `filter-controller.js`. |

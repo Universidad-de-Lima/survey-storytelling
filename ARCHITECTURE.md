@@ -14,15 +14,25 @@ graph TD
     LOADER[zoho-survey/index.html + loader.js] --> |iframe| DASH
     CSS[zoho-survey/shared/css] --> HTML[index.html de periodo]
     DASH --> HTML
+    CSV --> |hash| CACHE[.csv_hash<br/>detección de cambios]
 
-    subgraph ETL Cualitativo Moderno
+    subgraph ETL Cualitativo IA [Motor IA — DeepSeek (opcional)]
+        IA[lib/ia_cualitativo.py] --> |cache| IACACHE[ia_cache.json]
+        IAPROMPT[lib/prompts_cualitativo.py] --> IA
+        IA --> |genera| DC2[dataset_cualitativo.json]
+        DC2 --> ST2[sentimiento.json v3.0]
+        IAGEN[lib/insights_generator.py] --> |síntesis determinista| ST2
+    end
+
+    subgraph ETL Cualitativo Legacy [Motor Legacy — spaCy + embeddings]
         SAN[lib/nlp.py sanitizar_comentario] --> SEG[lib/segmentacion_nps.py fragmentar_comentario_nps]
         SEG --> |por fragmento| ASP[lib/aspect_extraction.py procesar_opinion_unit]
         ASP --> SEN[lib/sentiment_engine.py analizar_sentimiento_intensidad]
         SEN --> DC[dataset_cualitativo.json]
         DC --> ST[sentimiento.json v3.0]
     end
-    ETL --> SAN
+    ETL --> |sin DEEPSEEK_API_KEY| SAN
+    ETL --> |con DEEPSEEK_API_KEY| IA
 ```
 
 ## Estructura De Directorios
@@ -41,11 +51,13 @@ survey-storytelling/
 │   │   └── js/              # Modulos JS IIFE expuestos en window.Survey*.
 │   ├── template/            # Plantilla HTML para nuevos periodos de encuesta.
 │   ├── scripts/             # ETL en Python, validacion de contratos y schemas JSON.
-│   │   ├── lib/             # Biblioteca modularizada del ETL (config, metrics, nlp, io_helper,
-│   │   │                    # segmentacion_nps, aspect_extraction, sentiment_engine).
+│   │   ├── lib/             # Biblioteca modularizada del ETL (10 modulos:
+│   │   │                    # config, metrics, nlp, io_helper, segmentacion_nps,
+│   │   │                    # aspect_extraction, sentiment_engine,
+│   │   │                    # ia_cualitativo, prompts_cualitativo, insights_generator).
 │   │   ├── schemas/         # JSON Schemas Draft-07 (7 schemas formales).
-│   │   ├── config/          # Configuracion estatica (stop_aspectos.json).
-│   │   └── tests/           # Tests Python (sentiment_engine, segmentacion, calibracion, aspect_extraction).
+│   │   ├── config/          # Configuracion estatica (stop_aspectos.json, alias_aspectos.json).
+│   │   └── tests/           # Tests Python (10 modulos incluyendo test_html_contract, test_alias_aspectos).
 │   └── students/            # Dashboards y JSONs generados por nivel y periodo.
 ├── AGENTS.md                # Reglas y principios operativos para IA.
 ├── ARCHITECTURE.md          # Arquitectura tecnica global (este documento).
@@ -78,12 +90,44 @@ Para mayor detalle de responsabilidades:
 | `lib/config.py` | 382 | Mapeos de columnas, diccionarios de topicos y catalogos de negocio. | Activo. |
 | `lib/metrics.py` | 26 | Funciones puras de calculo de NPS (`calc_nps`) y CSAT (`calc_csat`). | Activo. |
 | `lib/io_helper.py` | 81 | I/O seguro con encodings alternativos y formateo de fechas. | Activo. |
-| `lib/nlp.py` | 457 | Clasificacion semantica de comentarios (SentenceTransformer + sklearn). | **Parcialmente obsoleto**: solo se usa `sanitizar_comentario`. La funcion `agrupar_comentarios_por_topico` (267 lineas) esta importada por build_json.py pero NO se invoca; fue reemplazada por `aspect_extraction` + `sentiment_engine`. |
-| `lib/segmentacion_nps.py` | 324 | Fragmentacion de comentarios NPS en Meaning Units usando spaCy. | Activo (no documentado previamente). |
-| `lib/aspect_extraction.py` | 254 | Extraccion del aspecto literal de cada Opinion Unit (spaCy noun chunks) y normalizacion a dimension oficial via matching de alias o embeddings. | Activo (no documentado previamente). |
-| `lib/sentiment_engine.py` | 135 | Clasificacion hibrida de sentimiento (positivo/negativo/neutro) e intensidad (1-5) usando embeddings + reglas lexicas. | Activo (no documentado previamente). |
+| `lib/nlp.py` | 457 | Clasificacion semantica de comentarios (SentenceTransformer + sklearn). | **Parcialmente obsoleto**: solo se usa `sanitizar_comentario`. |
+| `lib/segmentacion_nps.py` | 324 | Fragmentacion de comentarios NPS en Meaning Units usando spaCy. | Activo (modo legacy). |
+| `lib/aspect_extraction.py` | ~180 | Extraccion del aspecto literal de cada Opinion Unit (spaCy noun chunks) y normalizacion via alias (cargados desde `config/alias_aspectos.json`) o embeddings. | Activo (modo legacy). |
+| `lib/sentiment_engine.py` | 135 | Clasificacion hibrida de sentimiento (positivo/negativo/neutro) e intensidad (1-5) usando embeddings + reglas lexicas. | Activo (modo legacy). |
+| `lib/ia_cualitativo.py` | ~330 | Motor de analisis cualitativo basado en DeepSeek. Reemplaza los 3 modulos legacy por una unica llamada API con prompts calibrados (Bardin + Braun&Clarke). Incluye CacheManager con hash de comentario + contexto y rate limiting (60 RPM). | Activo (Fase IA, opcional — requiere `DEEPSEEK_API_KEY`). |
+| `lib/prompts_cualitativo.py` | ~200 | Prompts exactos para DeepSeek (system + user). Fuente de verdad de los prompts usados tanto en el ETL como en el playground Next.js. Versionado con `PROMPT_VERSION` para invalidacion automatica del cache IA. | Activo (Fase IA). |
+| `lib/insights_generator.py` | ~150 | Generador de insights deterministas (sin LLM). Produce `insights_ia.global` y `insights_ia.por_categoria_padre` a partir de datos ya procesados. | Activo (Fase 8). |
 
-### Flujo cualitativo moderno (v3.0)
+### Flujo cualitativo moderno (v3.0) — Doble motor
+
+El ETL soporta dos motores cualitativos, seleccionados automáticamente por variable de entorno:
+
+**Motor IA (DeepSeek)** — activo si `DEEPSEEK_API_KEY` está configurada:
+```
+Comentario NPS (CSV)
+    |  una única llamada a DeepSeek (15 workers concurrentes, rate limit 60 RPM)
+    v
+ia_cualitativo.py → DeepSeek API
+    |  ejecuta 5 tareas en conjunto con coherencia de contexto:
+    |  1. Segmentación en Meaning Units (Bardin, 2011)
+    |  2. Clasificación de sentimiento con reglas de sesgo por contexto NPS
+    |  3. Asignación de intensidad (1-5)
+    |  4. Clasificación contra taxonomía oficial (Braun & Clarke, 2006)
+    |  5. Triangulación con calificación CSAT por dimensión (cross-reference)
+    v
+dataset_cualitativo.json + ia_cache.json (hash de comentario + contexto)
+    |
+    v
+sentimiento.json v3.0 + insights_ia (vía insights_generator.py)
+```
+
+**Motor Legacy (spaCy + embeddings)** — fallback automático si no hay `DEEPSEEK_API_KEY`:
+
+(Sigue el flujo documentado en la sección anterior: sanitizar → fragmentar → aspecto → sentimiento)
+
+### Optimización: detección de cambios por hash
+
+`build_json.py` implementa una optimización de skip: antes de procesar un CSV, calcula su hash SHA256 y lo compara con `.csv_hash` (guardado en el directorio de salida del periodo). Si el CSV no cambió desde el último build Y todos los JSONs ya existen, se salta el reprocesamiento completo. Esto ahorra tiempo de CPU, llamadas a DeepSeek (costos), y reescritura de archivos idénticos.
 
 ```
 Comentario NPS (CSV)
@@ -236,11 +280,11 @@ El orden de carga en `template/index.html` (12 scripts) es critico y debe respet
 - `nps_carrera.json` y `csat_carrera.json` son legacy; el frontend usa las versiones `_ciclo_carrera` para encuestas segmentadas por ciclos (`has_ciclo=true`), pero conserva ambos archivos como origen obligatorio de carga para encuestas sin ciclo (`has_ciclo=false`), como la de Graduados.
 - `posgraduate/` existe como placeholder sin datos procesados.
 - El template `zoho-survey/template/index.html` no tiene version de contrato propia.
-- `lib/nlp.py` contiene 267 lineas de codigo muerto (`agrupar_comentarios_por_topico`, importada pero no invocada).
-- `lib/config.py` define `TOPICOS` y `STOPWORDS` que no se usan en ningun modulo activo.
+- `lib/nlp.py` contiene codigo de `agrupar_comentarios_por_topico` (ELIMINADO en limpieza post-Fase 1).
+- `lib/config.py` define `TOPICOS` y `STOPWORDS` (ELIMINADOS en limpieza post-Fase 1).
 - `lib/segmentacion_nps.py:181` contiene un `print()` de depuracion activo.
-- `lib/aspect_extraction.py` y `lib/sentiment_engine.py` auto-descargan el modelo spaCy via `spacy.cli.download()` si no esta instalado, lo que puede fallar en entornos sin internet.
-- `ALIAS_DICT_MANUAL` en `aspect_extraction.py` tiene ~200 entradas hardcodeadas en codigo Python.
+- Coexistencia de dos motores cualitativos (legacy + IA) — evaluar deprecacion del legacy si la validacion empirica en Fase 3 muestra accuracy IA >80% en sentimiento y >60% en taxonomia.
+- `ALIAS_DICT_MANUAL` extraido a `config/alias_aspectos.json` (Fase 1). Mantener sincronizados ambos si se añaden nuevas dimensiones.
 
 ## Convenciones
 

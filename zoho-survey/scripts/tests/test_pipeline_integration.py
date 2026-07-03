@@ -190,5 +190,163 @@ class TestPipelineDeterminismo(unittest.TestCase):
         self.assertEqual(r1, r2)
 
 
+class TestPipelineEdgeCases(unittest.TestCase):
+    """Casos borde del pipeline ETL."""
+
+    def test_nps_all_promoters(self):
+        """100% promotores debe dar NPS=100."""
+        nps = calc_nps(100, 0, 0)
+        self.assertEqual(nps, 100.0)
+
+    def test_nps_all_detractors(self):
+        """100% detractores debe dar NPS=-100."""
+        nps = calc_nps(0, 0, 100)
+        self.assertEqual(nps, -100.0)
+
+    def test_nps_balanced(self):
+        """Igual número de promotores y detractores debe dar NPS=0."""
+        nps = calc_nps(50, 0, 50)
+        self.assertEqual(nps, 0.0)
+
+    def test_nps_all_passives(self):
+        """Solo pasivos debe dar NPS=0."""
+        nps = calc_nps(0, 50, 0)
+        self.assertEqual(nps, 0.0)
+
+    def test_nps_zero_total(self):
+        """ZeroDivisionError debe manejarse. calc_nps(0,0,0) debe dar 0 no crash."""
+        nps = calc_nps(0, 0, 0)
+        self.assertEqual(nps, 0.0)
+
+    def test_csat_perfect(self):
+        """100% T3B debe dar CSAT=100."""
+        csat = calc_csat(100, 100)
+        self.assertEqual(csat, 100.0)
+
+    def test_csat_zero(self):
+        """0% T3B debe dar CSAT=0."""
+        csat = calc_csat(0, 100)
+        self.assertEqual(csat, 0.0)
+
+    def test_csat_zero_total(self):
+        """ZeroDivisionError debe manejarse."""
+        csat = calc_csat(0, 0)
+        self.assertEqual(csat, 0.0)
+
+
+class TestDetectNivelAndPeriod(unittest.TestCase):
+    """Validación de detección de nivel y periodo desde nombres de archivo CSV."""
+
+    def setUp(self):
+        """Importar _detectar_nivel desde build_json."""
+        import build_json as bj
+        self._detectar_nivel = bj._detectar_nivel
+
+    def test_detect_undergraduate(self):
+        self.assertEqual(
+            self._detectar_nivel("ENCUESTA DE SATISFACCIÓN ESTUDIANTIL- PREGRADO - 2026-1.csv"),
+            "undergraduate"
+        )
+
+    def test_detect_graduate(self):
+        self.assertEqual(
+            self._detectar_nivel("ENCUESTA DE SATISFACCIÓN GRADUADOS - PREGRADO - 2026.csv"),
+            "graduate"
+        )
+
+    def test_detect_posgraduate(self):
+        self.assertEqual(
+            self._detectar_nivel("ENCUESTA ESTUDIANTIL POSGRADO 2026-1.csv"),
+            "posgraduate"
+        )
+
+    def test_detect_nonfaculty(self):
+        self.assertEqual(
+            self._detectar_nivel("ENCUESTA NO DOCENTES 2026.csv"),
+            "nonfaculty"
+        )
+
+    def test_detect_employers(self):
+        self.assertEqual(
+            self._detectar_nivel("ENCUESTA EMPLEADORES 2026.csv"),
+            "employers"
+        )
+
+    def test_detect_unknown(self):
+        self.assertIsNone(
+            self._detectar_nivel("ARCHIVO_DESCONOCIDO.csv")
+        )
+
+    def test_period_regex(self):
+        """La regex de periodo debe capturar años y semestres."""
+        import re
+        pattern = r"(20\d{2}(?:-[12])?)"
+
+        self.assertTrue(re.search(pattern, "2026-1"))
+        self.assertTrue(re.search(pattern, "2025-2"))
+        self.assertTrue(re.search(pattern, "2026"))
+        self.assertIsNotNone(re.search(pattern, "ENCUESTA 2026-1.csv"))
+        self.assertIsNotNone(re.search(pattern, "ENCUESTA 2025.csv"))
+
+
+class TestCSVHashDetection(unittest.TestCase):
+    """Validación de detección de cambios por hash de CSV."""
+
+    def setUp(self):
+        import build_json as bj
+        self._hash_csv = bj._hash_csv
+        self._csv_cambiado = bj._csv_cambiado
+
+    def test_hash_csv_produce_string(self):
+        """_hash_csv debe retornar un string hexadecimal de 64 chars (SHA256)."""
+        import tempfile
+        with tempfile.NamedTemporaryFile(mode='w', suffix='.csv', delete=False) as f:
+            f.write("col1,col2\nval1,val2\n")
+            tmp_path = Path(f.name)
+
+        try:
+            h = self._hash_csv(tmp_path)
+            self.assertIsInstance(h, str)
+            self.assertEqual(len(h), 64)
+            # Debe ser hexadecimal
+            int(h, 16)
+        finally:
+            tmp_path.unlink()
+
+    def test_hash_same_content_same_hash(self):
+        """Dos CSVs idénticos deben producir el mismo hash."""
+        import tempfile
+        content = "a,b\n1,2\n"
+        f1 = tempfile.NamedTemporaryFile(mode='w', suffix='.csv', delete=False)
+        f1.write(content)
+        f1.close()
+        f2 = tempfile.NamedTemporaryFile(mode='w', suffix='.csv', delete=False)
+        f2.write(content)
+        f2.close()
+
+        try:
+            h1 = self._hash_csv(Path(f1.name))
+            h2 = self._hash_csv(Path(f2.name))
+            self.assertEqual(h1, h2)
+        finally:
+            Path(f1.name).unlink(missing_ok=True)
+            Path(f2.name).unlink(missing_ok=True)
+
+    def test_csv_cambiado_sin_hash_file(self):
+        """Si no existe .csv_hash, debe retornar True (procesar)."""
+        import tempfile
+        with tempfile.NamedTemporaryFile(mode='w', suffix='.csv', delete=False) as f:
+            f.write("x,y\n1,2\n")
+            tmp_csv = Path(f.name)
+
+        try:
+            # Directorio temporal sin .csv_hash
+            tmp_dir = Path(tempfile.mkdtemp())
+            result = self._csv_cambiado(tmp_csv, tmp_dir)
+            self.assertTrue(result)
+        finally:
+            tmp_csv.unlink(missing_ok=True)
+
+
 if __name__ == '__main__':
     unittest.main()

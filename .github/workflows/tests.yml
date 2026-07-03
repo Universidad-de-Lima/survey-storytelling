@@ -100,15 +100,23 @@ jobs:
           };
           require('./zoho-survey/shared/js/config/constants.js');
           require('./zoho-survey/shared/js/utils/formatters.js');
+          require('./zoho-survey/shared/js/utils/metrics.js');
           require('./zoho-survey/shared/js/utils/sanitizer.js');
           require('./zoho-survey/shared/js/utils/dom-helpers.js');
           require('./zoho-survey/shared/js/components/tooltip.js');
+          require('./zoho-survey/shared/js/components/custom-select.js');
+          require('./zoho-survey/shared/js/components/multiselect.js');
+          require('./zoho-survey/shared/js/components/filter-controller.js');
           require('./zoho-survey/shared/js/components/sentiment-view.js');
           require('./tests/test-framework.js');
           require('./tests/unit/test-config.js');
           require('./tests/unit/test-formatters.js');
+          require('./tests/unit/test-metrics.js');
           require('./tests/unit/test-sanitizer.js');
           require('./tests/unit/test-insights-ia.js');
+          require('./tests/unit/test-sentiment-view.js');
+          require('./tests/unit/test-filter-controller.js');
+          require('./tests/unit/test-loader.js');
           const r = window.TestFramework.summary();
           console.log('Tests: ' + r.passed + ' passed, ' + r.failed + ' failed, ' + r.total + ' total');
           if (r.failed > 0) {
