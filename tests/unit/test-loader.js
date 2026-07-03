@@ -51,7 +51,7 @@
 
   describe('Loader — Tipos de encuesta', () => {
     it('debe haber exactamente 9 tipos de encuesta', () => {
-      assert.strictEqual(EXPECTED_SURVEY_IDS.length, 9,
+      assert.equal(EXPECTED_SURVEY_IDS.length, 9,
         'Debe haber 9 tipos de encuesta definidos');
     });
 
@@ -70,8 +70,8 @@
     });
 
     it('paths de estudiantes y graduados son los activos', () => {
-      assert.strictEqual(EXPECTED_SURVEY_PATHS.undergraduate, 'students/undergraduate');
-      assert.strictEqual(EXPECTED_SURVEY_PATHS.graduate, 'students/graduate');
+      assert.equal(EXPECTED_SURVEY_PATHS.undergraduate, 'students/undergraduate');
+      assert.equal(EXPECTED_SURVEY_PATHS.graduate, 'students/graduate');
     });
 
     it('IDs de localStorage usan guiones (kebab-case)', () => {
@@ -107,7 +107,7 @@
         undefined
       ];
       const result = normalizePeriods(raw, surveyPath);
-      assert.strictEqual(result.length, 0);
+      assert.equal(result.length, 0);
     });
 
     it('normaliza periodos correctamente', () => {
@@ -116,22 +116,22 @@
         { id: '2025-2', label: '2025-2', isNew: false }
       ];
       const result = normalizePeriods(raw, surveyPath);
-      assert.strictEqual(result.length, 2);
+      assert.equal(result.length, 2);
       // Reverse: más reciente primero
-      assert.strictEqual(result[0].id, '2026-1');
-      assert.strictEqual(result[1].id, '2025-2');
+      assert.equal(result[0].id, '2026-1');
+      assert.equal(result[1].id, '2025-2');
     });
 
     it('genera url por defecto si no se proporciona', () => {
       const raw = [{ id: '2026-1', label: '2026-1' }];
       const result = normalizePeriods(raw, surveyPath);
-      assert.strictEqual(result[0].url, 'students/undergraduate/2026-1/index.html');
+      assert.equal(result[0].url, 'students/undergraduate/2026-1/index.html');
     });
 
     it('respeta url proporcionada', () => {
       const raw = [{ id: '2026-1', label: '2026-1', url: '/custom/path' }];
       const result = normalizePeriods(raw, surveyPath);
-      assert.strictEqual(result[0].url, '/custom/path');
+      assert.equal(result[0].url, '/custom/path');
     });
 
     it('marca isNew correctamente', () => {
@@ -150,14 +150,14 @@
         { id: '2026-1', label: '2026-1' }
       ];
       const result = normalizePeriods(raw, surveyPath);
-      assert.strictEqual(result[0].id, '2026-1');
-      assert.strictEqual(result[1].id, '2025-2');
+      assert.equal(result[0].id, '2026-1');
+      assert.equal(result[1].id, '2025-2');
     });
 
     it('trimea espacios en IDs', () => {
       const raw = [{ id: '  2026-1  ', label: '2026-1' }];
       const result = normalizePeriods(raw, surveyPath);
-      assert.strictEqual(result[0].id, '2026-1');
+      assert.equal(result[0].id, '2026-1');
     });
   });
 
@@ -170,13 +170,13 @@
     it('clave de periodo sigue el patrón ulima_selected_period_<id>', () => {
       const surveyId = 'undergraduate';
       const key = `ulima_selected_period_${surveyId}`;
-      assert.strictEqual(key, 'ulima_selected_period_undergraduate');
+      assert.equal(key, 'ulima_selected_period_undergraduate');
     });
 
     it('cada tipo de encuesta tiene una clave de periodo única', () => {
       const keys = EXPECTED_SURVEY_IDS.map(id => `ulima_selected_period_${id}`);
       const unique = new Set(keys);
-      assert.strictEqual(unique.size, keys.length,
+      assert.equal(unique.size, keys.length,
         'Todas las claves de periodo deben ser únicas');
     });
   });

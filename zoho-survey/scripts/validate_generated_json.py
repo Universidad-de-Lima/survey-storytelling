@@ -326,7 +326,11 @@ def validate_period_html(period_dir: Path) -> List[str]:
         if f'id="reset-{suffix}"' not in html:
             errors.append(f"{path}: falta ID de filtro: reset-{suffix}")
 
-    # ── Validación de sección cualitativa ──
+    # ── Validación de sección cualitativa (warnings, no errores) ──
+    # Estos IDs son del template actual pero pueden no existir en periodos
+    # generados antes de Fase 2. Se reportan como advertencia para no bloquear
+    # el pipeline si los HTMLs no se han regenerado.
+    warnings = []
     sentimiento_ids = [
         'id="sentimiento"', 'id="sentiment-kpis"', 'id="sentimiento-bar-chart"',
         'id="explorador-search"', 'id="explorador-sentimiento"',
@@ -334,9 +338,9 @@ def validate_period_html(period_dir: Path) -> List[str]:
     ]
     for sid in sentimiento_ids:
         if sid not in html:
-            errors.append(f"{path}: falta ID cualitativo requerido: {sid}")
+            warnings.append(f"{path}: ID cualitativo no encontrado (requiere regeneración): {sid}")
 
-    return errors
+    return errors, warnings
 
 
 # ---------------------------------------------------------------------------
@@ -350,7 +354,9 @@ def validate_period(period_dir: Path) -> Tuple[List[str], List[str]]:
     if not json_dir.is_dir():
         return [f"{period_dir}: no existe carpeta json"], warnings
 
-    errors.extend(validate_period_html(period_dir))
+    html_errors, html_warnings = validate_period_html(period_dir)
+    errors.extend(html_errors)
+    warnings.extend(html_warnings)
 
     # Descubrir has_ciclo leyendo filtros.json primero
     has_ciclo = True

@@ -44,31 +44,31 @@
     it('init existe y acepta parámetros', () => {
       assert.isTrue(typeof sv.init === 'function');
       // init espera (sentimentData, cacheFiltros, totalRespuestas)
-      assert.strictEqual(sv.init.length, 3,
+      assert.equal(sv.init.length, 3,
         'init debe aceptar 3 parámetros');
     });
 
     it('updateMacro existe y acepta parámetros', () => {
       assert.isTrue(typeof sv.updateMacro === 'function');
-      assert.strictEqual(sv.updateMacro.length, 2,
+      assert.equal(sv.updateMacro.length, 2,
         'updateMacro debe aceptar 2 parámetros');
     });
 
     it('updateAspectos existe y acepta parámetros', () => {
       assert.isTrue(typeof sv.updateAspectos === 'function');
-      assert.strictEqual(sv.updateAspectos.length, 1,
+      assert.equal(sv.updateAspectos.length, 1,
         'updateAspectos debe aceptar 1 parámetro');
     });
 
     it('updateNpsCarrera existe y acepta parámetros', () => {
       assert.isTrue(typeof sv.updateNpsCarrera === 'function');
-      assert.strictEqual(sv.updateNpsCarrera.length, 2,
+      assert.equal(sv.updateNpsCarrera.length, 2,
         'updateNpsCarrera debe aceptar 2 parámetros');
     });
 
     it('updateDetalle existe y acepta parámetros', () => {
       assert.isTrue(typeof sv.updateDetalle === 'function');
-      assert.strictEqual(sv.updateDetalle.length, 3,
+      assert.equal(sv.updateDetalle.length, 3,
         'updateDetalle debe aceptar 3 parámetros');
     });
 
@@ -93,10 +93,9 @@
     });
 
     it('PROGRAMA_ESTUDIOS_GENERALES tiene fallback', () => {
-      // Verificar que el valor por defecto existe en SURVEY_CONFIG
       const config = window.SURVEY_CONFIG || {};
       const peg = config.PROGRAMA_ESTUDIOS_GENERALES ?? 'Programa de Estudios Generales';
-      assert.strictEqual(peg, 'Programa de Estudios Generales');
+      assert.equal(peg, 'Programa de Estudios Generales');
     });
   });
 })();

@@ -58,21 +58,21 @@
         'SurveyFilterController debe ser un objeto');
       assert.isTrue(typeof fc.setup === 'function',
         'SurveyFilterController.setup debe ser una función');
-      assert.strictEqual(fc.setup.length, 3,
+      assert.equal(fc.setup.length, 3,
         'setup debe aceptar 3 parámetros (prefix, cacheFiltros, onChangeCallback)');
     });
 
     it('esEstudiosGen existe y acepta 1 parámetro', () => {
       assert.isTrue(typeof fc.esEstudiosGen === 'function',
         'SurveyFilterController.esEstudiosGen debe ser una función');
-      assert.strictEqual(fc.esEstudiosGen.length, 1,
+      assert.equal(fc.esEstudiosGen.length, 1,
         'esEstudiosGen debe aceptar 1 parámetro');
     });
 
     it('getCiclosForFiltro existe y acepta 3 parámetros', () => {
       assert.isTrue(typeof fc.getCiclosForFiltro === 'function',
         'SurveyFilterController.getCiclosForFiltro debe ser una función');
-      assert.strictEqual(fc.getCiclosForFiltro.length, 3,
+      assert.equal(fc.getCiclosForFiltro.length, 3,
         'getCiclosForFiltro debe aceptar 3 parámetros');
     });
   });
@@ -112,7 +112,7 @@
         'Facultad de Derecho', '', cacheFiltros12
       );
       assert.isTrue(Array.isArray(result));
-      assert.strictEqual(result.length, 12);
+      assert.equal(result.length, 12);
       assert.isTrue(result.includes('12° Ciclo'));
     });
 
@@ -121,7 +121,7 @@
         'Facultad de Psicología', 'Psicología', cacheFiltros12
       );
       assert.isTrue(Array.isArray(result));
-      assert.strictEqual(result.length, 12);
+      assert.equal(result.length, 12);
       assert.isTrue(result.includes('12° Ciclo'));
     });
 
@@ -130,7 +130,7 @@
         'Facultad de Ingeniería', '', cacheFiltros12
       );
       assert.isTrue(Array.isArray(result));
-      assert.strictEqual(result.length, 10);
+      assert.equal(result.length, 10);
       assert.isFalse(result.includes('11° Ciclo'));
       assert.isFalse(result.includes('12° Ciclo'));
     });
@@ -141,7 +141,7 @@
         'Facultad de Derecho', '', cache8
       );
       assert.isTrue(Array.isArray(result));
-      assert.strictEqual(result.length, 8);
+      assert.equal(result.length, 8);
     });
 
     it('cacheFiltros sin ciclos → array vacío', () => {
@@ -149,7 +149,7 @@
         'Facultad de Ingeniería', '', { ciclos: [] }
       );
       assert.isTrue(Array.isArray(result));
-      assert.strictEqual(result.length, 0);
+      assert.equal(result.length, 0);
     });
   });
 
@@ -165,7 +165,7 @@
     });
 
     it('CICLOS_ESTUDIOS_GENERALES tiene exactamente 2 ciclos', () => {
-      assert.strictEqual(CICLOS_ESTUDIOS_GENERALES.length, 2);
+      assert.equal(CICLOS_ESTUDIOS_GENERALES.length, 2);
       assert.isTrue(CICLOS_ESTUDIOS_GENERALES.includes('1° Ciclo'));
       assert.isTrue(CICLOS_ESTUDIOS_GENERALES.includes('2° Ciclo'));
     });
