@@ -228,7 +228,7 @@ El orden de carga en `template/index.html` (12 scripts) es critico y debe respet
 - Cualquier contenido externo usado en HTML debe pasar por `escapeHTML()` o `sanitizeHTML()`.
 - `sanitizeHTML()` permite solo una lista reducida de etiquetas necesarias para tooltips y textos enriquecidos (`br, strong, em, i, span`).
 - No introducir dependencias runtime para sanitizacion sin justificar el costo operacional.
-- **Excepcion conocida**: `radar-chart.js` usa inline `onmousemove`/`onmouseleave` en SVG, incompatible con CSP estricto. Pendiente de migracion a `addEventListener`.
+
 
 ## Deuda Tecnica Vigente
 

@@ -103,7 +103,7 @@ window.SurveySentimentView = (() => {
         <div class="bar-label" style="width: 80px;">${item.label}</div>
         <div class="bar-container">
           <div class="bar-fill animated" style="width:${pct}%; background-color:${item.color}; animation-delay:${index * 0.08}s">
-            <span class="bar-value${barValueOutside ? ' bar-value-outside' : ''}" style="${barValueOutside ? 'color: var(--dark);' : 'color: white;'}">${pct}%</span>
+            <span class="bar-value${barValueOutside ? ' bar-value-outside' : ''}" style="${barValueOutside ? 'color: var(--dark);' : 'color: white;'}">${_fmt.formatPctSimple(item.value, total)}</span>
           </div>
         </div>
       `;
@@ -111,7 +111,7 @@ window.SurveySentimentView = (() => {
       // Tooltip events
       barItem.addEventListener('mouseenter', (e) => {
         const b = item.breakdown;
-        let html = `<strong>${item.label}</strong>: ${_fmt.formatInteger(item.value)} ideas (${pct}%)<br>`;
+        let html = `<strong>${item.label}</strong>: ${_fmt.formatInteger(item.value)} ideas (${_fmt.formatPctDecimal(item.value, total)})<br>`;
         html += `Promotores: ${_fmt.formatInteger(b.prom)}<br>`;
         html += `Pasivos: ${_fmt.formatInteger(b.pas)}<br>`;
         html += `Detractores: ${_fmt.formatInteger(b.det)}`;
@@ -272,14 +272,25 @@ window.SurveySentimentView = (() => {
       const col = document.createElement('div');
       col.style.cssText = 'display:flex; flex-direction:column; align-items:center; flex:1; height:100%; justify-content:flex-end; gap:6px;';
       col.innerHTML = `
-        <div style="font-size:11px; font-weight:600; color:var(--text2);">${s.total}</div>
+        <div style="font-size:11px; font-weight:600; color:var(--text2);">${_fmt.formatInteger(s.total)}</div>
         <div style="width:36px; height:${heightPct}%; background:var(--gray-200); border-radius:4px 4px 0 0; overflow:hidden; display:flex; flex-direction:column; justify-content:flex-end;">
-          <div style="width:100%; height:${pPct}%; background:var(--success-text);" title="Positivo: ${posCount}"></div>
-          <div style="width:100%; height:${nPct}%; background:var(--gray-400);" title="Neutro: ${neuCount}"></div>
-          <div style="width:100%; height:${negPct}%; background:var(--ulima-red);" title="Negativo: ${negCount}"></div>
+          <div style="width:100%; height:${pPct}%; background:var(--success-text);"></div>
+          <div style="width:100%; height:${nPct}%; background:var(--gray-400);"></div>
+          <div style="width:100%; height:${negPct}%; background:var(--ulima-red);"></div>
         </div>
         <div style="font-size:10px; font-weight:600; color:var(--dark); text-align:center; white-space:normal; line-height:1.1; max-width:64px; height:24px; overflow:hidden;">${_san.escapeHTML(cat)}</div>
       `;
+
+      // Tooltip enriquecido con conteos + porcentajes (2 decimales), consistente
+      // con el resto de la app. Reemplaza al title HTML nativo.
+      const tooltipHtml = `<strong>${_san.escapeHTML(cat)}</strong>: ${_fmt.formatInteger(s.total)} menciones<br>` +
+        `Positivos: ${_fmt.formatInteger(posCount)} (${_fmt.formatPctDecimal(posCount, s.total)})<br>` +
+        `Neutros: ${_fmt.formatInteger(neuCount)} (${_fmt.formatPctDecimal(neuCount, s.total)})<br>` +
+        `Negativos: ${_fmt.formatInteger(negCount)} (${_fmt.formatPctDecimal(negCount, s.total)})`;
+      col.addEventListener('mouseenter', (e) => { if (_ttp) _ttp.show(e, tooltipHtml); });
+      col.addEventListener('mousemove', (e) => { if (_ttp) _ttp.move(e); });
+      col.addEventListener('mouseleave', () => { if (_ttp) _ttp.hide(); });
+
       container.appendChild(col);
     });
   }
@@ -335,7 +346,7 @@ window.SurveySentimentView = (() => {
         <div class="bar-label" style="width: 80px;">${item.label}</div>
         <div class="bar-container">
           <div class="bar-fill animated" style="width:${pct}%; background-color:${item.color}; animation-delay:${index * 0.08}s">
-            <span class="bar-value${barValueOutside ? ' bar-value-outside' : ''}" style="${barValueOutside ? 'color: var(--dark);' : 'color: white;'}">${pct}%</span>
+            <span class="bar-value${barValueOutside ? ' bar-value-outside' : ''}" style="${barValueOutside ? 'color: var(--dark);' : 'color: white;'}">${_fmt.formatPctSimple(item.value, totalIdeas)}</span>
           </div>
         </div>
       `;
@@ -343,7 +354,7 @@ window.SurveySentimentView = (() => {
       // Tooltip events
       barItem.addEventListener('mouseenter', (e) => {
         const b = item.breakdown;
-        let html = `<strong>${item.label}</strong>: ${_fmt.formatInteger(item.value)} ideas (${pct}%)<br>`;
+        let html = `<strong>${item.label}</strong>: ${_fmt.formatInteger(item.value)} ideas (${_fmt.formatPctDecimal(item.value, totalIdeas)})<br>`;
         html += `Positivos: ${_fmt.formatInteger(b.pos)}<br>`;
         html += `Neutros: ${_fmt.formatInteger(b.neu)}<br>`;
         html += `Negativos: ${_fmt.formatInteger(b.neg)}`;
@@ -380,7 +391,7 @@ window.SurveySentimentView = (() => {
       let displayVal = '';
       if (isIntensity) {
         pct = (item.val / 5) * 100;
-        displayVal = _fmt.formatInteger(Math.round(item.val));
+        displayVal = _fmt.formatDecimal(item.val, 2);
       } else {
         pct = maxVal > 0 ? (item.val / maxVal) * 100 : 0;
         displayVal = _fmt.formatInteger(item.val);

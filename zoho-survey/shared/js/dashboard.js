@@ -89,7 +89,7 @@
   let csatScoreGlobal = 0;
 
   const $ = (id) => document.getElementById(id);
-  const pct = (value, total) => (total > 0 ? Math.round((value / total) * 100) : 0);
+  const pct = (value, total) => (total > 0 ? (value / total) * 100 : 0);
   const esEstudiosGen = (fac) => fac === PROGRAMA_ESTUDIOS_GENERALES;
   const sumKeys = (row, keys) => keys.reduce((acc, key) => acc + (row[key] || 0), 0);
 
@@ -646,11 +646,14 @@
       .map(([dim, val]) => {
         const total = val.totSat + val.muySat + val.sat + val.insat + val.totInsat;
         const top3 = val.totSat + val.muySat + val.sat;
-        const p1 = total > 0 ? Math.round((val.totSat / total) * 100) : 0;
-        const p2 = total > 0 ? Math.round((val.muySat / total) * 100) : 0;
-        const p3 = total > 0 ? Math.round((val.sat / total) * 100) : 0;
-        const p4 = total > 0 ? Math.round((val.insat / total) * 100) : 0;
-        const p5 = total > 0 ? Math.max(0, 100 - p1 - p2 - p3 - p4) : 0;
+        // Anchos en decimal directo para que todos los segmentos se rendericen
+        // (un valor de 0.33% no desaparezca a 0% por Math.round). La suma de
+        // los 5 anchos es siempre 100% porque total = suma de los 5 conteos.
+        const p1 = total > 0 ? (val.totSat / total) * 100 : 0;
+        const p2 = total > 0 ? (val.muySat / total) * 100 : 0;
+        const p3 = total > 0 ? (val.sat / total) * 100 : 0;
+        const p4 = total > 0 ? (val.insat / total) * 100 : 0;
+        const p5 = total > 0 ? (val.totInsat / total) * 100 : 0;
         return {
           dimension: dim,
           categoria: val.categoria,

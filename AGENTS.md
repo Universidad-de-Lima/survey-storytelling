@@ -24,7 +24,7 @@ Antes de tocar codigo, comprender la arquitectura real (no la documentacion prev
   - `config.py` — mapeos de columnas y catalogos de negocio.
   - `metrics.py` — `calc_nps`, `calc_csat` (funciones puras).
   - `io_helper.py` — `load_json`, `read_csv_robust`, `normalize_dates`.
-  - `nlp.py` — `sanitizar_comentario` (activo); `agrupar_comentarios_por_topico` (267 lineas, **MUERTO**, no invocar).
+  - `nlp.py` — `sanitizar_comentario` (activo).
   - `segmentacion_nps.py` — fragmentacion NPS con spaCy (Meaning Units).
   - `aspect_extraction.py` — extraccion de aspectos con spaCy + embeddings.
   - `sentiment_engine.py` — clasificacion hibrida sentimiento + intensidad.
@@ -95,8 +95,6 @@ Debe:
 
 No debe:
 
-- invocar `lib.nlp.agrupar_comentarios_por_topico` (codigo muerto, importado pero no usado)
-- modificar el comportamiento de `lib.config.TOPICOS` o `lib.config.STOPWORDS` (legacy, no usados en modulos activos)
 - introducir nuevos `print()` de depuracion en produccion
 
 ## Reglas Frontend
@@ -105,7 +103,7 @@ No debe:
 - No introducir frameworks frontend ni dependencias runtime sin decision explicita.
 - Sanitizar contenido externo antes de usar `innerHTML` (usar `SurveySanitizer.escapeHTML` o `sanitizeHTML`).
 - Mantener compatibilidad con GitHub Pages y navegadores modernos.
-- No usar inline event handlers (`onmousemove`, `onmouseleave`, etc.) — usar `addEventListener`. Excepcion conocida: `radar-chart.js` (pendiente de migracion).
+- No usar inline event handlers (`onmousemove`, `onmouseleave`, etc.) — usar `addEventListener`.
 - No referenciar `window.cache` (es privada en el IIFE de `dashboard.js`, siempre undefined).
 - No invocar `SurveyTooltip.move` (no existe; pendiente implementacion o eliminacion de llamadas).
 
@@ -166,8 +164,8 @@ Si se modifica la estructura de cualquier JSON generado:
 
 1. **No confiar en `scripts/README.md` previo a v3.0**: describia keyword matching, ya obsoleto. La version actual esta actualizada.
 2. **No confiar en `shared/README.md` previo a v3.0**: decia `window.showTooltip/hideTooltip` (incorrecto, es `window.SurveyTooltip.show/hide`).
-3. **`lib/nlp.py` tiene codigo muerto**: la funcion `agrupar_comentarios_por_topico` (267 lineas) esta importada por `build_json.py` pero NO se invoca. El motor cualitativo moderno usa `aspect_extraction` + `sentiment_engine`.
-4. **`lib/config.py` tiene constantes legacy sin uso**: `TOPICOS` y `STOPWORDS` no se usan en modulos activos.
+3. **`lib/nlp.py` código muerto**: ~~la funcion `agrupar_comentarios_por_topico` esta importada por `build_json.py` pero NO se invoca.~~ **ELIMINADO**. El motor cualitativo moderno usa `aspect_extraction` + `sentiment_engine`.
+4. **`lib/config.py` constantes legacy**: ~~`TOPICOS` y `STOPWORDS` no se usan en modulos activos.~~ **ELIMINADO**.
 5. **Auto-download de spaCy**: ~~`aspect_extraction.py` y `sentiment_engine.py` llaman `spacy.cli.download("es_core_news_sm")` si el modelo no esta.~~ **ELIMINADO en Fase 6**: ahora fallan explícitamente con `OSError`. El modelo debe instalarse en CI/requirements.txt.
 6. **`fragmentos_nps.json` y `dataset_cualitativo.json` no tienen schema formal**: son archivos intermedios del ETL, no contratos publicos. El frontend no los consume.
 7. **Trabajo sin commitear**: el repositorio puede tener cambios pendientes. Revisar `git status` antes de modificar.
