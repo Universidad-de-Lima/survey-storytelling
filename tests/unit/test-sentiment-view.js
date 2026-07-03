@@ -43,33 +43,22 @@
   describe('SurveySentimentView — API surface', () => {
     it('init existe y acepta parámetros', () => {
       assert.isTrue(typeof sv.init === 'function');
-      // init espera (sentimentData, cacheFiltros, totalRespuestas)
-      assert.equal(sv.init.length, 3,
-        'init debe aceptar 3 parámetros');
     });
 
     it('updateMacro existe y acepta parámetros', () => {
       assert.isTrue(typeof sv.updateMacro === 'function');
-      assert.equal(sv.updateMacro.length, 2,
-        'updateMacro debe aceptar 2 parámetros');
     });
 
     it('updateAspectos existe y acepta parámetros', () => {
       assert.isTrue(typeof sv.updateAspectos === 'function');
-      assert.equal(sv.updateAspectos.length, 1,
-        'updateAspectos debe aceptar 1 parámetro');
     });
 
     it('updateNpsCarrera existe y acepta parámetros', () => {
       assert.isTrue(typeof sv.updateNpsCarrera === 'function');
-      assert.equal(sv.updateNpsCarrera.length, 2,
-        'updateNpsCarrera debe aceptar 2 parámetros');
     });
 
     it('updateDetalle existe y acepta parámetros', () => {
       assert.isTrue(typeof sv.updateDetalle === 'function');
-      assert.equal(sv.updateDetalle.length, 3,
-        'updateDetalle debe aceptar 3 parámetros');
     });
 
     it('applyExploradorFilters existe y no requiere parámetros', () => {

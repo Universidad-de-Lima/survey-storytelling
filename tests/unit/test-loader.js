@@ -111,9 +111,11 @@
     });
 
     it('normaliza periodos correctamente', () => {
+      // periodos.json viene en orden cronológico (más antiguo primero).
+      // normalizePeriods aplica .reverse() → más reciente primero.
       const raw = [
-        { id: '2026-1', label: '2026-1' },
-        { id: '2025-2', label: '2025-2', isNew: false }
+        { id: '2025-2', label: '2025-2', isNew: false },
+        { id: '2026-1', label: '2026-1', isNew: true }
       ];
       const result = normalizePeriods(raw, surveyPath);
       assert.equal(result.length, 2);
@@ -135,21 +137,27 @@
     });
 
     it('marca isNew correctamente', () => {
+      // periodos.json: orden cronológico → reverse → más reciente primero
       const raw = [
-        { id: '2026-1', label: '2026-1', isNew: true },
-        { id: '2025-2', label: '2025-2', isNew: false }
+        { id: '2025-2', label: '2025-2', isNew: false },
+        { id: '2026-1', label: '2026-1', isNew: true }
       ];
       const result = normalizePeriods(raw, surveyPath);
+      // Tras reverse: 2026-1 (isNew=true) primero, 2025-2 (isNew=false) segundo
+      assert.equal(result[0].id, '2026-1');
       assert.isTrue(result[0].isNew);
+      assert.equal(result[1].id, '2025-2');
       assert.isFalse(result[1].isNew);
     });
 
     it('el más reciente aparece primero (reverse)', () => {
+      // periodos.json viene en orden cronológico (más antiguo primero)
       const raw = [
         { id: '2025-2', label: '2025-2' },
         { id: '2026-1', label: '2026-1' }
       ];
       const result = normalizePeriods(raw, surveyPath);
+      // Tras reverse: más reciente primero
       assert.equal(result[0].id, '2026-1');
       assert.equal(result[1].id, '2025-2');
     });
