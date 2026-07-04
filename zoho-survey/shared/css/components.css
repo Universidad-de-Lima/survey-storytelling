@@ -769,9 +769,9 @@
   text-align: center;
 }
 
-.heat-high   { background: var(--success-pastel); color: var(--success-text); }
-.heat-medium { background: var(--warning-pastel); color: var(--warning-text); }
-.heat-low    { background: var(--danger-pastel);  color: var(--danger-text);  }
+.heat-high   { background: var(--success-text); color: white; }
+.heat-medium { background: var(--success-pastel); color: var(--success-text); }
+.heat-low    { background: var(--ulima-red); color: white; }
 
 /* ── Tooltip ── */
 .tooltip {

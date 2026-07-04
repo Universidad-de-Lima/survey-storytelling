@@ -659,6 +659,10 @@
           categoria: val.categoria,
           encuestas: val.encuestas || val.totSat + val.muySat + val.sat + val.insat + val.totInsat,
           top3box: total > 0 ? ((top3 / total) * 100).toFixed(2) : '0.00',
+          top2box: total > 0 ? (((val.totSat + val.muySat) / total) * 100).toFixed(2) : '0.00',
+          ponderado: total > 0 ? (
+            ((5 * val.totSat + 4 * val.muySat + 3 * val.sat + 2 * val.insat + 1 * val.totInsat) / total) / 5 * 100
+          ).toFixed(2) : '0.00',
           totSat: val.totSat,
           muySat: val.muySat,
           sat: val.sat,
@@ -687,11 +691,16 @@
       const heatClass =
         parseFloat(item.top3box) >= META_CSAT ? 'heat-high' :
         parseFloat(item.top3box) >= 80 ? 'heat-medium' : 'heat-low';
+      const heatClassT2 =
+        parseFloat(item.top2box) >= META_CSAT ? 'heat-high' :
+        parseFloat(item.top2box) >= 80 ? 'heat-medium' : 'heat-low';
 
       tr.innerHTML = `
         <td>${_fmt.formatDimensionName(item.dimension)}</td>
         <td class="text-center">${_fmt.formatInteger(item.encuestas)}</td>
         <td class="text-center"><span class="heatmap-cell ${heatClass}">${_fmt.formatPercent(parseFloat(item.top3box), 2)}</span></td>
+        <td class="text-center" style="font-weight:var(--font-bold)">${_fmt.formatScore(parseFloat(item.top2box), 2)}</td>
+        <td class="text-center" style="font-weight:var(--font-bold)">${_fmt.formatScore(parseFloat(item.ponderado), 2)}</td>
         <td class="text-center">${_san.escapeHTML(catCorta)}</td>
         <td>
           <div class="distribution-bar animated">

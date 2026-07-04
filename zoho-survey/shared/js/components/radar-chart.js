@@ -162,14 +162,24 @@ window.SurveyRadarChart = (() => {
     const dims = {};
     filteredDimensions.forEach((r) => {
       if (!dimensionAplica(filteredDimensions, r.dimension)) return;
-      if (!dims[r.dimension]) dims[r.dimension] = { total: 0, top3: 0, categoria: r.categoria };
-      dims[r.dimension].total += sumKeys(r, SAT_KEYS);
-      dims[r.dimension].top3 += sumKeys(r, SAT_TOP3_KEYS);
+      if (!dims[r.dimension]) dims[r.dimension] = { total: 0, top3: 0, categoria: r.categoria, totSat: 0, muySat: 0, sat: 0, insat: 0, totInsat: 0 };
+      const d = dims[r.dimension];
+      d.total += sumKeys(r, SAT_KEYS);
+      d.top3 += sumKeys(r, SAT_TOP3_KEYS);
+      d.totSat += (r['Totalmente satisfecho'] || 0);
+      d.muySat += (r['Muy satisfecho'] || 0);
+      d.sat += (r['Satisfecho'] || 0);
+      d.insat += (r['Insatisfecho'] || 0);
+      d.totInsat += (r['Totalmente insatisfecho'] || 0);
     });
 
     const allDims = Object.entries(dims)
       .filter(([, v]) => v.total > 0)
-      .map(([dim, v]) => ({ dim, pct: (v.top3 / v.total) * 100, categoria: v.categoria }))
+      .map(([dim, v]) => {
+        const top2box = ((v.totSat + v.muySat) / v.total) * 100;
+        const ponderado = ((5 * v.totSat + 4 * v.muySat + 3 * v.sat + 2 * v.insat + 1 * v.totInsat) / v.total) / 5 * 100;
+        return { dim, pct: (v.top3 / v.total) * 100, categoria: v.categoria, top2box, ponderado };
+      })
       .filter((d) => !selectedCats || selectedCats.length === 0 || selectedCats.includes(d.categoria));
 
     if (!allDims.length) {
@@ -213,6 +223,8 @@ window.SurveyRadarChart = (() => {
       return {
         dim: d.dim,
         pct: d.pct,
+        top2box: d.top2box,
+        ponderado: d.ponderado,
         angle: angle,
         x: lx,
         y: ly,
@@ -269,10 +281,18 @@ window.SurveyRadarChart = (() => {
         l.x = cx + signX * Math.sqrt(R_label * R_label - dy * dy);
       }
 
+      // Línea conectora desde la etiqueta hasta su punto de datos
+      const rEnd = (l.pct / 100) * maxR;
+      const pxEnd = cx + rEnd * Math.cos(l.angle);
+      const pyEnd = cy + rEnd * Math.sin(l.angle);
+      parts.push(`<line x1="${l.x}" y1="${l.y}" x2="${pxEnd}" y2="${pyEnd}" stroke="#9CA3AF" stroke-width="1" pointer-events="none"/>`);
+
       parts.push(`<text x="${l.x}" y="${l.y}" font-size="10" font-weight="500" fill="#6B7280" style="cursor:pointer;"
                   text-anchor="${l.anchor}" dominant-baseline="middle"
                   data-dim="${_fmt.formatDimensionNameForAttr(l.dim)}"
-                  data-pct="${_fmt.formatPercent(l.pct, 2)}">${_fmt.formatDimensionNameSVG(l.dim, RADAR_LABEL_MAXLEN)}</text>`);
+                  data-pct="${_fmt.formatDecimal(l.pct, 2)}"
+                  data-t2b="${_fmt.formatDecimal(l.top2box, 2)}"
+                  data-pond="${_fmt.formatDecimal(l.ponderado, 2)}">${_fmt.formatDimensionNameSVG(l.dim, RADAR_LABEL_MAXLEN)}</text>`);
     });
 
     // Puntos del polígono de datos
@@ -306,7 +326,11 @@ window.SurveyRadarChart = (() => {
       const py = cy + rFinal * Math.sin(a);
       const color = d.pct >= META_CSAT ? 'var(--satisfaction-high,#374151)' : d.pct >= 80 ? 'var(--satisfaction-medium,#9CA3AF)' : 'var(--satisfaction-low,#FF0000)';
 
-      parts.push(`<circle cx="${ox}" cy="${oy}" r="4" fill="${color}" style="cursor:pointer;opacity:0">
+      parts.push(`<circle cx="${ox}" cy="${oy}" r="4" fill="${color}" style="cursor:pointer;opacity:0"
+                  data-dim="${_fmt.formatDimensionNameForAttr(d.dim)}"
+                  data-pct="${_fmt.formatDecimal(d.pct, 2)}"
+                  data-t2b="${_fmt.formatDecimal(d.top2box, 2)}"
+                  data-pond="${_fmt.formatDecimal(d.ponderado, 2)}">
                   <animate attributeName="cx" from="${ox}" to="${px}" dur="0.8s" fill="freeze" calcMode="spline" keySplines="0.25 0.1 0.25 1"/>
                   <animate attributeName="cy" from="${oy}" to="${py}" dur="0.8s" fill="freeze" calcMode="spline" keySplines="0.25 0.1 0.25 1"/>
                   <animate attributeName="opacity" from="0" to="1" dur="0.3s" begin="0.5s" fill="freeze"/>
@@ -318,11 +342,15 @@ window.SurveyRadarChart = (() => {
     // Bind tooltip events to radar labels via addEventListener (CSP-friendly)
     const _ttp = window.SurveyTooltip;
     if (_ttp) {
-      svg.querySelectorAll('text[data-dim]').forEach((txt) => {
-        const dim = txt.getAttribute('data-dim');
-        const pct = txt.getAttribute('data-pct');
-        txt.addEventListener('mousemove', (e) => _ttp.show(e, `${dim}: ${pct}`));
-        txt.addEventListener('mouseleave', () => _ttp.hide());
+      svg.querySelectorAll('text[data-dim], circle[data-dim]').forEach((el) => {
+        const dim = el.getAttribute('data-dim');
+        const pct = el.getAttribute('data-pct');
+        const t2b = el.getAttribute('data-t2b');
+        const pond = el.getAttribute('data-pond');
+        el.addEventListener('mousemove', (e) => _ttp.show(e,
+          `<strong>${dim}</strong><br>T3B: ${pct}%<br>T2B: ${t2b}%<br>Ponderado: ${pond}%`
+        ));
+        el.addEventListener('mouseleave', () => _ttp.hide());
       });
     }
 
