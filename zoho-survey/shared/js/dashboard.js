@@ -823,13 +823,13 @@
       const tr = document.createElement('tr');
       const vsCsatTxt =
         item.vsPromCsat >= 0
-          ? `<span style="color:#00B04F;font-weight:600;">+${_fmt.formatInteger(Math.round(item.vsPromCsat))}</span>`
-          : `<span style="color:#FF0000;font-weight:600;">${_fmt.formatInteger(Math.round(item.vsPromCsat))}</span>`;
+          ? `<span style="color:var(--success-text);font-weight:600;">+${_fmt.formatInteger(Math.round(item.vsPromCsat))}</span>`
+          : `<span style="color:var(--ulima-red);font-weight:600;">${_fmt.formatInteger(Math.round(item.vsPromCsat))}</span>`;
 
       const vsNpsTxt =
         item.vsPromNps >= 0
-          ? `<span style="color:#00B04F;font-weight:600;">+${_fmt.formatInteger(Math.round(item.vsPromNps))}</span>`
-          : `<span style="color:#FF0000;font-weight:600;">${_fmt.formatInteger(Math.round(item.vsPromNps))}</span>`;
+          ? `<span style="color:var(--success-text);font-weight:600;">+${_fmt.formatInteger(Math.round(item.vsPromNps))}</span>`
+          : `<span style="color:var(--ulima-red);font-weight:600;">${_fmt.formatInteger(Math.round(item.vsPromNps))}</span>`;
 
       tr.innerHTML = `
         <td>${_san.escapeHTML(item.carrera)}</td>
