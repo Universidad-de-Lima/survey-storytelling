@@ -356,7 +356,7 @@
         : (() => { const lbl = seg.querySelector('.csat-label'); return lbl ? lbl.scrollWidth + SAFETY_MARGIN > seg.offsetWidth : false; })();
       const selected = textOverflows || tooNarrow || tooSmall;
       const isZero = isDistBar ? (parseFloat(seg.style.width) || 0) === 0 : segPct < (config.SEGMENT_LABEL_HIDE_PCT ?? 0.005);
-      if (isZero || parseFloat(textContent) === 0) {
+      if (isZero || parseFloat(textContent.replace(',', '.')) === 0) {
         const lbl = isDistBar ? seg.querySelector('.dist-label') : seg.querySelector('.csat-label');
         if (lbl) lbl.style.visibility = 'hidden';
         return;
