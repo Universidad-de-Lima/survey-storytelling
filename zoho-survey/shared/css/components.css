@@ -5,10 +5,15 @@
 
 /* ── KPI Cards ── */
 .kpi-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  display: flex;
+  flex-wrap: wrap;
   gap: var(--space-lg);
   margin-bottom: var(--space-2xl);
+}
+
+.kpi-grid .kpi-card {
+  flex: 1 1 170px;
+  min-width: 150px;
 }
 
 .card,
@@ -24,7 +29,7 @@
 }
 
 .kpi-value {
-  font-size: var(--text-4xl);
+  font-size: 35px;
   font-weight: var(--font-black);
   line-height: 1;
 }
@@ -35,6 +40,14 @@
   font-weight: var(--font-medium);
   text-transform: uppercase;
   letter-spacing: 0.5px;
+}
+
+/* Reducir label de KPI dentro del grid para que "Índice de Promotores Netos" quede en 1 línea */
+.kpi-grid .kpi-label {
+  font-size: 11px;
+  text-transform: none;
+  letter-spacing: 0;
+  white-space: nowrap;
 }
 
 .kpi-bar {
