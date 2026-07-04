@@ -355,7 +355,7 @@
         ? (textContent.length * 8 + SAFETY_MARGIN > seg.offsetWidth)
         : (() => { const lbl = seg.querySelector('.csat-label'); return lbl ? lbl.scrollWidth + SAFETY_MARGIN > seg.offsetWidth : false; })();
       const selected = textOverflows || tooNarrow || tooSmall;
-      const isZero = isDistBar ? (parseFloat(seg.style.width) || 0) === 0 : segPct < 0.0001;
+      const isZero = isDistBar ? (parseFloat(seg.style.width) || 0) === 0 : segPct < (config.SEGMENT_LABEL_HIDE_PCT ?? 0.005);
       if (isZero || parseFloat(textContent) === 0) {
         const lbl = isDistBar ? seg.querySelector('.dist-label') : seg.querySelector('.csat-label');
         if (lbl) lbl.style.visibility = 'hidden';
@@ -434,10 +434,6 @@
         const labelW = temp.scrollWidth || 30;
         document.body.removeChild(temp);
 
-        // Clamp cx para que la etiqueta no se salga del contenedor
-        const labelHalfW = labelW / 2;
-        cx = Math.max(labelHalfW + 4, Math.min(cx, barWidth - labelHalfW - 4));
-
         const labelL = cx - labelW / 2;
         let row = 0;
         for (let r = 0; r <= rows.length; r++) {
@@ -452,10 +448,7 @@
         const lbl = isDistBar ? seg.querySelector('.dist-label') : seg.querySelector('.csat-label');
         if (lbl) lbl.style.visibility = 'hidden';
 
-        const rawColor = getComputedStyle(seg).backgroundColor;
-        const segColor = (!rawColor || rawColor === 'rgba(0, 0, 0, 0)' || rawColor === 'transparent')
-          ? 'var(--gray-700)'
-          : rawColor;
+        const segColor = getComputedStyle(seg).backgroundColor;
         const el = document.createElement('div');
         el.className = 'csat-label-above';
         el.textContent = txt;

@@ -103,13 +103,7 @@ sentimiento.json v3.0
 - Si la libreria `jsonschema` no esta instalada, emite warning pero continua con las validaciones custom.
 - Return codes: 0 = exito, 1 = errores encontrados.
 
-### `validacion_empirica_sentimiento.py` (34 lineas)
-
-**Purpose**: Script ad-hoc de calibracion manual del motor de sentimiento. Ejecuta 10 muestras etiquetadas contra `analizar_sentimiento_intensidad()` y reporta `classification_report` de scikit-learn.
-
-**No es parte del CI**. Es una herramienta interna para evaluar cambios en la calibracion del motor.
-
-### `lib/` (8 modulos)
+### `lib/` (10 modulos)
 
 | Modulo | Lineas | Responsabilidad | Estado |
 | --- | --- | --- | --- |
@@ -172,9 +166,6 @@ npm run validate:json
 # Ejecutar tests Python (tambien se ejecutan en CI via tests.yml)
 cd zoho-survey/scripts
 python -m unittest discover tests/
-
-# Calibracion empirica del motor de sentimiento
-python zoho-survey/scripts/validacion_empirica_sentimiento.py
 ```
 
 ## Configuration (`lib/config.py`)
