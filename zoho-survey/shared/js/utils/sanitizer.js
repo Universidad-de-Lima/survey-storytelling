@@ -22,7 +22,7 @@
 window.SurveySanitizer = (() => {
   'use strict';
 
-  const ALLOWED_TAGS = ['br', 'strong', 'em', 'i', 'span'];
+  const ALLOWED_TAGS = ['br', 'strong', 'em', 'i', 'span', 'table', 'tr', 'td', 'th'];
 
   /**
    * Escapa caracteres HTML peligrosos.

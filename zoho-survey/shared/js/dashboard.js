@@ -261,7 +261,14 @@
       <div class="legend-item"><div class="legend-dot" style="background:var(--gray-400);"></div>Pasivos: ${_fmt.formatInteger(pas)}</div>
       <div class="legend-item"><div class="legend-dot" style="background:var(--ulima-orange);"></div>Detractores: ${_fmt.formatInteger(det)}</div>
     `;
-    if (_ttp) _ttp.bindToSegments('#nps-bar .csat-segment');
+    if (_ttp) {
+      document.querySelectorAll('#nps-bar .csat-segment').forEach(function(seg) {
+        seg.addEventListener('mousemove', function(e) {
+          if (_ttp) _ttp.show(e, '<table style="border-collapse:collapse;font-size:11px;"><tr><th style="text-align:left;padding:2px 6px;border-bottom:1px solid #ccc;">Segmento</th><th style="text-align:center;padding:2px 6px;border-bottom:1px solid #ccc;">Respuestas</th></tr><tr><td style="padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">' + seg.dataset.label + '</td><td style="text-align:center;padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">' + seg.dataset.value + '</td></tr></table>', true);
+        });
+        seg.addEventListener('mouseleave', function() { if (_ttp) _ttp.hide(); });
+      });
+    }
     adjustSegmentLabels('#nps-bar');
   }
 
@@ -289,7 +296,14 @@
         `<div class="legend-item"><div class="legend-dot" style="background:${item.color};"></div>${item.key}: ${_fmt.formatInteger(csat[item.key])}</div>`
       )
       .join('');
-    if (_ttp) _ttp.bindToSegments('#csat-bar .csat-segment');
+    if (_ttp) {
+      document.querySelectorAll('#csat-bar .csat-segment').forEach(function(seg) {
+        seg.addEventListener('mousemove', function(e) {
+          if (_ttp) _ttp.show(e, '<table style="border-collapse:collapse;font-size:11px;"><tr><th style="text-align:left;padding:2px 6px;border-bottom:1px solid #ccc;">Escala de Satisfacción</th><th style="text-align:center;padding:2px 6px;border-bottom:1px solid #ccc;">Respuestas</th></tr><tr><td style="padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">' + seg.dataset.label + '</td><td style="text-align:center;padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">' + seg.dataset.value + '</td></tr></table>', true);
+        });
+        seg.addEventListener('mouseleave', function() { if (_ttp) _ttp.hide(); });
+      });
+    }
     adjustSegmentLabels('#csat-bar');
   }
 
@@ -537,11 +551,25 @@
             counts[key] += r[key] || 0;
           });
         });
-        const lines = Object.entries(counts)
-          .filter(([, val]) => val > 0)
-          .map(([key, val]) => `${key}: ${_fmt.formatInteger(val)}`);
-        if (!lines.length) return _ttp ? _ttp.hide() : null;
-        if (_ttp) _ttp.show(e, lines.join('<br>'));
+        const satKeys = ['Totalmente satisfecho', 'Muy satisfecho', 'Satisfecho', 'Insatisfecho', 'Totalmente insatisfecho'];
+        const total = satKeys.reduce((s, k) => s + counts[k], 0);
+        const t3bVal = total > 0 ? (counts['Totalmente satisfecho'] + counts['Muy satisfecho'] + counts['Satisfecho']) / total * 100 : 0;
+        const t2bVal = total > 0 ? (counts['Totalmente satisfecho'] + counts['Muy satisfecho']) / total * 100 : 0;
+        const pondVal = total > 0 ? ((5 * counts['Totalmente satisfecho'] + 4 * counts['Muy satisfecho'] + 3 * counts['Satisfecho'] + 2 * counts['Insatisfecho'] + 1 * counts['Totalmente insatisfecho']) / total) / 5 * 100 : 0;
+        const rowCount = satKeys.filter(k => (counts[k] || 0) > 0).length;
+        let tableHtml = '<table style="border-collapse:collapse;font-size:11px;"><tr><th style="text-align:left;padding:2px 6px;border-bottom:1px solid #ccc;">Escala de Satisfacción</th><th style="text-align:center;padding:2px 6px;border-bottom:1px solid #ccc;">Respuestas</th><th style="text-align:center;padding:2px 6px;border-bottom:1px solid #ccc;">T3B</th><th style="text-align:center;padding:2px 6px;border-bottom:1px solid #ccc;">T2B</th><th style="text-align:center;padding:2px 6px;border-bottom:1px solid #ccc;">Ponderado</th></tr>';
+        satKeys.forEach((key, i) => {
+          const val = counts[key] || 0;
+          if (val === 0) return;
+          if (i === 0) {
+            // Primera fila: incluye T3B, T2B, Ponderado con rowspan
+            tableHtml += `<tr><td style="padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">${key}</td><td style="text-align:center;padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">${_fmt.formatInteger(val)}</td><td rowspan="${rowCount}" style="text-align:center;padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">${_fmt.formatDecimal(t3bVal, 2) + '%'}</td><td rowspan="${rowCount}" style="text-align:center;padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">${_fmt.formatDecimal(t2bVal, 2) + '%'}</td><td rowspan="${rowCount}" style="text-align:center;padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">${_fmt.formatDecimal(pondVal, 2) + '%'}</td></tr>`;
+          } else {
+            tableHtml += `<tr><td style="padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">${key}</td><td style="text-align:center;padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">${_fmt.formatInteger(val)}</td></tr>`;
+          }
+        });
+        tableHtml += '</table>';
+        if (_ttp) _ttp.show(e, tableHtml, true);
       });
       barItem.querySelector('.bar-container').addEventListener('mouseleave', () => _ttp?.hide());
       fragment.appendChild(barItem);
@@ -714,7 +742,7 @@
       `;
       tr.querySelectorAll('.distribution-segment').forEach((seg) => {
         seg.addEventListener('mousemove', (e) => {
-          if (_ttp) _ttp.show(e, `${seg.dataset.label}: ${seg.dataset.value}`);
+          if (_ttp) _ttp.show(e, `<table style="border-collapse:collapse;font-size:11px;"><tr><th style="text-align:left;padding:2px 6px;border-bottom:1px solid #ccc;">Escala de Satisfacción</th><th style="text-align:center;padding:2px 6px;border-bottom:1px solid #ccc;">Respuestas</th></tr><tr><td style="padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">${seg.dataset.label}</td><td style="text-align:center;padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">${seg.dataset.value}</td></tr></table>`, true);
         });
         seg.addEventListener('mouseleave', () => _ttp?.hide());
       });
@@ -897,7 +925,7 @@
       `;
       tr.querySelectorAll('.visibility-segment').forEach((seg) => {
         seg.addEventListener('mousemove', (e) => {
-          if (_ttp) _ttp.show(e, `${seg.dataset.label}: ${seg.dataset.value}`);
+          if (_ttp) _ttp.show(e, `<table style="border-collapse:collapse;font-size:11px;"><tr><th style="text-align:left;padding:2px 6px;border-bottom:1px solid #ccc;">Opción</th><th style="text-align:center;padding:2px 6px;border-bottom:1px solid #ccc;">Respuestas</th></tr><tr><td style="padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">${seg.dataset.label}</td><td style="text-align:center;padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">${seg.dataset.value}</td></tr></table>`, true);
         });
         seg.addEventListener('mouseleave', () => _ttp?.hide());
       });

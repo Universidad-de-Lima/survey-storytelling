@@ -76,10 +76,11 @@ window.SurveyTooltip = (() => {
    * Muestra el tooltip en la posición del evento.
    * @param {MouseEvent} e - Evento del mouse
    * @param {string} content - Contenido HTML (se sanitiza automáticamente)
+   * @param {boolean} [raw=false] - Si es true, no sanitiza (usar solo con contenido controlado)
    */
-  function show(e, content) {
+  function show(e, content, raw = false) {
     const el = getElement();
-    el.innerHTML = safeContent(content);
+    el.innerHTML = raw ? content : safeContent(content);
     el.style.display = 'block';
     _position(e);
   }

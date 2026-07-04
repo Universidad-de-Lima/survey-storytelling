@@ -178,7 +178,7 @@ window.SurveyRadarChart = (() => {
       .map(([dim, v]) => {
         const top2box = ((v.totSat + v.muySat) / v.total) * 100;
         const ponderado = ((5 * v.totSat + 4 * v.muySat + 3 * v.sat + 2 * v.insat + 1 * v.totInsat) / v.total) / 5 * 100;
-        return { dim, pct: (v.top3 / v.total) * 100, categoria: v.categoria, top2box, ponderado };
+        return { dim, pct: (v.top3 / v.total) * 100, categoria: v.categoria, top2box, ponderado, counts: { 'Totalmente satisfecho': v.totSat, 'Muy satisfecho': v.muySat, 'Satisfecho': v.sat, 'Insatisfecho': v.insat, 'Totalmente insatisfecho': v.totInsat }, total: v.total };
       })
       .filter((d) => !selectedCats || selectedCats.length === 0 || selectedCats.includes(d.categoria));
 
@@ -347,9 +347,27 @@ window.SurveyRadarChart = (() => {
         const pct = el.getAttribute('data-pct');
         const t2b = el.getAttribute('data-t2b');
         const pond = el.getAttribute('data-pond');
-        el.addEventListener('mousemove', (e) => _ttp.show(e,
-          `<strong>${dim}</strong><br>T3B: ${pct}%<br>T2B: ${t2b}%<br>Ponderado: ${pond}%`
-        ));
+        el.addEventListener('mousemove', (e) => {
+          // Build table tooltip matching renderTop3Bars style
+          const d = allDims.find(x => x.dim === dim);
+          let html = `<table style="border-collapse:collapse;font-size:11px;"><tr><th style="text-align:left;padding:2px 6px;border-bottom:1px solid #ccc;">Escala de Satisfacción</th><th style="text-align:center;padding:2px 6px;border-bottom:1px solid #ccc;">Respuestas</th><th style="text-align:center;padding:2px 6px;border-bottom:1px solid #ccc;">T3B</th><th style="text-align:center;padding:2px 6px;border-bottom:1px solid #ccc;">T2B</th><th style="text-align:center;padding:2px 6px;border-bottom:1px solid #ccc;">Ponderado</th></tr>`;
+          if (d) {
+            const satKeys = ['Totalmente satisfecho', 'Muy satisfecho', 'Satisfecho', 'Insatisfecho', 'Totalmente insatisfecho'];
+            const firstRowSpan = satKeys.filter(k => (d.counts[k] || 0) > 0).length;
+            let rowCount = 1;
+            satKeys.forEach((key, i) => {
+              const val = d.counts[key] || 0;
+              if (val === 0) return;
+              if (i === 0) {
+                html += `<tr><td style="padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">${key}</td><td style="text-align:center;padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">${_fmt.formatInteger(val)}</td><td style="text-align:center;padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;" rowspan="${firstRowSpan}">${pct}%</td><td style="text-align:center;padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;" rowspan="${firstRowSpan}">${t2b}%</td><td style="text-align:center;padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;" rowspan="${firstRowSpan}">${pond}%</td></tr>`;
+              } else {
+                html += `<tr><td style="padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">${key}</td><td style="text-align:center;padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">${_fmt.formatInteger(val)}</td></tr>`;
+              }
+            });
+          }
+          html += '</table>';
+          _ttp.show(e, html, true);
+        });
         el.addEventListener('mouseleave', () => _ttp.hide());
       });
     }

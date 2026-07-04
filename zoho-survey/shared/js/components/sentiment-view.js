@@ -111,11 +111,13 @@ window.SurveySentimentView = (() => {
       // Tooltip events
       barItem.addEventListener('mouseenter', (e) => {
         const b = item.breakdown;
-        let html = `<strong>${item.label}</strong>: ${_fmt.formatInteger(item.value)} ideas (${_fmt.formatPctDecimal(item.value, total)})<br>`;
-        html += `Promotores: ${_fmt.formatInteger(b.prom)}<br>`;
-        html += `Pasivos: ${_fmt.formatInteger(b.pas)}<br>`;
-        html += `Detractores: ${_fmt.formatInteger(b.det)}`;
-        _ttp.show(e, html);
+        let html = '<table style="border-collapse:collapse;font-size:11px;">';
+        html += `<tr><td style="padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">Promotores</td><td style="text-align:right;padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">${_fmt.formatInteger(b.prom)}</td></tr>`;
+        html += `<tr><td style="padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">Pasivos</td><td style="text-align:right;padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">${_fmt.formatInteger(b.pas)}</td></tr>`;
+        html += `<tr><td style="padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">Detractores</td><td style="text-align:right;padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">${_fmt.formatInteger(b.det)}</td></tr>`;
+        html += `<tr><td style="padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;"><strong>${item.label}</strong></td><td style="text-align:right;padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">${_fmt.formatInteger(item.value)} ideas (${_fmt.formatPctSimple(item.value, total)})</td></tr>`;
+        html += '</table>';
+        _ttp.show(e, html, true);
       });
       barItem.addEventListener('mousemove', (e) => {
         _ttp.move(e);
@@ -283,11 +285,13 @@ window.SurveySentimentView = (() => {
 
       // Tooltip enriquecido con conteos + porcentajes (2 decimales), consistente
       // con el resto de la app. Reemplaza al title HTML nativo.
-      const tooltipHtml = `<strong>${_san.escapeHTML(cat)}</strong>: ${_fmt.formatInteger(s.total)} menciones<br>` +
-        `Positivos: ${_fmt.formatInteger(posCount)} (${_fmt.formatPctDecimal(posCount, s.total)})<br>` +
-        `Neutros: ${_fmt.formatInteger(neuCount)} (${_fmt.formatPctDecimal(neuCount, s.total)})<br>` +
-        `Negativos: ${_fmt.formatInteger(negCount)} (${_fmt.formatPctDecimal(negCount, s.total)})`;
-      col.addEventListener('mouseenter', (e) => { if (_ttp) _ttp.show(e, tooltipHtml); });
+      let tooltipHtml = '<table style="border-collapse:collapse;font-size:11px;">';
+      tooltipHtml += `<tr><td style="padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">Positivos</td><td style="text-align:right;padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">${_fmt.formatInteger(posCount)} (${_fmt.formatPctSimple(posCount, s.total)})</td></tr>`;
+      tooltipHtml += `<tr><td style="padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">Neutros</td><td style="text-align:right;padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">${_fmt.formatInteger(neuCount)} (${_fmt.formatPctSimple(neuCount, s.total)})</td></tr>`;
+      tooltipHtml += `<tr><td style="padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">Negativos</td><td style="text-align:right;padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">${_fmt.formatInteger(negCount)} (${_fmt.formatPctSimple(negCount, s.total)})</td></tr>`;
+      tooltipHtml += `<tr><td style="padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;"><strong>${_san.escapeHTML(cat)}</strong></td><td style="text-align:right;padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">${_fmt.formatInteger(s.total)} menciones</td></tr>`;
+      tooltipHtml += '</table>';
+      col.addEventListener('mouseenter', (e) => { if (_ttp) _ttp.show(e, tooltipHtml, true); });
       col.addEventListener('mousemove', (e) => { if (_ttp) _ttp.move(e); });
       col.addEventListener('mouseleave', () => { if (_ttp) _ttp.hide(); });
 
@@ -354,11 +358,13 @@ window.SurveySentimentView = (() => {
       // Tooltip events
       barItem.addEventListener('mouseenter', (e) => {
         const b = item.breakdown;
-        let html = `<strong>${item.label}</strong>: ${_fmt.formatInteger(item.value)} ideas (${_fmt.formatPctDecimal(item.value, totalIdeas)})<br>`;
-        html += `Positivos: ${_fmt.formatInteger(b.pos)}<br>`;
-        html += `Neutros: ${_fmt.formatInteger(b.neu)}<br>`;
-        html += `Negativos: ${_fmt.formatInteger(b.neg)}`;
-        _ttp.show(e, html);
+        let html = '<table style="border-collapse:collapse;font-size:11px;">';
+        html += `<tr><td style="padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">Positivos</td><td style="text-align:right;padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">${_fmt.formatInteger(b.pos)}</td></tr>`;
+        html += `<tr><td style="padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">Neutros</td><td style="text-align:right;padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">${_fmt.formatInteger(b.neu)}</td></tr>`;
+        html += `<tr><td style="padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">Negativos</td><td style="text-align:right;padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">${_fmt.formatInteger(b.neg)}</td></tr>`;
+        html += `<tr><td style="padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;"><strong>${item.label}</strong></td><td style="text-align:right;padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">${_fmt.formatInteger(item.value)} ideas (${_fmt.formatPctSimple(item.value, totalIdeas)})</td></tr>`;
+        html += '</table>';
+        _ttp.show(e, html, true);
       });
       barItem.addEventListener('mousemove', (e) => {
         _ttp.move(e);
@@ -412,11 +418,11 @@ window.SurveySentimentView = (() => {
       `;
 
       const tooltipText = isIntensity ? 
-        `<strong>${_san.escapeHTML(item.name)}</strong>: Intensidad promedio ${displayVal}` : 
-        `<strong>${_san.escapeHTML(item.name)}</strong>: ${_fmt.formatInteger(item.val)} menciones`;
+        `<table style="border-collapse:collapse;font-size:11px;"><tr><td style="padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;"><strong>${_san.escapeHTML(item.name)}</strong></td><td style="text-align:right;padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">Intensidad promedio ${displayVal}</td></tr></table>` : 
+        `<table style="border-collapse:collapse;font-size:11px;"><tr><td style="padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;"><strong>${_san.escapeHTML(item.name)}</strong></td><td style="text-align:right;padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">${_fmt.formatInteger(item.val)} menciones</td></tr></table>`;
         
       barItem.addEventListener('mouseenter', (e) => {
-        _ttp.show(e, tooltipText);
+        _ttp.show(e, tooltipText, true);
       });
       barItem.addEventListener('mousemove', (e) => _ttp.move(e));
       barItem.addEventListener('mouseleave', () => _ttp.hide());
