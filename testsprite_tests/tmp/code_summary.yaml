@@ -1,0 +1,134 @@
+version: "2"
+type: frontend
+tech_stack:
+  - language: JavaScript (Vanilla, IIFE modules)
+  - framework: None
+  - ui_library: None
+  - other:
+    - CSS design tokens (tokens.css)
+    - SVG charts (radar)
+    - spaCy NLP (Python ETL, not frontend)
+routes:
+  - path: /
+    file: zoho-survey/students/undergraduate/2026-1/index.html
+    auth_required: false
+    description: Dashboard principal - sección Ejecutivo (KPIs, NPS, CSAT)
+  - path: /#operativo
+    file: zoho-survey/students/undergraduate/2026-1/index.html
+    auth_required: false
+    description: Dashboard sección Operativo (radar chart, top3 bars, insights)
+  - path: /#detallado
+    file: zoho-survey/students/undergraduate/2026-1/index.html
+    auth_required: false
+    description: Dashboard sección Detallado (tabla de preguntas, detalle carreras, visibilidad)
+  - path: /#cualitativo
+    file: zoho-survey/students/undergraduate/2026-1/index.html
+    auth_required: false
+    description: Dashboard sección Cualitativo (análisis de sentimiento y comentarios)
+features:
+  - name: Dashboard KPI Cards
+    description: Tarjetas con indicadores clave (NPS score, CSAT, promotores, pasivos, detractores)
+    files:
+      - zoho-survey/shared/js/dashboard.js
+      - zoho-survey/shared/css/components.css
+    entry_route: /
+    user_interactions:
+      - View KPI values for NPS score, CSAT percentage, promoter/passive/detractor counts
+    api_calls: []
+    auth_required: false
+  - name: NPS Distribution Bar
+    description: Barra horizontal con segmentos de promotores, pasivos y detractores
+    files:
+      - zoho-survey/shared/js/dashboard.js
+      - zoho-survey/shared/css/components.css
+    entry_route: /
+    user_interactions:
+      - Hover over bar segments to see tooltip with counts and percentages
+    api_calls: []
+    auth_required: false
+  - name: CSAT Distribution Bar
+    description: Barra horizontal con los 5 niveles de satisfacción
+    files:
+      - zoho-survey/shared/js/dashboard.js
+      - zoho-survey/shared/css/components.css
+    entry_route: /
+    user_interactions:
+      - Hover over bar segments to see detailed tooltip table
+    api_calls: []
+    auth_required: false
+  - name: Radar Chart
+    description: Gráfico radar SVG con dimensiones de satisfacción
+    files:
+      - zoho-survey/shared/js/components/radar-chart.js
+      - zoho-survey/shared/css/components.css
+    entry_route: /#operativo
+    user_interactions:
+      - Hover over dimension labels or data points to see tooltip with satisfaction breakdown
+      - Filter by category using multiselect dropdown
+    api_calls: []
+    auth_required: false
+  - name: Detailed Satisfaction Table
+    description: Tabla detallada de satisfacción por facultad/carrera/ciclo con barras de distribución
+    files:
+      - zoho-survey/shared/js/dashboard.js
+    entry_route: /#detallado
+    user_interactions:
+      - View satisfaction scores per dimension with T2B, T3B, and weighted average columns
+      - Hover over distribution bars to see per-level tooltips
+    api_calls: []
+    auth_required: false
+  - name: Filters (Faculty, Career, Cycle)
+    description: Filtros por facultad, carrera y ciclo académico
+    files:
+      - zoho-survey/shared/js/components/filter-controller.js
+      - zoho-survey/shared/js/components/custom-select.js
+    entry_route: /
+    user_interactions:
+      - Select faculty from dropdown to filter all charts
+      - Select career to further refine data
+      - Select cycle for period filtering
+      - Reset filters to show all data
+    api_calls: []
+    auth_required: false
+  - name: Sentiment Analysis Dashboard
+    description: KPIs de comentarios, distribución de sentimientos, aspectos positivos/negativos
+    files:
+      - zoho-survey/shared/js/components/sentiment-view.js
+    entry_route: /#cualitativo
+    user_interactions:
+      - View sentiment distribution bars (Positivo/Neutro/Negativo)
+      - View NPS segment bars (Promotores/Pasivos/Detractores)
+      - View top categories with stacked bars
+      - View positive and negative aspect lists
+      - Hover over any bar to see table-format tooltip
+      - Explore comments with search and filter
+    api_calls: []
+    auth_required: false
+  - name: CSV Export
+    description: Descarga de ZIP con datos de comentarios y respuestas por dimensión
+    files:
+      - zoho-survey/shared/js/components/sentiment-view.js
+    entry_route: /#cualitativo
+    user_interactions:
+      - Click export button to download ZIP file with qualitative analysis CSV
+    api_calls: []
+    auth_required: false
+  - name: Comment Explorer
+    description: Explorador paginado de comentarios con búsqueda y filtros
+    files:
+      - zoho-survey/shared/js/components/sentiment-view.js
+    entry_route: /#cualitativo
+    user_interactions:
+      - Search comments by keyword
+      - Filter by category and sentiment
+      - Navigate through pages of comments
+      - Click on legend items to filter by sentiment
+    api_calls: []
+    auth_required: false
+known_limitations:
+  - issue: Datos estáticos desde JSON, no hay backend en tiempo real
+    location: zoho-survey/shared/js/dashboard.js
+    impact: Los datos solo se actualizan cuando se regeneran los JSONs mediante el ETL
+  - issue: El ZIP de exportación solo existe si el ETL se ha ejecutado correctamente
+    location: zoho-survey/shared/js/components/sentiment-view.js
+    impact: La descarga puede fallar si no se ha generado el ZIP en el build

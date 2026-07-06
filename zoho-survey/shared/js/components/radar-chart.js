@@ -285,7 +285,11 @@ window.SurveyRadarChart = (() => {
       const rEnd = (l.pct / 100) * maxR;
       const pxEnd = cx + rEnd * Math.cos(l.angle);
       const pyEnd = cy + rEnd * Math.sin(l.angle);
-      parts.push(`<line x1="${l.x}" y1="${l.y}" x2="${pxEnd}" y2="${pyEnd}" stroke="#9CA3AF" stroke-width="1" pointer-events="none"/>`);
+      parts.push(`<line x1="${l.x}" y1="${l.y}" x2="${pxEnd}" y2="${pyEnd}" stroke="#9CA3AF" stroke-width="1" style="cursor:pointer;"
+                  data-dim="${_fmt.formatDimensionNameForAttr(l.dim)}"
+                  data-pct="${_fmt.formatDecimal(l.pct, 2)}"
+                  data-t2b="${_fmt.formatDecimal(l.top2box, 2)}"
+                  data-pond="${_fmt.formatDecimal(l.ponderado, 2)}"/>`);
 
       parts.push(`<text x="${l.x}" y="${l.y}" font-size="10" font-weight="500" fill="#6B7280" style="cursor:pointer;"
                   text-anchor="${l.anchor}" dominant-baseline="middle"
@@ -342,14 +346,14 @@ window.SurveyRadarChart = (() => {
     // Bind tooltip events to radar labels via addEventListener (CSP-friendly)
     const _ttp = window.SurveyTooltip;
     if (_ttp) {
-      svg.querySelectorAll('text[data-dim], circle[data-dim]').forEach((el) => {
+      svg.querySelectorAll('text[data-dim], circle[data-dim], line[data-dim]').forEach((el) => {
         const dim = el.getAttribute('data-dim');
         const pct = el.getAttribute('data-pct');
         const t2b = el.getAttribute('data-t2b');
         const pond = el.getAttribute('data-pond');
         el.addEventListener('mousemove', (e) => {
           // Build table tooltip matching renderTop3Bars style
-          const d = allDims.find(x => x.dim === dim);
+          const d = allDims.find(x => _fmt.formatDimensionNameForAttr(x.dim) === dim);
           let html = `<table style="border-collapse:collapse;font-size:11px;"><tr><th style="text-align:left;padding:2px 6px;border-bottom:1px solid #ccc;">Escala de Satisfacción</th><th style="text-align:center;padding:2px 6px;border-bottom:1px solid #ccc;">Respuestas</th><th style="text-align:center;padding:2px 6px;border-bottom:1px solid #ccc;">T3B</th><th style="text-align:center;padding:2px 6px;border-bottom:1px solid #ccc;">T2B</th><th style="text-align:center;padding:2px 6px;border-bottom:1px solid #ccc;">Ponderado</th></tr>`;
           if (d) {
             const satKeys = ['Totalmente satisfecho', 'Muy satisfecho', 'Satisfecho', 'Insatisfecho', 'Totalmente insatisfecho'];

@@ -1,0 +1,780 @@
+[
+  {
+    "id": "TC001",
+    "title": "View dashboard KPIs and cross-filter results by faculty",
+    "description": "This verifies that the executive dashboard shows core KPI cards and that selecting a faculty updates the visible data across the dashboard.",
+    "category": "Filters (Faculty, Career, Cycle)",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Select a faculty from the filter control"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify KPI cards are displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the dashboard data is filtered to the selected faculty"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC002",
+    "title": "View executive KPI summary",
+    "description": "A user can open the executive dashboard and review the core NPS and CSAT KPI cards with promoter, passive, and detractor counts.",
+    "category": "Dashboard KPI Cards",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify NPS and CSAT KPI cards are displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify promoter, passive, and detractor counts are displayed"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC003",
+    "title": "Review dashboard with faculty career and cycle filters",
+    "description": "A user can progressively filter the executive dashboard by faculty, career, and cycle and see the filtered state persist while metrics update.",
+    "category": "Dashboard KPI Cards",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Select a faculty filter value"
+      },
+      {
+        "type": "action",
+        "description": "Select a career filter value"
+      },
+      {
+        "type": "action",
+        "description": "Select a cycle filter value"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the dashboard reflects the combined filtered state"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the KPI and distribution visuals remain synchronized"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC004",
+    "title": "Review dashboard with applied faculty filter",
+    "description": "A user can filter the executive dashboard by faculty and see the KPI cards update consistently across the page.",
+    "category": "Dashboard KPI Cards",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Select a faculty filter value"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the dashboard updates to reflect the selected faculty"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the KPI cards remain visible with filtered values"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC005",
+    "title": "Apply faculty, career, and cycle filters together",
+    "description": "This verifies that the full filter cascade works and the dashboard reflects the most specific academic period selection.",
+    "category": "Filters (Faculty, Career, Cycle)",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Select a faculty from the filter control"
+      },
+      {
+        "type": "action",
+        "description": "Select a career from the filter control"
+      },
+      {
+        "type": "action",
+        "description": "Select a cycle from the filter control"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the dashboard data is filtered to the selected academic period"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify all visible charts remain synchronized to the same filter state"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC006",
+    "title": "Switch between executive operational detailed and qualitative views",
+    "description": "A user can navigate between the main dashboard sections and keep the current filtered context consistent across views.",
+    "category": "Dashboard KPI Cards",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Select a faculty filter value"
+      },
+      {
+        "type": "action",
+        "description": "Click the link to the operational section"
+      },
+      {
+        "type": "action",
+        "description": "Click the link to the detailed section"
+      },
+      {
+        "type": "action",
+        "description": "Click the link to the qualitative section"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the selected filter context is preserved across sections"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify each section displays its corresponding analytics view"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC007",
+    "title": "Narrow the dashboard by faculty and career",
+    "description": "This verifies that choosing a faculty and then a career further narrows the dashboard to the selected program context.",
+    "category": "Filters (Faculty, Career, Cycle)",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Select a faculty from the filter control"
+      },
+      {
+        "type": "action",
+        "description": "Select a career from the filter control"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the dashboard data is filtered to the selected career within the selected faculty"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the visible charts remain updated for the current filter state"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC008",
+    "title": "Inspect NPS distribution details",
+    "description": "A user can open the dashboard and see interactive NPS distribution details for the response segments.",
+    "category": "NPS Distribution Bar",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Hover over an NPS distribution segment"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify NPS distribution tooltip details are displayed"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC009",
+    "title": "Review detailed satisfaction metrics in the table",
+    "description": "This verifies that the detailed view presents the key satisfaction measures across faculties, careers, and cycles.",
+    "category": "Detailed Satisfaction Table",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /#detallado"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the detailed satisfaction table is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify T2B, T3B, and weighted average values are visible"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC010",
+    "title": "Inspect CSAT distribution details",
+    "description": "A user can open the dashboard and see interactive CSAT distribution details for satisfaction levels.",
+    "category": "CSAT Distribution Bar",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Hover over a CSAT distribution segment"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify CSAT distribution tooltip details are displayed"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC011",
+    "title": "Inspect the radar chart by category selection",
+    "description": "This verifies that the operational radar chart updates when categories are selected from the multiselect control.",
+    "category": "Radar Chart",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /#operativo"
+      },
+      {
+        "type": "action",
+        "description": "Select one or more categories from the multiselect control"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the radar chart updates to the chosen categories"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the selected categories remain reflected in the operational view"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC012",
+    "title": "Review sentiment overview on the qualitative dashboard",
+    "description": "This verifies that a user can open the qualitative dashboard and see the core sentiment, NPS segment, category, and aspect summaries needed for analysis.",
+    "category": "Sentiment Analysis Dashboard",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /#cualitativo"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify sentiment distribution is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify NPS segment distribution is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify top categories are displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify positive and negative aspect lists are displayed"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC013",
+    "title": "Read radar chart details from a hovered dimension",
+    "description": "This verifies that hovering a radar dimension reveals the satisfaction breakdown for that dimension.",
+    "category": "Radar Chart",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /#operativo"
+      },
+      {
+        "type": "action",
+        "description": "Hover over a radar chart dimension label or point"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a tooltip with the dimension satisfaction breakdown is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the radar chart remains visible behind the tooltip"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC014",
+    "title": "Inspect distribution details from the detailed table",
+    "description": "This verifies that hovering a distribution bar in the detailed view reveals per-level distribution information.",
+    "category": "Detailed Satisfaction Table",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /#detallado"
+      },
+      {
+        "type": "action",
+        "description": "Hover over a distribution bar in the table"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a per-level distribution tooltip is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the row remains visible with its satisfaction metrics"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC015",
+    "title": "Reset dashboard filters to show all data",
+    "description": "This verifies that resetting the filters restores the full unfiltered dashboard view.",
+    "category": "Filters (Faculty, Career, Cycle)",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Select a faculty from the filter control"
+      },
+      {
+        "type": "action",
+        "description": "Reset the filters"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the dashboard returns to the full data view"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the KPI cards and charts are visible again without a restricted filter state"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC016",
+    "title": "Review NPS segment distribution on the qualitative dashboard",
+    "description": "This verifies that a user can open the qualitative dashboard and inspect the promoter, passive, and detractor segment summary.",
+    "category": "Sentiment Analysis Dashboard",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /#cualitativo"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify NPS segment distribution is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify promoter, passive, and detractor segments are represented"
+      }
+    ],
+    "priority": "High"
+  },
+  {
+    "id": "TC017",
+    "title": "Analyze sentiment overview and supporting comment categories",
+    "description": "This verifies that the qualitative view shows sentiment distribution, NPS segment bars, top categories, and aspect lists for review.",
+    "category": "Sentiment and Comment Explorer",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /#cualitativo"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the sentiment distribution and NPS segment visuals are displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the top categories and positive or negative aspect lists are displayed"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC018",
+    "title": "Inspect sentiment distribution details with tooltips",
+    "description": "This verifies that hovering a sentiment bar reveals detailed breakdown information for interpretation.",
+    "category": "Sentiment Analysis Dashboard",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /#cualitativo"
+      },
+      {
+        "type": "action",
+        "description": "Hover over a sentiment bar"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a table-format tooltip is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the tooltip shows breakdown details"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC019",
+    "title": "Review top categories with stacked bars",
+    "description": "This verifies that the top category summary is visible and provides a usable stacked breakdown for qualitative review.",
+    "category": "Sentiment Analysis Dashboard",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /#cualitativo"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify top categories are displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify category breakdown bars are displayed"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC020",
+    "title": "Find comments with search and filters in the comment explorer",
+    "description": "This verifies that the comment explorer supports searching and filtering comments and that the results update accordingly.",
+    "category": "Sentiment and Comment Explorer",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /#cualitativo"
+      },
+      {
+        "type": "action",
+        "description": "Enter a search term in the comment explorer"
+      },
+      {
+        "type": "action",
+        "description": "Apply a sentiment or category filter"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the comment list is filtered to matching results"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the explorer shows comments that match the current search and filter state"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC021",
+    "title": "Review positive and negative aspect lists",
+    "description": "This verifies that a user can open the qualitative dashboard and inspect the highlighted positive and negative aspects supporting the sentiment analysis.",
+    "category": "Sentiment Analysis Dashboard",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /#cualitativo"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify positive aspect list is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify negative aspect list is displayed"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC022",
+    "title": "Filter comments by category and sentiment",
+    "description": "This verifies that applying category and sentiment filters narrows the visible comments to the selected criteria.",
+    "category": "Comment Explorer",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /#cualitativo"
+      },
+      {
+        "type": "action",
+        "description": "Select a category filter"
+      },
+      {
+        "type": "action",
+        "description": "Select a sentiment filter"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the comment list is narrowed to the selected filters"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify only matching comments are displayed"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC023",
+    "title": "Search comments by keyword",
+    "description": "This verifies that searching the comment explorer narrows the list to matching comments.",
+    "category": "Comment Explorer",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /#cualitativo"
+      },
+      {
+        "type": "action",
+        "description": "Fill a keyword into the comment search field"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify matching comments are displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the comment list is narrowed"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC024",
+    "title": "Paginate through comment results",
+    "description": "This verifies that the comment explorer pagination allows moving through multiple pages of comments.",
+    "category": "Sentiment and Comment Explorer",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /#cualitativo"
+      },
+      {
+        "type": "action",
+        "description": "Use the comment explorer to move to the next page of results"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a different set of comments is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the pagination state reflects the current page"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC025",
+    "title": "Filter comments by sentiment legend selection",
+    "description": "This verifies that selecting a sentiment legend item filters the comment list to that sentiment.",
+    "category": "Comment Explorer",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /#cualitativo"
+      },
+      {
+        "type": "action",
+        "description": "Click a sentiment legend item"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the comment list is filtered by the selected sentiment"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify matching comments remain visible"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC026",
+    "title": "Browse additional comments with pagination",
+    "description": "This verifies that moving through pages in the comment explorer reveals additional comments without losing the list context.",
+    "category": "Comment Explorer",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /#cualitativo"
+      },
+      {
+        "type": "action",
+        "description": "Move to the next page of comments"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a different set of comments is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the comment list remains paginated"
+      }
+    ],
+    "priority": "Medium"
+  },
+  {
+    "id": "TC027",
+    "title": "Export qualitative analysis files",
+    "description": "This verifies that a user can trigger the qualitative export and receive the downloadable ZIP package for offline review.",
+    "category": "CSV Export",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /#cualitativo"
+      },
+      {
+        "type": "action",
+        "description": "Trigger the export action"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a ZIP download is initiated"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the export provides qualitative analysis files"
+      }
+    ],
+    "priority": "Low"
+  },
+  {
+    "id": "TC028",
+    "title": "Export qualitative analysis files for offline review",
+    "description": "This verifies that the qualitative export action produces a downloadable ZIP containing the analysis CSV files.",
+    "category": "Sentiment and Comment Explorer",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /#cualitativo"
+      },
+      {
+        "type": "action",
+        "description": "Trigger the CSV export action"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a ZIP download is initiated"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the export is presented as qualitative analysis files for offline review"
+      }
+    ],
+    "priority": "Low"
+  },
+  {
+    "id": "TC029",
+    "title": "View dashboard sections with no matching data",
+    "description": "A user can apply an overly narrow filter combination and see the dashboard show an empty state instead of misleading results.",
+    "category": "Dashboard KPI Cards",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Select a faculty filter value"
+      },
+      {
+        "type": "action",
+        "description": "Select a career filter value"
+      },
+      {
+        "type": "action",
+        "description": "Select a cycle filter value"
+      },
+      {
+        "type": "action",
+        "description": "Choose a combination that yields no matches"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify an empty state message is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify no KPI values or charts are shown for the empty result"
+      }
+    ],
+    "priority": "Low"
+  },
+  {
+    "id": "TC030",
+    "title": "Show an empty state when a search has no matches",
+    "description": "This verifies that overly specific comment searches produce a clear empty state instead of stale results.",
+    "category": "Sentiment and Comment Explorer",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /#cualitativo"
+      },
+      {
+        "type": "action",
+        "description": "Enter a highly specific search term that yields no matches"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify an empty state message is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify no comment results are shown"
+      }
+    ],
+    "priority": "Low"
+  }
+]
