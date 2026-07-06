@@ -352,24 +352,52 @@ window.SurveyRadarChart = (() => {
         const t2b = el.getAttribute('data-t2b');
         const pond = el.getAttribute('data-pond');
         el.addEventListener('mousemove', (e) => {
-          // Build table tooltip matching renderTop3Bars style
+          // Build tooltip: table (Escala + Respuestas) + horizontal bar chart (T3B, T2B, Ponderado)
           const d = allDims.find(x => _fmt.formatDimensionNameForAttr(x.dim) === dim);
-          let html = `<table style="border-collapse:collapse;font-size:11px;"><tr><th style="text-align:left;padding:2px 6px;border-bottom:1px solid #ccc;">Escala de Satisfacción</th><th style="text-align:center;padding:2px 6px;border-bottom:1px solid #ccc;">Respuestas</th><th style="text-align:center;padding:2px 6px;border-bottom:1px solid #ccc;">T3B</th><th style="text-align:center;padding:2px 6px;border-bottom:1px solid #ccc;">T2B</th><th style="text-align:center;padding:2px 6px;border-bottom:1px solid #ccc;">Ponderado</th></tr>`;
+          let html = '<div style="display:flex;gap:16px;white-space:nowrap;">';
+
+          // ——— Left column: Escala de Satisfacción + Respuestas ———
+          html += '<table style="border-collapse:collapse;font-size:11px;">';
+          html += '<tr><th style="text-align:left;padding:2px 6px;border-bottom:1px solid #ccc;">Escala de Satisfacción</th>' +
+                  '<th style="text-align:center;padding:2px 6px;border-bottom:1px solid #ccc;">Respuestas</th></tr>';
           if (d) {
             const satKeys = ['Totalmente satisfecho', 'Muy satisfecho', 'Satisfecho', 'Insatisfecho', 'Totalmente insatisfecho'];
-            const firstRowSpan = satKeys.filter(k => (d.counts[k] || 0) > 0).length;
-            let rowCount = 1;
-            satKeys.forEach((key, i) => {
+            satKeys.forEach((key) => {
               const val = d.counts[key] || 0;
               if (val === 0) return;
-              if (i === 0) {
-                html += `<tr><td style="padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">${key}</td><td style="text-align:center;padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">${_fmt.formatInteger(val)}</td><td style="text-align:center;padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;" rowspan="${firstRowSpan}">${pct}%</td><td style="text-align:center;padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;" rowspan="${firstRowSpan}">${t2b}%</td><td style="text-align:center;padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;" rowspan="${firstRowSpan}">${pond}%</td></tr>`;
-              } else {
-                html += `<tr><td style="padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">${key}</td><td style="text-align:center;padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">${_fmt.formatInteger(val)}</td></tr>`;
-              }
+              html += `<tr><td style="padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">${key}</td>` +
+                      `<td style="text-align:center;padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">${_fmt.formatInteger(val)}</td></tr>`;
             });
           }
           html += '</table>';
+
+          // ——— Right column: horizontal bars estilo Top3 cards (monocromo tooltip) ———
+          html += '<div style="display:flex;flex-direction:column;justify-content:center;gap:6px;min-width:150px;padding-left:8px;border-left:1px solid rgba(255,255,255,0.2);">';
+          const barItems = [
+            { label: 'T3B', value: pct },
+            { label: 'T2B', value: t2b },
+            { label: 'Pond.', value: pond }
+          ];
+          barItems.forEach((item) => {
+            const cssVal = String(item.value).replace(',', '.');
+            const p = parseFloat(cssVal);
+            const outside = p < 12;
+            html += '<div style="display:flex;align-items:center;gap:8px;">';
+            html += `<span style="color:#fff;font-size:10px;font-weight:600;width:34px;text-align:right;flex-shrink:0;">${item.label}</span>`;
+            html += '<div style="flex:1;height:18px;background:rgba(255,255,255,0.12);border-radius:4px;overflow:visible;position:relative;">';
+            html += `<div style="height:100%;width:${cssVal}%;background:#fff;border-radius:4px;display:flex;align-items:center;justify-content:flex-end;padding-right:4px;transition:width 0.3s;min-width:0;">`;
+            if (!outside) {
+              html += `<span style="color:#111827;font-size:9px;font-weight:700;line-height:1;">${item.value}%</span>`;
+            }
+            html += '</div>';
+            if (outside) {
+              html += `<span style="position:absolute;left:100%;top:50%;transform:translateY(-50%);margin-left:4px;color:#fff;font-size:9px;font-weight:700;white-space:nowrap;">${item.value}%</span>`;
+            }
+            html += '</div>';
+            html += '</div>';
+          });
+          html += '</div>'; // close right column
+          html += '</div>'; // close flex container
           _ttp.show(e, html, true);
         });
         el.addEventListener('mouseleave', () => _ttp.hide());
