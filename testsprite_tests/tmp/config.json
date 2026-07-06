@@ -6,12 +6,14 @@
   "executionArgs": {
     "projectName": "survey-storytelling",
     "projectPath": "q:\\ANALISTA DE DATOS\\6. Encuesta de Satisfacción\\6.11 GitHub\\survey-storytelling",
-    "testIds": [],
-    "additionalInstruction": "Test the survey satisfaction dashboard frontend. Focus on: tooltip rendering on hover, filter dropdowns, radar chart interaction, sentiment analysis bars, CSV export availability. The project is a static site served via Python http.server on port 5500.",
+    "testIds": [
+      "TC022"
+    ],
+    "additionalInstruction": "Test the download/export button (explorador-export-csv) in the qualitative analysis section. Navigate to /zoho-survey/students/undergraduate/2026-1/index.html, go to the #cualitativo section, find the 'Descargar' button, click it and verify what happens. The button should either trigger a ZIP download or show an alert if no export is configured. Check if the download actually initiates or if there's an error.",
     "serverMode": "development",
     "envs": {
       "API_KEY": "sk-user-0xG5i_hyb0Rnpo-v0NLer7yfnViB6SRt4S85txRY4uKNEIvTyR8nQ_35-ar6IWhXgo7a8LSglQ6IWnNn86qQiTesir2c1IJ4BZMnVetLfxeXBTfEWblygo6LEHyXcsDkHWA"
     }
   },
-  "serverPort": 63506
+  "serverPort": 58294
 }
