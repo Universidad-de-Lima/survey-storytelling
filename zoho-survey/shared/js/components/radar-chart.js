@@ -31,9 +31,9 @@ window.SurveyRadarChart = (() => {
   ];
   const SAT_TOP3_KEYS = SAT_KEYS.slice(0, 3);
 
-  const sumKeys = (row, keys) => keys.reduce((acc, k) => acc + (row[k] || 0), 0);
+  const sumKeys = _dh.sumKeys;
   const dimensionAplica = (rows, dim) => rows.some((r) => r.dimension === dim && sumKeys(r, SAT_KEYS) > 0);
-  const $ = (id) => document.getElementById(id);
+  const $ = _dh.$;
 
   /**
    * Actualiza el cuadro de texto de insights del gráfico radar.

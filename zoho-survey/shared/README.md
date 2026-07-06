@@ -25,8 +25,9 @@ Capa de presentacion base. Proporciona el sistema de diseno (CSS), la logica de 
 | `js/dashboard.js` | 1015 | Orquestador principal del dashboard SPA. 4 secciones, filtros en cascada, rendering SVG, tooltips, KPIs, tablas. |
 | `js/config/constants.js` | 58 | `window.SURVEY_CONFIG`: metas, carreras/facultades 12 ciclos, SAT_KEYS, umbrales visuales, configuracion radar. |
 | `js/utils/formatters.js` | 83 | `window.SurveyFormatters`: formateo es-PE (integer, decimal, percent, date, ciclo text, dimension name). |
+| `js/utils/metrics.js` | ~60 | `window.SurveyMetrics`: `calcBoxScore`, `calcPromedioPonderado`, `deriveT2B`, `derivePonderado`. Gemelo JS de `lib/metrics.py`. |
 | `js/utils/sanitizer.js` | 55 | `window.SurveySanitizer`: `escapeHTML`, `sanitizeHTML` (whitelist: `br, strong, em, i, span`). |
-| `js/utils/dom-helpers.js` | 89 | `window.SurveyDOMHelpers`: `getSelectedValues`, `setSelectedValues`, placeholders, label formatting. |
+| `js/utils/dom-helpers.js` | 95 | `window.SurveyDOMHelpers`: `$`, `esEstudiosGen`, `sumKeys`, `getSelectedValues`, `setSelectedValues`, `formatMultiselectLabel`, placeholders. |
 | `js/components/tooltip.js` | 97 | `window.SurveyTooltip`: `show`, `hide`, `bindToSegments`. |
 | `js/components/progress-bar.js` | 77 | `window.SurveyProgressBar.init(options)`: barra de scroll con IntersectionObserver. |
 | `js/components/custom-select.js` | 157 | `window.SurveyCustomSelect.create(sel, onChange)`: selectores desplegables personalizados con ARIA. |
@@ -66,7 +67,7 @@ Variables CSS en `tokens.css` (`:root`):
 | `constants.js` | `window.SURVEY_CONFIG` (objeto plano) | Ninguna. |
 | `formatters.js` | `window.SurveyFormatters.{formatInteger, formatDecimal, formatPercent, formatPctSimple, formatPctDecimal, formatDate, formatCicloText, cortarTexto, formatDimensionName, formatDimensionNameSVG, formatDimensionNameForAttr}` | Ninguna. Funciones puras. |
 | `sanitizer.js` | `window.SurveySanitizer.{escapeHTML, sanitizeHTML}` | Ninguna. |
-| `dom-helpers.js` | `window.SurveyDOMHelpers.{getSelectedValues, setSelectedValues, getPlaceholderText, formatCustomLabel, formatMultiselectLabel}` | Ninguna. |
+| `dom-helpers.js` | `window.SurveyDOMHelpers.{$, esEstudiosGen, sumKeys, getSelectedValues, setSelectedValues, getPlaceholderText, formatCustomLabel, formatMultiselectLabel}` | Ninguna. Helpers de negocio acceden a `SURVEY_CONFIG` internamente. |
 | `tooltip.js` | `window.SurveyTooltip.{show, hide, bindToSegments}` | `SurveySanitizer` (opcional, fallback a escape manual). |
 | `progress-bar.js` | `window.SurveyProgressBar.init(options)` | Ninguna. |
 | `custom-select.js` | `window.SurveyCustomSelect.create(sel, onChange)` → `{update, close, button, wrapper}` | `SurveyDOMHelpers` (requerida). |
@@ -137,26 +138,19 @@ Constantes en `config/constants.js` (`window.SURVEY_CONFIG`):
 
 ## Technical Debt
 
-- **8 de 13 modulos JS sin tests**: solo `constants.js`, `formatters.js`, `sanitizer.js` tienen tests unitarios (34 tests en 3 archivos).
+- **7 de 14 modulos JS sin tests**: solo `constants.js`, `formatters.js`, `metrics.js`, `sanitizer.js`, `dom-helpers.js`, `tooltip.js`, `progress-bar.js` tienen tests (91 tests en 9 archivos, ampliado desde v3.1.0).
 - **No hay sistema de modulos**: usa IIFE + closures en lugar de ES modules o bundler. El orden de carga es critico.
 - **Custom select dropdowns**: implementacion manual (~200 lineas entre custom-select.js y multiselect.js). Posible fuente de bugs cross-browser.
-- **Inline event handlers en radar-chart.js**: usa `onmousemove`/`onmouseleave` inline en SVG (incompatible con CSP estricto, inconsistente con el patron `addEventListener` del resto del codigo).
-- **`formatMultiselectLabel` ignora `itemName`**: el parametro existe pero el cuerpo hardcodea "ciclos seleccionados". Bug menor en multiselect de categorias del radar.
 - **Referencia muerta `window.cache`** en `sentiment-view.js`: `cache` es privada en el IIFE de `dashboard.js`, siempre undefined.
-- **Hardcoded colors** `#00B04F` y `#FF0000` en `dashboard.js` (no usan tokens CSS).
-- **Sin UI de error al usuario**: fallos de carga de JSON criticos dejan el dashboard en estado "Cargando..." silencioso.
 - **CSS muerto**: ~50 lineas en `components.css` (`.doughnut-segment`, `.category-row`, `.cualitativo-layout`) no referenciadas en JS actual.
-- **Duplicaciones menores**: `esEstudiosGen` (3 copias), `sumKeys` (2 copias), `$ = (id) => document.getElementById(id)` (4 copias).
+- **Dashboard sin tests**: `dashboard.js` (1015 líneas) y `sentiment-view.js` (888 líneas) no tienen tests unitarios.
 
 ## Improvement Opportunities
 
 - Migrar a ES modules (`<script type="module">`) para eliminar dependencia de orden de carga.
 - Implementar boundary detection y `move()` en `tooltip.js` (actualmente invocado pero no definido).
-- Agregar tests con jsdom para `dom-helpers`, `filter-controller`, `radar-chart`, `sentiment-view`.
+- Agregar tests con jsdom para `dashboard.js`, `filter-controller`, `radar-chart`, `sentiment-view`.
 - Implementar carga lazy de JSON por seccion.
-- Centralizar duplicaciones en un modulo `shared/js/utils/business-rules.js`.
-- Reemplazar inline handlers SVG por addEventListener.
-- Agregar UI de error visible para el usuario ante fallos de carga.
 
 ## AI Agent Notes
 

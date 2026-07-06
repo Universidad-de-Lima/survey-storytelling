@@ -6,6 +6,7 @@
   // ── Constantes y Configuración de Negocio ──
   const config = window.SURVEY_CONFIG || {};
   const BASE_URL = './json';
+  const CACHE_BUST = '?_=' + Date.now(); // Evita caché de JSONs tras regeneración
   const META_NPS = config.META_NPS ?? 50;
   const META_CSAT = config.META_CSAT ?? 93;
   const META_T2B = config.META_T2B ?? 70;
@@ -88,10 +89,34 @@
 
   let csatScoreGlobal = 0;
 
-  const $ = (id) => document.getElementById(id);
+  // Helpers compartidos: se delega a SurveyDOMHelpers para evitar duplicación.
+  // Las variables locales mantienen compatibilidad con el código existente.
+  const $ = _dh.$;
+  const esEstudiosGen = _dh.esEstudiosGen;
+  const sumKeys = _dh.sumKeys;
   const pct = (value, total) => (total > 0 ? (value / total) * 100 : 0);
-  const esEstudiosGen = (fac) => fac === PROGRAMA_ESTUDIOS_GENERALES;
-  const sumKeys = (row, keys) => keys.reduce((acc, key) => acc + (row[key] || 0), 0);
+
+  /**
+   * Muestra un banner de error en la parte superior del dashboard.
+   * @param {string} message - Mensaje descriptivo del error
+   */
+  function showError(message) {
+    const banner = document.getElementById('error-banner');
+    if (!banner) return;
+    banner.textContent = message;
+    banner.classList.add('visible');
+    banner.setAttribute('role', 'alert');
+  }
+
+  /**
+   * Oculta el banner de error.
+   */
+  function hideError() {
+    const banner = document.getElementById('error-banner');
+    if (!banner) return;
+    banner.classList.remove('visible');
+    banner.removeAttribute('role');
+  }
 
   /**
    * Carga asíncrona de datos con resiliencia y degradación gradual.
@@ -112,10 +137,12 @@
     };
 
     try {
+      hideError();
+
       // 1. Cargar endpoints críticos (fallan globalmente ante error)
       const criticalKeys = Object.keys(criticalEndpoints);
       const criticalPromises = criticalKeys.map((key) =>
-        fetch(`${BASE_URL}/${criticalEndpoints[key]}.json`).then((r) => {
+        fetch(`${BASE_URL}/${criticalEndpoints[key]}.json${CACHE_BUST}`).then((r) => {
           if (!r.ok) throw new Error(`Archivo crítico no disponible: ${criticalEndpoints[key]}`);
           return r.json();
         })
@@ -128,7 +155,7 @@
       // 2. Cargar endpoints opcionales de forma segura (tolerante a fallos de red/períodos vacíos)
       const optionalKeys = Object.keys(optionalEndpoints);
       const optionalPromises = optionalKeys.map((key) =>
-        fetch(`${BASE_URL}/${optionalEndpoints[key]}.json`)
+        fetch(`${BASE_URL}/${optionalEndpoints[key]}.json${CACHE_BUST}`)
           .then((r) => (r.ok ? r.json() : null))
           .catch((err) => {
             console.warn(`JSON opcional no cargado [${optionalEndpoints[key]}]:`, err);
@@ -143,7 +170,9 @@
       csatScoreGlobal = cache.dashboard.resumen.csat.score;
       return true;
     } catch (error) {
-      console.error('Fallo grave al cargar los datos esenciales del dashboard:', error);
+      const msg = error.message || 'Error desconocido al cargar datos.';
+      console.error('Fallo grave al cargar los datos esenciales del dashboard:', msg);
+      showError(`No se pudieron cargar los datos del dashboard: ${msg}. Verifica que los archivos JSON estén generados correctamente.`);
       return false;
     }
   }
@@ -1015,8 +1044,18 @@
 
   // ==================== INICIALIZACIÓN ====================
   async function init() {
+    // Mostrar estado de carga en los insights mientras se cargan los datos
+    const loadingEls = document.querySelectorAll('.insight-text');
+    loadingEls.forEach((el) => {
+      if (el.textContent === 'Cargando...') el.textContent = 'Cargando...';
+    });
+
     if (!(await loadAllData())) {
       console.error('No se pudieron cargar los datos del dashboard.');
+      // Los insights se quedan con el texto de carga y el banner muestra el error
+      DOM.insightHallazgos.textContent = 'Error al cargar los datos. Verifica la conexión o contacta al administrador.';
+      if (DOM.insightFortaleza) DOM.insightFortaleza.textContent = 'Datos no disponibles.';
+      if (DOM.insightAtencion) DOM.insightAtencion.textContent = 'Datos no disponibles.';
       return;
     }
 

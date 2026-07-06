@@ -112,6 +112,7 @@
   --satisfaction-low: var(--ulima-red);
 
   /* ── Fondos semánticos de sentimiento ── */
+  --positive-color: #00B04F;
   --sentiment-neg-bg: var(--danger-pastel);
   --sentiment-pos-bg: var(--success-pastel);
   --sentiment-neu-bg: var(--warning-pastel);

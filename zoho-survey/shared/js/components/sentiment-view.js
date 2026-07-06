@@ -19,11 +19,10 @@ window.SurveySentimentView = (() => {
   const _ttp = window.SurveyTooltip;
 
   const C = window.SURVEY_CONFIG || {};
-  const PROGRAMA_ESTUDIOS_GENERALES = C.PROGRAMA_ESTUDIOS_GENERALES ?? 'Programa de Estudios Generales';
   const CICLOS_ESTUDIOS_GENERALES = C.CICLOS_ESTUDIOS_GENERALES ?? ['1° Ciclo', '2° Ciclo'];
 
-  const esEstudiosGen = (f) => f === PROGRAMA_ESTUDIOS_GENERALES;
-  const $ = (id) => document.getElementById(id);
+  const esEstudiosGen = _dh.esEstudiosGen;
+  const $ = _dh.$;
 
   // State for the Paginated Comment Explorador
   const state = {

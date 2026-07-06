@@ -27,11 +27,11 @@ window.SurveyFilterController = (() => {
   const MAX_CICLOS_DEFAULT = C.MAX_CICLOS_DEFAULT ?? 10;
   const MAX_CICLOS_ESPECIALES = C.MAX_CICLOS_ESPECIALES ?? 12;
 
-  const esEstudiosGen = (f) => f === PROGRAMA_ESTUDIOS_GENERALES;
+  const esEstudiosGen = _dh.esEstudiosGen;
   const ordenarFacultades = (lista, hasCiclo) =>
     hasCiclo ? [PROGRAMA_ESTUDIOS_GENERALES, ...lista.sort()] : [...lista.sort()];
 
-  const $ = (id) => document.getElementById(id);
+  const $ = _dh.$;
 
   function getCarrerasForFiltro(facultad, cacheFiltros) {
     if (!facultad || esEstudiosGen(facultad)) return cacheFiltros.carreras;

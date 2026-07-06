@@ -74,7 +74,7 @@
 .color-t2b { color: var(--gray-700); }
 .color-ponderado { color: var(--warning-text); }
 .color-emplea { color: var(--black); }
-.color-positive { color: #00B04F; }
+.color-positive { color: var(--positive-color); }
 .color-negative { color: var(--ulima-red); }
 .bg-nps { background: var(--ulima-orange); }
 .bg-csat { background: var(--success-text); }
@@ -788,6 +788,31 @@
   box-shadow: var(--shadow-tooltip);
   white-space: nowrap;
   will-change: left, top;
+}
+
+/* ── Error Banner ── */
+.error-banner {
+  display: none;
+  position: sticky;
+  top: 0;
+  z-index: var(--z-tooltip, 9999);
+  background: var(--danger-pastel, #FEE2E2);
+  color: var(--danger-text, #991B1B);
+  border-bottom: 2px solid var(--ulima-red, #FF0000);
+  padding: var(--space-md, 12px) var(--space-xl, 24px);
+  font-size: var(--text-sm, 13px);
+  font-weight: var(--font-medium, 500);
+  text-align: center;
+  line-height: 1.4;
+  box-shadow: var(--shadow-lg, 0 4px 6px rgba(0,0,0,0.1));
+}
+
+.error-banner.visible {
+  display: block;
+}
+
+.error-banner[hidden] {
+  display: none;
 }
 
 /* ── Animations ── */

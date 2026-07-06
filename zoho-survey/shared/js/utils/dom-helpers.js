@@ -1,14 +1,41 @@
 /**
  * SURVEY DOM HELPERS — Utilidades compartidas de manipulación de DOM.
  *
- * Funciones usadas por custom-select.js, multiselect.js y dashboard.js.
+ * Funciones usadas por custom-select.js, multiselect.js, dashboard.js y otros módulos.
  * Centralizadas aquí para evitar duplicación (A2 de auditoría v2.0).
+ * Incluye helpers de propósito general: $, esEstudiosGen, sumKeys.
  *
  * @module utils/dom-helpers
- * @version 1.1.0
+ * @version 1.2.0
  */
 window.SurveyDOMHelpers = (() => {
   'use strict';
+
+  // ── Config para helpers de negocio ──
+  const C = window.SURVEY_CONFIG || {};
+  const PROGRAMA_ESTUDIOS_GENERALES = C.PROGRAMA_ESTUDIOS_GENERALES ?? 'Programa de Estudios Generales';
+
+  /**
+   * Atajo para document.getElementById.
+   * @param {string} id
+   * @returns {HTMLElement|null}
+   */
+  const $ = (id) => document.getElementById(id);
+
+  /**
+   * Verifica si una facultad es "Programa de Estudios Generales".
+   * @param {string} fac
+   * @returns {boolean}
+   */
+  const esEstudiosGen = (fac) => fac === PROGRAMA_ESTUDIOS_GENERALES;
+
+  /**
+   * Suma valores de un objeto para todas las claves dadas.
+   * @param {Object} row - Objeto con valores numéricos
+   * @param {string[]} keys - Lista de claves a sumar
+   * @returns {number}
+   */
+  const sumKeys = (row, keys) => keys.reduce((acc, key) => acc + (row[key] || 0), 0);
 
   /**
    * Obtiene el valor(es) seleccionado(s) de un <select>.
@@ -81,6 +108,9 @@ window.SurveyDOMHelpers = (() => {
   }
 
   return {
+    $,
+    esEstudiosGen,
+    sumKeys,
     getSelectedValues,
     setSelectedValues,
     getPlaceholderText,
