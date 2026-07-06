@@ -999,7 +999,7 @@
 
   function setupSentimientoFilters() {
     if (_fc && _sv) {
-      _sv.init(cache.sentimiento, cache.dashboard?.resumen?.encuestas);
+      _sv.init(cache.sentimiento, cache.dashboard?.resumen?.encuestas, cache.dashboard?._export);
       // Se eliminaron todos los filtros de análisis cualitativo, así que llamamos directamente a la renderización
       _sv.updateMacro();
       _sv.updateAspectos();

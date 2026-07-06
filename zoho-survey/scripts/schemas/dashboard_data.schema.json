@@ -117,6 +117,16 @@
         "score": { "type": "number", "minimum": -100, "maximum": 100 }
       }
     },
+    "_export": {
+      "type": "object",
+      "description": "Metadatos para exportación de CSVs. Generado por el ETL para enlazar con archivos ZIP estáticos.",
+      "required": ["nombre_encuesta", "fecha_generacion"],
+      "additionalProperties": false,
+      "properties": {
+        "nombre_encuesta": { "type": "string", "description": "Nombre del CSV fuente sanitizado (ej. 'encuesta_de_satisfaccion_estudiantil_pregrado_2026_1')" },
+        "fecha_generacion": { "type": "string", "format": "date", "description": "Fecha en que se generó la exportación (YYYY-MM-DD)" }
+      }
+    },
     "csat": {
       "type": "object",
       "description": "Distribución CSAT global con los 5 niveles Zoho Survey + 2 claves opcionales de visibilidad.",

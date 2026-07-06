@@ -10,6 +10,8 @@ import json
 import re
 import logging
 import time
+import zipfile
+import csv as csv_mod
 from pathlib import Path
 from shutil import copyfile
 from collections import defaultdict
@@ -220,6 +222,149 @@ def _guardar_hash_csv(csv_path: Path, ruta_salida: Path) -> None:
         hash_file.write_text(_hash_csv(csv_path), encoding="utf-8")
     except OSError as e:
         logging.warning(f"No se pudo guardar hash de CSV: {e}")
+
+
+# ── Ayudantes de exportación CSV ──────────────────────────────────
+
+def _sanitizar_nombre_csv(filename: str) -> str:
+    """Convierte nombre de archivo CSV a formato limpio en minúsculas con guiones bajos.
+    Ej: 'ENCUESTA DE SATISFACCIÓN ESTUDIANTIL- PREGRADO - 2026-1.csv'
+        → 'encuesta_de_satisfaccion_estudiantil_pregrado_2026_1'
+    """
+    name = filename.replace(".csv", "").lower()
+    name = re.sub(r"[^a-z0-9áéíóúñü]", "_", name)
+    name = re.sub(r"_+", "_", name).strip("_")
+    return name
+
+
+def _csv_escape(val) -> str:
+    """Escapa un valor para CSV manejando comas, comillas dobles y saltos de línea."""
+    s = str(val) if val is not None else ""
+    if "," in s or '"' in s or "\n" in s or "\r" in s:
+        return f'"{s.replace(chr(34), chr(34)+chr(34))}"'
+    return s
+
+
+def _generar_csvs_y_zip(
+    df: pd.DataFrame,
+    comentarios_detallados: list,
+    ruta_salida: Path,
+    csv_file: Path,
+    nivel: str,
+    categoria_dim: Dict[str, str],
+    nps_col: str,
+    csat_col: str,
+    comentario_col: str,
+) -> None:
+    """Genera dos CSVs (analisis_cualitativo + respuestas_dimensiones) y los
+    empaqueta en un ZIP dentro del directorio de salida."""
+    import os as _os
+
+    nombre_base = _sanitizar_nombre_csv(csv_file.name)
+    fecha = pd.Timestamp.now().strftime("%Y-%m-%d")
+
+    # ── Construir reverse mapping (renombrado → original) ──
+    rev_pregrado = {v: k for k, v in COLUMN_RENAME_PREGRADO.items()}
+    rev_graduado = {v: k for k, v in COLUMN_RENAME_GRADUADO.items()}
+    rev_map = rev_graduado if nivel == "graduate" else rev_pregrado
+
+    # ── CSV 1: analisis_cualitativo ──
+    csv1_headers = [
+        "ID", "CID", "Carrera", "Facultad", "Ciclo",
+        "NPS Score", "Sentimiento", "Intensidad",
+        "Tema", "Tema Padre",
+        "Comentario Original", "Comentario Corregido"
+    ]
+    csv1_rows = []
+    for c in comentarios_detallados:
+        csv1_rows.append([
+            (c.get("comentario_id_original", "") or "").rsplit("_", 1)[0] if "_" in (c.get("comentario_id_original", "") or "") else (c.get("comentario_id_original", "") or ""),
+            c.get("id", ""),
+            c.get("carrera", ""),
+            c.get("facultad", ""),
+            c.get("ciclo", ""),
+            c.get("nps_score", ""),
+            c.get("sentimiento", ""),
+            c.get("intensidad", ""),
+            c.get("aspecto_normalizado", ""),
+            c.get("categoria_padre", ""),
+            c.get("comentario_original", ""),
+            c.get("fragmento_mostrar", ""),
+        ])
+    csv1_name = f"analisis_cualitativo_{nombre_base}_{fecha}.csv"
+
+    # ── CSV 2: respuestas por dimensión ──
+    # Identificar columnas de dimensión presentes en el DataFrame
+    dim_cols_renamed = [d for d in categoria_dim.keys() if d in df.columns]
+    # Mapear a nombres originales para cabeceras
+    csv2_headers = ["ID", "Carrera"]
+    if "Situación laboral" in df.columns:
+        csv2_headers.append("Situación laboral")
+    if "Tiempo laboral" in df.columns:
+        csv2_headers.append("Tiempo laboral")
+    csv2_headers.append("Facultad")
+    if "Ciclo" in df.columns:
+        csv2_headers.append("Ciclo")
+
+    for d_renamed in dim_cols_renamed:
+        csv2_headers.append(rev_map.get(d_renamed, d_renamed))
+
+    # Añadir columnas fijas finales
+    rev_carrera = rev_map.get("La carrera", "Tu carrera")
+    csv2_headers.append(rev_carrera)
+    csv2_headers.append(rev_map.get(csat_col, csat_col))
+    csv2_headers.append(rev_map.get(nps_col, nps_col))
+    csv2_headers.append("Comentario Original")
+
+    csv2_rows = []
+    # El comentario original se obtiene de la columna de comentario NPS
+    comentario_df_col = comentario_col
+    for _, row in df.iterrows():
+        r = [
+            row.get("ID", ""),
+            row.get("Carrera", ""),
+        ]
+        if "Situación laboral" in df.columns:
+            r.append(row.get("Situación laboral", ""))
+        if "Tiempo laboral" in df.columns:
+            r.append(row.get("Tiempo laboral", ""))
+        r.append(row.get("Facultad", ""))
+        if "Ciclo" in df.columns:
+            r.append(row.get("Ciclo", ""))
+
+        for d_renamed in dim_cols_renamed:
+            r.append(row.get(d_renamed, ""))
+
+        r.append(row.get("La carrera", ""))
+        r.append(row.get(csat_col, ""))
+        r.append(row.get(nps_col, ""))
+        r.append(row.get(comentario_df_col, ""))
+        csv2_rows.append(r)
+
+    csv2_name = f"{nombre_base}_{fecha}.csv"
+    zip_name = f"data_{nombre_base}_{fecha}.zip"
+
+    # ── Escribir ZIP ──
+    zip_path = ruta_salida / zip_name
+    try:
+        with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as zf:
+            # CSV 1
+            csv1_content = "\ufeff" + ",".join(csv1_headers) + "\n"
+            csv1_content += "\n".join(
+                ",".join(_csv_escape(v) for v in row) for row in csv1_rows
+            )
+            zf.writestr(csv1_name, csv1_content.encode("utf-8-sig"))
+
+            # CSV 2
+            csv2_content = "\ufeff" + ",".join(csv2_headers) + "\n"
+            csv2_content += "\n".join(
+                ",".join(_csv_escape(v) for v in row) for row in csv2_rows
+            )
+            zf.writestr(csv2_name, csv2_content.encode("utf-8-sig"))
+
+        logging.info(f"📦 ZIP generado: {zip_name} ({len(csv1_rows)} comentarios, {len(csv2_rows)} encuestados)")
+    except Exception as exc:
+        logging.warning(f"No se pudo generar ZIP {zip_name}: {exc}")
 
 
 def main() -> None:
@@ -552,6 +697,11 @@ def main() -> None:
             detractores_total=detractores_total,
             serie_csat=serie_csat,
         )
+        # Nombre sanitizado del CSV fuente para exportaciones
+        dashboard_data["_export"] = {
+            "nombre_encuesta": _sanitizar_nombre_csv(csv_file.name),
+            "fecha_generacion": pd.Timestamp.now().strftime("%Y-%m-%d")
+        }
         with open(ruta_salida / "dashboard_data.json", "w", encoding="utf-8") as f:
             json.dump(dashboard_data, f, ensure_ascii=False, indent=2)
 
@@ -955,6 +1105,23 @@ def main() -> None:
         # Guardar únicamente en sentimiento.json (formato v3.0 consolidado y minificado)
         with open(ruta_salida / "sentimiento.json", "w", encoding="utf-8") as f:
             json.dump(sentimiento, f, ensure_ascii=False)
+
+        # Generar CSVs y ZIP (solo si hay datos cualitativos)
+        if comentario_col in df.columns and len(comentarios_detallados) > 0:
+            try:
+                _generar_csvs_y_zip(
+                    df=df,
+                    comentarios_detallados=comentarios_detallados,
+                    ruta_salida=ruta_salida,
+                    csv_file=csv_file,
+                    nivel=nivel,
+                    categoria_dim=categoria_dim,
+                    nps_col=nps_col,
+                    csat_col=csat_col,
+                    comentario_col=comentario_col,
+                )
+            except Exception as exc:
+                logging.warning(f"No se pudieron generar los CSVs de exportación: {exc}")
 
         logging.info(f"Procesamiento finalizado con éxito para {nivel}/{periodo}.")
         _csv_elapsed = time.perf_counter() - _csv_start

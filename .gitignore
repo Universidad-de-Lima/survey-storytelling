@@ -36,3 +36,5 @@ package-lock.json
 # Cache de modelos (descargados en CI, no se commitean)
 ~/.cache/huggingface/
 ~/.cache/spacy/
+
+testsprite_tests\tmp\config.json

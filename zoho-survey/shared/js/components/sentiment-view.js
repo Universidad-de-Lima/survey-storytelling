@@ -707,71 +707,23 @@ window.SurveySentimentView = (() => {
     }
   }
 
-  // Export filtered comments as CSV dentro de un ZIP
+  // Export: descarga el ZIP pre-generado por el ETL
   function exportCSV() {
-    const comments = state.filteredComments;
-    if (comments.length === 0) {
-      alert('No hay comentarios para exportar.');
+    const exp = state.exportConfig;
+    if (!exp || !exp.nombre_encuesta || !exp.fecha_generacion) {
+      // Fallback: si no hay config, intentar descarga directa del ZIP estático
+      alert('La exportación ZIP no está disponible para este período.');
       return;
     }
-
-    const headers = ['ID', 'CID', 'Carrera', 'Facultad', 'Ciclo', 'NPS Score', 'Sentimiento', 'Intensidad', 'Tema', 'Tema Padre', 'Comentario Original', 'Comentario Corregido'];
-    
-    const csvEscape = (val) => {
-      const strVal = String(val === null || val === undefined ? '' : val);
-      if (strVal.includes(',') || strVal.includes('"') || strVal.includes('\n') || strVal.includes('\r')) {
-        return `"${strVal.replace(/"/g, '""')}"`;
-      }
-      return strVal;
-    };
-    
-    const rows = comments.map(c => [
-      (c.id || '').replace(/_\d+$/, ''),
-      c.id,
-      c.carrera,
-      c.facultad,
-      c.ciclo || '',
-      c.nps_score,
-      c.sentimiento,
-      c.intensidad,
-      c.aspecto_normalizado || '',
-      c.categoria_padre,
-      c.comentario_original || c.fragmento_original || '',
-      c.fragmento_mostrar || ''
-    ]);
-
-    const csvContent = [
-      headers.join(','),
-      ...rows.map(row => row.map(csvEscape).join(','))
-    ].join('\n');
-
-    const filename = `comentarios_cualitativos_${new Date().toISOString().slice(0, 10)}.csv`;
-
-    if (typeof JSZip !== 'undefined') {
-      const zip = new JSZip();
-      zip.file(filename, '\ufeff' + csvContent);
-      zip.generateAsync({ type: 'blob' }).then(function(blob) {
-        const link = document.createElement('a');
-        const url = URL.createObjectURL(blob);
-        link.setAttribute('href', url);
-        link.setAttribute('download', filename.replace('.csv', '.zip'));
-        link.style.visibility = 'hidden';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-      });
-    } else {
-      // Fallback: descarga directa sin ZIP
-      const blob = new Blob(['\ufeff' + csvContent], { type: 'text/csv;charset=utf-8;' });
-      const link = document.createElement('a');
-      const url = URL.createObjectURL(blob);
-      link.setAttribute('href', url);
-      link.setAttribute('download', filename);
-      link.style.visibility = 'hidden';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }
+    const zipName = `data_${exp.nombre_encuesta}_${exp.fecha_generacion}.zip`;
+    const zipUrl = `./json/${zipName}`;
+    const link = document.createElement('a');
+    link.setAttribute('href', zipUrl);
+    link.setAttribute('download', zipName);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   }
 
   // Set up event listeners
@@ -871,13 +823,14 @@ window.SurveySentimentView = (() => {
     });
   }
 
-  function init(sentimientoData, totalRespuestasGlobal) {
+  function init(sentimientoData, totalRespuestasGlobal, exportConfig) {
     if (!sentimientoData) return;
 
     // Cargar comentarios directamente desde la raíz del JSON
     state.originalComments = sentimientoData.comentarios || [];
     state.sentimentCache = sentimientoData;
     state.totalRespuestasGlobal = totalRespuestasGlobal;
+    state.exportConfig = exportConfig || null;
 
     const kpiGrid = $('sentiment-kpis');
     if (kpiGrid && (!sentimientoData.topicos || !sentimientoData.topicos.length)) {
