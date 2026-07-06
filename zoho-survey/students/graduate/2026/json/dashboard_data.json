@@ -73,5 +73,9 @@
     "Totalmente insatisfecho": 0,
     "No utilizo": 0,
     "No conozco": 0
+  },
+  "_export": {
+    "nombre_encuesta": "encuesta_de_satisfacción_graduados_pregrado_2026",
+    "fecha_generacion": "2026-07-06"
   }
 }
