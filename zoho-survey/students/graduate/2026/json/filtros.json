@@ -2,17 +2,20 @@
   "version": "2.0",
   "has_ciclo": false,
   "facultades": [
+    "Facultad de Arquitectura",
     "Facultad de Ciencias Empresariales",
     "Facultad de Comunicación",
     "Facultad de Ingeniería"
   ],
   "carreras": [
     "Administración",
+    "Arquitectura",
     "Comunicación",
     "Contabilidad y Finanzas",
     "Ingeniería Ambiental",
     "Ingeniería Civil",
     "Ingeniería Industrial",
+    "Ingeniería de Sistemas",
     "Negocios Internacionales"
   ],
   "ciclos": [],
@@ -28,7 +31,11 @@
     "Facultad de Ingeniería": [
       "Ingeniería Ambiental",
       "Ingeniería Civil",
-      "Ingeniería Industrial"
+      "Ingeniería Industrial",
+      "Ingeniería de Sistemas"
+    ],
+    "Facultad de Arquitectura": [
+      "Arquitectura"
     ]
   }
 }

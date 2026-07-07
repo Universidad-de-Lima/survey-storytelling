@@ -1,5 +1,11 @@
 [
   {
+    "facultad": "Facultad de Arquitectura",
+    "carrera": "Arquitectura",
+    "ciclo": "NA",
+    "total": 22
+  },
+  {
     "facultad": "Facultad de Ciencias Empresariales",
     "carrera": "Administración",
     "ciclo": "NA",
@@ -40,5 +46,11 @@
     "carrera": "Ingeniería Industrial",
     "ciclo": "NA",
     "total": 107
+  },
+  {
+    "facultad": "Facultad de Ingeniería",
+    "carrera": "Ingeniería de Sistemas",
+    "ciclo": "NA",
+    "total": 29
   }
 ]

@@ -7,6 +7,13 @@
     "score": 89.83
   },
   {
+    "carrera": "Arquitectura",
+    "promotores": 19,
+    "pasivos": 3,
+    "detractores": 0,
+    "score": 86.36
+  },
+  {
     "carrera": "Comunicación",
     "promotores": 67,
     "pasivos": 17,
@@ -40,6 +47,13 @@
     "pasivos": 5,
     "detractores": 1,
     "score": 93.46
+  },
+  {
+    "carrera": "Ingeniería de Sistemas",
+    "promotores": 25,
+    "pasivos": 3,
+    "detractores": 1,
+    "score": 82.76
   },
   {
     "carrera": "Negocios Internacionales",

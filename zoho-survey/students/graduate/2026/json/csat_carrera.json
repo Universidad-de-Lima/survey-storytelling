@@ -12,6 +12,18 @@
     "score": 98.31
   },
   {
+    "carrera": "Arquitectura",
+    "facultad": "Facultad de Arquitectura",
+    "Totalmente satisfecho": 7,
+    "Muy satisfecho": 9,
+    "Satisfecho": 6,
+    "Insatisfecho": 0,
+    "Totalmente insatisfecho": 0,
+    "No utilizo": 0,
+    "No conozco": 0,
+    "score": 100.0
+  },
+  {
     "carrera": "Comunicación",
     "facultad": "Facultad de Comunicación",
     "Totalmente satisfecho": 39,
@@ -70,6 +82,18 @@
     "No utilizo": 0,
     "No conozco": 0,
     "score": 100.0
+  },
+  {
+    "carrera": "Ingeniería de Sistemas",
+    "facultad": "Facultad de Ingeniería",
+    "Totalmente satisfecho": 15,
+    "Muy satisfecho": 10,
+    "Satisfecho": 3,
+    "Insatisfecho": 1,
+    "Totalmente insatisfecho": 0,
+    "No utilizo": 0,
+    "No conozco": 0,
+    "score": 96.55
   },
   {
     "carrera": "Negocios Internacionales",
