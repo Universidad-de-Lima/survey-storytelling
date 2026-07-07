@@ -411,6 +411,7 @@ _FRASES_CORTAS_VALIDAS = {
     "esta bien", "está bien",
     "buen servicio", "me gusta", "no me gusta",
     "dependiendo de la carrera",  # → La carrera (v3: SI)
+    "depende de la carrera",       # → La carrera
     "las demás carreras no se",   # → La carrera (v3: SI)
     # Palabras evaluativas aisladas
     "bueno", "buena", "malo", "mala", "cool", "nice", "wow",
