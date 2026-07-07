@@ -585,20 +585,48 @@
         const t3bVal = total > 0 ? (counts['Totalmente satisfecho'] + counts['Muy satisfecho'] + counts['Satisfecho']) / total * 100 : 0;
         const t2bVal = total > 0 ? (counts['Totalmente satisfecho'] + counts['Muy satisfecho']) / total * 100 : 0;
         const pondVal = total > 0 ? ((5 * counts['Totalmente satisfecho'] + 4 * counts['Muy satisfecho'] + 3 * counts['Satisfecho'] + 2 * counts['Insatisfecho'] + 1 * counts['Totalmente insatisfecho']) / total) / 5 * 100 : 0;
-        const rowCount = satKeys.filter(k => (counts[k] || 0) > 0).length;
-        let tableHtml = '<table style="border-collapse:collapse;font-size:11px;"><tr><th style="text-align:left;padding:2px 6px;border-bottom:1px solid #ccc;">Escala de Satisfacción</th><th style="text-align:center;padding:2px 6px;border-bottom:1px solid #ccc;">Respuestas</th><th style="text-align:center;padding:2px 6px;border-bottom:1px solid #ccc;">T3B</th><th style="text-align:center;padding:2px 6px;border-bottom:1px solid #ccc;">T2B</th><th style="text-align:center;padding:2px 6px;border-bottom:1px solid #ccc;">Ponderado</th></tr>';
-        satKeys.forEach((key, i) => {
+        let html = '<div style="display:flex;gap:16px;white-space:nowrap;">';
+
+        // ——— Left column: Escala de Satisfacción + Respuestas ———
+        html += '<table style="border-collapse:collapse;font-size:11px;">';
+        html += '<tr><th style="text-align:left;padding:2px 6px;border-bottom:1px solid #ccc;">Escala de Satisfacción</th>' +
+                '<th style="text-align:center;padding:2px 6px;border-bottom:1px solid #ccc;">Respuestas</th></tr>';
+        satKeys.forEach((key) => {
           const val = counts[key] || 0;
           if (val === 0) return;
-          if (i === 0) {
-            // Primera fila: incluye T3B, T2B, Ponderado con rowspan
-            tableHtml += `<tr><td style="padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">${key}</td><td style="text-align:center;padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">${_fmt.formatInteger(val)}</td><td rowspan="${rowCount}" style="text-align:center;padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">${_fmt.formatDecimal(t3bVal, 2) + '%'}</td><td rowspan="${rowCount}" style="text-align:center;padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">${_fmt.formatDecimal(t2bVal, 2) + '%'}</td><td rowspan="${rowCount}" style="text-align:center;padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">${_fmt.formatDecimal(pondVal, 2) + '%'}</td></tr>`;
-          } else {
-            tableHtml += `<tr><td style="padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">${key}</td><td style="text-align:center;padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">${_fmt.formatInteger(val)}</td></tr>`;
-          }
+          html += `<tr><td style="padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">${key}</td>` +
+                  `<td style="text-align:center;padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">${_fmt.formatInteger(val)}</td></tr>`;
         });
-        tableHtml += '</table>';
-        if (_ttp) _ttp.show(e, tableHtml, true);
+        html += '</table>';
+
+        // ——— Right column: horizontal bars for T3B, T2B, Ponderado ———
+        html += '<div style="display:flex;flex-direction:column;justify-content:center;gap:6px;min-width:150px;padding-left:8px;border-left:1px solid rgba(255,255,255,0.2);">';
+        const barItems = [
+          { label: 'T3B', value: t3bVal },
+          { label: 'T2B', value: t2bVal },
+          { label: 'Pond.', value: pondVal }
+        ];
+        barItems.forEach((item) => {
+          const cssVal = item.value.toFixed(2);
+          const p = item.value;
+          const outside = p < 12;
+          html += '<div style="display:flex;align-items:center;gap:8px;">';
+          html += `<span style="color:#fff;font-size:10px;font-weight:600;width:34px;text-align:right;flex-shrink:0;">${item.label}</span>`;
+          html += '<div style="flex:1;height:18px;background:rgba(255,255,255,0.12);border-radius:4px;overflow:visible;position:relative;">';
+          html += `<div style="height:100%;width:${cssVal}%;background:#fff;border-radius:4px;display:flex;align-items:center;justify-content:flex-end;padding-right:4px;transition:width 0.3s;min-width:0;">`;
+          if (!outside) {
+            html += `<span style="color:#111827;font-size:9px;font-weight:700;line-height:1;">${_fmt.formatDecimal(p, 2)}%</span>`;
+          }
+          html += '</div>';
+          if (outside) {
+            html += `<span style="position:absolute;left:100%;top:50%;transform:translateY(-50%);margin-left:4px;color:#fff;font-size:9px;font-weight:700;white-space:nowrap;">${_fmt.formatDecimal(p, 2)}%</span>`;
+          }
+          html += '</div>';
+          html += '</div>';
+        });
+        html += '</div>'; // close right column
+        html += '</div>'; // close flex container
+        if (_ttp) _ttp.show(e, html, true);
       });
       barItem.querySelector('.bar-container').addEventListener('mouseleave', () => _ttp?.hide());
       fragment.appendChild(barItem);
