@@ -111,10 +111,11 @@ window.SurveySentimentView = (() => {
       barItem.addEventListener('mouseenter', (e) => {
         const b = item.breakdown;
         let html = '<table style="border-collapse:collapse;font-size:11px;">';
-        html += `<tr><td style="padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">Promotores</td><td style="text-align:right;padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">${_fmt.formatInteger(b.prom)}</td></tr>`;
-        html += `<tr><td style="padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">Pasivos</td><td style="text-align:right;padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">${_fmt.formatInteger(b.pas)}</td></tr>`;
-        html += `<tr><td style="padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">Detractores</td><td style="text-align:right;padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">${_fmt.formatInteger(b.det)}</td></tr>`;
-        html += `<tr><td style="padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;"><strong>${item.label}</strong></td><td style="text-align:right;padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">${_fmt.formatInteger(item.value)} ideas (${_fmt.formatPctSimple(item.value, total)})</td></tr>`;
+        html += `<tr><td style="padding:2px 6px;vertical-align:middle;">Promotores</td><td style="text-align:right;padding:2px 6px;vertical-align:middle;">${_fmt.formatInteger(b.prom)}</td></tr>`;
+        html += `<tr><td style="padding:2px 6px;vertical-align:middle;">Pasivos</td><td style="text-align:right;padding:2px 6px;vertical-align:middle;">${_fmt.formatInteger(b.pas)}</td></tr>`;
+        html += `<tr><td style="padding:2px 6px;vertical-align:middle;">Detractores</td><td style="text-align:right;padding:2px 6px;vertical-align:middle;">${_fmt.formatInteger(b.det)}</td></tr>`;
+        html += `<tr><td colspan="2" style="border-bottom:1px solid #eee;padding:0;"></td></tr>`;
+        html += `<tr><td style="padding:2px 6px;vertical-align:middle;"><strong>${item.label}</strong></td><td style="text-align:right;padding:2px 6px;vertical-align:middle;">${_fmt.formatInteger(item.value)} ideas (${_fmt.formatPctSimple(item.value, total)})</td></tr>`;
         html += '</table>';
         _ttp.show(e, html, true);
       });
@@ -285,10 +286,11 @@ window.SurveySentimentView = (() => {
       // Tooltip enriquecido con conteos + porcentajes (2 decimales), consistente
       // con el resto de la app. Reemplaza al title HTML nativo.
       let tooltipHtml = '<table style="border-collapse:collapse;font-size:11px;">';
-      tooltipHtml += `<tr><td style="padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">Positivos</td><td style="text-align:right;padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">${_fmt.formatInteger(posCount)} (${_fmt.formatPctSimple(posCount, s.total)})</td></tr>`;
-      tooltipHtml += `<tr><td style="padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">Neutros</td><td style="text-align:right;padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">${_fmt.formatInteger(neuCount)} (${_fmt.formatPctSimple(neuCount, s.total)})</td></tr>`;
-      tooltipHtml += `<tr><td style="padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">Negativos</td><td style="text-align:right;padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">${_fmt.formatInteger(negCount)} (${_fmt.formatPctSimple(negCount, s.total)})</td></tr>`;
-      tooltipHtml += `<tr><td style="padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;"><strong>${_san.escapeHTML(cat)}</strong></td><td style="text-align:right;padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">${_fmt.formatInteger(s.total)} menciones</td></tr>`;
+      tooltipHtml += `<tr><td style="padding:2px 6px;vertical-align:middle;">Positivos</td><td style="text-align:right;padding:2px 6px;vertical-align:middle;">${_fmt.formatInteger(posCount)} (${_fmt.formatPctSimple(posCount, s.total)})</td></tr>`;
+      tooltipHtml += `<tr><td style="padding:2px 6px;vertical-align:middle;">Neutros</td><td style="text-align:right;padding:2px 6px;vertical-align:middle;">${_fmt.formatInteger(neuCount)} (${_fmt.formatPctSimple(neuCount, s.total)})</td></tr>`;
+      tooltipHtml += `<tr><td style="padding:2px 6px;vertical-align:middle;">Negativos</td><td style="text-align:right;padding:2px 6px;vertical-align:middle;">${_fmt.formatInteger(negCount)} (${_fmt.formatPctSimple(negCount, s.total)})</td></tr>`;
+      tooltipHtml += `<tr><td colspan="2" style="border-bottom:1px solid #eee;padding:0;"></td></tr>`;
+      tooltipHtml += `<tr><td style="padding:2px 6px;vertical-align:middle;"><strong>${_san.escapeHTML(cat)}</strong></td><td style="text-align:right;padding:2px 6px;vertical-align:middle;">${_fmt.formatInteger(s.total)} menciones</td></tr>`;
       tooltipHtml += '</table>';
       col.addEventListener('mouseenter', (e) => { if (_ttp) _ttp.show(e, tooltipHtml, true); });
       col.addEventListener('mousemove', (e) => { if (_ttp) _ttp.move(e); });
@@ -358,10 +360,11 @@ window.SurveySentimentView = (() => {
       barItem.addEventListener('mouseenter', (e) => {
         const b = item.breakdown;
         let html = '<table style="border-collapse:collapse;font-size:11px;">';
-        html += `<tr><td style="padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">Positivos</td><td style="text-align:right;padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">${_fmt.formatInteger(b.pos)}</td></tr>`;
-        html += `<tr><td style="padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">Neutros</td><td style="text-align:right;padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">${_fmt.formatInteger(b.neu)}</td></tr>`;
-        html += `<tr><td style="padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">Negativos</td><td style="text-align:right;padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">${_fmt.formatInteger(b.neg)}</td></tr>`;
-        html += `<tr><td style="padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;"><strong>${item.label}</strong></td><td style="text-align:right;padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">${_fmt.formatInteger(item.value)} ideas (${_fmt.formatPctSimple(item.value, totalIdeas)})</td></tr>`;
+        html += `<tr><td style="padding:2px 6px;vertical-align:middle;">Positivos</td><td style="text-align:right;padding:2px 6px;vertical-align:middle;">${_fmt.formatInteger(b.pos)}</td></tr>`;
+        html += `<tr><td style="padding:2px 6px;vertical-align:middle;">Neutros</td><td style="text-align:right;padding:2px 6px;vertical-align:middle;">${_fmt.formatInteger(b.neu)}</td></tr>`;
+        html += `<tr><td style="padding:2px 6px;vertical-align:middle;">Negativos</td><td style="text-align:right;padding:2px 6px;vertical-align:middle;">${_fmt.formatInteger(b.neg)}</td></tr>`;
+        html += `<tr><td colspan="2" style="border-bottom:1px solid #eee;padding:0;"></td></tr>`;
+        html += `<tr><td style="padding:2px 6px;vertical-align:middle;"><strong>${item.label}</strong></td><td style="text-align:right;padding:2px 6px;vertical-align:middle;">${_fmt.formatInteger(item.value)} ideas (${_fmt.formatPctSimple(item.value, totalIdeas)})</td></tr>`;
         html += '</table>';
         _ttp.show(e, html, true);
       });

@@ -286,19 +286,22 @@
            data-label="Detractores (0-6)" data-value="${_fmt.formatInteger(det)} (${_fmt.formatPctDecimal(det, total)})"><span class="csat-label">${_fmt.formatPctSimple(det, total)}</span></div>`
       + `</div>`;
     DOM.npsLegend.innerHTML = `
-      <div class="legend-item"><div class="legend-dot" style="background:var(--gray-700);"></div>Promotores: ${_fmt.formatInteger(prom)}</div>
-      <div class="legend-item"><div class="legend-dot" style="background:var(--gray-400);"></div>Pasivos: ${_fmt.formatInteger(pas)}</div>
-      <div class="legend-item"><div class="legend-dot" style="background:var(--ulima-orange);"></div>Detractores: ${_fmt.formatInteger(det)}</div>
+      <div class="legend-item" data-label="Promotores (9-10)"><div class="legend-dot" style="background:var(--gray-700);"></div>Promotores: ${_fmt.formatInteger(prom)}</div>
+      <div class="legend-item" data-label="Pasivos (7-8)"><div class="legend-dot" style="background:var(--gray-400);"></div>Pasivos: ${_fmt.formatInteger(pas)}</div>
+      <div class="legend-item" data-label="Detractores (0-6)"><div class="legend-dot" style="background:var(--ulima-orange);"></div>Detractores: ${_fmt.formatInteger(det)}</div>
     `;
-    if (_ttp) {
-      document.querySelectorAll('#nps-bar .csat-segment').forEach(function(seg) {
-        seg.addEventListener('mousemove', function(e) {
-          if (_ttp) _ttp.show(e, '<table style="border-collapse:collapse;font-size:11px;"><tr><th style="text-align:left;padding:2px 6px;border-bottom:1px solid #ccc;">Segmento</th><th style="text-align:center;padding:2px 6px;border-bottom:1px solid #ccc;">Respuestas</th></tr><tr><td style="padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">' + seg.dataset.label + '</td><td style="text-align:center;padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">' + seg.dataset.value + '</td></tr></table>', true);
-        });
-        seg.addEventListener('mouseleave', function() { if (_ttp) _ttp.hide(); });
-      });
-    }
     adjustSegmentLabels('#nps-bar');
+    // Hover highlight: agranda la leyenda al pasar sobre un segmento
+    document.querySelectorAll('#nps-bar .csat-segment').forEach(function(seg) {
+      seg.addEventListener('mouseenter', function() {
+        document.querySelectorAll('#nps-legend .legend-item.highlight').forEach(function(el) { el.classList.remove('highlight'); });
+        var item = document.querySelector('#nps-legend .legend-item[data-label="' + seg.getAttribute('data-label') + '"]');
+        if (item) item.classList.add('highlight');
+      });
+      seg.addEventListener('mouseleave', function() {
+        document.querySelectorAll('#nps-legend .legend-item.highlight').forEach(function(el) { el.classList.remove('highlight'); });
+      });
+    });
   }
 
   function renderCSATBar(csat) {
@@ -322,18 +325,21 @@
       + `</div>`;
     DOM.csatLegend.innerHTML = visibleLabels
       .map((item) =>
-        `<div class="legend-item"><div class="legend-dot" style="background:${item.color};"></div>${item.key}: ${_fmt.formatInteger(csat[item.key])}</div>`
+        `<div class="legend-item" data-label="${item.key}"><div class="legend-dot" style="background:${item.color};"></div>${item.key}: ${_fmt.formatInteger(csat[item.key])}</div>`
       )
       .join('');
-    if (_ttp) {
-      document.querySelectorAll('#csat-bar .csat-segment').forEach(function(seg) {
-        seg.addEventListener('mousemove', function(e) {
-          if (_ttp) _ttp.show(e, '<table style="border-collapse:collapse;font-size:11px;"><tr><th style="text-align:left;padding:2px 6px;border-bottom:1px solid #ccc;">Escala de Satisfacción</th><th style="text-align:center;padding:2px 6px;border-bottom:1px solid #ccc;">Respuestas</th></tr><tr><td style="padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">' + seg.dataset.label + '</td><td style="text-align:center;padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">' + seg.dataset.value + '</td></tr></table>', true);
-        });
-        seg.addEventListener('mouseleave', function() { if (_ttp) _ttp.hide(); });
-      });
-    }
     adjustSegmentLabels('#csat-bar');
+    // Hover highlight: agranda la leyenda al pasar sobre un segmento
+    document.querySelectorAll('#csat-bar .csat-segment').forEach(function(seg) {
+      seg.addEventListener('mouseenter', function() {
+        document.querySelectorAll('#csat-legend .legend-item.highlight').forEach(function(el) { el.classList.remove('highlight'); });
+        var item = document.querySelector('#csat-legend .legend-item[data-label="' + seg.getAttribute('data-label') + '"]');
+        if (item) item.classList.add('highlight');
+      });
+      seg.addEventListener('mouseleave', function() {
+        document.querySelectorAll('#csat-legend .legend-item.highlight').forEach(function(el) { el.classList.remove('highlight'); });
+      });
+    });
   }
 
   /**
@@ -893,7 +899,7 @@
       `;
       tr.querySelectorAll('.distribution-segment').forEach((seg) => {
         seg.addEventListener('mousemove', (e) => {
-          if (_ttp) _ttp.show(e, `<table style="border-collapse:collapse;font-size:11px;"><tr><th style="text-align:left;padding:2px 6px;border-bottom:1px solid #ccc;">Escala de Satisfacción</th><th style="text-align:center;padding:2px 6px;border-bottom:1px solid #ccc;">Respuestas</th></tr><tr><td style="padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">${seg.dataset.label}</td><td style="text-align:center;padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">${seg.dataset.value}</td></tr></table>`, true);
+          if (_ttp) _ttp.show(e, `<table style="border-collapse:collapse;font-size:11px;"><tr><th style="text-align:left;padding:2px 6px;border-bottom:1px solid #ccc;">Escala de Satisfacción</th><th style="text-align:right;padding:2px 6px;border-bottom:1px solid #ccc;">Respuestas</th></tr><tr><td style="padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">${seg.dataset.label}</td><td style="text-align:right;padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">${seg.dataset.value}</td></tr></table>`, true);
         });
         seg.addEventListener('mouseleave', () => _ttp?.hide());
       });
@@ -1076,7 +1082,7 @@
       `;
       tr.querySelectorAll('.visibility-segment').forEach((seg) => {
         seg.addEventListener('mousemove', (e) => {
-          if (_ttp) _ttp.show(e, `<table style="border-collapse:collapse;font-size:11px;"><tr><th style="text-align:left;padding:2px 6px;border-bottom:1px solid #ccc;">Opción</th><th style="text-align:center;padding:2px 6px;border-bottom:1px solid #ccc;">Respuestas</th></tr><tr><td style="padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">${seg.dataset.label}</td><td style="text-align:center;padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">${seg.dataset.value}</td></tr></table>`, true);
+          if (_ttp) _ttp.show(e, `<table style="border-collapse:collapse;font-size:11px;"><tr><th style="text-align:left;padding:2px 6px;border-bottom:1px solid #ccc;">Opción</th><th style="text-align:right;padding:2px 6px;border-bottom:1px solid #ccc;">Respuestas</th></tr><tr><td style="padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">${seg.dataset.label}</td><td style="text-align:right;padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">${seg.dataset.value}</td></tr></table>`, true);
         });
         seg.addEventListener('mouseleave', () => _ttp?.hide());
       });
