@@ -2,7 +2,7 @@
   "metadata": {
     "version": "2.0",
     "motor": "deepseek",
-    "model": "deepseek-chat",
+    "model": "deepseek-v4-flash",
     "total_encuestas": 0,
     "total_fragmentos": 0,
     "total_unidades_validas": 0,

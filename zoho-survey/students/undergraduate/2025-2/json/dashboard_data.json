@@ -72,5 +72,9 @@
     "Totalmente insatisfecho": 24,
     "No utilizo": 0,
     "No conozco": 0
+  },
+  "_export": {
+    "nombre_encuesta": "encuesta_de_satisfacción_estudiantil_pregrado_2025_2",
+    "fecha_generacion": "2026-07-07"
   }
 }
