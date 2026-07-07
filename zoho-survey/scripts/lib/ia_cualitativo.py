@@ -22,7 +22,7 @@ Uso principal (integrado en build_json.py):
 Variables de entorno:
   - DEEPSEEK_API_KEY (obligatorio para modo IA; si ausente, hace fallback al
     pipeline local con un warning).
-  - IA_CUALITATIVO_MODEL (opcional, default "deepseek-chat").
+  - IA_CUALITATIVO_MODEL (opcional, default "deepseek-v4-flash").
   - IA_CUALITATIVO_MAX_RPM (opcional, default 50).
   - IA_CUALITATIVO_CACHE (opcional, "1" para habilitar caché, "0" para deshabilitar).
 """
@@ -63,7 +63,7 @@ logger = logging.getLogger(__name__)
 # ============================================================
 
 DEEPSEEK_API_URL = "https://api.deepseek.com/v1/chat/completions"
-DEFAULT_MODEL = os.environ.get("IA_CUALITATIVO_MODEL", "deepseek-chat")
+DEFAULT_MODEL = os.environ.get("IA_CUALITATIVO_MODEL", "deepseek-v4-flash")
 DEFAULT_MAX_RPM = int(os.environ.get("IA_CUALITATIVO_MAX_RPM", "60"))
 DEFAULT_TIMEOUT = int(os.environ.get("IA_CUALITATIVO_TIMEOUT", "60"))  # segundos
 DEFAULT_MAX_RETRIES = 3

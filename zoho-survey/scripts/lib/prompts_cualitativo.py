@@ -11,7 +11,7 @@ Metodología base:
   - Triangulación mixta cualitativa-cuantitativa: reglas de sesgo por contexto NPS
     y cross-reference con calificaciones CSAT por dimensión.
 
-Compatibilidad: DeepSeek API (OpenAI-compatible), modelos `deepseek-chat` (V3).
+Compatibilidad: DeepSeek API (OpenAI-compatible), modelos `deepseek-v4-flash`.
 """
 
 from typing import Dict, List, Optional
@@ -24,7 +24,7 @@ from typing import Dict, List, Optional
 # incrementa este número. El CacheManager lo incluye en la clave hash,
 # así que las entradas cacheadas con versión anterior se ignoran
 # automáticamente (no se sirven resultados viejos con prompt viejo).
-PROMPT_VERSION = "v5-2025-07-02"
+PROMPT_VERSION = "v6-2026-07-07"
 
 
 # ============================================================
@@ -139,6 +139,8 @@ Solo usa "Pendiente de Clasificación" cuando la unidad sea genuinamente incompr
 - "mi carrera" / "otras carreras" / "comunica" / "atención a la carrera" / "cesura" → **La carrera** (cuando se refiere a la carrera profesional específica del estudiante, no a la calidad docente)
 - "Libertad de expresión" / "derechos estudiantiles" / "distanciamiento de la rectora" → **Satisfacción estudiantil** (aspectos institucionales generales)
 - "Hay un par de cosas que mejorar" / "tiene fallas que pueden arreglarse" / "no me deja poner mi respuesta completa" / "no es nada relacionado a la carrera" / "podría ser mas" → **Satisfacción estudiantil** (valoración general que no encaja en una dimensión específica)
+- "asesorías" / "asesoría" / "no todas son aptas para todos" / "disponibilidad de asesoría" → **Disponibilidad para asesorías**
+- "asesoría a los cursos especializados" / "certificaciones" / "horario adecuado" / "dentro del horario académico" → **Disponibilidad para asesorías**
 
 **Cuando una queja mencione "soporte" o "áreas" de forma genérica, usa "Procedimientos administrativos" o "Soporte técnico del sistema informático" según contexto, NO "Pendiente de Clasificación".**
 

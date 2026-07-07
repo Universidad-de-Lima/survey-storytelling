@@ -248,7 +248,7 @@ window.SurveySentimentView = (() => {
       stats[cat].total++;
     });
 
-    const sortedCats = Object.keys(stats).sort((a, b) => stats[b].total - stats[a].total).slice(0, 8); // Top 8
+    const sortedCats = Object.keys(stats).sort((a, b) => stats[b].total - stats[a].total);
 
     if (sortedCats.length === 0) {
       container.style.cssText = '';

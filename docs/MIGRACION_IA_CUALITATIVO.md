@@ -228,7 +228,7 @@ Campos nuevos vs pipeline legacy:
 
 ```python
 {
-  "model": "deepseek-chat",        # V3, fast + cheap, ideal para structured output
+  "model": "deepseek-v4-flash",        # V4 Flash, fast + cheap, ideal para structured output
   "temperature": 0.1,              # bajísima para determinismo
   "max_tokens": 2000,              # suficiente para 8 unidades
   "response_format": {"type": "json_object"},  # JSON mode garantizado
@@ -347,7 +347,7 @@ python zoho-survey/scripts/validar_ia_vs_manual.py \
 | Costo inesperado | Baja | Presupuesto | Caché persistente por hash(comentario+contexto). Builds subsiguientes solo procesan comentarios nuevos/cambiados. Monitorear `usage` en metadata del JSON. |
 | Alucinación de dimensiones | Media | Datos sucios | Prohibición explícita en prompt + validación post-LLM (`_validar_unidad` rechaza dimensiones fuera de la taxonomía). |
 | Inconsistencia prompt Python vs TS | Baja | Playground ≠ pipeline | Mirror manual. TODO: generar el TS desde el Python automáticamente (script codegen). |
-| Cambio de modelo DeepSeek | Baja | Resultados diferentes | `model` se fija en `deepseek-chat`. Si DeepSeek depreca el modelo, actualizar `DEFAULT_MODEL` y re-validar. |
+| Cambio de modelo DeepSeek | Baja | Resultados diferentes | `model` se fija en `deepseek-v4-flash`. Si DeepSeek depreca el modelo, actualizar `DEFAULT_MODEL` y re-validar. |
 | Comentario > 100 chars | Baja (Zoho limita) | Token overflow | `max_tokens=2000` en la respuesta. El system prompt soporta comentarios largos; el few-shot usa ejemplos de ≤100 chars como la encuesta real. |
 
 ---
