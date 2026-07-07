@@ -255,7 +255,22 @@ class DeepSeekClient:
                         self._total_input_tokens += usage.get("prompt_tokens", 0)
                         self._total_output_tokens += usage.get("completion_tokens", 0)
                     content = data["choices"][0]["message"]["content"]
-                    return json.loads(content)
+                    if not content or not content.strip():
+                        logger.error(f"Contenido vacío de DeepSeek. Raw response: {raw[:300]!r}")
+                        raise json.JSONDecodeError("Contenido vacío", "", 0)
+                    try:
+                        return json.loads(content)
+                    except json.JSONDecodeError:
+                        # Fallback: DeepSeek pudo ignorar response_format y devolver
+                        # texto adicional alrededor del JSON. Extraer primer objeto {...}
+                        _match = re.search(r'(\{.*\})', content, re.DOTALL)
+                        if _match:
+                            try:
+                                return json.loads(_match.group(1))
+                            except json.JSONDecodeError:
+                                pass
+                        logger.error(f"JSON inválido de DeepSeek. Content (primeros 500): {content[:500]!r}")
+                        raise
             except HTTPError as e:
                 last_error = f"HTTP {e.code}: {e.reason}"
                 # 4xx no recuperable salvo 429
@@ -283,6 +298,12 @@ class DeepSeekClient:
                 time.sleep(wait)
             except (json.JSONDecodeError, KeyError, IndexError) as e:
                 last_error = f"Respuesta inesperada de DeepSeek: {e}"
+                err_str = str(e)
+                # Si el modelo devolvió contenido vacío o JSON malformado, reintentar
+                # no sirve porque el prompt es idéntico. Salir del loop inmediatamente.
+                if "Contenido vacío" in err_str or "column 1 (char 0)" in err_str or "Unterminated string" in err_str:
+                    logger.warning(f"{last_error}. Error de contenido (no de red). Sin reintento.")
+                    break
                 logger.warning(f"{last_error}. Reintento {attempt}/{self.max_retries}.")
                 time.sleep(2 ** attempt)
 
@@ -668,7 +689,7 @@ def analizar_comentario(comentario: str,
             system_prompt=system_prompt,
             user_prompt=user_prompt,
             temperature=0.1,
-            max_tokens=2000,
+            max_tokens=10000,
         )
     except RuntimeError as e:
         logger.error(f"DeepSeek falló para {id_encuesta}: {e}")
