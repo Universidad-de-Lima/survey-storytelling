@@ -83,6 +83,8 @@ window.SurveyTooltip = (() => {
     el.innerHTML = raw ? content : safeContent(content);
     el.style.display = 'block';
     _position(e);
+    // Oculta el tooltip al hacer scroll para que no quede pegado
+    window.addEventListener('scroll', hide, { once: true });
   }
 
   /**

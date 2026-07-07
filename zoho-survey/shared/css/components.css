@@ -782,7 +782,7 @@
 /* ── Tooltip ── */
 .tooltip {
   position: fixed;
-  background: var(--gray-900);
+  background: rgba(0, 0, 0, 0.80);
   color: white;
   padding: var(--space-sm) var(--space-md);
   border-radius: var(--radius-md);
