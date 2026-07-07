@@ -291,7 +291,7 @@ def _generar_csvs_y_zip(
             c.get("comentario_original", ""),
             c.get("fragmento_mostrar", ""),
         ])
-    csv1_name = f"analisis_cualitativo_{nombre_base}_{fecha}.csv"
+    csv1_name = f"analisis_cualitativo_{nombre_base}.csv"
 
     # ── CSV 2: respuestas por dimensión ──
     # Identificar columnas de dimensión presentes en el DataFrame
@@ -341,8 +341,8 @@ def _generar_csvs_y_zip(
         r.append(row.get(comentario_df_col, ""))
         csv2_rows.append(r)
 
-    csv2_name = f"{nombre_base}_{fecha}.csv"
-    zip_name = f"data_{nombre_base}_{fecha}.zip"
+    csv2_name = f"{nombre_base}.csv"
+    zip_name = f"data_{nombre_base}.zip"
 
     # ── Escribir ZIP ──
     zip_path = ruta_salida / zip_name
