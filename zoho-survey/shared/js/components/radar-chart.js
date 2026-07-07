@@ -352,38 +352,124 @@ window.SurveyRadarChart = (() => {
         const t2b = el.getAttribute('data-t2b');
         const pond = el.getAttribute('data-pond');
         el.addEventListener('mousemove', (e) => {
-          // Build tooltip: table (Escala + Respuestas) + horizontal bar chart (T3B, T2B, Ponderado)
+          // Build tooltip: exploded pie chart (satisfacción) + horizontal bar chart (T3B, T2B, Ponderado)
           const d = allDims.find(x => _fmt.formatDimensionNameForAttr(x.dim) === dim);
-          let html = '<div style="display:flex;gap:16px;white-space:nowrap;">';
+          let html = '<div style="display:flex;gap:12px;white-space:nowrap;">';
 
-          // ——— Left column: Escala de Satisfacción + Respuestas ———
-          html += '<table style="border-collapse:collapse;font-size:11px;">';
-          html += '<tr><th style="text-align:left;padding:2px 6px;border-bottom:1px solid #ccc;">Escala de Satisfacción</th>' +
-                  '<th style="text-align:center;padding:2px 6px;border-bottom:1px solid #ccc;">Respuestas</th></tr>';
+          // ——— Left column: exploded pie chart SVG ———
           if (d) {
             const satKeys = ['Totalmente satisfecho', 'Muy satisfecho', 'Satisfecho', 'Insatisfecho', 'Totalmente insatisfecho'];
-            satKeys.forEach((key) => {
-              const val = d.counts[key] || 0;
-              if (val === 0) return;
-              html += `<tr><td style="padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">${key}</td>` +
-                      `<td style="text-align:center;padding:2px 6px;border-bottom:1px solid #eee;vertical-align:middle;">${_fmt.formatInteger(val)}</td></tr>`;
+            const satShort = ['Tot.Sat.', 'Muy.Sat.', 'Satisfe.', 'Insatis.', 'Tot.Ins.'];
+            const segmentColors = ['#9CA3AF', '#D1D5DB', '#E5E7EB', '#F3F4F6', '#ffffff'];
+            const total = satKeys.reduce((s, k) => s + (d.counts[k] || 0), 0);
+            let maxIdx = 0, maxVal = 0;
+            const values = satKeys.map((k, i) => {
+              const v = d.counts[k] || 0;
+              if (v > maxVal) { maxVal = v; maxIdx = i; }
+              return v;
             });
+            const cx = 90, cy = 90, r = 70;
+            let svgParts = [];
+            const externalLabels = [];
+            let angle = -Math.PI / 2;
+            values.forEach((val, i) => {
+              if (val === 0) return;
+              const pct = val / total;
+              const a = pct * 2 * Math.PI;
+              const midAngle = angle + a / 2;
+              const expl = 0;
+              const dx = expl * Math.cos(midAngle);
+              const dy = expl * Math.sin(midAngle);
+              const x1 = cx + dx + r * Math.cos(angle);
+              const y1 = cy + dy + r * Math.sin(angle);
+              const x2 = cx + dx + r * Math.cos(angle + a);
+              const y2 = cy + dy + r * Math.sin(angle + a);
+              const large = a > Math.PI ? 1 : 0;
+              const path = `M${cx + dx} ${cy + dy} L${x1} ${y1} A${r} ${r} 0 ${large} 1 ${x2} ${y2} Z`;
+              svgParts.push(`<path d="${path}" fill="${segmentColors[i]}"/>`);
+              const pctText = _fmt.formatDecimal(pct * 100, 1);
+              const isSmall = pct < 0.12;
+              if (isSmall) {
+                const outR = r * 1.35;
+                const ox = cx + dx + outR * Math.cos(midAngle);
+                const oy = cy + dy + outR * Math.sin(midAngle);
+                const edgeX = cx + dx + r * Math.cos(midAngle);
+                const edgeY = cy + dy + r * Math.sin(midAngle);
+                const countText = _fmt.formatInteger(val);
+                externalLabels.push({ ox, oy, edgeX, edgeY, midAngle, shortName: satShort[i], countText, cx, cy, dx, dy });
+              } else {
+                const labelR = r * 0.62;
+                const lx = cx + dx + labelR * Math.cos(midAngle);
+                const ly = cy + dy + labelR * Math.sin(midAngle);
+                svgParts.push(`<text x="${lx}" y="${ly - 5}" text-anchor="middle" fill="#111827" font-size="10" font-weight="600">${satShort[i]}</text>`);
+                svgParts.push(`<text x="${lx}" y="${ly + 8}" text-anchor="middle" fill="#111827" font-size="10" font-weight="700">${_fmt.formatInteger(val)}</text>`);
+              }
+              angle += a;
+            });
+            const angleThreshold = 0.4;
+            externalLabels.sort((a, b) => a.midAngle - b.midAngle);
+            externalLabels.forEach((l, idx) => {
+              if (idx > 0 && Math.abs(l.midAngle - externalLabels[idx - 1].midAngle) < angleThreshold) {
+                l._side = idx % 2 === 0 ? 'left' : 'right';
+              } else {
+                l._side = Math.cos(l.midAngle) >= 0 ? 'right' : 'left';
+              }
+            });
+            externalLabels.forEach((l) => {
+              const naturalSide = Math.cos(l.midAngle) >= 0 ? 'right' : 'left';
+              if (l._side !== naturalSide) {
+                const outR = r * 1.35;
+                const flippedCos = -Math.abs(Math.cos(l.midAngle)) * (l._side === 'left' ? -1 : 1);
+                const rawSin = Math.sin(l.midAngle);
+                const norm = Math.sqrt(flippedCos * flippedCos + rawSin * rawSin);
+                const newCos = flippedCos / norm;
+                const newSin = rawSin / norm;
+                l.ox = l.cx + l.dx + outR * newCos;
+                l.oy = l.cy + l.dy + outR * newSin;
+                l.edgeX = l.cx + l.dx + r * newCos;
+                l.edgeY = l.cy + l.dy + r * newSin;
+              }
+            });
+            const leftGroup = externalLabels.filter(l => l._side === 'left').sort((a, b) => a.oy - b.oy);
+            const rightGroup = externalLabels.filter(l => l._side === 'right').sort((a, b) => a.oy - b.oy);
+            [leftGroup, rightGroup].forEach((group) => {
+              const minGap = 22;
+              for (let i = 1; i < group.length; i++) {
+                if (group[i].oy < group[i - 1].oy + minGap) group[i].oy = group[i - 1].oy + minGap;
+              }
+              for (let i = group.length - 2; i >= 0; i--) {
+                if (group[i].oy > group[i + 1].oy - minGap) group[i].oy = group[i + 1].oy - minGap;
+              }
+            });
+            externalLabels.forEach((l) => {
+              const anchor = l._side === 'right' ? 'start' : 'end';
+              const xOff = l._side === 'right' ? 3 : -3;
+              const midX = (l.edgeX + l.ox) / 2;
+              const midY = (l.edgeY + l.oy) / 2 - 4;
+              svgParts.push(`<polyline points="${l.edgeX},${l.edgeY} ${midX},${midY} ${l.ox},${l.oy}" fill="none" stroke="#9CA3AF" stroke-width="0.5"/>`);
+              svgParts.push(`<text x="${l.ox + xOff}" y="${l.oy - 5}" text-anchor="${anchor}" fill="#fff" font-size="10" font-weight="500">${l.shortName}</text>`);
+              svgParts.push(`<text x="${l.ox + xOff}" y="${l.oy + 8}" text-anchor="${anchor}" fill="#fff" font-size="10" font-weight="600">${l.countText}</text>`);
+            });
+            html += '<div style="display:flex;flex-direction:column;align-items:center;">';
+            html += `<svg width="200" height="170" viewBox="-25 -30 230 200">${svgParts.join('')}</svg>`;
+            html += '<div style="text-align:center;color:#fff;font-size:12px;font-weight:500;">Escala de Satisfacción</div>';
+          html += '</div>';
           }
-          html += '</table>';
 
-          // ——— Right column: horizontal bars estilo Top3 cards (monocromo tooltip) ———
-          html += '<div style="display:flex;flex-direction:column;justify-content:center;gap:6px;min-width:150px;padding-left:8px;border-left:1px solid rgba(255,255,255,0.2);">';
+          // ——— Right column: horizontal bars ———
+          html += '<div style="display:flex;flex-direction:column;gap:6px;min-width:200px;border-left:1px solid rgba(255,255,255,0.2);padding:0 8px;">';
+          html += '<div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:6px;">';
           const barItems = [
             { label: 'T3B', value: pct },
             { label: 'T2B', value: t2b },
-            { label: 'Pond.', value: pond }
+            { label: 'Ponderado', value: pond }
           ];
           barItems.forEach((item) => {
             const cssVal = String(item.value).replace(',', '.');
             const p = parseFloat(cssVal);
             const outside = p < 12;
             html += '<div style="display:flex;align-items:center;gap:8px;">';
-            html += `<span style="color:#fff;font-size:10px;font-weight:600;width:34px;text-align:right;flex-shrink:0;">${item.label}</span>`;
+            html += `<span style="color:#fff;font-size:10px;font-weight:600;width:60px;text-align:right;flex-shrink:0;">${item.label}</span>`;
             html += '<div style="flex:1;height:18px;background:rgba(255,255,255,0.12);border-radius:4px;overflow:visible;position:relative;">';
             html += `<div style="height:100%;width:${cssVal}%;background:#fff;border-radius:4px;display:flex;align-items:center;justify-content:flex-end;padding-right:4px;transition:width 0.3s;min-width:0;">`;
             if (!outside) {
@@ -396,6 +482,8 @@ window.SurveyRadarChart = (() => {
             html += '</div>';
             html += '</div>';
           });
+          html += '</div>'; // close bars centering container
+          html += '<div style="color:#fff;font-size:12px;font-weight:500;text-align:center;">Top Box y Ponderado</div>';
           html += '</div>'; // close right column
           html += '</div>'; // close flex container
           _ttp.show(e, html, true);
