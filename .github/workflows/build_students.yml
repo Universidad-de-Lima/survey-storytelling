@@ -93,10 +93,25 @@ jobs:
         run: |
           python zoho-survey/scripts/build_json.py
 
+      - name: Setup Pages
+        uses: actions/configure-pages@v6
+
+      - name: Upload artifact (zoho-survey)
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: './zoho-survey'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5
+
       - name: Commit generated JSON
         # Commit robusto: integra cambios remotos con rebase antes de push.
         # [skip ci] evita que el commit del bot dispare un nuevo run del workflow
         # (defensa en profundidad, aunque GITHUB_TOKEN ya no auto-dispara).
+        #
+        # NOTA: este push ocurre DESPUÉS del deploy a Pages para que el cambio
+        # en la rama main no interfiera con el artifact desplegado por Actions.
         run: |
           git config --global user.name "survey-bot"
           git config --global user.email "survey-bot@users.noreply.github.com"
@@ -130,15 +145,3 @@ jobs:
           done
 
           git push origin HEAD:main
-
-      - name: Setup Pages
-        uses: actions/configure-pages@v6
-
-      - name: Upload artifact (zoho-survey)
-        uses: actions/upload-pages-artifact@v5
-        with:
-          path: './zoho-survey'
-
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v5
