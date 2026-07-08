@@ -1,0 +1,81 @@
+{
+  "version": "2.0",
+  "resumen": {
+    "encuestas": 357,
+    "carreras": 9,
+    "facultades": 4,
+    "fecha_inicio": "2026-04-16",
+    "fecha_fin": "2026-07-03",
+    "dias": 79,
+    "dias_recoleccion": 11,
+    "año": 2026,
+    "periodo": "2026",
+    "nps": {
+      "score": 86.27,
+      "promotores": 315,
+      "pasivos": 35,
+      "detractores": 7,
+      "total": 357
+    },
+    "csat": {
+      "score": 98.88,
+      "t3b": 353,
+      "total": 357,
+      "t2b": 290,
+      "t2b_pct": 81.23,
+      "ponderado": 87.2829131652661
+    },
+    "empleabilidad": {
+      "score": 87.39,
+      "empleados": 312,
+      "total": 357
+    }
+  },
+  "hallazgos": {
+    "csat_pct": 98,
+    "nps_score": 86,
+    "nps_tipo": "Excelente",
+    "nps_etapas": {},
+    "tendencia": "se mantiene",
+    "delta": 0,
+    "top_dimensiones": [
+      {
+        "name": "Habilidades para aportar nuevas ideas",
+        "score": 99.72
+      },
+      {
+        "name": "Condiciones ambientales en laboratorios",
+        "score": 99.71
+      }
+    ],
+    "top_facultades": [
+      {
+        "name": "Facultad de Arquitectura",
+        "score": 100.0
+      },
+      {
+        "name": "Facultad de Ingeniería",
+        "score": 99.28
+      }
+    ]
+  },
+  "nps": {
+    "promotores": 315,
+    "pasivos": 35,
+    "detractores": 7,
+    "score": 86.27
+  },
+  "csat": {
+    "Totalmente satisfecho": 201,
+    "Muy satisfecho": 89,
+    "Satisfecho": 63,
+    "Insatisfecho": 4,
+    "Totalmente insatisfecho": 0,
+    "No utilizo": 0,
+    "No conozco": 0
+  },
+  "_export": {
+    "nombre_encuesta": "encuesta_de_satisfacción_graduados_pregrado_2026",
+    "fecha_generacion": "2026-07-08"
+  }
+}
