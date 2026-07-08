@@ -35,7 +35,7 @@ Sistema de dashboards estáticos para visualizar encuestas de satisfacción de l
 | Si necesitas... | Ve a... |
 |---|---|
 | Ver los dashboards | `zoho-survey/` en GitHub Pages |
-| Agregar un nuevo periodo | `data/raw/` → colocar CSV crudo → sanitizar con `scripts/sanitize_csv.py` → CSV sanitizado en `data/` |
+| Agregar un nuevo periodo | `data/` → colocar CSV |
 | Cambiar metas (NPS, CSAT) | `zoho-survey/shared/js/config/constants.js` |
 | Cambiar cómo se clasifican los comentarios | `zoho-survey/scripts/config/alias_aspectos.json` |
 | Ver si todo está bien | `zoho-survey/health.html` en GitHub Pages |
@@ -82,11 +82,6 @@ Sistema de dashboards estáticos para visualizar encuestas de satisfacción de l
 ### 5. "Quiero volver a la versión anterior"
 
 **Solución**: Ver sección "Rollback de Emergencia" en `docs/developer-guide.md`.
-
-### 6. "Error: CSV contiene PII"
-
-**Causa probable**: El CSV subido a `data/` todavía contiene información personal identificable (IP, User Agent).
-**Solución**: Ejecutar `python scripts/sanitize_csv.py` antes de commitear. El CSV crudo con PII debe vivir en `data/raw/` y el CSV sanitizado (sin PII) en `data/`. Ver `data/raw/README.md` para el flujo completo.
 
 ---
 

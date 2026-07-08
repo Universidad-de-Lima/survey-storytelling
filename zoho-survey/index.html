@@ -13,7 +13,6 @@
 <link rel="stylesheet" href="shared/css/loader.css">
 </head>
 <body>
-<a href="#frame-wrap" class="skip-link">Saltar al contenido principal</a>
 <div id="splash">
   <img src="shared/img/logo-vertical.png" alt="Universidad de Lima">
 </div>
@@ -25,14 +24,14 @@
   </div>
 </div>
 
-<header id="topbar" role="banner" aria-label="Barra de navegación de encuestas">
+<header id="topbar">
   <img class="topbar-logo" src="shared/img/logo-horizontal.png" alt="Universidad de Lima">
   <div class="topbar-right">
     <div class="bar-left">
       <span class="survey-label-wrap"><span class="survey-label">ENCUESTA</span></span>
       <div class="survey-tabs" id="survey-tabs"></div>
       <div class="survey-select-wrap">
-        <select class="survey-select" id="survey-select" aria-label="Seleccionar tipo de encuesta"></select>
+        <select class="survey-select" id="survey-select"></select>
         <span class="select-arrow">▾</span>
       </div>
     </div>
@@ -40,7 +39,7 @@
       <span class="period-label">PERIODO</span>
       <div class="pills" id="pills-container"></div>
       <div class="select-wrap">
-        <select class="period-select" id="period-select" aria-label="Seleccionar periodo académico"></select>
+        <select class="period-select" id="period-select"></select>
         <span class="select-arrow">▾</span>
       </div>
     </div>
@@ -48,7 +47,7 @@
 </header>
 
 <div id="frame-wrap">
-  <iframe id="dashboard-frame" title="Dashboard" allowfullscreen sandbox="allow-scripts allow-same-origin allow-downloads allow-modals"></iframe>
+  <iframe id="dashboard-frame" title="Dashboard" allowfullscreen></iframe>
 </div>
 
 <script src="shared/js/utils/dom-helpers.js"></script>

@@ -165,8 +165,8 @@ Cada topico requiere:
 
 Cada `periodo/index.html` debe conservar los IDs consumidos por `dashboard.js`, especialmente:
 
-- `id="cualitativo"`
-- `id="cualitativo-heading"`
+- `id="sentimiento"`
+- `id="sentimiento-heading"`
 
 La etiqueta visible del visual debe ser `Cualitativo` y el titulo debe ser `ANALISIS CUALITATIVO`.
 

@@ -76,4 +76,4 @@ El *Programa de Estudios Generales* utiliza la suma de los ciclos 1° y 2° del 
 ## Invariantes Estructurales
 
 - **IDs de Contrato:** Los IDs de los selectores HTML son un contrato público con `dashboard.js` y no deben renombrarse en los templates de HTML.
-- **Sección `#cualitativo`:** Se mantiene este ID técnico en JS/HTML, aunque la etiqueta visible sea "Cualitativo".
+- **Sección `#sentimiento`:** Se mantiene este ID técnico en JS/HTML por backward compatibility, aunque la etiqueta visible sea "Cualitativo".

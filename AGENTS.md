@@ -19,7 +19,7 @@ Antes de tocar codigo, comprender la arquitectura real (no la documentacion prev
 
 ### ETL Python (`zoho-survey/scripts/`)
 
-- **`build_json.py`** (1173 lineas): orquestador del pipeline CSV → JSON.
+- **`build_json.py`** (~820 lineas): orquestador del pipeline CSV → JSON.
 - **`lib/`** contiene **10 modulos activos** (no 4 como en documentacion previa a v3.0):
   - `config.py` — mapeos de columnas y catalogos de negocio.
   - `metrics.py` — `calc_nps`, `calc_csat` (funciones puras).
@@ -107,8 +107,8 @@ No debe:
 - Sanitizar contenido externo antes de usar `innerHTML` (usar `SurveySanitizer.escapeHTML` o `sanitizeHTML`).
 - Mantener compatibilidad con GitHub Pages y navegadores modernos.
 - No usar inline event handlers (`onmousemove`, `onmouseleave`, etc.) — usar `addEventListener`.
-- No referenciar `cache` desde otros módulos: es una variable local privada en el IIFE de `dashboard.js` (no expuesta en `window`).
-- `SurveyTooltip.move(e)` SÍ existe y está implementada (línea 95 de `tooltip.js`). Se invoca en 4 lugares de `sentiment-view.js`. No eliminar.
+- No referenciar `window.cache` (es privada en el IIFE de `dashboard.js`, siempre undefined).
+- No invocar `SurveyTooltip.move` (no existe; pendiente implementacion o eliminacion de llamadas).
 
 ## Reglas GitHub Actions
 

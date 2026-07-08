@@ -117,9 +117,7 @@ jobs:
           git config --global user.email "survey-bot@users.noreply.github.com"
 
           git add zoho-survey/
-          # CC-04: data/ puede estar vacía si los CSVs crudos están en data/raw/ (gitignored).
-          # Hacer git add no-fatal para que el workflow no falle si no hay CSVs nuevos.
-          git add data/ 2>/dev/null || true
+          git add data/
 
           # Salir limpio si no hay cambios (evita commit vacío)
           if git diff --cached --quiet; then

@@ -28,7 +28,7 @@ Capa de presentacion base. Proporciona el sistema de diseno (CSS), la logica de 
 | `js/utils/metrics.js` | ~60 | `window.SurveyMetrics`: `calcBoxScore`, `calcPromedioPonderado`, `deriveT2B`, `derivePonderado`. Gemelo JS de `lib/metrics.py`. |
 | `js/utils/sanitizer.js` | 55 | `window.SurveySanitizer`: `escapeHTML`, `sanitizeHTML` (whitelist: `br, strong, em, i, span`). |
 | `js/utils/dom-helpers.js` | 95 | `window.SurveyDOMHelpers`: `$`, `esEstudiosGen`, `sumKeys`, `getSelectedValues`, `setSelectedValues`, `formatMultiselectLabel`, placeholders. |
-| `js/components/tooltip.js` | 97 | `window.SurveyTooltip`: `show`, `hide`, `move`, `bindToSegments`. |
+| `js/components/tooltip.js` | 97 | `window.SurveyTooltip`: `show`, `hide`, `bindToSegments`. |
 | `js/components/progress-bar.js` | 77 | `window.SurveyProgressBar.init(options)`: barra de scroll con IntersectionObserver. |
 | `js/components/custom-select.js` | 157 | `window.SurveyCustomSelect.create(sel, onChange)`: selectores desplegables personalizados con ARIA. |
 | `js/components/multiselect.js` | 161 | `window.SurveyMultiselect.create(selCic, onChange, defaultLabel, itemName)`: listas de seleccion multiple. |
@@ -68,13 +68,13 @@ Variables CSS en `tokens.css` (`:root`):
 | `formatters.js` | `window.SurveyFormatters.{formatInteger, formatDecimal, formatPercent, formatPctSimple, formatPctDecimal, formatDate, formatCicloText, cortarTexto, formatDimensionName, formatDimensionNameSVG, formatDimensionNameForAttr}` | Ninguna. Funciones puras. |
 | `sanitizer.js` | `window.SurveySanitizer.{escapeHTML, sanitizeHTML}` | Ninguna. |
 | `dom-helpers.js` | `window.SurveyDOMHelpers.{$, esEstudiosGen, sumKeys, getSelectedValues, setSelectedValues, getPlaceholderText, formatCustomLabel, formatMultiselectLabel}` | Ninguna. Helpers de negocio acceden a `SURVEY_CONFIG` internamente. |
-| `tooltip.js` | `window.SurveyTooltip.{show, hide, move, bindToSegments}` | `SurveySanitizer` (opcional, fallback a escape manual). |
+| `tooltip.js` | `window.SurveyTooltip.{show, hide, bindToSegments}` | `SurveySanitizer` (opcional, fallback a escape manual). |
 | `progress-bar.js` | `window.SurveyProgressBar.init(options)` | Ninguna. |
 | `custom-select.js` | `window.SurveyCustomSelect.create(sel, onChange)` → `{update, close, button, wrapper}` | `SurveyDOMHelpers` (requerida). |
 | `multiselect.js` | `window.SurveyMultiselect.create(selCic, onChange, defaultLabel, itemName)` → wrapper HTMLElement con `.update()` | `SurveyDOMHelpers` (requerida). |
 | `filter-controller.js` | `window.SurveyFilterController.{setup, esEstudiosGen, getCiclosForFiltro}` | `SurveyCustomSelect`, `SurveyMultiselect`, `SurveyDOMHelpers`. |
-| `radar-chart.js` | `window.SurveyRadarChart.{render, dimensionAplica}` | `SurveyFormatters`, `SurveySanitizer`, `SurveyMultiselect`, `SurveyDOMHelpers`, `SURVEY_CONFIG`, `SurveyTooltip` (via `addEventListener`). |
-| `sentiment-view.js` | `window.SurveySentimentView.{init, updateMacro, updateAspectos, updateNpsCarrera, updateDetalle, applyExploradorFilters, renderInsightsIA}` | `SurveyFormatters`, `SurveyDOMHelpers`, `SurveySanitizer`, `SurveyTooltip`, `SurveyCustomSelect`, `SURVEY_CONFIG`. |
+| `radar-chart.js` | `window.SurveyRadarChart.{render, dimensionAplica}` | `SurveyFormatters`, `SurveySanitizer`, `SurveyMultiselect`, `SurveyDOMHelpers`, `SURVEY_CONFIG`, `SurveyTooltip` (via inline handlers). |
+| `sentiment-view.js` | `window.SurveySentimentView.{init, updateMacro, updateAspectos, updateNpsCarrera, updateDetalle, applyExploradorFilters}` | `SurveyFormatters`, `SurveyDOMHelpers`, `SurveySanitizer`, `SurveyTooltip`, `SurveyCustomSelect`, `SURVEY_CONFIG`. |
 | `dashboard.js` | (privado, ejecuta `init()` automaticamente) | Todos los anteriores. |
 | `loader.js` | `window.selectSurvey(id)`, `window.loadPeriod(id)` | `SurveyCustomSelect` (opcional). |
 
@@ -100,7 +100,6 @@ En `template/index.html` y todos los `index.html` de periodo, los scripts deben 
 <script src=".../config/constants.js"></script>
 <!-- 2. Utils (sin dependencias internas) -->
 <script src=".../utils/formatters.js"></script>
-<script src=".../utils/metrics.js"></script>
 <script src=".../utils/sanitizer.js"></script>
 <script src=".../utils/dom-helpers.js"></script>
 <!-- 3. Components simples -->
@@ -115,8 +114,6 @@ En `template/index.html` y todos los `index.html` de periodo, los scripts deben 
 <!-- 5. Orquestador al final -->
 <script src=".../dashboard.js"></script>
 ```
-
-> **Orden de carga:** 13 scripts en total (1 config + 4 utils + 2 components simples + 5 components con dependencias + 1 orquestador).
 
 > **Advertencia critica:** `dom-helpers.js` debe cargarse **siempre antes** que `custom-select.js` y `multiselect.js`. Sin esto, `window.SurveyDOMHelpers` es undefined al evaluar el IIFE de custom-select y cualquier interaccion falla con `TypeError`.
 
@@ -141,16 +138,18 @@ Constantes en `config/constants.js` (`window.SURVEY_CONFIG`):
 
 ## Technical Debt
 
-- **6 de 14 modulos JS sin tests**: tienen cobertura `constants.js`, `formatters.js`, `metrics.js`, `sanitizer.js`, `dom-helpers.js`, `sentiment-view.js` (parcial), `filter-controller.js` y `loader.js` (142 tests en 9 archivos, ampliado desde v3.1.0). Pendientes: `tooltip.js`, `progress-bar.js`, `custom-select.js`, `multiselect.js`, `radar-chart.js`, `dashboard.js`.
+- **7 de 14 modulos JS sin tests**: solo `constants.js`, `formatters.js`, `metrics.js`, `sanitizer.js`, `dom-helpers.js`, `tooltip.js`, `progress-bar.js` tienen tests (91 tests en 9 archivos, ampliado desde v3.1.0).
 - **No hay sistema de modulos**: usa IIFE + closures en lugar de ES modules o bundler. El orden de carga es critico.
 - **Custom select dropdowns**: implementacion manual (~200 lineas entre custom-select.js y multiselect.js). Posible fuente de bugs cross-browser.
-- **`window.cache`** (investigado): se revisó la referencia reportada en `sentiment-view.js` y se confirmó que **no existe tal referencia muerta**. Lo que sí existe es un parámetro muerto (`cache`) en `renderMetricCards`, ya documentado en su firma. `cache` es una variable local privada en el IIFE de `dashboard.js` (no expuesta en `window`).
+- **Referencia muerta `window.cache`** en `sentiment-view.js`: `cache` es privada en el IIFE de `dashboard.js`, siempre undefined.
 - **CSS muerto**: ~50 lineas en `components.css` (`.doughnut-segment`, `.category-row`, `.cualitativo-layout`) no referenciadas en JS actual.
 - **Dashboard sin tests**: `dashboard.js` (1015 líneas) y `sentiment-view.js` (888 líneas) no tienen tests unitarios.
 
 ## Improvement Opportunities
 
 - Migrar a ES modules (`<script type="module">`) para eliminar dependencia de orden de carga.
+- Implementar boundary detection y `move()` en `tooltip.js` (actualmente invocado pero no definido).
+- Agregar tests con jsdom para `dashboard.js`, `filter-controller`, `radar-chart`, `sentiment-view`.
 - Implementar carga lazy de JSON por seccion.
 
 ## AI Agent Notes
@@ -161,5 +160,5 @@ Constantes en `config/constants.js` (`window.SURVEY_CONFIG`):
 - `dashboard.js` espera que los `<select>` tengan atributo `data-multiselect="true"` para activar el dropdown multiselect.
 - La seccion cualitativa usa `id="cualitativo"` y `id="cualitativo-heading"` como IDs tecnicos aunque la etiqueta visible sea "Cualitativo" y "ANALISIS CUALITATIVO".
 - `#progress-fill` es requerido para la barra de progreso de scroll.
-- No cambiar el nombre de las funciones `window.selectSurvey` y `window.loadPeriod` — son invocadas desde `loader.js` vía `addEventListener` (no hay inline handlers en el HTML).
-- `showTooltip` y `hideTooltip` NO existen como funciones globales; usar `window.SurveyTooltip.show(event, content, raw)` y `window.SurveyTooltip.hide()`.
+- No cambiar el nombre de las funciones `window.selectSurvey` y `window.loadPeriod` — son llamadas desde HTML inline.
+- `showTooltip` y `hideTooltip` NO existen como funciones globales; usar `window.SurveyTooltip.show(content, event)` y `window.SurveyTooltip.hide()`.

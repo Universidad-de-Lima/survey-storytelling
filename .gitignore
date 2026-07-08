@@ -37,15 +37,4 @@ package-lock.json
 ~/.cache/huggingface/
 ~/.cache/spacy/
 
-# TestSprite overlay (eliminado del proyecto - no es parte del core)
-testsprite_tests/
-
-# Caché IA (vive en GitHub Actions cache, no en el repo)
-zoho-survey/scripts/ia_cache.json
-zoho-survey/scripts/ia_cache_validacion.json
-
-# CSVs crudos con PII (sanitizados antes de commitear)
-data/raw/
-
-# Artefactos de build generados por el ETL
-*.csv_hash
+testsprite_tests\tmp\config.json

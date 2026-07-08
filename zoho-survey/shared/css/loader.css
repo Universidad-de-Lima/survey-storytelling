@@ -634,36 +634,3 @@
       font-size: var(--text-sm);
     }
   }
-
-  /* ── Accesibilidad: focus-visible para navegación por teclado ── */
-  /* Restaura outline visible para usuarios de teclado en elementos */
-  /* que tienen outline: none en sus reglas base (UX-04) */
-  .survey-tab:focus-visible,
-  .pill:focus-visible,
-  .survey-more-btn:focus-visible,
-  .survey-select:focus-visible,
-  .period-select:focus-visible,
-  .filter-custom-toggle:focus-visible,
-  .survey-more-item:focus-visible {
-    outline: var(--focus-outline, 2px solid #F37021);
-    outline-offset: var(--focus-outline-offset, 2px);
-  }
-
-  /* Skip-link: visible solo al recibir foco por teclado (UX-06) */
-  .skip-link {
-    position: absolute;
-    top: -100px;
-    left: 0;
-    background: var(--ulima-orange, #F37021);
-    color: var(--white, #fff);
-    padding: 8px 16px;
-    z-index: 99999;
-    text-decoration: none;
-    font-weight: 500;
-    border-radius: 0 0 var(--radius-sm, 4px) 0;
-    transition: top 0.2s ease;
-  }
-
-  .skip-link:focus {
-    top: 0;
-  }
