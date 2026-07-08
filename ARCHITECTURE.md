@@ -240,9 +240,9 @@ Los modulos usan IIFE y exponen APIs globales `window.Survey*`. No usan ES Modul
 
 ### Orden de carga de scripts
 
-El orden de carga en `template/index.html` (12 scripts) es critico y debe respetarse:
+El orden de carga en `template/index.html` (13 scripts) es critico y debe respetarse:
 
-1. `config/constants.js` → 2. `utils/formatters.js` → 3. `utils/sanitizer.js` → 4. `utils/dom-helpers.js` → 5. `components/tooltip.js` → 6. `components/progress-bar.js` → 7. `components/custom-select.js` → 8. `components/multiselect.js` → 9. `components/filter-controller.js` → 10. `components/radar-chart.js` → 11. `components/sentiment-view.js` → 12. `dashboard.js`.
+1. `config/constants.js` → 2. `utils/formatters.js` → 3. `utils/metrics.js` → 4. `utils/sanitizer.js` → 5. `utils/dom-helpers.js` → 6. `components/tooltip.js` → 7. `components/progress-bar.js` → 8. `components/custom-select.js` → 9. `components/multiselect.js` → 10. `components/filter-controller.js` → 11. `components/radar-chart.js` → 12. `components/sentiment-view.js` → 13. `dashboard.js`.
 
 > **Advertencia:** `dom-helpers.js` debe cargarse **siempre antes** que `custom-select.js` para evitar errores `TypeError: window.SurveyDomHelpers is undefined` que bloqueen el loader del portal. El `index.html` del loader carga 3 scripts en orden: `dom-helpers.js` → `custom-select.js` → `loader.js`.
 
@@ -270,7 +270,7 @@ El orden de carga en `template/index.html` (12 scripts) es critico y debe respet
 ## Seguridad
 
 - Cualquier contenido externo usado en HTML debe pasar por `escapeHTML()` o `sanitizeHTML()`.
-- `sanitizeHTML()` permite solo una lista reducida de etiquetas necesarias para tooltips y textos enriquecidos (`br, strong, em, i, span`).
+- `sanitizeHTML()` permite solo una lista reducida de etiquetas necesarias para tooltips y textos enriquecidos (`br, strong, em, i, span, table, tr, td, th` — 9 tags).
 - No introducir dependencias runtime para sanitizacion sin justificar el costo operacional.
 
 
@@ -280,11 +280,20 @@ El orden de carga en `template/index.html` (12 scripts) es critico y debe respet
 - `nps_carrera.json` y `csat_carrera.json` son legacy; el frontend usa las versiones `_ciclo_carrera` para encuestas segmentadas por ciclos (`has_ciclo=true`), pero conserva ambos archivos como origen obligatorio de carga para encuestas sin ciclo (`has_ciclo=false`), como la de Graduados.
 - `posgraduate/` existe como placeholder sin datos procesados.
 - El template `zoho-survey/template/index.html` no tiene version de contrato propia.
-- `lib/nlp.py` contiene codigo de `agrupar_comentarios_por_topico` (ELIMINADO en limpieza post-Fase 1).
-- `lib/config.py` define `TOPICOS` y `STOPWORDS` (ELIMINADOS en limpieza post-Fase 1).
-- `lib/segmentacion_nps.py:181` contiene un `print()` de depuracion activo.
 - Coexistencia de dos motores cualitativos (legacy + IA) — evaluar deprecacion del legacy si la validacion empirica en Fase 3 muestra accuracy IA >80% en sentimiento y >60% en taxonomia.
 - `ALIAS_DICT_MANUAL` extraido a `config/alias_aspectos.json` (Fase 1). Mantener sincronizados ambos si se añaden nuevas dimensiones.
+
+### Deuda tecnica resuelta (Fase 1 — 2026-07-08)
+
+- ~~`lib/nlp.py` contiene codigo de `agrupar_comentarios_por_topico`~~ → **ELIMINADO** en limpieza post-Fase 1.
+- ~~`lib/config.py` define `TOPICOS` y `STOPWORDS`~~ → **ELIMINADOS** en limpieza post-Fase 1.
+- ~~`lib/segmentacion_nps.py:181` contiene un `print()` de depuracion activo~~ → **FALSO**: la linea 181 es `return result`. No hay prints de depuracion en el modulo.
+- ~~`testsprite_tests/` overlay externo con API key expuesta~~ → **ELIMINADO** completamente (ver ADR-0001).
+- ~~`_export.fecha_generacion` rompia idempotencia del ETL~~ → **ELIMINADO** (ARQ-02).
+- ~~`IA_CUALITATIVO_MODE` definido pero no consumido~~ → **IMPLEMENTADO** con 3 modos: auto/ia/legacy (ARQ-01).
+- ~~`alert()` en `sentiment-view.js:716`~~ → **REEMPLAZADO** por toast notification (UX-02).
+- ~~Iframe del loader sin `sandbox`~~ → **AÑADIDO** `sandbox="allow-scripts allow-same-origin allow-downloads allow-modals"` (CC-05).
+- ~~`CACHE_BUST` en `dashboard.js`~~ → Pendiente para Fase 3 (PERF-02).
 
 ## Convenciones
 

@@ -697,11 +697,14 @@ def main() -> None:
             detractores_total=detractores_total,
             serie_csat=serie_csat,
         )
-        # Nombre sanitizado del CSV fuente para exportaciones
-        dashboard_data["_export"] = {
-            "nombre_encuesta": _sanitizar_nombre_csv(csv_file.name),
-            "fecha_generacion": pd.Timestamp.now().strftime("%Y-%m-%d")
-        }
+        # Nombre sanitizado del CSV fuente para exportaciones.
+        # ARQ-02: fecha_generacion eliminado para restaurar idempotencia del ETL.
+        # UX-01: _export solo se incluye si hay comentarios (y por tanto se generará ZIP).
+        _tiene_comentarios = "Comentario NPS" in df.columns
+        if _tiene_comentarios:
+            dashboard_data["_export"] = {
+                "nombre_encuesta": _sanitizar_nombre_csv(csv_file.name)
+            }
         with open(ruta_salida / "dashboard_data.json", "w", encoding="utf-8") as f:
             json.dump(dashboard_data, f, ensure_ascii=False, indent=2)
 
@@ -756,16 +759,36 @@ def main() -> None:
 
             # ================================================================
             # ANALISIS CUALITATIVO CON IA (DeepSeek) - Fase IA
-            # Configuración centralizada en lib/config.py → IA_CUALITATIVO_MODE.
-            # Activar con: DEEPSEEK_API_KEY en entorno (GitHub Actions Secret).
-            # Forzar legacy: IA_CUALITATIVO_FALLBACK=1 o IA_CUALITATIVO_MODE="legacy".
-            # Fallback automatico al pipeline legacy si la key no esta.
+            # ARQ-01: Selección de motor controlada por IA_CUALITATIVO_MODE.
+            #   "auto" (default): IA si DEEPSEEK_API_KEY presente y FALLBACK != "1"; sino legacy.
+            #   "ia": forzar IA. Falla si no hay DEEPSEEK_API_KEY.
+            #   "legacy": forzar legacy. Ignora DEEPSEEK_API_KEY y FALLBACK.
             # ================================================================
             import os as _os
-            _use_ia_cualitativo = bool(_os.environ.get("DEEPSEEK_API_KEY", "")) and _os.environ.get("IA_CUALITATIVO_FALLBACK", "0") != "1"
+            from lib.config import IA_CUALITATIVO_MODE as _IA_MODE
+
+            _deepseek_key = _os.environ.get("DEEPSEEK_API_KEY", "")
+            _fallback_flag = _os.environ.get("IA_CUALITATIVO_FALLBACK", "0") == "1"
+
+            if _IA_MODE == "legacy":
+                _use_ia_cualitativo = False
+                logging.info("Modo IA Cualitativo: LEGACY forzado por IA_CUALITATIVO_MODE.")
+            elif _IA_MODE == "ia":
+                if not _deepseek_key:
+                    raise RuntimeError(
+                        "IA_CUALITATIVO_MODE='ia' requiere DEEPSEEK_API_KEY. "
+                        "Configure la variable de entorno o use IA_CUALITATIVO_MODE='auto'."
+                    )
+                _use_ia_cualitativo = True
+                logging.info("Modo IA Cualitativo: IA forzado por IA_CUALITATIVO_MODE.")
+            else:  # "auto" o cualquier otro valor
+                _use_ia_cualitativo = bool(_deepseek_key) and not _fallback_flag
+                if _use_ia_cualitativo:
+                    logging.info("Modo IA Cualitativo ACTIVADO (DeepSeek). Pipeline legacy omitido.")
+                else:
+                    logging.info("Modo IA Cualitativo: LEGACY (auto).")
             
             if _use_ia_cualitativo:
-                logging.info("Modo IA Cualitativo ACTIVADO (DeepSeek). Pipeline legacy omitido.")
                 from lib.config import CATEGORIA_DIMENSION_PREGRADO as _TAX, DIMENSIONES_SIN_CSAT
                 from lib.ia_cualitativo import generar_salidas_cualitativas_ia
             

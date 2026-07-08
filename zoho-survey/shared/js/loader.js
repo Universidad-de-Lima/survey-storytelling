@@ -26,6 +26,30 @@
   let PERIODS = [];
   let _initializing = true;
 
+  // ── Validación de URL para prevenir cargas maliciosas en el iframe ──
+  // Solo se permiten URLs relativas del mismo origen (sin esquema http/https/javascript/data).
+  // Rechaza path traversal (..) y esquemas peligrosos.
+  function _isSafeUrl(url) {
+    if (typeof url !== 'string' || !url) return false;
+    // Rechazar esquemas absolutos (http://, https://, //, javascript:, data:, blob:, etc.)
+    if (/^(https?:)?\/\//i.test(url)) return false;
+    if (/^(javascript|data|blob|file|vbscript):/i.test(url)) return false;
+    // Rechazar path traversal
+    if (/\.\./.test(url)) return false;
+    // Debe ser una ruta relativa que empiece con letra, guion o punto
+    if (!/^[a-zA-Z0-9._\-\/]+$/.test(url)) return false;
+    return true;
+  }
+
+  function _setFrameSrc(url) {
+    if (!_isSafeUrl(url)) {
+      console.warn('URL rechazada por validación de seguridad:', url);
+      frame.src = LOADER_CONFIG.FALLBACK_PAGE;
+      return;
+    }
+    frame.src = url;
+  }
+
   const tabsEl = document.getElementById('survey-tabs');
   const surveySelect = document.getElementById('survey-select');
   const pillsEl = document.getElementById('pills-container');
@@ -300,7 +324,7 @@
       showLoaderError(`Sin datos para ${survey.label}`, err);
       periodBar.classList.remove('visible');
       // Load "en construcción" page
-      frame.src = LOADER_CONFIG.FALLBACK_PAGE;
+      _setFrameSrc(LOADER_CONFIG.FALLBACK_PAGE);
       overlay?.classList.remove('show');
       frame.classList.add('loaded');
       return;
@@ -382,7 +406,7 @@
     ovMsg.textContent = `Cargando ${p.label}...`;
     overlay?.classList.add('show');
     frame?.classList.remove('loaded');
-    frame.src = p.url;
+    _setFrameSrc(p.url);
   }
 
   periodSelect?.addEventListener('change', (e) => loadPeriod(e.target.value));

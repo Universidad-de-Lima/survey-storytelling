@@ -10,7 +10,7 @@ Los contratos formales de tipos viven en `schemas/*.schema.json` (JSON Schema Dr
 
 ## Key Files
 
-### `build_json.py` (~820 lineas)
+### `build_json.py` (1173 lineas)
 
 **Purpose**: Transforma archivos CSV exportados de Zoho Survey en contratos JSON para cada periodo academico.
 
@@ -107,14 +107,14 @@ sentimiento.json v3.0
 
 | Modulo | Lineas | Responsabilidad | Estado |
 | --- | --- | --- | --- |
-| `config.py` | 405 | Mapeos de columnas, catalogos de negocio, `SENTIMENT_CONFIDENCE_THRESHOLD` (Fase 7). Topicos y stopwords marcados DEPRECATED. | Activo. |
+| `config.py` | 356 | Mapeos de columnas, catalogos de negocio, `SENTIMENT_CONFIDENCE_THRESHOLD` (Fase 7). | Activo. |
 | `metrics.py` | 26 | `calc_nps(p, pa, d)` y `calc_csat(t3b, total)`. Funciones puras. | Activo. |
 | `io_helper.py` | 81 | `load_json` (BOM-safe), `read_csv_robust` (UTF-8 con fallback latin-1), `normalize_dates`. | Activo. |
-| `nlp.py` | 457 | `sanitizar_comentario` (activo) + `agrupar_comentarios_por_topico` (267 lineas, **DEPRECATED**: no se invoca desde v3.0). | Parcialmente obsoleto. |
+| `nlp.py` | 156 | `sanitizar_comentario` (activo). | Activo. |
 | `segmentacion_nps.py` | 322 | Fragmentacion de comentarios NPS en Meaning Units con spaCy. | Activo. |
 | `aspect_extraction.py` | 260 | Extraccion de aspecto literal (spaCy noun chunks) + normalizacion a dimension oficial via alias + embeddings. | Activo. |
 | `sentiment_engine.py` | 165 | Clasificacion hibrida sentimiento + intensidad (1-5) con calibracion Fase 7 (umbral confianza 0.4). | Activo. |
-| `insights_generator.py` | 200 | **Fase 8**: Genera `insights_ia` (síntesis narrativa determinista) a partir de datos del ETL. NO usa LLM. | Activo. |
+| `insights_generator.py` | 262 | **Fase 8**: Genera `insights_ia` (síntesis narrativa determinista) a partir de datos del ETL. NO usa LLM. | Activo. |
 
 ### `schemas/` (7 JSON Schemas Draft-07)
 
@@ -124,7 +124,7 @@ Fuente formal de tipos. Cargados por `validate_generated_json.py`.
 
 Lista de 24 stopwords para extraccion de aspectos (consumido por `aspect_extraction.py`).
 
-### `tests/` (9 suites Python, 149 tests)
+### `tests/` (12 archivos de tests Python, 185 funciones test_*)
 
 - `test_sentiment_engine.py` (11 tests, unittest + mocking para modelo funcional)
 - `test_segmentacion.py` (9 tests, unittest)
@@ -179,8 +179,6 @@ python -m unittest discover tests/
 | `CATEGORIA_DIMENSION_GRADUADO` | Dict[str, str] | 6 categorias: agrega Docencia y Desarrollo Profesional. |
 | `RESPUESTAS_TEXTO` | List[str] | 7 valores Zoho Survey (5 SAT + "No utilizo" + "No conozco"). |
 | `ETAPA_MAP` | Dict[int, str] | Ciclos 1-2 Inicial, 3-5 Intermedio, 6-12 Avanzado. |
-| `TOPICOS` | Dict[str, any] | 8 topicos con palabras, tipo, icono. **DEPRECATED: no usado en modulos activos.** |
-| `STOPWORDS` | Set[str] | ~90 stopwords en español. **DEPRECATED: importado en nlp.py pero no usado.** |
 | `EMPLEABILIDAD_CATEGORIAS` | List[str] | 4 categorias de empleado. |
 | `SENTIMENT_CONFIDENCE_THRESHOLD` | float | **Fase 7**: Umbral de confianza del motor de sentimiento (0.4 por defecto). Si confianza < umbral, fuerza neutro. |
 
@@ -191,7 +189,6 @@ python -m unittest discover tests/
 - **Acoplamiento a nombres de columna Zoho**: cualquier cambio en nombres de columna de Zoho Survey rompe el pipeline. No hay paso de validacion temprana.
 - **Generacion legacy**: `nps_carrera.json` y `csat_carrera.json` se siguen generando aunque son legacy.
 - **No hay procesamiento incremental**: rebuilds all periods on every run, even if only one CSV changed.
-- **Codigo DEPRECATED en nlp.py**: `agrupar_comentarios_por_topico` (267 lineas) marcado DEPRECATED, no se invoca desde v3.0.
 - **Auto-download de spaCy eliminado (Fase 6)**: `aspect_extraction.py` y `sentiment_engine.py` ya NO llaman `spacy.cli.download()` en runtime. El modelo `es_core_news_sm` debe instalarse explícitamente vía `python -m spacy download es_core_news_sm` (documentado en `requirements.txt` y CI). Si no está disponible, los módulos fallan explícitamente con `OSError` en lugar de intentar descarga silenciosa.
 - **Idempotencia edge case**: si el CSV no tiene fechas validas, `build_json.py` usa `pd.Timestamp.now()` como fallback, rompiendo idempotencia teorica.
 - **Pendiente de Clasificación**: ~33% de comentarios caen en "Pendiente de Clasificación". Fase 10.1 agregó 12 alias (estacionamiento, baños, edificio, espacios, ppt, maquetas) recuperando ~107 comentarios. El resto son comentarios ambiguos (75%) o fragmentos cortos (17%) no recuperables sin LLM.
@@ -202,8 +199,8 @@ python -m unittest discover tests/
 - **Formato de filename CSV**: debe contener `ENCUESTA` y un patron de periodo `(20\d{2}(?:-[12])?)`. El nivel se detecta por substrings: `NO DOCENTES`, `EMPLEADORES`, `EGRESADOS`, `DOCENTES`, `GRADUADOS`, `ESTUDIANTIL|ESTUDIANTES`.
 - **Nuevo periodo template**: si `index.html` no existe para un periodo, `build_json.py` lo copia desde `template/` con `{{SHARED_PATH}}` reemplazado. Para actualizar todos los periodos, eliminar y regenerar.
 - **`periodos.json` automatico**: el script actualiza `periodos.json` despues de procesar, marcando el ultimo periodo cronologico como `isNew: true`.
-- **Cuando agregar nuevos topicos**: ya NO se usa `TOPICOS` en config.py. El motor moderno usa `ALIAS_DICT_MANUAL` en `aspect_extraction.py`. Para agregar un nuevo aspecto, editar ese diccionario.
+- **Cuando agregar nuevos aspectos**: el motor moderno usa `ALIAS_DICT_MANUAL` en `aspect_extraction.py` (y `config/alias_aspectos.json` como fuente canónica desde Fase 1). Para agregar un nuevo aspecto, editar esos archivos.
 - **Convencion de claves**: NPS en minusculas (`promotores, pasivos, detractores`); CSAT capitalizado (`Totalmente satisfecho`, etc.). Ver `CONTRACTS.md`.
 - **Schemas como fuente de verdad**: antes de modificar la estructura de cualquier JSON, actualizar el schema correspondiente en `schemas/` y el validador en el mismo PR.
 - **insights_generator.py (Fase 8)**: genera `insights_ia` determinista (sin LLM). NO clasifica sentimiento ni aspectos; solo sintetiza texto a partir de datos ya procesados. Excluye "Pendiente de Clasificación" de temas relevantes.
-- **Tests en CI**: los tests Python y JS se ejecutan automaticamente en cada PR via `.github/workflows/tests.yml`. Cualquier cambio debe pasar los 149 tests Python + 91 tests JS.
+- **Tests en CI**: los tests Python y JS se ejecutan automaticamente en cada PR via `.github/workflows/tests.yml`. Cualquier cambio debe pasar los 185 tests Python + 142 tests JS.

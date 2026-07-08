@@ -50,17 +50,18 @@ Antes de realizar cambios, familiarízate con los siguientes documentos según t
 1. Edita el objeto correspondiente en [zoho-survey/shared/js/config/constants.js](file:///q:/ANALISTA%20DE%20DATOS/6.%20Encuesta%20de%20Satisfacci%C3%B3n/6.11%20GitHub/survey-storytelling/zoho-survey/shared/js/config/constants.js).
 2. Valida visualmente los cambios levantando el servidor local (`npm start`).
 
-### 2. Agregar un Tópico Semántico para NPS
-1. Edita el diccionario `TOPICOS` en [zoho-survey/scripts/lib/config.py](file:///q:/ANALISTA%20DE%20DATOS/6.%20Encuesta%20de%20Satisfacci%C3%B3n/6.11%20GitHub/survey-storytelling/zoho-survey/scripts/lib/config.py) agregando las palabras clave, tipo de sentimiento e ícono.
+### 2. Agregar un Aspecto Semántico para NPS
+1. Edita el archivo `zoho-survey/scripts/config/alias_aspectos.json` agregando los alias bajo la dimensión correspondiente.
 2. Regenera los JSONs ejecutando `npm run build:json`.
 3. Valida la estructura ejecutando `npm run validate:json`.
 
 ### 3. Agregar un Nuevo Periodo de Encuesta (Ingesta de Datos)
-1. Coloca el archivo CSV exportado desde Zoho Survey en la carpeta `data/`.
+1. Coloca el archivo CSV exportado desde Zoho Survey en la carpeta `data/raw/` (CSV crudo con PII).
 2. Asegúrate de que el nombre del archivo contenga el año/periodo (ej. `ENCUESTA_PREGRADO_2026-1.csv`).
-3. Ejecuta `npm run build:json` desde la raíz para generar los archivos JSON de datos y actualizar automáticamente `periodos.json`.
-4. Ejecuta `npm run validate:json` para comprobar que las salidas cumplan los contratos estructurales.
-5. Inicia el servidor (`npm start`), abre `http://localhost:8080/zoho-survey/` en tu navegador y valida que el nuevo periodo cargue correctamente en la barra superior.
+3. **Sanitiza el CSV** con `python scripts/sanitize_csv.py` para eliminar PII (IP, User Agent). El CSV sanitizado se coloca en `data/`. Ver `data/raw/README.md` para el flujo completo.
+4. Ejecuta `npm run build:json` desde la raíz para generar los archivos JSON de datos y actualizar automáticamente `periodos.json`.
+5. Ejecuta `npm run validate:json` para comprobar que las salidas cumplan los contratos estructurales.
+6. Inicia el servidor (`npm start`), abre `http://localhost:8080/zoho-survey/` en tu navegador y valida que el nuevo periodo cargue correctamente en la barra superior.
 
 ### 4. Probar y Crear Utilidades JavaScript
 Para detalles de adición y ejecución de pruebas unitarias, consulta [tests/README.md](file:///q:/ANALISTA%20DE%20DATOS/6.%20Encuesta%20de%20Satisfacci%C3%B3n/6.11%20GitHub/survey-storytelling/tests/README.md).
@@ -79,7 +80,7 @@ Para detalles de adición y ejecución de pruebas unitarias, consulta [tests/REA
 
 ## Configuración del Motor Cualitativo
 
-El sistema soporta dos motores de análisis cualitativo, controlados desde `lib/config.py`:
+El sistema soporta dos motores de análisis cualitativo (IA DeepSeek y Legacy spaCy+embeddings) seleccionables mediante **3 modos** controlados desde `lib/config.py` (`IA_CUALITATIVO_MODE`) y variables de entorno:
 
 | Variable | Valores | Efecto |
 |---|---|---|
@@ -91,7 +92,7 @@ El sistema soporta dos motores de análisis cualitativo, controlados desde `lib/
 
 **Motor IA (DeepSeek)** — activo en producción desde Fase IA:
 - Una sola llamada API ejecuta 5 tareas: segmentación → sentimiento con reglas NPS → intensidad → clasificación taxonómica → cross-reference CSAT.
-- Caché persistente en `ia_cache.json` (hash SHA256 de comentario + contexto + prompt version).
+- Caché persistente en `ia_cache.json` (hash SHA256 de comentario + contexto + prompt version). **El caché IA (`ia_cache.json`) NO se commitea al repositorio.** Vive en GitHub Actions cache y se restaura automáticamente en cada build.
 - Rate limit: 60 RPM, 15 workers concurrentes. Timeout: 60s por llamada.
 - Costo estimado: ~$0.50 por build completo, ~$0.05 con caché.
 

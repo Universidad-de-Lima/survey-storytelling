@@ -709,15 +709,33 @@ window.SurveySentimentView = (() => {
     }
   }
 
+  // UX-02: Toast notification (reemplaza alert())
+  function _showToast(message, type = 'info') {
+    let toast = document.getElementById('survey-toast');
+    if (!toast) {
+      toast = document.createElement('div');
+      toast.id = 'survey-toast';
+      toast.setAttribute('role', 'status');
+      toast.setAttribute('aria-live', 'polite');
+      document.body.appendChild(toast);
+    }
+    toast.textContent = message;
+    toast.className = `survey-toast survey-toast--${type} survey-toast--show`;
+    clearTimeout(toast._timeoutId);
+    toast._timeoutId = setTimeout(() => {
+      toast.className = toast.className.replace('survey-toast--show', '');
+    }, 4000);
+  }
+
   // Export: descarga el ZIP pre-generado por el ETL
   function exportCSV() {
     const exp = state.exportConfig;
-    if (!exp || !exp.nombre_encuesta || !exp.fecha_generacion) {
-      // Fallback: si no hay config, intentar descarga directa del ZIP estático
-      alert('La exportación ZIP no está disponible para este período.');
+    // ARQ-02: fecha_generacion eliminado; solo se necesita nombre_encuesta
+    if (!exp || !exp.nombre_encuesta) {
+      _showToast('La exportación CSV no está disponible para este período.', 'warning');
       return;
     }
-    const zipName = `data_${exp.nombre_encuesta}_${exp.fecha_generacion}.zip`;
+    const zipName = `data_${exp.nombre_encuesta}.zip`;
     const zipUrl = `./json/${zipName}`;
     const link = document.createElement('a');
     link.setAttribute('href', zipUrl);
@@ -836,8 +854,17 @@ window.SurveySentimentView = (() => {
 
     const kpiGrid = $('sentiment-kpis');
     if (kpiGrid && (!sentimientoData.topicos || !sentimientoData.topicos.length)) {
-      kpiGrid.innerHTML = `<p style="color:var(--gray-500);font-size:13px;padding:20px 0;">
-        No hay datos de análisis semántico disponibles para este período.</p>`;
+      // UX-03: Mensaje informativo cuando no hay comentarios NPS para el periodo
+      const totalEncuestados = totalRespuestasGlobal || 0;
+      const nota = sentimientoData.resumen?.nota || '';
+      kpiGrid.innerHTML = `<div style="color:var(--gray-500);font-size:14px;padding:24px 0;line-height:1.6;">
+        <p style="font-weight:500;margin-bottom:8px;color:var(--gray-700);">
+          No hay comentarios NPS disponibles para este período.
+        </p>
+        <p>De ${totalEncuestados} encuestados, ninguno dejó un comentario en la pregunta abierta del NPS,
+        por lo que no fue posible realizar el análisis cualitativo.</p>
+        ${nota ? `<p style="margin-top:8px;font-size:12px;color:var(--gray-400);">${nota}</p>` : ''}
+      </div>`;
     }
 
     // Renderizar insights IA (Fase 8)

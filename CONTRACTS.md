@@ -260,6 +260,17 @@ Campos opcionales adicionales en comentarios (producidos por el ETL):
 - Los JSON generados no deben modificarse manualmente.
 - Cambios incompatibles requieren actualizar el ETL, schemas, validador, frontend y este documento en el mismo PR.
 
+## Artefactos generados adicionales
+
+Además de los 11 JSONs por periodo, el ETL genera los siguientes artefactos:
+
+| Artefacto | Ubicación | Descripción |
+|---|---|---|
+| `.csv_hash` | `{level}/{period}/json/.csv_hash` | Hash SHA-256 del CSV fuente. Usado para skip optimization: si el hash coincide y los JSONs existen, se omite el reprocesamiento. No tiene schema formal. |
+| `data_*.zip` | `{level}/{period}/json/data_{nombre_encuesta}.zip` | ZIP con 2 CSVs sanitizados (sin PII): `analisis_cualitativo_*.csv` y `{nombre_encuesta}.csv`. Descargable desde el frontend vía botón export. |
+| `_export` | Campo en `dashboard_data.json` | Objeto con `nombre_encuesta` (nombre sanitizado del CSV). Usado por el frontend para construir la URL del ZIP. Solo se incluye si hay comentarios NPS en el CSV. |
+| `ia_cache.json` | `zoho-survey/scripts/ia_cache.json` | Caché persistente de resultados DeepSeek. NO se commitea al repositorio (vive en GitHub Actions cache). Key: hash SHA-256 de comentario + NPS + CSAT + prompt_version. |
+
 ## Deuda Tecnica De Contratos
 
 - `nps_carrera.json` y `csat_carrera.json` siguen como legacy (fallback de carga síncrona en encuestas sin ciclos).

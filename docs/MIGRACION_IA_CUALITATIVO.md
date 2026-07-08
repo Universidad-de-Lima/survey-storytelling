@@ -150,6 +150,8 @@ zoho-survey/scripts/lib/prompts_cualitativo.py
 
 Ambos deben mantenerse sincronizados. El playground sirve para verificar los prompts en vivo antes de desplegarlos al pipeline.
 
+**NOTA:** El playground Next.js mencionado en esta sección no está incluido en el repositorio. Las referencias a archivos bajo `/home/z/my-project/src/` corresponden a un entorno de desarrollo externo. Los prompts canónicos viven exclusivamente en `zoho-survey/scripts/lib/prompts_cualitativo.py`.
+
 ### 4.2 Estructura del system prompt (~18,300 caracteres, ~2,200 palabras)
 
 El system prompt se construye con `build_system_prompt(taxonomia, categorias_padre)` y contiene:
@@ -230,7 +232,7 @@ Campos nuevos vs pipeline legacy:
 {
   "model": "deepseek-v4-flash",        # V4 Flash, fast + cheap, ideal para structured output
   "temperature": 0.1,              # bajísima para determinismo
-  "max_tokens": 2000,              # suficiente para 8 unidades
+  "max_tokens": 10000,             # suficiente para 8 unidades
   "response_format": {"type": "json_object"},  # JSON mode garantizado
   "stream": false
 }
@@ -270,6 +272,8 @@ En `/home/z/my-project/` (sandbox de desarrollo, NO parte del repo survey-storyt
 | `src/components/qualitative/*.tsx` | `NpsSlider`, `CsatDimensionSelector`, `UnidadCard`, `PromptViewer`. |
 
 El playground permite pegar tu API key de DeepSeek, cargar ejemplos calibrados, y ver la salida JSON visualizada antes de desplegar al pipeline.
+
+**NOTA:** El playground Next.js mencionado en esta sección no está incluido en el repositorio. Las referencias a archivos bajo `/home/z/my-project/src/` corresponden a un entorno de desarrollo externo. Los prompts canónicos viven exclusivamente en `zoho-survey/scripts/lib/prompts_cualitativo.py`.
 
 ---
 
@@ -343,12 +347,12 @@ python zoho-survey/scripts/validar_ia_vs_manual.py \
 | Riesgo | Probabilidad | Impacto | Mitigación |
 |---|---|---|---|
 | DeepSeek API caída en build | Media | Build falla | Fallback automático al legacy (`IA_CUALITATIVO_FALLBACK=0` default). El pipeline nunca rompe por la API. |
-| Rate limit (429) | Media | Build lento | Backoff exponencial + rate limit configurable (`IA_CUALITATIVO_MAX_RPM=50`). 924 comentarios @ 50 RPM = ~18 min. |
+| Rate limit (429) | Media | Build lento | Backoff exponencial + rate limit configurable (`IA_CUALITATIVO_MAX_RPM=60`). 924 comentarios @ 60 RPM = ~15 min. |
 | Costo inesperado | Baja | Presupuesto | Caché persistente por hash(comentario+contexto). Builds subsiguientes solo procesan comentarios nuevos/cambiados. Monitorear `usage` en metadata del JSON. |
 | Alucinación de dimensiones | Media | Datos sucios | Prohibición explícita en prompt + validación post-LLM (`_validar_unidad` rechaza dimensiones fuera de la taxonomía). |
 | Inconsistencia prompt Python vs TS | Baja | Playground ≠ pipeline | Mirror manual. TODO: generar el TS desde el Python automáticamente (script codegen). |
 | Cambio de modelo DeepSeek | Baja | Resultados diferentes | `model` se fija en `deepseek-v4-flash`. Si DeepSeek depreca el modelo, actualizar `DEFAULT_MODEL` y re-validar. |
-| Comentario > 100 chars | Baja (Zoho limita) | Token overflow | `max_tokens=2000` en la respuesta. El system prompt soporta comentarios largos; el few-shot usa ejemplos de ≤100 chars como la encuesta real. |
+| Comentario > 100 chars | Baja (Zoho limita) | Token overflow | `max_tokens=10000` en la respuesta. El system prompt soporta comentarios largos; el few-shot usa ejemplos de ≤100 chars como la encuesta real. |
 
 ---
 
