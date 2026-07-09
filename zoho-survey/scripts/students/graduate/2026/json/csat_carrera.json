@@ -1,0 +1,110 @@
+[
+  {
+    "carrera": "Administración",
+    "facultad": "Facultad de Ciencias Empresariales",
+    "Totalmente satisfecho": 38,
+    "Muy satisfecho": 11,
+    "Satisfecho": 9,
+    "Insatisfecho": 1,
+    "Totalmente insatisfecho": 0,
+    "No utilizo": 0,
+    "No conozco": 0,
+    "score": 98.31
+  },
+  {
+    "carrera": "Arquitectura",
+    "facultad": "Facultad de Arquitectura",
+    "Totalmente satisfecho": 7,
+    "Muy satisfecho": 9,
+    "Satisfecho": 6,
+    "Insatisfecho": 0,
+    "Totalmente insatisfecho": 0,
+    "No utilizo": 0,
+    "No conozco": 0,
+    "score": 100.0
+  },
+  {
+    "carrera": "Comunicación",
+    "facultad": "Facultad de Comunicación",
+    "Totalmente satisfecho": 39,
+    "Muy satisfecho": 23,
+    "Satisfecho": 24,
+    "Insatisfecho": 1,
+    "Totalmente insatisfecho": 0,
+    "No utilizo": 0,
+    "No conozco": 0,
+    "score": 98.85
+  },
+  {
+    "carrera": "Contabilidad y Finanzas",
+    "facultad": "Facultad de Ciencias Empresariales",
+    "Totalmente satisfecho": 8,
+    "Muy satisfecho": 2,
+    "Satisfecho": 2,
+    "Insatisfecho": 0,
+    "Totalmente insatisfecho": 0,
+    "No utilizo": 0,
+    "No conozco": 0,
+    "score": 100.0
+  },
+  {
+    "carrera": "Ingeniería Ambiental",
+    "facultad": "Facultad de Ingeniería",
+    "Totalmente satisfecho": 1,
+    "Muy satisfecho": 0,
+    "Satisfecho": 0,
+    "Insatisfecho": 0,
+    "Totalmente insatisfecho": 0,
+    "No utilizo": 0,
+    "No conozco": 0,
+    "score": 100.0
+  },
+  {
+    "carrera": "Ingeniería Civil",
+    "facultad": "Facultad de Ingeniería",
+    "Totalmente satisfecho": 1,
+    "Muy satisfecho": 0,
+    "Satisfecho": 0,
+    "Insatisfecho": 0,
+    "Totalmente insatisfecho": 0,
+    "No utilizo": 0,
+    "No conozco": 0,
+    "score": 100.0
+  },
+  {
+    "carrera": "Ingeniería Industrial",
+    "facultad": "Facultad de Ingeniería",
+    "Totalmente satisfecho": 72,
+    "Muy satisfecho": 21,
+    "Satisfecho": 14,
+    "Insatisfecho": 0,
+    "Totalmente insatisfecho": 0,
+    "No utilizo": 0,
+    "No conozco": 0,
+    "score": 100.0
+  },
+  {
+    "carrera": "Ingeniería de Sistemas",
+    "facultad": "Facultad de Ingeniería",
+    "Totalmente satisfecho": 15,
+    "Muy satisfecho": 10,
+    "Satisfecho": 3,
+    "Insatisfecho": 1,
+    "Totalmente insatisfecho": 0,
+    "No utilizo": 0,
+    "No conozco": 0,
+    "score": 96.55
+  },
+  {
+    "carrera": "Negocios Internacionales",
+    "facultad": "Facultad de Ciencias Empresariales",
+    "Totalmente satisfecho": 20,
+    "Muy satisfecho": 13,
+    "Satisfecho": 5,
+    "Insatisfecho": 1,
+    "Totalmente insatisfecho": 0,
+    "No utilizo": 0,
+    "No conozco": 0,
+    "score": 97.44
+  }
+]
