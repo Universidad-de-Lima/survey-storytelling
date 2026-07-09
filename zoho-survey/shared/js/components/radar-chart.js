@@ -22,14 +22,8 @@ window.SurveyRadarChart = (() => {
   const META_CSAT = C.META_CSAT ?? 93;
   const RADAR_LABEL_MAXLEN = C.RADAR_LABEL_MAXLEN ?? 26;
   const ANIMATION_FALLBACK_MS = C.ANIMATION_FALLBACK_MS ?? 1200;
-  const SAT_KEYS = C.SAT_KEYS ?? [
-    'Totalmente satisfecho',
-    'Muy satisfecho',
-    'Satisfecho',
-    'Insatisfecho',
-    'Totalmente insatisfecho',
-  ];
-  const SAT_TOP3_KEYS = SAT_KEYS.slice(0, 3);
+  const SAT_KEYS = C.SAT_KEYS;
+  const SAT_TOP3_KEYS = C.SAT_KEYS.slice(0, 3);
 
   const sumKeys = _dh.sumKeys;
   const dimensionAplica = (rows, dim) => rows.some((r) => r.dimension === dim && sumKeys(r, SAT_KEYS) > 0);

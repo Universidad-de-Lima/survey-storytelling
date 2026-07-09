@@ -19,7 +19,7 @@ window.SurveySentimentView = (() => {
   const _ttp = window.SurveyTooltip;
 
   const C = window.SURVEY_CONFIG || {};
-  const CICLOS_ESTUDIOS_GENERALES = C.CICLOS_ESTUDIOS_GENERALES ?? ['1° Ciclo', '2° Ciclo'];
+  const CICLOS_ESTUDIOS_GENERALES = C.CICLOS_ESTUDIOS_GENERALES;
 
   const esEstudiosGen = _dh.esEstudiosGen;
   const $ = _dh.$;

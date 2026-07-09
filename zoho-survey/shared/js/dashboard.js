@@ -12,21 +12,15 @@
   const META_T2B = config.META_T2B ?? 70;
   const META_PONDERADO = config.META_PONDERADO ?? 80;
   const META_EMPLEABILIDAD = config.META_EMPLEABILIDAD ?? 85;
-  const CARRERAS_12_CICLOS = config.CARRERAS_12_CICLOS ?? ['Derecho', 'Psicología'];
-  const FACULTADES_12_CICLOS = config.FACULTADES_12_CICLOS ?? ['Facultad de Derecho', 'Facultad de Psicología'];
-  const PROGRAMA_ESTUDIOS_GENERALES = config.PROGRAMA_ESTUDIOS_GENERALES ?? 'Programa de Estudios Generales';
-  const CICLOS_ESTUDIOS_GENERALES = config.CICLOS_ESTUDIOS_GENERALES ?? ['1° Ciclo', '2° Ciclo'];
-  const FACULTAD_PLACEHOLDER = config.FACULTAD_PLACEHOLDER ?? 'Todas las unidades académicas';
-  const FACULTAD_PLACEHOLDER_PROG = config.FACULTAD_PLACEHOLDER_PROG ?? 'Todas las unidades académicas';
-  const SAT_KEYS = config.SAT_KEYS ?? [
-    'Totalmente satisfecho',
-    'Muy satisfecho',
-    'Satisfecho',
-    'Insatisfecho',
-    'Totalmente insatisfecho',
-  ];
-  const SAT_TOP3_KEYS = SAT_KEYS.slice(0, 3);
-  const SAT_TOP2_KEYS = config.SAT_TOP2_KEYS ?? SAT_KEYS.slice(0, 2);
+  const CARRERAS_12_CICLOS = config.CARRERAS_12_CICLOS;
+  const FACULTADES_12_CICLOS = config.FACULTADES_12_CICLOS;
+  const PROGRAMA_ESTUDIOS_GENERALES = config.PROGRAMA_ESTUDIOS_GENERALES;
+  const CICLOS_ESTUDIOS_GENERALES = config.CICLOS_ESTUDIOS_GENERALES;
+  const FACULTAD_PLACEHOLDER = config.FACULTAD_PLACEHOLDER;
+  const FACULTAD_PLACEHOLDER_PROG = config.FACULTAD_PLACEHOLDER_PROG;
+  const SAT_KEYS = config.SAT_KEYS;
+  const SAT_TOP3_KEYS = config.SAT_KEYS.slice(0, 3);
+  const SAT_TOP2_KEYS = config.SAT_TOP2_KEYS;
 
   // ── Módulos Externos Reutilizables ──
   const _fmt = window.SurveyFormatters;

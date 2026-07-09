@@ -13,7 +13,7 @@ window.SurveyDOMHelpers = (() => {
 
   // ── Config para helpers de negocio ──
   const C = window.SURVEY_CONFIG || {};
-  const PROGRAMA_ESTUDIOS_GENERALES = C.PROGRAMA_ESTUDIOS_GENERALES ?? 'Programa de Estudios Generales';
+  const PROGRAMA_ESTUDIOS_GENERALES = C.PROGRAMA_ESTUDIOS_GENERALES;
 
   /**
    * Atajo para document.getElementById.
