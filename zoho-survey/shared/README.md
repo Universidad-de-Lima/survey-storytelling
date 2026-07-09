@@ -68,7 +68,7 @@ Variables CSS en `tokens.css` (`:root`):
 | `formatters.js` | `window.SurveyFormatters.{formatInteger, formatDecimal, formatPercent, formatPctSimple, formatPctDecimal, formatDate, formatCicloText, cortarTexto, formatDimensionName, formatDimensionNameSVG, formatDimensionNameForAttr}` | Ninguna. Funciones puras. |
 | `sanitizer.js` | `window.SurveySanitizer.{escapeHTML, sanitizeHTML}` | Ninguna. |
 | `dom-helpers.js` | `window.SurveyDOMHelpers.{$, esEstudiosGen, sumKeys, getSelectedValues, setSelectedValues, getPlaceholderText, formatCustomLabel, formatMultiselectLabel}` | Ninguna. Helpers de negocio acceden a `SURVEY_CONFIG` internamente. |
-| `tooltip.js` | `window.SurveyTooltip.{show, hide, bindToSegments}` | `SurveySanitizer` (opcional, fallback a escape manual). |
+| `tooltip.js` | 97 | `window.SurveyTooltip.{show, hide, move, bindToSegments}` | `SurveySanitizer` (opcional, fallback a escape manual). |
 | `progress-bar.js` | `window.SurveyProgressBar.init(options)` | Ninguna. |
 | `custom-select.js` | `window.SurveyCustomSelect.create(sel, onChange)` → `{update, close, button, wrapper}` | `SurveyDOMHelpers` (requerida). |
 | `multiselect.js` | `window.SurveyMultiselect.create(selCic, onChange, defaultLabel, itemName)` → wrapper HTMLElement con `.update()` | `SurveyDOMHelpers` (requerida). |

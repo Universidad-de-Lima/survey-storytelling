@@ -238,8 +238,13 @@ def _sanitizar_nombre_csv(filename: str) -> str:
 
 
 def _csv_escape(val) -> str:
-    """Escapa un valor para CSV manejando comas, comillas dobles y saltos de línea."""
+    """Escapa un valor para CSV manejando comas, comillas dobles, saltos de línea
+    y prefijos de fórmula (Excel formula injection)."""
     s = str(val) if val is not None else ""
+    # Prevenir formula injection: si el valor empieza con = + - @, prefijar con '
+    # para que Excel lo trate como texto, no como fórmula.
+    if s and s[0] in ('=', '+', '-', '@'):
+        s = "'" + s
     if "," in s or '"' in s or "\n" in s or "\r" in s:
         return f'"{s.replace(chr(34), chr(34)+chr(34))}"'
     return s
@@ -756,10 +761,11 @@ def main() -> None:
 
             # ================================================================
             # ANALISIS CUALITATIVO CON IA (DeepSeek) - Fase IA
-            # Configuración centralizada en lib/config.py → IA_CUALITATIVO_MODE.
-            # Activar con: DEEPSEEK_API_KEY en entorno (GitHub Actions Secret).
-            # Forzar legacy: IA_CUALITATIVO_FALLBACK=1 o IA_CUALITATIVO_MODE="legacy".
-            # Fallback automatico al pipeline legacy si la key no esta.
+            # Controlado por env vars:
+            # - DEEPSEEK_API_KEY: activa motor IA
+            # - IA_CUALITATIVO_FALLBACK=1: fuerza motor legacy
+            # - IA_CUALITATIVO_CACHE=0: desactiva caché
+            # Fallback automático al pipeline legacy si la key no está.
             # ================================================================
             import os as _os
             _use_ia_cualitativo = bool(_os.environ.get("DEEPSEEK_API_KEY", "")) and _os.environ.get("IA_CUALITATIVO_FALLBACK", "0") != "1"

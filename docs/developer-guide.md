@@ -83,11 +83,12 @@ El sistema soporta dos motores de análisis cualitativo, controlados desde `lib/
 
 | Variable | Valores | Efecto |
 |---|---|---|
-| `IA_CUALITATIVO_MODE` | `"auto"` (default) | IA si `DEEPSEEK_API_KEY` está configurada; si no, Legacy |
-| `IA_CUALITATIVO_MODE` | `"ia"` | Forzar DeepSeek; falla si no hay API key |
-| `IA_CUALITATIVO_MODE` | `"legacy"` | Forzar spaCy + SentenceTransformer |
+| `DEEPSEEK_API_KEY` | API key string | Activa motor IA (DeepSeek). Si no está definida, usa motor Legacy |
 | `IA_CUALITATIVO_FALLBACK=1` | env var | Fuerza modo legacy incluso con API key |
 | `IA_CUALITATIVO_CACHE=0` | env var | Desactiva caché IA (`ia_cache.json`) |
+| `IA_CUALITATIVO_WORKERS` | entero (default 15) | Workers concurrentes para IA |
+| `IA_CUALITATIVO_MAX_RPM` | entero (default 60) | Rate limit de API |
+| `IA_CUALITATIVO_TIMEOUT` | entero (default 60s) | Timeout por llamada |
 
 **Motor IA (DeepSeek)** — activo en producción desde Fase IA:
 - Una sola llamada API ejecuta 5 tareas: segmentación → sentimiento con reglas NPS → intensidad → clasificación taxonómica → cross-reference CSAT.

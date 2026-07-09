@@ -1,0 +1,25 @@
+# Dependabot auto-updates
+# See: https://docs.github.com/en/code-security/dependabot
+
+version: 2
+updates:
+  # Track GitHub Actions versions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    groups:
+      actions:
+        patterns:
+          - "actions/*"
+          - "github/*"
+
+  # Track npm dependencies (dev only)
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    versioning-strategy: increase
+    open-pull-requests-limit: 5

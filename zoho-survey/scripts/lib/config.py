@@ -332,14 +332,10 @@ SENTIMENT_CONFIDENCE_THRESHOLD: float = 0.4
 # 8. MOTOR CUALITATIVO — Configuración de motores IA vs Legacy
 # ============================================================
 
-# Modo del motor cualitativo:
-#   "auto" → IA (DeepSeek) si DEEPSEEK_API_KEY está configurada, si no Legacy.
-#   "ia"   → Forzar IA. Fallará si DEEPSEEK_API_KEY no está disponible.
-#   "legacy" → Forzar pipeline spaCy + SentenceTransformer.
-# Controlado por variable de entorno IA_CUALITATIVO_MODE (default: "auto").
-# Para forzar legacy incluso con API key: IA_CUALITATIVO_FALLBACK=1
-# Para desactivar caché IA: IA_CUALITATIVO_CACHE=0
-IA_CUALITATIVO_MODE: str = "auto"  # "auto" | "ia" | "legacy"
+# Configuración del motor cualitativo:
+# - Activar IA: definir DEEPSEEK_API_KEY en entorno.
+# - Forzar legacy: IA_CUALITATIVO_FALLBACK=1
+# - Desactivar caché IA: IA_CUALITATIVO_CACHE=0
 
 # Calibración de sentimiento legacy (Fase 7, 2026-06-24):
 # - Ajustar si el modelo SentenceTransformer cambia.

@@ -6,9 +6,10 @@
  *
  * Contrato:
  * - escapeHTML(str): escapa & < > " '. Devuelve string seguro.
- * - sanitizeHTML(html): permite solo tags <br>, <strong>, <em>, <i>, <span>
- *   SIN atributos. Cualquier atributo (incluidos on*) se elimina. Tags no
+ * - sanitizeHTML(html): permite solo 9 tags (<br>, <strong>, <em>, <i>, <span>,
+ *   <table>, <tr>, <td>, <th>) SIN atributos. Cualquier atributo (incluidos on*) se elimina. Tags no
  *   permitidos se escapan (se muestran como texto literal).
+ *   Tags permitidos (9): br, strong, em, i, span, table, tr, td, th.
  *
  * Algoritmo de sanitizeHTML:
  *   1. Extrae placeholders para tags permitidos (open y close) en el string original.

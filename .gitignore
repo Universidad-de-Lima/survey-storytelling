@@ -31,7 +31,6 @@ Thumbs.db
 
 # Node (para tests JS con jsdom)
 node_modules/
-package-lock.json
 
 # Cache de modelos (descargados en CI, no se commitean)
 ~/.cache/huggingface/

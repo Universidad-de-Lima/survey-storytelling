@@ -132,7 +132,7 @@ Los siguientes archivos son single points of failure. Modificarlos requiere actu
 | `zoho-survey/scripts/validate_generated_json.py` | Validacion de contratos. Cambios deben sincronizarse con schemas. |
 | `zoho-survey/scripts/schemas/*.schema.json` | Fuente formal de tipos. Cambios deben propagarse a ETL, validador y CONTRACTS.md. |
 | `zoho-survey/template/index.html` | IDs HTML son contratos publicos con `dashboard.js` y `filter-controller.js`. |
-| `zoho-survey/shared/js/dashboard.js` | Orquestador monolitico (1015 lineas). |
+| `zoho-survey/shared/js/dashboard.js` | Orquestador monolitico (1249 lineas). |
 | `zoho-survey/shared/js/config/constants.js` | Metas y reglas de negocio consumidas por 4 modulos. |
 
 ## Respuestas Tecnicas
@@ -167,12 +167,12 @@ Si se modifica la estructura de cualquier JSON generado:
 
 1. **No confiar en `scripts/README.md` previo a v3.0**: describia keyword matching, ya obsoleto. La version actual esta actualizada.
 2. **No confiar en `shared/README.md` previo a v3.0**: decia `window.showTooltip/hideTooltip` (incorrecto, es `window.SurveyTooltip.show/hide`).
-3. **`lib/nlp.py` código muerto**: ~~la funcion `agrupar_comentarios_por_topico` esta importada por `build_json.py` pero NO se invoca.~~ **ELIMINADO**. El motor cualitativo moderno usa `aspect_extraction` + `sentiment_engine`.
+3. **`lib/nlp.py` código muerto**: `segmentar_comentario()`, `corregir_slang()`, `enmascarar_pii()`, y `normalizar_texto()` son funciones sin callers confirmados (no se invocan desde `build_json.py`). El motor cualitativo moderno usa `segmentacion_nps.fragmentar_comentario_nps()` + `aspect_extraction` + `sentiment_engine`.
 4. **`lib/config.py` constantes legacy**: ~~`TOPICOS` y `STOPWORDS` no se usan en modulos activos.~~ **ELIMINADO**.
-5. **Auto-download de spaCy**: ~~`aspect_extraction.py` y `sentiment_engine.py` llaman `spacy.cli.download("es_core_news_sm")` si el modelo no esta.~~ **ELIMINADO en Fase 6**: ahora fallan explícitamente con `OSError`. El modelo debe instalarse en CI/requirements.txt.
+5. **Auto-download de spaCy**: ~~`aspect_extraction.py` y `sentiment_engine.py` llamaban `spacy.cli.download("es_core_news_sm")` si el modelo no estaba.~~ **ELIMINADO en Fase 6**: ahora fallan explícitamente con `OSError`. El modelo debe instalarse en CI/requirements.txt.
 6. **`fragmentos_nps.json` y `dataset_cualitativo.json` no tienen schema formal**: son archivos intermedios del ETL, no contratos publicos. El frontend no los consume.
 7. **Trabajo sin commitear**: el repositorio puede tener cambios pendientes. Revisar `git status` antes de modificar.
 8. **`periodos.json` por nivel**: debe tener exactamente un item con `isNew: true`. El validador falla si no se cumple.
 9. **Tests Python no ejecutados en CI**: ~~los tests en `scripts/tests/` solo corren manualmente.~~ **Fase 6**: workflow `tests.yml` creado, ejecuta unittest + JS tests + sintaxis en cada PR.
-10. **Tests JS limitados**: ~~solo cubren `constants.js`, `formatters.js`, `sanitizer.js` (3 de 13 modulos).~~ **Fase 6**: suite reparada, 55/55 tests pasan. Cobertura sigue en 3/13 módulos (pendiente ampliar con jsdom en Fase 8).
+10. **Tests JS**: Fase 6: suite reparada, 91/91 tests pasan (59 browser + 32 jsdom). Cobertura: ~6/13 módulos (constants, formatters, sanitizer, dom-helpers, tooltip, sentiment-view tienen tests directos). Pendiente ampliar cobertura.
 11. **Calibración del motor de sentimiento (Fase 7)**: `lib/config.py` define `SENTIMENT_CONFIDENCE_THRESHOLD = 0.4`. Cuando la confianza del softmax cae bajo el umbral Y no hay `es_evento_negativo`, el sentimiento se fuerza a 'neutro'. Ajustar este valor requiere recalibrar contra datos reales y regenerar JSONs en CI.

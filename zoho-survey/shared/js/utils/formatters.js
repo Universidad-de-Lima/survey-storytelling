@@ -17,7 +17,10 @@ window.SurveyFormatters = (() => {
   'use strict';
 
   // ── Números ──
-  const formatInteger = (n) => n.toString();
+  const formatInteger = (n) => {
+    if (n === null || n === undefined) return '';
+    return Number(n).toLocaleString('es-PE');
+  };
 
   const formatDecimal = (n, digits = 2) => {
     if (n === null || n === undefined) return '';
