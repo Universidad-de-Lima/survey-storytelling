@@ -6,7 +6,6 @@
   // ── Constantes y Configuración de Negocio ──
   const config = window.SURVEY_CONFIG || {};
   const BASE_URL = './json';
-  const CACHE_BUST = '?_=' + Date.now(); // Evita caché de JSONs tras regeneración
   const META_NPS = config.META_NPS ?? 50;
   const META_CSAT = config.META_CSAT ?? 93;
   const META_T2B = config.META_T2B ?? 70;
@@ -136,7 +135,7 @@
       // 1. Cargar endpoints críticos (fallan globalmente ante error)
       const criticalKeys = Object.keys(criticalEndpoints);
       const criticalPromises = criticalKeys.map((key) =>
-        fetch(`${BASE_URL}/${criticalEndpoints[key]}.json${CACHE_BUST}`).then((r) => {
+        fetch(`${BASE_URL}/${criticalEndpoints[key]}.json`).then((r) => {
           if (!r.ok) throw new Error(`Archivo crítico no disponible: ${criticalEndpoints[key]}`);
           return r.json();
         })
@@ -149,7 +148,7 @@
       // 2. Cargar endpoints opcionales de forma segura (tolerante a fallos de red/períodos vacíos)
       const optionalKeys = Object.keys(optionalEndpoints);
       const optionalPromises = optionalKeys.map((key) =>
-        fetch(`${BASE_URL}/${optionalEndpoints[key]}.json${CACHE_BUST}`)
+        fetch(`${BASE_URL}/${optionalEndpoints[key]}.json`)
           .then((r) => (r.ok ? r.json() : null))
           .catch((err) => {
             console.warn(`JSON opcional no cargado [${optionalEndpoints[key]}]:`, err);

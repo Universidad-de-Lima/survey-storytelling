@@ -31,15 +31,29 @@ ABREVIACIONES = {
 
 def normalizar_texto(texto: str) -> str:
     """
-    Limpia y normaliza texto en español para facilitar el matching y embeddings.
-    Conserva tildes, diacríticos y la letra ñ para no dañar la precisión del modelo multilingüe.
+    Limpia y normaliza texto en español.
+    Incluye correcciones de slang y abreviaciones comunes de estudiantes.
+    NO remueve puntuación (necesaria para segmentación posterior).
     """
     if not isinstance(texto, str) or not texto.strip():
         return ""
     texto = texto.lower().strip()
-    # Remover puntuación y caracteres especiales no alfanuméricos en español, conservando letras con tilde y ñ
-    texto = re.sub(r"[^a-z0-9áéíóúüñ\s]", " ", texto)
-    texto = re.sub(r"\s+", " ", texto).strip()
+    
+    # Correcciones informales comunes
+    texto = re.sub(r'\bq\b', 'que', texto)
+    texto = re.sub(r'\bxq\b', 'porque', texto)
+    texto = re.sub(r'\bpq\b', 'porque', texto)
+    texto = re.sub(r'\btmb\b', 'también', texto)
+    texto = re.sub(r'\bvcs\b', 'veces', texto)
+    texto = re.sub(r'\bta\s+bien\b', 'esta bien', texto)
+    texto = re.sub(r'\bmegusta\b', 'me gusta', texto)
+    texto = re.sub(r'\blas\s+ascensores\b', 'los ascensores', texto)
+    texto = re.sub(r'\bla\s+ascensor\b', 'el ascensor', texto)
+    texto = re.sub(r'\bhaiga\b', 'haya', texto)
+    texto = re.sub(r'\bcafeteria\b', 'cafetería', texto)
+    
+    # Reducir espacios múltiples (pero preservar puntuación)
+    texto = re.sub(r'\s+', ' ', texto).strip()
     return texto
 
 def corregir_slang(texto: str) -> str:

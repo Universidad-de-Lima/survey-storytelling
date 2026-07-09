@@ -1,6 +1,8 @@
 import re
 from typing import List, Tuple
 import logging
+from .nlp import normalizar_texto as _nlp_normalizar_texto
+from .nlp import sanitizar_comentario
 
 try:
     import spacy
@@ -36,27 +38,8 @@ ENTIDADES = [
 ]
 
 def normalizar_texto(texto: str) -> str:
-    if not texto:
-        return ""
-    t = texto.lower()
-    # Correcciones informales comunes
-    t = re.sub(r'\bq\b', 'que', t)
-    t = re.sub(r'\bxq\b', 'porque', t)
-    t = re.sub(r'\bpq\b', 'porque', t)
-    t = re.sub(r'\btmb\b', 'también', t)
-    t = re.sub(r'\bvcs\b', 'veces', t)
-    t = re.sub(r'\bta\s+bien\b', 'esta bien', t)
-    t = re.sub(r'\bmegusta\b', 'me gusta', t)
-    
-    # Correcciones ortográficas y gramaticales frecuentes de alumnos
-    t = re.sub(r'\blas\s+ascensores\b', 'los ascensores', t)
-    t = re.sub(r'\bla\s+ascensor\b', 'el ascensor', t)
-    t = re.sub(r'\bhaiga\b', 'haya', t)
-    t = re.sub(r'\bcafeteria\b', 'cafetería', t)
-    
-    # Reducir espacios
-    t = re.sub(r'\s+', ' ', t).strip()
-    return t
+    return _nlp_normalizar_texto(texto)
+
 
 def proteger_entidades(texto: str) -> str:
     t = texto
