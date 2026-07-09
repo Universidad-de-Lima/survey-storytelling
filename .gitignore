@@ -23,6 +23,9 @@ Thumbs.db
 
 # IDE
 .vscode/
+
+# Playwright
+test-results/
 .idea/
 *.sublime-*
 
