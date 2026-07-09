@@ -29,12 +29,6 @@ test-results/
 .idea/
 *.sublime-*
 
-# Datos fuente (CSVs con datos de encuestados)
-data/
-
-# Artefactos binarios generados por ETL
-*.zip
-
 # Caché y logging de IA
 ia_cache.json
 .csv_hash
