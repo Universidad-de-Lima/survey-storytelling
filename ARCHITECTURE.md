@@ -87,16 +87,16 @@ Para mayor detalle de responsabilidades:
 
 | Modulo | Lineas | Responsabilidad | Estado |
 | --- | --- | --- | --- |
-| `lib/config.py` | 382 | Mapeos de columnas, diccionarios de topicos y catalogos de negocio. | Activo. |
-| `lib/metrics.py` | 26 | Funciones puras de calculo de NPS (`calc_nps`) y CSAT (`calc_csat`). | Activo. |
+| `lib/config.py` | 352 | Mapeos de columnas, catalogos de negocio y umbral de confianza. | Activo. |
+| `lib/metrics.py` | 57 | Funciones puras de calculo de NPS (`calc_nps`) y CSAT (`calc_csat`). | Activo. |
 | `lib/io_helper.py` | 81 | I/O seguro con encodings alternativos y formateo de fechas. | Activo. |
-| `lib/nlp.py` | 457 | Clasificacion semantica de comentarios (SentenceTransformer + sklearn). | **Parcialmente obsoleto**: solo se usa `sanitizar_comentario`. |
-| `lib/segmentacion_nps.py` | 324 | Fragmentacion de comentarios NPS en Meaning Units usando spaCy. | Activo (modo legacy). |
-| `lib/aspect_extraction.py` | ~180 | Extraccion del aspecto literal de cada Opinion Unit (spaCy noun chunks) y normalizacion via alias (cargados desde `config/alias_aspectos.json`) o embeddings. | Activo (modo legacy). |
-| `lib/sentiment_engine.py` | 135 | Clasificacion hibrida de sentimiento (positivo/negativo/neutro) e intensidad (1-5) usando embeddings + reglas lexicas. | Activo (modo legacy). |
-| `lib/ia_cualitativo.py` | ~330 | Motor de analisis cualitativo basado en DeepSeek. Reemplaza los 3 modulos legacy por una unica llamada API con prompts calibrados (Bardin + Braun&Clarke). Incluye CacheManager con hash de comentario + contexto y rate limiting (60 RPM). | Activo (Fase IA, opcional — requiere `DEEPSEEK_API_KEY`). |
-| `lib/prompts_cualitativo.py` | ~200 | Prompts exactos para DeepSeek (system + user). Fuente de verdad de los prompts usados tanto en el ETL como en el playground Next.js. Versionado con `PROMPT_VERSION` para invalidacion automatica del cache IA. | Activo (Fase IA). |
-| `lib/insights_generator.py` | ~150 | Generador de insights deterministas (sin LLM). Produce `insights_ia.global` y `insights_ia.por_categoria_padre` a partir de datos ya procesados. | Activo (Fase 8). |
+| `lib/nlp.py` | 170 | Clasificacion semantica de comentarios (SentenceTransformer + sklearn). | **Parcialmente obsoleto**: se usan `sanitizar_comentario` y `normalizar_texto`. |
+| `lib/segmentacion_nps.py` | 305 | Fragmentacion de comentarios NPS en Meaning Units usando spaCy. | Activo (modo legacy). |
+| `lib/aspect_extraction.py` | 223 | Extraccion del aspecto literal de cada Opinion Unit (spaCy noun chunks) y normalizacion via alias (cargados desde `config/alias_aspectos.json`) o embeddings. | Activo (modo legacy). |
+| `lib/sentiment_engine.py` | 164 | Clasificacion hibrida de sentimiento (positivo/negativo/neutro) e intensidad (1-5) usando embeddings + reglas lexicas. | Activo (modo legacy). |
+| `lib/ia_cualitativo.py` | 1,115 | Motor de analisis cualitativo basado en DeepSeek. Reemplaza los 3 modulos legacy por una unica llamada API con prompts calibrados (Bardin + Braun&Clarke). Incluye CacheManager con hash de comentario + contexto y rate limiting (60 RPM). | Activo (Fase IA, opcional — requiere `DEEPSEEK_API_KEY`). |
+| `lib/prompts_cualitativo.py` | 561 | Prompts exactos para DeepSeek (system + user). Fuente de verdad de los prompts usados tanto en el ETL como en el playground Next.js. Versionado con `PROMPT_VERSION` para invalidacion automatica del cache IA. | Activo (Fase IA). |
+| `lib/insights_generator.py` | 262 | Generador de insights deterministas (sin LLM). Produce `insights_ia.global` y `insights_ia.por_categoria_padre` a partir de datos ya procesados. | Activo (Fase 8). |
 
 ### Flujo cualitativo moderno (v3.0) — Doble motor
 

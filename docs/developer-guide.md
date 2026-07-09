@@ -50,10 +50,11 @@ Antes de realizar cambios, familiarízate con los siguientes documentos según t
 1. Edita el objeto correspondiente en [zoho-survey/shared/js/config/constants.js](zoho-survey/shared/js/config/constants.js).
 2. Valida visualmente los cambios levantando el servidor local (`npm start`).
 
-### 2. Agregar un Tópico Semántico para NPS
-1. Edita el diccionario `TOPICOS` en [zoho-survey/scripts/lib/config.py](zoho-survey/scripts/lib/config.py) agregando las palabras clave, tipo de sentimiento e ícono.
-2. Regenera los JSONs ejecutando `npm run build:json`.
-3. Valida la estructura ejecutando `npm run validate:json`.
+### 2. Agregar un Aspecto Semántico para NPS
+1. Agrega el nuevo aspecto y sus alias en [zoho-survey/scripts/config/alias_aspectos.json](zoho-survey/scripts/config/alias_aspectos.json).
+2. Si el aspecto corresponde a una nueva categoría, agregala en [zoho-survey/scripts/lib/config.py](zoho-survey/scripts/lib/config.py) en `CATEGORIAS_ASPECTOS`.
+3. Regenera los JSONs ejecutando `npm run build:json`.
+4. Valida la estructura ejecutando `npm run validate:json`.
 
 ### 3. Agregar un Nuevo Periodo de Encuesta (Ingesta de Datos)
 1. Coloca el archivo CSV exportado desde Zoho Survey en la carpeta `data/`.
@@ -148,7 +149,3 @@ La skill NO reemplaza al ETL. Su rol es de **síntesis e interpretación** sobre
 
 ### Revertir caché IA (`ia_cache.json`)
 - Borrar el archivo y hacer push → se reconstruye en el próximo build (con costo de API).
-
----
-
-## Checklist de Validación antes de Commitear

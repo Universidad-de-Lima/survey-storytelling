@@ -22,7 +22,7 @@ Capa de presentacion base. Proporciona el sistema de diseno (CSS), la logica de 
 | `css/dashboard.css` | 16 | Entry point con `@import` de las 5 capas modulares. |
 | `css/loader.css` | 636 | Tema oscuro institucional del loader: splash, topbar, survey-tabs, period-bar, pills, overlay, frame-wrap, custom select dark, overflow "MAS". |
 | `js/loader.js` | 420 | Navegador de encuestas: fetch `periodos.json`, pills/select, control del iframe, sistema de overflow MAS con ResizeObserver + throttle. |
-| `js/dashboard.js` | 1015 | Orquestador principal del dashboard SPA. 4 secciones, filtros en cascada, rendering SVG, tooltips, KPIs, tablas. |
+| `js/dashboard.js` | 1,242 | Orquestador principal del dashboard SPA. 4 secciones, filtros en cascada, rendering SVG, tooltips, KPIs, tablas. |
 | `js/config/constants.js` | 58 | `window.SURVEY_CONFIG`: metas, carreras/facultades 12 ciclos, SAT_KEYS, umbrales visuales, configuracion radar. |
 | `js/utils/formatters.js` | 83 | `window.SurveyFormatters`: formateo es-PE (integer, decimal, percent, date, ciclo text, dimension name). |
 | `js/utils/metrics.js` | ~60 | `window.SurveyMetrics`: `calcBoxScore`, `calcPromedioPonderado`, `deriveT2B`, `derivePonderado`. Gemelo JS de `lib/metrics.py`. |
@@ -143,7 +143,7 @@ Constantes en `config/constants.js` (`window.SURVEY_CONFIG`):
 - **Custom select dropdowns**: implementacion manual (~200 lineas entre custom-select.js y multiselect.js). Posible fuente de bugs cross-browser.
 - **Referencia muerta `window.cache`** en `sentiment-view.js`: `cache` es privada en el IIFE de `dashboard.js`, siempre undefined.
 - **CSS muerto**: ~50 lineas en `components.css` (`.doughnut-segment`, `.category-row`, `.cualitativo-layout`) no referenciadas en JS actual.
-- **Dashboard sin tests**: `dashboard.js` (1015 líneas) y `sentiment-view.js` (888 líneas) no tienen tests unitarios.
+- **Dashboard sin tests**: `dashboard.js` (1,242 líneas) y `sentiment-view.js` (939 líneas) no tienen tests unitarios.
 
 ## Improvement Opportunities
 

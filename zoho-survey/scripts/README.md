@@ -10,7 +10,7 @@ Los contratos formales de tipos viven en `schemas/*.schema.json` (JSON Schema Dr
 
 ## Key Files
 
-### `build_json.py` (~820 lineas)
+### `build_json.py` (~1,179 lineas)
 
 **Purpose**: Transforma archivos CSV exportados de Zoho Survey en contratos JSON para cada periodo academico.
 
@@ -107,14 +107,14 @@ sentimiento.json v3.0
 
 | Modulo | Lineas | Responsabilidad | Estado |
 | --- | --- | --- | --- |
-| `config.py` | 405 | Mapeos de columnas, catalogos de negocio, `SENTIMENT_CONFIDENCE_THRESHOLD` (Fase 7). Topicos y stopwords marcados DEPRECATED. | Activo. |
-| `metrics.py` | 26 | `calc_nps(p, pa, d)` y `calc_csat(t3b, total)`. Funciones puras. | Activo. |
+| `config.py` | 352 | Mapeos de columnas, catalogos de negocio, `SENTIMENT_CONFIDENCE_THRESHOLD` (Fase 7). Topicos y stopwords marcados DEPRECATED. | Activo. |
+| `metrics.py` | 57 | `calc_nps(p, pa, d)` y `calc_csat(t3b, total)`. Funciones puras. | Activo. |
 | `io_helper.py` | 81 | `load_json` (BOM-safe), `read_csv_robust` (UTF-8 con fallback latin-1), `normalize_dates`. | Activo. |
-| `nlp.py` | 457 | `sanitizar_comentario` (activo) + `agrupar_comentarios_por_topico` (267 lineas, **DEPRECATED**: no se invoca desde v3.0). | Parcialmente obsoleto. |
-| `segmentacion_nps.py` | 322 | Fragmentacion de comentarios NPS en Meaning Units con spaCy. | Activo. |
-| `aspect_extraction.py` | 260 | Extraccion de aspecto literal (spaCy noun chunks) + normalizacion a dimension oficial via alias + embeddings. | Activo. |
-| `sentiment_engine.py` | 165 | Clasificacion hibrida sentimiento + intensidad (1-5) con calibracion Fase 7 (umbral confianza 0.4). | Activo. |
-| `insights_generator.py` | 200 | **Fase 8**: Genera `insights_ia` (síntesis narrativa determinista) a partir de datos del ETL. NO usa LLM. | Activo. |
+| `nlp.py` | 170 | `sanitizar_comentario` (activo) + `agrupar_comentarios_por_topico` (267 lineas, **DEPRECATED**: no se invoca desde v3.0). | Parcialmente obsoleto. |
+| `segmentacion_nps.py` | 305 | Fragmentacion de comentarios NPS en Meaning Units con spaCy. | Activo. |
+| `aspect_extraction.py` | 223 | Extraccion de aspecto literal (spaCy noun chunks) + normalizacion a dimension oficial via alias + embeddings. | Activo. |
+| `sentiment_engine.py` | 164 | Clasificacion hibrida sentimiento + intensidad (1-5) con calibracion Fase 7 (umbral confianza 0.4). | Activo. |
+| `insights_generator.py` | 262 | **Fase 8**: Genera `insights_ia` (síntesis narrativa determinista) a partir de datos del ETL. NO usa LLM. | Activo. |
 
 ### `schemas/` (7 JSON Schemas Draft-07)
 
