@@ -125,14 +125,14 @@ Historial de cambios significativos del proyecto. Basado en [Keep a Changelog](h
 ## [2.0.1] — 2026-06-10
 
 ### Added
-- Documentación de subcomponentes JS modularizados (`filter-controller.js`, `radar-chart.js`, `sentiment-view.js`) en [ARCHITECTURE.md](file:///q:/ANALISTA%20DE%20DATOS/6.%20Encuesta%20de%20Satisfacci%C3%B3n/6.11%20GitHub/survey-storytelling/ARCHITECTURE.md).
-- Detalle del subdirectorio Python `scripts/lib/` y sus 4 submódulos en [ARCHITECTURE.md](file:///q:/ANALISTA%20DE%20DATOS/6.%20Encuesta%20de%20Satisfacci%C3%B3n/6.11%20GitHub/survey-storytelling/ARCHITECTURE.md).
-- Documentación de los workflows de CI/CD (`build_students.yml`, `deploy-legacy.yml`, `validate-survey-json.yml`) en [ARCHITECTURE.md](file:///q:/ANALISTA%20DE%20DATOS/6.%20Encuesta%20de%20Satisfacci%C3%B3n/6.11%20GitHub/survey-storytelling/ARCHITECTURE.md).
-- Advertencia técnica sobre el orden de dependencias en el cargador JS (`dom-helpers.js` antes de `custom-select.js`) en [docs/developer-guide.md](file:///q:/ANALISTA%20DE%20DATOS/6.%20Encuesta%20de%20Satisfacci%C3%B3n/6.11%20GitHub/survey-storytelling/docs/developer-guide.md).
+- Documentación de subcomponentes JS modularizados (`filter-controller.js`, `radar-chart.js`, `sentiment-view.js`) en [ARCHITECTURE.md](ARCHITECTURE.md).
+- Detalle del subdirectorio Python `scripts/lib/` y sus 4 submódulos en [ARCHITECTURE.md](ARCHITECTURE.md).
+- Documentación de los workflows de CI/CD (`build_students.yml`, `deploy-legacy.yml`, `validate-survey-json.yml`) en [ARCHITECTURE.md](ARCHITECTURE.md).
+- Advertencia técnica sobre el orden de dependencias en el cargador JS (`dom-helpers.js` antes de `custom-select.js`) en [docs/developer-guide.md](docs/developer-guide.md).
 
 ### Fixed
-- Contratos de datos en [CONTRACTS.md](file:///q:/ANALISTA%20DE%20DATOS/6.%20Encuesta%20de%20Satisfacci%C3%B3n/6.11%20GitHub/survey-storytelling/CONTRACTS.md): Unificación de claves NPS a minúsculas (`promotores`, `pasivos`, `detractores`) para concordar con la implementación real del ETL.
-- Definición de propiedad en `ids.json` de [CONTRACTS.md](file:///q:/ANALISTA%20DE%20DATOS/6.%20Encuesta%20de%20Satisfacci%C3%B3n/6.11%20GitHub/survey-storytelling/CONTRACTS.md): Corrección de `count` a `total` para reflejar la salida del backend.
+- Contratos de datos en [CONTRACTS.md](CONTRACTS.md): Unificación de claves NPS a minúsculas (`promotores`, `pasivos`, `detractores`) para concordar con la implementación real del ETL.
+- Definición de propiedad en `ids.json` de [CONTRACTS.md](CONTRACTS.md): Corrección de `count` a `total` para reflejar la salida del backend.
 - Carga de dependencias en el portal principal `index.html` (importación de `dom-helpers.js` añadida para solventar error de carga en `custom-select`).
 - Referencias de espacio de nombres en `radar-chart.js` (añadido alias `_dh` para métodos utilitarios de DOM).
 - Centrado y redimensión del gráfico de radar general: Ajuste dinámico de `viewBox` (`-80 0 760 500`) en SVG y `aspect-ratio` (`76 / 50`) en CSS para maximizar su tamaño (un 60% más grande) y eliminar el espacio vacío superior/inferior.

@@ -8,12 +8,12 @@ Antes de realizar cambios, familiarízate con los siguientes documentos según t
 
 | Necesidad | Documento |
 | --- | --- |
-| Reglas técnicas obligatorias | [AGENTS.md](file:///q:/ANALISTA%20DE%20DATOS/6.%20Encuesta%20de%20Satisfacci%C3%B3n/6.11%20GitHub/survey-storytelling/AGENTS.md) |
-| Arquitectura del sistema y carpetas | [ARCHITECTURE.md](file:///q:/ANALISTA%20DE%20DATOS/6.%20Encuesta%20de%20Satisfacci%C3%B3n/6.11%20GitHub/survey-storytelling/ARCHITECTURE.md) |
-| Especificación y esquemas de datos | [CONTRACTS.md](file:///q:/ANALISTA%20DE%20DATOS/6.%20Encuesta%20de%20Satisfacci%C3%B3n/6.11%20GitHub/survey-storytelling/CONTRACTS.md) |
-| Ejecución y creación de pruebas | [tests/README.md](file:///q:/ANALISTA%20DE%20DATOS/6.%20Encuesta%20de%20Satisfacci%C3%B3n/6.11%20GitHub/survey-storytelling/tests/README.md) |
-| Lógica de filtros del frontend | [docs/filter-logic.md](file:///q:/ANALISTA%20DE%20DATOS/6.%20Encuesta%20de%20Satisfacci%C3%B3n/6.11%20GitHub/survey-storytelling/docs/filter-logic.md) |
-| Historial de versiones | [docs/CHANGELOG.md](file:///q:/ANALISTA%20DE%20DATOS/6.%20Encuesta%20de%20Satisfacci%C3%B3n/6.11%20GitHub/survey-storytelling/docs/CHANGELOG.md) |
+| Reglas técnicas obligatorias | [AGENTS.md](AGENTS.md) |
+| Arquitectura del sistema y carpetas | [ARCHITECTURE.md](ARCHITECTURE.md) |
+| Especificación y esquemas de datos | [CONTRACTS.md](CONTRACTS.md) |
+| Ejecución y creación de pruebas | [tests/README.md](tests/README.md) |
+| Lógica de filtros del frontend | [docs/filter-logic.md](docs/filter-logic.md) |
+| Historial de versiones | [docs/CHANGELOG.md](docs/CHANGELOG.md) |
 
 ## Quick Facts
 
@@ -29,13 +29,13 @@ Antes de realizar cambios, familiarízate con los siguientes documentos según t
 
 | Archivo | Cuándo tocarlo |
 | --- | --- |
-| [zoho-survey/index.html](file:///q:/ANALISTA%20DE%20DATOS/6.%20Encuesta%20de%20Satisfacci%C3%B3n/6.11%20GitHub/survey-storytelling/zoho-survey/index.html) | Navegación entre tipos de encuesta y periodos. |
-| [zoho-survey/template/index.html](file:///q:/ANALISTA%20DE%20DATOS/6.%20Encuesta%20de%20Satisfacci%C3%B3n/6.11%20GitHub/survey-storytelling/zoho-survey/template/index.html) | Plantilla base de dashboards por periodo. |
-| [zoho-survey/shared/js/loader.js](file:///q:/ANALISTA%20DE%20DATOS/6.%20Encuesta%20de%20Satisfacci%C3%B3n/6.11%20GitHub/survey-storytelling/zoho-survey/shared/js/loader.js) | Flujo del navegador de encuestas. |
-| [zoho-survey/shared/js/dashboard.js](file:///q:/ANALISTA%20DE%20DATOS/6.%20Encuesta%20de%20Satisfacci%C3%B3n/6.11%20GitHub/survey-storytelling/zoho-survey/shared/js/dashboard.js) | Orquestación general del dashboard. |
-| [zoho-survey/shared/js/config/constants.js](file:///q:/ANALISTA%20DE%20DATOS/6.%20Encuesta%20de%20Satisfacci%C3%B3n/6.11%20GitHub/survey-storytelling/zoho-survey/shared/js/config/constants.js) | Metas, ciclos y constantes compartidas. |
-| [zoho-survey/scripts/build_json.py](file:///q:/ANALISTA%20DE%20DATOS/6.%20Encuesta%20de%20Satisfacci%C3%B3n/6.11%20GitHub/survey-storytelling/zoho-survey/scripts/build_json.py) | Transformación CSV -> JSON. |
-| [zoho-survey/scripts/validate_generated_json.py](file:///q:/ANALISTA%20DE%20DATOS/6.%20Encuesta%20de%20Satisfacci%C3%B3n/6.11%20GitHub/survey-storytelling/zoho-survey/scripts/validate_generated_json.py) | Validación estructural de JSON y HTML. |
+| [zoho-survey/index.html](zoho-survey/index.html) | Navegación entre tipos de encuesta y periodos. |
+| [zoho-survey/template/index.html](zoho-survey/template/index.html) | Plantilla base de dashboards por periodo. |
+| [zoho-survey/shared/js/loader.js](zoho-survey/shared/js/loader.js) | Flujo del navegador de encuestas. |
+| [zoho-survey/shared/js/dashboard.js](zoho-survey/shared/js/dashboard.js) | Orquestación general del dashboard. |
+| [zoho-survey/shared/js/config/constants.js](zoho-survey/shared/js/config/constants.js) | Metas, ciclos y constantes compartidas. |
+| [zoho-survey/scripts/build_json.py](zoho-survey/scripts/build_json.py) | Transformación CSV -> JSON. |
+| [zoho-survey/scripts/validate_generated_json.py](zoho-survey/scripts/validate_generated_json.py) | Validación estructural de JSON y HTML. |
 
 > [!IMPORTANT]
 > **Orden de carga de dependencias JS:**
@@ -47,11 +47,11 @@ Antes de realizar cambios, familiarízate con los siguientes documentos según t
 ## Tareas Comunes
 
 ### 1. Cambiar una Meta de NPS o CSAT
-1. Edita el objeto correspondiente en [zoho-survey/shared/js/config/constants.js](file:///q:/ANALISTA%20DE%20DATOS/6.%20Encuesta%20de%20Satisfacci%C3%B3n/6.11%20GitHub/survey-storytelling/zoho-survey/shared/js/config/constants.js).
+1. Edita el objeto correspondiente en [zoho-survey/shared/js/config/constants.js](zoho-survey/shared/js/config/constants.js).
 2. Valida visualmente los cambios levantando el servidor local (`npm start`).
 
 ### 2. Agregar un Tópico Semántico para NPS
-1. Edita el diccionario `TOPICOS` en [zoho-survey/scripts/lib/config.py](file:///q:/ANALISTA%20DE%20DATOS/6.%20Encuesta%20de%20Satisfacci%C3%B3n/6.11%20GitHub/survey-storytelling/zoho-survey/scripts/lib/config.py) agregando las palabras clave, tipo de sentimiento e ícono.
+1. Edita el diccionario `TOPICOS` en [zoho-survey/scripts/lib/config.py](zoho-survey/scripts/lib/config.py) agregando las palabras clave, tipo de sentimiento e ícono.
 2. Regenera los JSONs ejecutando `npm run build:json`.
 3. Valida la estructura ejecutando `npm run validate:json`.
 
@@ -63,7 +63,7 @@ Antes de realizar cambios, familiarízate con los siguientes documentos según t
 5. Inicia el servidor (`npm start`), abre `http://localhost:8080/zoho-survey/` en tu navegador y valida que el nuevo periodo cargue correctamente en la barra superior.
 
 ### 4. Probar y Crear Utilidades JavaScript
-Para detalles de adición y ejecución de pruebas unitarias, consulta [tests/README.md](file:///q:/ANALISTA%20DE%20DATOS/6.%20Encuesta%20de%20Satisfacci%C3%B3n/6.11%20GitHub/survey-storytelling/tests/README.md).
+Para detalles de adición y ejecución de pruebas unitarias, consulta [tests/README.md](tests/README.md).
 
 ---
 
@@ -71,7 +71,7 @@ Para detalles de adición y ejecución de pruebas unitarias, consulta [tests/REA
 
 - [ ] Las rutas de archivos modificadas han sido validadas contra el árbol real.
 - [ ] No se han realizado ediciones manuales a los archivos JSON generados en `zoho-survey/students/**/json/`.
-- [ ] Si se modificó la estructura de datos, se actualizaron coherentemente los validadores de Python y [CONTRACTS.md](file:///q:/ANALISTA%20DE%20DATOS/6.%20Encuesta%20de%20Satisfacci%C3%B3n/6.11%20GitHub/survey-storytelling/CONTRACTS.md).
+- [ ] Si se modificó la estructura de datos, se actualizaron coherentemente los validadores de Python y [CONTRACTS.md](CONTRACTS.md).
 - [ ] Se ejecutaron las pruebas unitarias locales en navegador sin fallos.
 - [ ] Se corrió con éxito `npm run validate:json` antes del commit.
 

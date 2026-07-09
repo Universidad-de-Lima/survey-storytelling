@@ -124,6 +124,20 @@ Fuente formal de tipos. Cargados por `validate_generated_json.py`.
 
 Lista de 24 stopwords para extraccion de aspectos (consumido por `aspect_extraction.py`).
 
+### `validar_ia_vs_manual.py` (~540 lineas)
+
+**Purpose**: Compara la salida del motor IA (DeepSeek) contra analisis manual humano (ground truth).
+
+**Modos de uso**:
+1. **Desde CSV**: `python validar_ia_vs_manual.py --csv "data/ENCUESTA...csv" --xlsx upload/analisis.xlsx --output reporte.json`
+2. **Desde JSON generado**: `python validar_ia_vs_manual.py --ia-json .../dataset_cualitativo.json --xlsx upload/analisis.xlsx`
+3. **Comparacion 3 vias (IA vs Legacy vs Manual)**: agregar `--legacy-json .../dataset_cualitativo_legacy.json`
+
+**Metricas calculadas**:
+- Cobertura, segmentacion (fragmentos/comentario), matriz de confusion de sentimiento + Cohen's Kappa
+- Correlacion de intensidad (Pearson + MAE), accuracy de taxonomia
+- Validez (accuracy + recall de invalidos), cumplimiento de reglas NPS
+
 ### `tests/` (9 suites Python, 149 tests)
 
 - `test_sentiment_engine.py` (11 tests, unittest + mocking para modelo funcional)

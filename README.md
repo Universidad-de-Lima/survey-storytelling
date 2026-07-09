@@ -31,12 +31,12 @@ npm start
 
 Este repositorio sigue una estructura de documentación modularizada con responsabilidades únicas para evitar duplicación de contenido:
 
-* **Reglas Operativas:** [AGENTS.md](file:///q:/ANALISTA%20DE%20DATOS/6.%20Encuesta%20de%20Satisfacci%C3%B3n/6.11%20GitHub/survey-storytelling/AGENTS.md) contiene las directivas obligatorias de codificación para agentes de IA y desarrolladores.
-* **Diseño Técnico:** [ARCHITECTURE.md](file:///q:/ANALISTA%20DE%20DATOS/6.%20Encuesta%20de%20Satisfacci%C3%B3n/6.11%20GitHub/survey-storytelling/ARCHITECTURE.md) describe la arquitectura del sistema, el mapa de componentes, la estructura física de directorios (incluyendo la aplicación `zoho-survey/`) y el registro único de deuda técnica del código.
-* **Contratos de Datos:** [CONTRACTS.md](file:///q:/ANALISTA%20DE%20DATOS/6.%20Encuesta%20de%20Satisfacci%C3%B3n/6.11%20GitHub/survey-storytelling/CONTRACTS.md) especifica las entradas CSV, salidas JSON, schemas estructurados, invariantes matemáticas y deuda técnica de datos.
-* **Guías de Procedimiento:** [docs/developer-guide.md](file:///q:/ANALISTA%20DE%20DATOS/6.%20Encuesta%20de%20Satisfacci%C3%B3n/6.11%20GitHub/survey-storytelling/docs/developer-guide.md) detalla flujos comunes como la adición de periodos, cambio de metas u otros tópicos.
-* **Lógica del Dashboard:** [docs/filter-logic.md](file:///q:/ANALISTA%20DE%20DATOS/6.%20Encuesta%20de%20Satisfacci%C3%B3n/6.11%20GitHub/survey-storytelling/docs/filter-logic.md) describe las reglas del negocio aplicadas a los filtros en cascada del frontend.
-* **Pruebas de Unidad:** [tests/README.md](file:///q:/ANALISTA%20DE%20DATOS/6.%20Encuesta%20de%20Satisfacci%C3%B3n/6.11%20GitHub/survey-storytelling/tests/README.md) detalla cómo ejecutar y extender los tests unitarios.
+* **Reglas Operativas:** [AGENTS.md](AGENTS.md) contiene las directivas obligatorias de codificación para agentes de IA y desarrolladores.
+* **Diseño Técnico:** [ARCHITECTURE.md](ARCHITECTURE.md) describe la arquitectura del sistema, el mapa de componentes, la estructura física de directorios (incluyendo la aplicación `zoho-survey/`) y el registro único de deuda técnica del código.
+* **Contratos de Datos:** [CONTRACTS.md](CONTRACTS.md) especifica las entradas CSV, salidas JSON, schemas estructurados, invariantes matemáticas y deuda técnica de datos.
+* **Guías de Procedimiento:** [docs/developer-guide.md](docs/developer-guide.md) detalla flujos comunes como la adición de periodos, cambio de metas u otros tópicos.
+* **Lógica del Dashboard:** [docs/filter-logic.md](docs/filter-logic.md) describe las reglas del negocio aplicadas a los filtros en cascada del frontend.
+* **Pruebas de Unidad:** [tests/README.md](tests/README.md) detalla cómo ejecutar y extender los tests unitarios.
 * **Changelog:** [docs/CHANGELOG.md](docs/CHANGELOG.md) contiene el historial de cambios del proyecto.
 * **Onboarding:** [docs/onboarding.md](docs/onboarding.md) es la guía de inicio para nuevos desarrolladores y analistas.
 * **Integración Zoho API:** [docs/zoho-api-integration.md](docs/zoho-api-integration.md) analiza la viabilidad de automatizar la descarga de CSVs.

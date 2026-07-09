@@ -1,3 +1,5 @@
+> **Estado**: Implementado (Fase IA completa, 2026-07-03)
+>
 # Migración del Análisis Cualitativo a IA (DeepSeek)
 
 Documento de referencia para el cambio del pipeline cualitativo local (spaCy + sentence-transformers) a un motor basado en DeepSeek, calibrado con metodologías de Análisis Cualitativo y validado contra el análisis manual humano de la encuesta 2026-1.
@@ -49,7 +51,7 @@ La ejecución de `validar_ia_vs_manual.py` comparando el `dataset_cualitativo.js
 - Latencia en cada carga de dashboard.
 - Costo recurrente por visita.
 
-**SÍ se recomienda**: reemplazar los 3 módulos locales del ETL Python por una llamada a DeepSeek **en build time** (dentro del workflow de GitHub Actions). El dashboard sigue siendo estático; solo cambia cómo se generan los JSON.
+**Se implementó**: reemplazar los 3 módulos locales del ETL Python por una llamada a DeepSeek **en build time** (dentro del workflow de GitHub Actions). El dashboard sigue siendo estático; solo cambia cómo se generan los JSON.
 
 ```
 Flujo actual:
@@ -352,7 +354,7 @@ python zoho-survey/scripts/validar_ia_vs_manual.py \
 
 ---
 
-## 8. Próximos pasos sugeridos
+## 8. Historial de implementación sugeridos
 
 1. **Probar el playground** (`/home/z/my-project/`, ver Preview Panel): pega tu API key, carga los 3 ejemplos, verifica que la salida se ve coherente. Ajusta el prompt si encuentras casos patológicos.
 
