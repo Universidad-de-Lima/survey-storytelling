@@ -24,7 +24,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v7
 
       - name: Set up Python
         uses: actions/setup-python@v6
@@ -32,7 +32,7 @@ jobs:
           python-version: '3.11'
 
       - name: Cache Hugging Face models
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: ~/.cache/huggingface
           key: ${{ runner.os }}-hf-models-${{ hashFiles('zoho-survey/scripts/lib/nlp.py', 'zoho-survey/scripts/lib/aspect_extraction.py', 'zoho-survey/scripts/lib/sentiment_engine.py') }}
@@ -40,7 +40,7 @@ jobs:
             ${{ runner.os }}-hf-models-
 
       - name: Cache spaCy models
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: ~/.cache/spacy
           key: ${{ runner.os }}-spacy-es_core_news_sm
@@ -65,10 +65,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v7
 
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: '18'
 

@@ -40,7 +40,7 @@ jobs:
     steps:
 
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v7
         # fetch-depth: 0 trae todo el historial, necesario para que
         # `git pull --rebase` en el step de commit funcione cuando el
         # remote tiene commits que el runner no conoce.
@@ -53,7 +53,7 @@ jobs:
           python-version: '3.11'
 
       - name: Cache Hugging Face models
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: ~/.cache/huggingface
           key: ${{ runner.os }}-hf-models-${{ hashFiles('zoho-survey/scripts/lib/nlp.py', 'zoho-survey/scripts/lib/aspect_extraction.py', 'zoho-survey/scripts/lib/sentiment_engine.py') }}
@@ -63,7 +63,7 @@ jobs:
       - name: Cache IA Cualitativo (DeepSeek)
         # Caché persistente de resultados IA por hash(comentario + contexto).
         # Evita re-llamar a la API en builds subsiguientes si el CSV no cambió.
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: zoho-survey/scripts/ia_cache.json
           key: ia-cache-${{ hashFiles('data/**', 'zoho-survey/scripts/lib/prompts_cualitativo.py') }}
