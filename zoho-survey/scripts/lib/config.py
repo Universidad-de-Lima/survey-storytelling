@@ -350,26 +350,3 @@ IA_LEGACY_CONFIDENCE_THRESHOLD: float = SENTIMENT_CONFIDENCE_THRESHOLD  # alias 
 IA_LEGACY_ASPECT_THRESHOLD_HIGH: float = 0.55
 IA_LEGACY_ASPECT_THRESHOLD_LOW: float = 0.45
 
-
-# ============================================================
-# 7. DIRECTORIOS DE ENCUESTA
-# ============================================================
-
-from pathlib import Path
-
-_CONFIG_DIR: Path = Path(__file__).resolve().parent
-_ZOHO_DIR: Path = _CONFIG_DIR.parent
-_STUDENTS_DIR: Path = _ZOHO_DIR / "students"
-
-SURVEY_DIRS: Dict[str, Path] = {
-    "undergraduate": _STUDENTS_DIR / "undergraduate",
-    "graduate": _STUDENTS_DIR / "graduate",
-    "posgraduate": _STUDENTS_DIR / "posgraduate",
-    "alumni-ug": _ZOHO_DIR / "alumni" / "undergraduate",
-    "alumni-pg": _ZOHO_DIR / "alumni" / "posgraduate",
-    "faculty-ug": _ZOHO_DIR / "facultyStaff" / "undergraduate",
-    "faculty-pg": _ZOHO_DIR / "facultyStaff" / "posgraduate",
-    "nonfaculty": _ZOHO_DIR / "nonfacultyStaff",
-    "employers": _ZOHO_DIR / "employers",
-}
-

@@ -46,7 +46,17 @@ DATA_DIR: Path = BASE_DIR.parent.parent / "data"
 ZOHO_DIR: Path = BASE_DIR.parent
 STUDENTS_DIR: Path = ZOHO_DIR / "students"
 
-from lib.config import SURVEY_DIRS
+SURVEY_DIRS: Dict[str, Path] = {
+    "undergraduate": STUDENTS_DIR / "undergraduate",
+    "graduate": STUDENTS_DIR / "graduate",
+    "posgraduate": STUDENTS_DIR / "posgraduate",
+    "alumni-ug": ZOHO_DIR / "alumni" / "undergraduate",
+    "alumni-pg": ZOHO_DIR / "alumni" / "posgraduate",
+    "faculty-ug": ZOHO_DIR / "facultyStaff" / "undergraduate",
+    "faculty-pg": ZOHO_DIR / "facultyStaff" / "posgraduate",
+    "nonfaculty": ZOHO_DIR / "nonfacultyStaff",
+    "employers": ZOHO_DIR / "employers",
+}
 
 SUPPORTED_EXTENSIONS: List[str] = [".csv"]
 

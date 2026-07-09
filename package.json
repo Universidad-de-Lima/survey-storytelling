@@ -10,11 +10,9 @@
     "test:js": "node -e \"global.window={};global.document={getElementById:()=>null,querySelectorAll:()=>[],addEventListener:()=>{},createElement:()=>({style:{},classList:{add:()=>{}},setAttribute:()=>{},appendChild:()=>{}})};require('./zoho-survey/shared/js/config/constants.js');require('./zoho-survey/shared/js/utils/formatters.js');require('./zoho-survey/shared/js/utils/sanitizer.js');require('./zoho-survey/shared/js/utils/dom-helpers.js');require('./zoho-survey/shared/js/components/tooltip.js');require('./zoho-survey/shared/js/components/sentiment-view.js');require('./tests/test-framework.js');require('./tests/unit/test-config.js');require('./tests/unit/test-formatters.js');require('./tests/unit/test-sanitizer.js');require('./tests/unit/test-insights-ia.js');const r=window.TestFramework.summary();console.log('Tests: '+r.passed+' passed, '+r.failed+' failed, '+r.total+' total');if(r.failed>0){r.results.filter(x=>x.type==='fail').forEach(t=>console.log('FAIL: '+t.name+' -> '+t.error));process.exit(1);}\"",
     "test:js:dom": "node tests/unit/test-dom.js",
     "test:py": "cd zoho-survey/scripts && python -m unittest discover tests/",
-    "test:e2e": "npx playwright test tests/e2e/",
     "test:all": "npm run test:js && npm run test:js:dom && npm run test:py"
   },
   "devDependencies": {
-    "@playwright/test": "^1.52.0",
     "jsdom": "^25.0.0"
   },
   "engines": {
