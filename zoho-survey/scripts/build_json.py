@@ -30,10 +30,13 @@ from lib.config import (
     ETAPA_MAP,
     EMPLEABILIDAD_CATEGORIAS
 )
-from lib.metrics import calc_nps, calc_csat, calc_promedio_ponderado
+from lib.metrics import calc_nps, calc_csat, calc_promedio_ponderado, calc_nps_carrera, calc_csat_carrera
 from lib.nlp import sanitizar_comentario
 from lib.segmentacion_nps import fragmentar_comentario_nps
-from lib.io_helper import read_csv_robust, normalize_dates
+from lib.io_helper import read_csv_robust, normalize_dates, hash_csv, csv_cambiado, guardar_hash_csv
+from lib.csv_exporter import generar_csvs_y_zip, _sanitizar_nombre_csv
+from lib.dashboard_builder import construir_dashboard_data
+from lib.periodos_updater import actualizar_periodos
 
 # Configurar logging nativo de Python
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
@@ -108,270 +111,6 @@ def _inyectar_html(template_index: Path, index_file: Path, periodo_dir: Path, zo
         return False
 
 
-def _calcular_nps_carrera(df_nps, nps_col: str) -> list:
-    """Calcula NPS por carrera desde df_nps.
-    
-    Retorna lista de dicts con: carrera, promotores, pasivos, detractores, score.
-    """
-    nps_carrera = []
-    for carrera, sub in df_nps.groupby("Carrera"):
-        p = int((sub[nps_col] >= 9).sum())
-        pa = int(((sub[nps_col] >= 7) & (sub[nps_col] <= 8)).sum())
-        d = int((sub[nps_col] <= 6).sum())
-        nps_carrera.append({
-            "carrera": carrera,
-            "promotores": p,
-            "pasivos": pa,
-            "detractores": d,
-            "score": calc_nps(p, pa, d)
-        })
-    return nps_carrera
-
-
-def _calcular_csat_carrera(df, csat_col: str) -> list:
-    """Calcula CSAT por carrera desde df.
-    
-    Retorna lista de dicts con: carrera, facultad, conteos por respuesta, score.
-    """
-    csat_carrera = []
-    for (car, fac), sub in df.groupby(["Carrera", "Facultad"]):
-        serie = sub[csat_col].dropna()
-        row = {"carrera": car, "facultad": fac}
-        for r in RESPUESTAS_TEXTO:
-            row[r] = int((serie == r).sum())
-        t3b = row["Totalmente satisfecho"] + row["Muy satisfecho"] + row["Satisfecho"]
-        total = t3b + row["Insatisfecho"] + row["Totalmente insatisfecho"]
-        row["score"] = calc_csat(t3b, total)
-        csat_carrera.append(row)
-    return csat_carrera
-
-
-def _construir_dashboard_data(
-    resumen: dict,
-    csat_score: float,
-    nps_score: float,
-    nps_etapas: dict,
-    top_dims: list,
-    top_facs: list,
-    promotores_total: int,
-    pasivos_total: int,
-    detractores_total: int,
-    serie_csat,
-) -> dict:
-    """Construye el objeto dashboard_data.json desde sus componentes.
-    
-    Recibe todas las métricas pre-calculadas y las ensambla en la estructura final.
-    """
-    return {
-        "version": "2.0",
-        "resumen": resumen,
-        "hallazgos": {
-            "csat_pct": int(csat_score),
-            "nps_score": int(nps_score),
-            "nps_tipo": "Excelente" if nps_score >= 60 else "Bueno" if nps_score >= 30 else "Regular" if nps_score >= 0 else "Pésimo",
-            "nps_etapas": nps_etapas,
-            "tendencia": "disminuye" if nps_etapas.get("Inicial", 0) > nps_etapas.get("Avanzado", 0)
-                         else "aumenta" if nps_etapas.get("Inicial", 0) < nps_etapas.get("Avanzado", 0)
-                         else "se mantiene",
-            "delta": abs(int(nps_etapas.get("Inicial", 0) - nps_etapas.get("Avanzado", 0))),
-            "top_dimensiones": top_dims,
-            "top_facultades": top_facs
-        },
-        "nps": {
-            "promotores": promotores_total,
-            "pasivos": pasivos_total,
-            "detractores": detractores_total,
-            "score": nps_score
-        },
-        "csat": {r: int((serie_csat == r).sum()) for r in RESPUESTAS_TEXTO}
-    }
-
-
-def _hash_csv(csv_path: Path) -> str:
-    """Calcula el hash SHA256 del contenido del CSV para detección de cambios."""
-    import hashlib as _hl
-    h = _hl.sha256()
-    with open(csv_path, "rb") as f:
-        for chunk in iter(lambda: f.read(8192), b""):
-            h.update(chunk)
-    return h.hexdigest()
-
-
-def _csv_cambiado(csv_path: Path, ruta_salida: Path) -> bool:
-    """Detecta si un CSV cambió desde el último build comparando su hash.
-
-    El hash se guarda en `<ruta_salida>/.csv_hash`. Si el archivo no existe
-    (primer build) o el hash difiere, retorna True (procesar).
-    Si el hash coincide, retorna False (saltar, los JSON ya están actualizados).
-    """
-    hash_file = ruta_salida / ".csv_hash"
-    current_hash = _hash_csv(csv_path)
-    if not hash_file.exists():
-        return True
-    try:
-        saved_hash = hash_file.read_text(encoding="utf-8").strip()
-        return saved_hash != current_hash
-    except OSError:
-        return True
-
-
-def _guardar_hash_csv(csv_path: Path, ruta_salida: Path) -> None:
-    """Guarda el hash del CSV para comparación en el próximo build."""
-    hash_file = ruta_salida / ".csv_hash"
-    try:
-        hash_file.write_text(_hash_csv(csv_path), encoding="utf-8")
-    except OSError as e:
-        logging.warning(f"No se pudo guardar hash de CSV: {e}")
-
-
-# ── Ayudantes de exportación CSV ──────────────────────────────────
-
-def _sanitizar_nombre_csv(filename: str) -> str:
-    """Convierte nombre de archivo CSV a formato limpio en minúsculas con guiones bajos.
-    Ej: 'ENCUESTA DE SATISFACCIÓN ESTUDIANTIL- PREGRADO - 2026-1.csv'
-        → 'encuesta_de_satisfaccion_estudiantil_pregrado_2026_1'
-    """
-    name = filename.replace(".csv", "").lower()
-    name = re.sub(r"[^a-z0-9áéíóúñü]", "_", name)
-    name = re.sub(r"_+", "_", name).strip("_")
-    return name
-
-
-def _csv_escape(val) -> str:
-    """Escapa un valor para CSV manejando comas, comillas dobles, saltos de línea
-    y prefijos de fórmula (Excel formula injection)."""
-    s = str(val) if val is not None else ""
-    # Prevenir formula injection: si el valor empieza con = + - @, prefijar con '
-    # para que Excel lo trate como texto, no como fórmula.
-    if s and s[0] in ('=', '+', '-', '@'):
-        s = "'" + s
-    if "," in s or '"' in s or "\n" in s or "\r" in s:
-        return f'"{s.replace(chr(34), chr(34)+chr(34))}"'
-    return s
-
-
-def _generar_csvs_y_zip(
-    df: pd.DataFrame,
-    comentarios_detallados: list,
-    ruta_salida: Path,
-    csv_file: Path,
-    nivel: str,
-    categoria_dim: Dict[str, str],
-    nps_col: str,
-    csat_col: str,
-    comentario_col: str,
-) -> None:
-    """Genera dos CSVs (analisis_cualitativo + respuestas_dimensiones) y los
-    empaqueta en un ZIP dentro del directorio de salida."""
-    import os as _os
-
-    nombre_base = _sanitizar_nombre_csv(csv_file.name)
-    fecha = pd.Timestamp.now().strftime("%Y-%m-%d")
-
-    # ── Construir reverse mapping (renombrado → original) ──
-    rev_pregrado = {v: k for k, v in COLUMN_RENAME_PREGRADO.items()}
-    rev_graduado = {v: k for k, v in COLUMN_RENAME_GRADUADO.items()}
-    rev_map = rev_graduado if nivel == "graduate" else rev_pregrado
-
-    # ── CSV 1: analisis_cualitativo ──
-    csv1_headers = [
-        "ID", "CID", "Carrera", "Facultad", "Ciclo",
-        "NPS Score", "Sentimiento", "Intensidad",
-        "Tema", "Tema Padre",
-        "Comentario Original", "Comentario Corregido"
-    ]
-    csv1_rows = []
-    for c in comentarios_detallados:
-        csv1_rows.append([
-            (c.get("comentario_id_original", "") or "").rsplit("_", 1)[0] if "_" in (c.get("comentario_id_original", "") or "") else (c.get("comentario_id_original", "") or ""),
-            c.get("id", ""),
-            c.get("carrera", ""),
-            c.get("facultad", ""),
-            c.get("ciclo", ""),
-            c.get("nps_score", ""),
-            c.get("sentimiento", ""),
-            c.get("intensidad", ""),
-            c.get("aspecto_normalizado", ""),
-            c.get("categoria_padre", ""),
-            c.get("comentario_original", ""),
-            c.get("fragmento_mostrar", ""),
-        ])
-    csv1_name = f"analisis_cualitativo_{nombre_base}.csv"
-
-    # ── CSV 2: respuestas por dimensión ──
-    # Identificar columnas de dimensión presentes en el DataFrame
-    dim_cols_renamed = [d for d in categoria_dim.keys() if d in df.columns]
-    # Mapear a nombres originales para cabeceras
-    csv2_headers = ["ID", "Carrera"]
-    if "Situación laboral" in df.columns:
-        csv2_headers.append("Situación laboral")
-    if "Tiempo laboral" in df.columns:
-        csv2_headers.append("Tiempo laboral")
-    csv2_headers.append("Facultad")
-    if "Ciclo" in df.columns:
-        csv2_headers.append("Ciclo")
-
-    for d_renamed in dim_cols_renamed:
-        csv2_headers.append(rev_map.get(d_renamed, d_renamed))
-
-    # Añadir columnas fijas finales
-    rev_carrera = rev_map.get("La carrera", "Tu carrera")
-    csv2_headers.append(rev_carrera)
-    csv2_headers.append(rev_map.get(csat_col, csat_col))
-    csv2_headers.append(rev_map.get(nps_col, nps_col))
-    csv2_headers.append("Comentario Original")
-
-    csv2_rows = []
-    # El comentario original se obtiene de la columna de comentario NPS
-    comentario_df_col = comentario_col
-    for _, row in df.iterrows():
-        r = [
-            row.get("ID", ""),
-            row.get("Carrera", ""),
-        ]
-        if "Situación laboral" in df.columns:
-            r.append(row.get("Situación laboral", ""))
-        if "Tiempo laboral" in df.columns:
-            r.append(row.get("Tiempo laboral", ""))
-        r.append(row.get("Facultad", ""))
-        if "Ciclo" in df.columns:
-            r.append(row.get("Ciclo", ""))
-
-        for d_renamed in dim_cols_renamed:
-            r.append(row.get(d_renamed, ""))
-
-        r.append(row.get("La carrera", ""))
-        r.append(row.get(csat_col, ""))
-        r.append(row.get(nps_col, ""))
-        r.append(row.get(comentario_df_col, ""))
-        csv2_rows.append(r)
-
-    csv2_name = f"{nombre_base}.csv"
-    zip_name = f"data_{nombre_base}.zip"
-
-    # ── Escribir ZIP ──
-    zip_path = ruta_salida / zip_name
-    try:
-        with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as zf:
-            # CSV 1
-            csv1_content = "\ufeff" + ",".join(csv1_headers) + "\n"
-            csv1_content += "\n".join(
-                ",".join(_csv_escape(v) for v in row) for row in csv1_rows
-            )
-            zf.writestr(csv1_name, csv1_content.encode("utf-8-sig"))
-
-            # CSV 2
-            csv2_content = "\ufeff" + ",".join(csv2_headers) + "\n"
-            csv2_content += "\n".join(
-                ",".join(_csv_escape(v) for v in row) for row in csv2_rows
-            )
-            zf.writestr(csv2_name, csv2_content.encode("utf-8-sig"))
-
-        logging.info(f"📦 ZIP generado: {zip_name} ({len(csv1_rows)} comentarios, {len(csv2_rows)} encuestados)")
-    except Exception as exc:
-        logging.warning(f"No se pudo generar ZIP {zip_name}: {exc}")
-
-
 def main() -> None:
     if not DATA_DIR.is_dir():
         logging.error(f"El directorio de datos de entrada no existe: {DATA_DIR}")
@@ -422,7 +161,7 @@ def main() -> None:
         # El caché IA (ia_cache.json) ya evita re-pagar DeepSeek; esto
         # adicionalmente evita releer el CSV, recalcular métricas y
         # reescribir JSONs idénticos.
-        if not _csv_cambiado(csv_file, ruta_salida):
+        if not csv_cambiado(csv_file, ruta_salida):
             jsons_existen = all(
                 (ruta_salida / f"{j}.json").exists()
                 for j in ["dashboard_data", "filtros", "dimensiones",
@@ -531,7 +270,7 @@ def main() -> None:
                 }
 
         # NPS Carrera (Fase 11: delegado a _calcular_nps_carrera)
-        nps_carrera = _calcular_nps_carrera(df_nps, nps_col)
+        nps_carrera = calc_nps_carrera(df_nps, nps_col)
         with open(ruta_salida / "nps_carrera.json", "w", encoding="utf-8") as f:
             json.dump(nps_carrera, f, ensure_ascii=False, indent=2)
 
@@ -555,7 +294,7 @@ def main() -> None:
             json.dump(nps_ciclo_carrera, f, ensure_ascii=False)
 
         # CSAT Carrera (Fase 11: delegado a _calcular_csat_carrera)
-        csat_carrera = _calcular_csat_carrera(df, csat_col)
+        csat_carrera = calc_csat_carrera(df, csat_col, RESPUESTAS_TEXTO)
         with open(ruta_salida / "csat_carrera.json", "w", encoding="utf-8") as f:
             json.dump(csat_carrera, f, ensure_ascii=False, indent=2)
 
@@ -690,7 +429,7 @@ def main() -> None:
             resumen["empleabilidad"] = empleabilidad
 
         # Generar dashboard_data.json (Fase 11: delegado a _construir_dashboard_data)
-        dashboard_data = _construir_dashboard_data(
+        dashboard_data = construir_dashboard_data(
             resumen=resumen,
             csat_score=csat_score,
             nps_score=nps_score,
@@ -1115,7 +854,7 @@ def main() -> None:
         # Generar CSVs y ZIP (solo si hay datos cualitativos)
         if comentario_col in df.columns and len(comentarios_detallados) > 0:
             try:
-                _generar_csvs_y_zip(
+                generar_csvs_y_zip(
                     df=df,
                     comentarios_detallados=comentarios_detallados,
                     ruta_salida=ruta_salida,
@@ -1136,43 +875,17 @@ def main() -> None:
 
         # Guardar hash del CSV para saltar reprocesamiento en el próximo build
         # si el CSV no cambia. Solo se guarda si el procesamiento fue exitoso.
-        _guardar_hash_csv(csv_file, ruta_salida)
+        guardar_hash_csv(csv_file, ruta_salida)
 
     # =========================================================
     # Actualizar periodos.json automáticamente por nivel
     # =========================================================
     _total_elapsed = time.perf_counter() - _build_start
-    logging.info(f"⏱️ Build completado en {_total_elapsed:.1f}s | {len(_timings)} archivos procesados")
+    logging.info(f"Build completado en {_total_elapsed:.1f}s | {len(_timings)} archivos procesados")
     for _k, _v in sorted(_timings.items(), key=lambda x: x[1], reverse=True):
         logging.info(f"   {_k}: {_v:.1f}s")
 
-    def clave_periodo(p: str):
-        parts = p.split('-')
-        if len(parts) == 2 and parts[0].isdigit() and parts[1].isdigit():
-            return (int(parts[0]), int(parts[1]))
-        return (0, 0)
-
-    for lvl, periodos in periodos_por_nivel.items():
-        if not periodos:
-            continue
-        periodos_ordenados = sorted(list(periodos), key=clave_periodo)
-        ultimo_periodo = periodos_ordenados[-1]
-
-        periodos_json = []
-        for p in periodos_ordenados:
-            periodos_json.append({
-                "id": p,
-                "label": p,
-                "isNew": p == ultimo_periodo
-            })
-
-        path_periodos = SURVEY_DIRS[lvl] / "periodos.json"
-        try:
-            with open(path_periodos, "w", encoding="utf-8") as f:
-                json.dump(periodos_json, f, ensure_ascii=False, indent=2)
-            logging.info(f"periodos.json actualizado automáticamente para {lvl}.")
-        except Exception as e:
-            logging.error(f"Error al escribir periodos.json en {path_periodos}: {e}")
+    actualizar_periodos(periodos_por_nivel, SURVEY_DIRS)
 
 
 if __name__ == "__main__":

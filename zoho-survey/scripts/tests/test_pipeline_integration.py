@@ -293,9 +293,9 @@ class TestCSVHashDetection(unittest.TestCase):
     """Validación de detección de cambios por hash de CSV."""
 
     def setUp(self):
-        import build_json as bj
-        self._hash_csv = bj._hash_csv
-        self._csv_cambiado = bj._csv_cambiado
+        from lib.io_helper import hash_csv, csv_cambiado
+        self._hash_csv = hash_csv
+        self._csv_cambiado = csv_cambiado
 
     def test_hash_csv_produce_string(self):
         """_hash_csv debe retornar un string hexadecimal de 64 chars (SHA256)."""

@@ -1,4 +1,4 @@
-(() => {
+const SurveyDashboard = (() => {
   'use strict';
 
   // Flag de versión para el módulo de análisis cualitativo - Consolidado en v3.0.2
@@ -1239,4 +1239,26 @@
   } else {
     init();
   }
+
+  // ── Public API ─────────────────────────────────────────────
+  return {
+    init,
+    reload: loadAllData,
+    cache,
+    DOM,
+    filtrarDatos,
+    renderEjecutivo,
+    renderNPSBar,
+    renderCSATBar,
+    updateTop3Filters,
+    renderRadarIndependiente,
+    renderPreguntas,
+    renderDetalleCarreras,
+    renderVisibilidad,
+    updateInsightAtencion,
+    showError,
+    hideError,
+  };
 })();
+
+window.SurveyDashboard = SurveyDashboard;

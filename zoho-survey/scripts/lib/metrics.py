@@ -55,3 +55,44 @@ def calc_promedio_ponderado(counts: List[int], weights: List[int], max_scale: in
         return 0.0
     suma_ponderada = sum(c * w for c, w in zip(counts, weights))
     return (suma_ponderada / total / max_scale) * 100
+
+
+# ── Métricas por segmento ───────────────────────────────────────
+
+
+def calc_nps_carrera(df_nps, nps_col: str) -> list:
+    """Calcula NPS agrupado por carrera.
+
+    Retorna lista de dicts con: carrera, promotores, pasivos, detractores, score.
+    """
+    nps_carrera = []
+    for carrera, sub in df_nps.groupby("Carrera"):
+        p = int((sub[nps_col] >= 9).sum())
+        pa = int(((sub[nps_col] >= 7) & (sub[nps_col] <= 8)).sum())
+        d = int((sub[nps_col] <= 6).sum())
+        nps_carrera.append({
+            "carrera": carrera,
+            "promotores": p,
+            "pasivos": pa,
+            "detractores": d,
+            "score": calc_nps(p, pa, d)
+        })
+    return nps_carrera
+
+
+def calc_csat_carrera(df, csat_col: str, respuestas_texto: list) -> list:
+    """Calcula CSAT agrupado por carrera + facultad.
+
+    Retorna lista de dicts con: carrera, facultad, conteos por respuesta, score.
+    """
+    csat_carrera = []
+    for (car, fac), sub in df.groupby(["Carrera", "Facultad"]):
+        serie = sub[csat_col].dropna()
+        row = {"carrera": car, "facultad": fac}
+        for r in respuestas_texto:
+            row[r] = int((serie == r).sum())
+        t3b = row[respuestas_texto[0]] + row[respuestas_texto[1]] + row[respuestas_texto[2]]
+        total = t3b + row[respuestas_texto[3]] + row[respuestas_texto[4]]
+        row["score"] = calc_csat(t3b, total)
+        csat_carrera.append(row)
+    return csat_carrera

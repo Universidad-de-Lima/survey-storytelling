@@ -2,10 +2,13 @@
 SURVEY ETL IO HELPER — Módulo de utilidades de entrada y salida de archivos.
 
 Proporciona funciones para lectura segura de archivos JSON, lectura robusta
-de CSVs (con detección específica de encoding) y normalización de campos fecha.
+de CSVs (con detección específica de encoding), normalización de campos fecha,
+y utilidades de hash SHA256 para detección de cambios en CSVs.
 """
 
+import hashlib
 import json
+import logging
 from pathlib import Path
 from typing import List, TYPE_CHECKING
 
@@ -79,3 +82,42 @@ def normalize_dates(df: "pd.DataFrame", columns: List[str]) -> "pd.DataFrame":
         df_copy[col] = pd.to_datetime(df_copy[col], dayfirst=True, errors="coerce")
         
     return df_copy
+
+
+# ── Utilidades de hash para detección de cambios ─────────────────
+
+
+def hash_csv(csv_path: Path) -> str:
+    """Calcula el hash SHA256 del contenido del CSV para detección de cambios."""
+    h = hashlib.sha256()
+    with open(csv_path, "rb") as f:
+        for chunk in iter(lambda: f.read(8192), b""):
+            h.update(chunk)
+    return h.hexdigest()
+
+
+def csv_cambiado(csv_path: Path, ruta_salida: Path) -> bool:
+    """Detecta si un CSV cambió desde el último build comparando su hash.
+
+    El hash se guarda en `<ruta_salida>/.csv_hash`. Si el archivo no existe
+    (primer build) o el hash difiere, retorna True (procesar).
+    Si el hash coincide, retorna False (saltar, los JSON ya están actualizados).
+    """
+    hash_file = ruta_salida / ".csv_hash"
+    current_hash = hash_csv(csv_path)
+    if not hash_file.exists():
+        return True
+    try:
+        saved_hash = hash_file.read_text(encoding="utf-8").strip()
+        return saved_hash != current_hash
+    except OSError:
+        return True
+
+
+def guardar_hash_csv(csv_path: Path, ruta_salida: Path) -> None:
+    """Guarda el hash del CSV para comparación en el próximo build."""
+    hash_file = ruta_salida / ".csv_hash"
+    try:
+        hash_file.write_text(hash_csv(csv_path), encoding="utf-8")
+    except OSError as e:
+        logging.warning(f"No se pudo guardar hash de CSV: {e}")
