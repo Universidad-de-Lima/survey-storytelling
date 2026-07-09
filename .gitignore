@@ -37,4 +37,25 @@ package-lock.json
 ~/.cache/huggingface/
 ~/.cache/spacy/
 
-testsprite_tests\tmp\config.json
+testsprite_tests/tmp/config.json
+
+# Archivos de planificación (solo locales, no en producción)
+Mejoras/
+
+# Archivos de caché y estado (artifacts, no en producción)
+ia_cache.json
+.csv_hash
+*.cache
+
+# Screenshots y snapshots de tests (solo locales)
+tests/screenshots/
+tests/snapshots/
+
+# AI State y Action Log (locales de la IA, no en producción)
+AI_STATE.md
+AI_ACTION_LOG.md
+
+# Archivos temporales de desarrollo
+*.tmp
+*.bak
+*.orig
