@@ -1,1236 +1,111 @@
 {
   "metadata": {
-    "version": "2.0",
-    "motor": "deepseek",
-    "total_encuestas": 106,
-    "total_fragmentos": 163
+    "version": "1.0",
+    "total_encuestas": 95,
+    "total_fragmentos": 186
   },
   "data": [
     {
-      "id_encuesta": "1hBBwaY0",
-      "facultad": "Facultad de Comunicación",
-      "carrera": "Comunicación",
-      "ciclo": "NA",
-      "nps_score": 8,
-      "segmento_nps": "Pasivo",
-      "satisfaccion_global": "Satisfecho",
-      "comentario_original": "No gracias",
-      "fragmentos": [
-        {
-          "id_fragmento": "1hBBwaY0_01",
-          "texto": "No gracias"
-        }
-      ]
-    },
-    {
-      "id_encuesta": "ulz2n68A",
+      "id_encuesta": "CmBnRrwm",
       "facultad": "Facultad de Ciencias Empresariales",
-      "carrera": "Negocios Internacionales",
-      "ciclo": "NA",
-      "nps_score": 9,
-      "segmento_nps": "Promotor",
-      "satisfaccion_global": "Muy satisfecho",
-      "comentario_original": ".",
-      "fragmentos": [
-        {
-          "id_fragmento": "ulz2n68A_01",
-          "texto": "."
-        }
-      ]
-    },
-    {
-      "id_encuesta": "9jC5asNK",
-      "facultad": "Facultad de Ciencias Empresariales",
-      "carrera": "Negocios Internacionales",
-      "ciclo": "NA",
-      "nps_score": 10,
-      "segmento_nps": "Promotor",
-      "satisfaccion_global": "Totalmente satisfecho",
-      "comentario_original": "N",
-      "fragmentos": [
-        {
-          "id_fragmento": "9jC5asNK_01",
-          "texto": "N"
-        }
-      ]
-    },
-    {
-      "id_encuesta": "Mpj8RF2w",
-      "facultad": "Facultad de Ciencias Empresariales",
-      "carrera": "Negocios Internacionales",
-      "ciclo": "NA",
-      "nps_score": 9,
-      "segmento_nps": "Promotor",
-      "satisfaccion_global": "Muy satisfecho",
-      "comentario_original": ";)",
-      "fragmentos": [
-        {
-          "id_fragmento": "Mpj8RF2w_01",
-          "texto": ";)"
-        }
-      ]
-    },
-    {
-      "id_encuesta": "RPC5qBIs",
-      "facultad": "Facultad de Ciencias Empresariales",
-      "carrera": "Negocios Internacionales",
-      "ciclo": "NA",
-      "nps_score": 10,
-      "segmento_nps": "Promotor",
-      "satisfaccion_global": "Totalmente satisfecho",
-      "comentario_original": ".",
-      "fragmentos": [
-        {
-          "id_fragmento": "RPC5qBIs_01",
-          "texto": "."
-        }
-      ]
-    },
-    {
-      "id_encuesta": "U6BnrXM8",
-      "facultad": "Facultad de Ciencias Empresariales",
-      "carrera": "Negocios Internacionales",
-      "ciclo": "NA",
-      "nps_score": 9,
-      "segmento_nps": "Promotor",
-      "satisfaccion_global": "Muy satisfecho",
-      "comentario_original": ".",
-      "fragmentos": [
-        {
-          "id_fragmento": "U6BnrXM8_01",
-          "texto": "."
-        }
-      ]
-    },
-    {
-      "id_encuesta": "XKBnRVtP",
-      "facultad": "Facultad de Ciencias Empresariales",
-      "carrera": "Contabilidad y Finanzas",
-      "ciclo": "NA",
-      "nps_score": 8,
-      "segmento_nps": "Pasivo",
-      "satisfaccion_global": "Muy satisfecho",
-      "comentario_original": "a",
-      "fragmentos": [
-        {
-          "id_fragmento": "XKBnRVtP_01",
-          "texto": "a"
-        }
-      ]
-    },
-    {
-      "id_encuesta": "tPjQgtUu",
-      "facultad": "Facultad de Ciencias Empresariales",
-      "carrera": "Contabilidad y Finanzas",
-      "ciclo": "NA",
-      "nps_score": 8,
-      "segmento_nps": "Pasivo",
-      "satisfaccion_global": "Satisfecho",
-      "comentario_original": "-",
-      "fragmentos": [
-        {
-          "id_fragmento": "tPjQgtUu_01",
-          "texto": "-"
-        }
-      ]
-    },
-    {
-      "id_encuesta": "VGjQqGsZ",
-      "facultad": "Facultad de Ingeniería",
-      "carrera": "Ingeniería de Sistemas",
-      "ciclo": "NA",
-      "nps_score": 10,
-      "segmento_nps": "Promotor",
-      "satisfaccion_global": "Totalmente satisfecho",
-      "comentario_original": ".",
-      "fragmentos": [
-        {
-          "id_fragmento": "VGjQqGsZ_01",
-          "texto": "."
-        }
-      ]
-    },
-    {
-      "id_encuesta": "cXC5MUFZ",
-      "facultad": "Facultad de Ingeniería",
-      "carrera": "Ingeniería de Sistemas",
-      "ciclo": "NA",
-      "nps_score": 10,
-      "segmento_nps": "Promotor",
-      "satisfaccion_global": "Totalmente satisfecho",
-      "comentario_original": "Na",
-      "fragmentos": [
-        {
-          "id_fragmento": "cXC5MUFZ_01",
-          "texto": "Na"
-        }
-      ]
-    },
-    {
-      "id_encuesta": "QjDBa15T",
-      "facultad": "Facultad de Ingeniería",
-      "carrera": "Ingeniería de Sistemas",
+      "carrera": "Administración",
       "ciclo": "NA",
       "nps_score": 6,
       "segmento_nps": "Detractor",
       "satisfaccion_global": "Insatisfecho",
-      "comentario_original": ".",
+      "comentario_original": "Hay mucho peso en los trabajos grupales. Y con ello existen alumnos dispuestos a no apoyar",
       "fragmentos": [
         {
-          "id_fragmento": "QjDBa15T_01",
-          "texto": "."
-        }
-      ]
-    },
-    {
-      "id_encuesta": "aVzKkfx2",
-      "facultad": "Facultad de Ciencias Empresariales",
-      "carrera": "Contabilidad y Finanzas",
-      "ciclo": "NA",
-      "nps_score": 9,
-      "segmento_nps": "Promotor",
-      "satisfaccion_global": "Muy satisfecho",
-      "comentario_original": "Siento que la universidad posee una infraestructura solida y los cursos están bien estructurados para salir al campo laboral",
-      "fragmentos": [
-        {
-          "id_fragmento": "aVzKkfx2_01",
-          "texto": "Siento que la universidad posee una infraestructura solida"
+          "id_fragmento": "CmBnRrwm_01",
+          "texto": "Hay mucho peso en los trabajos grupales"
         },
         {
-          "id_fragmento": "aVzKkfx2_02",
-          "texto": "los cursos están bien estructurados para salir al campo laboral"
+          "id_fragmento": "CmBnRrwm_02",
+          "texto": "Con ello existen alumnos dispuestos a no apoyar"
         }
       ]
     },
     {
-      "id_encuesta": "REC2EDKF",
+      "id_encuesta": "84t6h2O6",
       "facultad": "Facultad de Ciencias Empresariales",
-      "carrera": "Negocios Internacionales",
-      "ciclo": "NA",
-      "nps_score": 9,
-      "segmento_nps": "Promotor",
-      "satisfaccion_global": "Muy satisfecho",
-      "comentario_original": "Perfil completo y entorno adecuado",
-      "fragmentos": [
-        {
-          "id_fragmento": "REC2EDKF_01",
-          "texto": "Perfil completo"
-        },
-        {
-          "id_fragmento": "REC2EDKF_02",
-          "texto": "entorno adecuado"
-        }
-      ]
-    },
-    {
-      "id_encuesta": "McCZt6CV",
-      "facultad": "Facultad de Ciencias Empresariales",
-      "carrera": "Negocios Internacionales",
-      "ciclo": "NA",
-      "nps_score": 9,
-      "segmento_nps": "Promotor",
-      "satisfaccion_global": "Muy satisfecho",
-      "comentario_original": "Compromiso notable con la educación",
-      "fragmentos": [
-        {
-          "id_fragmento": "McCZt6CV_01",
-          "texto": "Compromiso notable con la educación"
-        }
-      ]
-    },
-    {
-      "id_encuesta": "5pC2ebBN",
-      "facultad": "Facultad de Arquitectura",
-      "carrera": "Arquitectura",
-      "ciclo": "NA",
-      "nps_score": 9,
-      "segmento_nps": "Promotor",
-      "satisfaccion_global": "Satisfecho",
-      "comentario_original": "Muy buena universidad",
-      "fragmentos": [
-        {
-          "id_fragmento": "5pC2ebBN_01",
-          "texto": "Muy buena universidad"
-        }
-      ]
-    },
-    {
-      "id_encuesta": "l0BnGKf9",
-      "facultad": "Facultad de Comunicación",
-      "carrera": "Comunicación",
-      "ciclo": "NA",
-      "nps_score": 7,
-      "segmento_nps": "Pasivo",
-      "satisfaccion_global": "Satisfecho",
-      "comentario_original": "Todo bien",
-      "fragmentos": [
-        {
-          "id_fragmento": "l0BnGKf9_01",
-          "texto": "Todo bien"
-        }
-      ]
-    },
-    {
-      "id_encuesta": "tDCZ1mGJ",
-      "facultad": "Facultad de Arquitectura",
-      "carrera": "Arquitectura",
-      "ciclo": "NA",
-      "nps_score": 10,
-      "segmento_nps": "Promotor",
-      "satisfaccion_global": "Totalmente satisfecho",
-      "comentario_original": "La universidad en general me parece una de las mejores y los docentes fueron increíbles en toda la carrera",
-      "fragmentos": [
-        {
-          "id_fragmento": "tDCZ1mGJ_01",
-          "texto": "La universidad en general me parece una de las mejores"
-        },
-        {
-          "id_fragmento": "tDCZ1mGJ_02",
-          "texto": "y los docentes fueron increíbles en toda la carrera"
-        }
-      ]
-    },
-    {
-      "id_encuesta": "rhC2dpoJ",
-      "facultad": "Facultad de Ciencias Empresariales",
-      "carrera": "Negocios Internacionales",
-      "ciclo": "NA",
-      "nps_score": 9,
-      "segmento_nps": "Promotor",
-      "satisfaccion_global": "Muy satisfecho",
-      "comentario_original": "Excelencia",
-      "fragmentos": [
-        {
-          "id_fragmento": "rhC2dpoJ_01",
-          "texto": "Excelencia"
-        }
-      ]
-    },
-    {
-      "id_encuesta": "n6C2QF9z",
-      "facultad": "Facultad de Ciencias Empresariales",
-      "carrera": "Negocios Internacionales",
-      "ciclo": "NA",
-      "nps_score": 10,
-      "segmento_nps": "Promotor",
-      "satisfaccion_global": "Totalmente satisfecho",
-      "comentario_original": "Porque es una universidad que te brinda todos los conocimientos, contactos y profesores para desempeñarte en el mundo laboral de manera eficaz",
-      "fragmentos": [
-        {
-          "id_fragmento": "n6C2QF9z_01",
-          "texto": "Porque es una universidad que te brinda todos los conocimientos, contactos y profesores para desempeñarte en el mundo laboral de manera eficaz"
-        }
-      ]
-    },
-    {
-      "id_encuesta": "ENC5PDoA",
-      "facultad": "Facultad de Comunicación",
-      "carrera": "Comunicación",
+      "carrera": "Administración",
       "ciclo": "NA",
       "nps_score": 8,
       "segmento_nps": "Pasivo",
       "satisfaccion_global": "Satisfecho",
-      "comentario_original": "Me parece que es una buena universidad, tienes todos los recursos necesarios, pero siento que admiten a demasiados alumnos que la capacidad de la universidad está quedando pequeña para espacios comunes. Sería ver bien ese tema",
+      "comentario_original": "Presenta muchos beneficios y material adecuado pero siento que podria actualizar mar los cursos y materiales.",
       "fragmentos": [
         {
-          "id_fragmento": "ENC5PDoA_01",
-          "texto": "Me parece que es una buena universidad"
+          "id_fragmento": "84t6h2O6_01",
+          "texto": "Presenta muchos beneficios"
         },
         {
-          "id_fragmento": "ENC5PDoA_02",
-          "texto": "tienes todos los recursos necesarios"
+          "id_fragmento": "84t6h2O6_02",
+          "texto": "Presenta muchos material adecuado"
         },
         {
-          "id_fragmento": "ENC5PDoA_03",
-          "texto": "pero siento que admiten a demasiados alumnos que la capacidad de la universidad está quedando pequeña para espacios comunes"
+          "id_fragmento": "84t6h2O6_03",
+          "texto": "Podria actualizar mar"
         },
         {
-          "id_fragmento": "ENC5PDoA_04",
-          "texto": "Sería ver bien ese tema"
+          "id_fragmento": "84t6h2O6_04",
+          "texto": "Podria actualizar los cursos"
+        },
+        {
+          "id_fragmento": "84t6h2O6_05",
+          "texto": "Podria actualizar los materiales"
         }
       ]
     },
     {
-      "id_encuesta": "CsCZLRbY",
-      "facultad": "Facultad de Arquitectura",
-      "carrera": "Arquitectura",
-      "ciclo": "NA",
-      "nps_score": 10,
-      "segmento_nps": "Promotor",
-      "satisfaccion_global": "Muy satisfecho",
-      "comentario_original": "Por el plan de estudios, el campus y las experiencias vividas",
-      "fragmentos": [
-        {
-          "id_fragmento": "CsCZLRbY_01",
-          "texto": "el plan de estudios"
-        },
-        {
-          "id_fragmento": "CsCZLRbY_02",
-          "texto": "el campus"
-        },
-        {
-          "id_fragmento": "CsCZLRbY_03",
-          "texto": "las experiencias vividas"
-        }
-      ]
-    },
-    {
-      "id_encuesta": "iNC5hQan",
+      "id_encuesta": "PpCZclKG",
       "facultad": "Facultad de Ciencias Empresariales",
-      "carrera": "Negocios Internacionales",
-      "ciclo": "NA",
-      "nps_score": 9,
-      "segmento_nps": "Promotor",
-      "satisfaccion_global": "Totalmente satisfecho",
-      "comentario_original": "Universidad completa, prestigio, contactos y nivel de profesionales",
-      "fragmentos": [
-        {
-          "id_fragmento": "iNC5hQan_01",
-          "texto": "Universidad completa"
-        },
-        {
-          "id_fragmento": "iNC5hQan_02",
-          "texto": "prestigio"
-        },
-        {
-          "id_fragmento": "iNC5hQan_03",
-          "texto": "contactos"
-        },
-        {
-          "id_fragmento": "iNC5hQan_04",
-          "texto": "nivel de profesionales"
-        }
-      ]
-    },
-    {
-      "id_encuesta": "QnC2jop3",
-      "facultad": "Facultad de Ciencias Empresariales",
-      "carrera": "Negocios Internacionales",
-      "ciclo": "NA",
-      "nps_score": 10,
-      "segmento_nps": "Promotor",
-      "satisfaccion_global": "Totalmente satisfecho",
-      "comentario_original": "Universidad completa, brindando oportunidades y experiencias inolvidables",
-      "fragmentos": [
-        {
-          "id_fragmento": "QnC2jop3_01",
-          "texto": "Universidad completa, brindando oportunidades y experiencias inolvidables"
-        }
-      ]
-    },
-    {
-      "id_encuesta": "t6jwrtrW",
-      "facultad": "Facultad de Arquitectura",
-      "carrera": "Arquitectura",
-      "ciclo": "NA",
-      "nps_score": 10,
-      "segmento_nps": "Promotor",
-      "satisfaccion_global": "Totalmente satisfecho",
-      "comentario_original": "Buen campus universitario aunque a veces es intransitable por la cantidad de gente",
-      "fragmentos": [
-        {
-          "id_fragmento": "t6jwrtrW_01",
-          "texto": "Buen campus universitario"
-        },
-        {
-          "id_fragmento": "t6jwrtrW_02",
-          "texto": "aunque a veces es intransitable por la cantidad de gente"
-        }
-      ]
-    },
-    {
-      "id_encuesta": "dhCZONA8",
-      "facultad": "Facultad de Comunicación",
-      "carrera": "Comunicación",
-      "ciclo": "NA",
-      "nps_score": 7,
-      "segmento_nps": "Pasivo",
-      "satisfaccion_global": "Satisfecho",
-      "comentario_original": "buena",
-      "fragmentos": [
-        {
-          "id_fragmento": "dhCZONA8_01",
-          "texto": "buena"
-        }
-      ]
-    },
-    {
-      "id_encuesta": "uODB7EV9",
-      "facultad": "Facultad de Arquitectura",
-      "carrera": "Arquitectura",
-      "ciclo": "NA",
-      "nps_score": 10,
-      "segmento_nps": "Promotor",
-      "satisfaccion_global": "Satisfecho",
-      "comentario_original": "Muy buena enseñanza",
-      "fragmentos": [
-        {
-          "id_fragmento": "uODB7EV9_01",
-          "texto": "Muy buena enseñanza"
-        }
-      ]
-    },
-    {
-      "id_encuesta": "DZC5THRL",
-      "facultad": "Facultad de Ciencias Empresariales",
-      "carrera": "Negocios Internacionales",
-      "ciclo": "NA",
-      "nps_score": 9,
-      "segmento_nps": "Promotor",
-      "satisfaccion_global": "Totalmente satisfecho",
-      "comentario_original": "Me encanta mi carrera y la universidad, siento que me ha preparado bien para lo que me apasiona en cuestión a la linea de carrera que quiero continuar y me siento muy orgulloso de ser egresado de la Universidad de Lima.",
-      "fragmentos": [
-        {
-          "id_fragmento": "DZC5THRL_01",
-          "texto": "Me encanta mi carrera y la universidad"
-        },
-        {
-          "id_fragmento": "DZC5THRL_02",
-          "texto": "siento que me ha preparado bien para lo que me apasiona en cuestión a la linea de carrera que quiero continuar"
-        },
-        {
-          "id_fragmento": "DZC5THRL_03",
-          "texto": "y me siento muy orgulloso de ser egresado de la Universidad de Lima"
-        }
-      ]
-    },
-    {
-      "id_encuesta": "sAtBkuyq",
-      "facultad": "Facultad de Ciencias Empresariales",
-      "carrera": "Negocios Internacionales",
-      "ciclo": "NA",
-      "nps_score": 9,
-      "segmento_nps": "Promotor",
-      "satisfaccion_global": "Muy satisfecho",
-      "comentario_original": "Es una universidad de categoría.",
-      "fragmentos": [
-        {
-          "id_fragmento": "sAtBkuyq_01",
-          "texto": "Es una universidad de categoría."
-        }
-      ]
-    },
-    {
-      "id_encuesta": "anC2Azyy",
-      "facultad": "Facultad de Ciencias Empresariales",
-      "carrera": "Negocios Internacionales",
-      "ciclo": "NA",
-      "nps_score": 10,
-      "segmento_nps": "Promotor",
-      "satisfaccion_global": "Totalmente satisfecho",
-      "comentario_original": "La mejor universidad",
-      "fragmentos": [
-        {
-          "id_fragmento": "anC2Azyy_01",
-          "texto": "La mejor universidad"
-        }
-      ]
-    },
-    {
-      "id_encuesta": "gvz3b2jo",
-      "facultad": "Facultad de Comunicación",
-      "carrera": "Comunicación",
+      "carrera": "Administración",
       "ciclo": "NA",
       "nps_score": 8,
       "segmento_nps": "Pasivo",
       "satisfaccion_global": "Satisfecho",
-      "comentario_original": "Siento que lo recomendaría para la carrera de la Comunicación",
+      "comentario_original": "En temas académicos siento que se quedan atrás de universidades como la ESAN. Infraestructura de primera, pero llena de gente.",
       "fragmentos": [
         {
-          "id_fragmento": "gvz3b2jo_01",
-          "texto": "Siento que lo recomendaría para la carrera de la Comunicación"
-        }
-      ]
-    },
-    {
-      "id_encuesta": "2DC5bBlH",
-      "facultad": "Facultad de Ciencias Empresariales",
-      "carrera": "Negocios Internacionales",
-      "ciclo": "NA",
-      "nps_score": 10,
-      "segmento_nps": "Promotor",
-      "satisfaccion_global": "Totalmente satisfecho",
-      "comentario_original": "Una enseñanza con casos reales y la última tecnologia",
-      "fragmentos": [
-        {
-          "id_fragmento": "2DC5bBlH_01",
-          "texto": "Una enseñanza con casos reales y la última tecnologia"
-        }
-      ]
-    },
-    {
-      "id_encuesta": "8bCZdJWC",
-      "facultad": "Facultad de Arquitectura",
-      "carrera": "Arquitectura",
-      "ciclo": "NA",
-      "nps_score": 9,
-      "segmento_nps": "Promotor",
-      "satisfaccion_global": "Satisfecho",
-      "comentario_original": "Tuve una buena experiencia en la universidad",
-      "fragmentos": [
-        {
-          "id_fragmento": "8bCZdJWC_01",
-          "texto": "Tuve una buena experiencia en la universidad"
-        }
-      ]
-    },
-    {
-      "id_encuesta": "yxC5IrUf",
-      "facultad": "Facultad de Comunicación",
-      "carrera": "Comunicación",
-      "ciclo": "NA",
-      "nps_score": 7,
-      "segmento_nps": "Pasivo",
-      "satisfaccion_global": "Satisfecho",
-      "comentario_original": "Hay buenos equipos",
-      "fragmentos": [
-        {
-          "id_fragmento": "yxC5IrUf_01",
-          "texto": "Hay buenos equipos"
-        }
-      ]
-    },
-    {
-      "id_encuesta": "HPBReUo5",
-      "facultad": "Facultad de Comunicación",
-      "carrera": "Comunicación",
-      "ciclo": "NA",
-      "nps_score": 8,
-      "segmento_nps": "Pasivo",
-      "satisfaccion_global": "Satisfecho",
-      "comentario_original": "Es un buen lugar para educación superior sin embargo siento que puede avanzar mucho más en cuanto a metodologías y temas de enseñanza",
-      "fragmentos": [
-        {
-          "id_fragmento": "HPBReUo5_01",
-          "texto": "Es un buen lugar para educación superior"
+          "id_fragmento": "PpCZclKG_01",
+          "texto": "En temas académicos siento que se quedan atrás de universidades como la esan"
         },
         {
-          "id_fragmento": "HPBReUo5_02",
-          "texto": "siento que puede avanzar mucho más en cuanto a metodologías y temas de enseñanza"
-        }
-      ]
-    },
-    {
-      "id_encuesta": "ZHDFH3LT",
-      "facultad": "Facultad de Ciencias Empresariales",
-      "carrera": "Negocios Internacionales",
-      "ciclo": "NA",
-      "nps_score": 10,
-      "segmento_nps": "Promotor",
-      "satisfaccion_global": "Satisfecho",
-      "comentario_original": "Deben actuar más rápido en la incorporación de programas softwares, programas etc conforme se necesita en el mercado",
-      "fragmentos": [
-        {
-          "id_fragmento": "ZHDFH3LT_01",
-          "texto": "Deben actuar más rápido en la incorporación de programas softwares, programas etc conforme se necesita en el mercado"
-        }
-      ]
-    },
-    {
-      "id_encuesta": "59BhegP9",
-      "facultad": "Facultad de Ciencias Empresariales",
-      "carrera": "Negocios Internacionales",
-      "ciclo": "NA",
-      "nps_score": 10,
-      "segmento_nps": "Promotor",
-      "satisfaccion_global": "Muy satisfecho",
-      "comentario_original": "Increible",
-      "fragmentos": [
-        {
-          "id_fragmento": "59BhegP9_01",
-          "texto": "Increible"
-        }
-      ]
-    },
-    {
-      "id_encuesta": "g4CZwT4M",
-      "facultad": "Facultad de Ciencias Empresariales",
-      "carrera": "Negocios Internacionales",
-      "ciclo": "NA",
-      "nps_score": 4,
-      "segmento_nps": "Detractor",
-      "satisfaccion_global": "Insatisfecho",
-      "comentario_original": "No siento que exista una comunidad universitaria por más que se venda esa idea, ya que no hay un sentido de identidad dentro de este espacio",
-      "fragmentos": [
-        {
-          "id_fragmento": "g4CZwT4M_01",
-          "texto": "No siento que exista una comunidad universitaria por más que se venda esa idea, ya que no hay un sentido de identidad dentro de este espacio"
-        }
-      ]
-    },
-    {
-      "id_encuesta": "5ijOUaHH",
-      "facultad": "Facultad de Ciencias Empresariales",
-      "carrera": "Negocios Internacionales",
-      "ciclo": "NA",
-      "nps_score": 10,
-      "segmento_nps": "Promotor",
-      "satisfaccion_global": "Totalmente satisfecho",
-      "comentario_original": "Muy buenos profesores y metodología",
-      "fragmentos": [
-        {
-          "id_fragmento": "5ijOUaHH_01",
-          "texto": "Muy buenos profesores"
+          "id_fragmento": "PpCZclKG_02",
+          "texto": "Infraestructura de primera"
         },
         {
-          "id_fragmento": "5ijOUaHH_02",
-          "texto": "metodología"
+          "id_fragmento": "PpCZclKG_03",
+          "texto": "Llena de gente"
         }
       ]
     },
     {
-      "id_encuesta": "ohBhGrxi",
+      "id_encuesta": "PczD2PF6",
       "facultad": "Facultad de Ciencias Empresariales",
-      "carrera": "Negocios Internacionales",
-      "ciclo": "NA",
-      "nps_score": 10,
-      "segmento_nps": "Promotor",
-      "satisfaccion_global": "Muy satisfecho",
-      "comentario_original": "nn",
-      "fragmentos": [
-        {
-          "id_fragmento": "ohBhGrxi_01",
-          "texto": "nn"
-        }
-      ]
-    },
-    {
-      "id_encuesta": "i5C5Q7S8",
-      "facultad": "Facultad de Ciencias Empresariales",
-      "carrera": "Contabilidad y Finanzas",
-      "ciclo": "NA",
-      "nps_score": 7,
-      "segmento_nps": "Pasivo",
-      "satisfaccion_global": "Totalmente satisfecho",
-      "comentario_original": "Porque considero que la universidad da las optimas condiciones",
-      "fragmentos": [
-        {
-          "id_fragmento": "i5C5Q7S8_01",
-          "texto": "Porque considero que la universidad da las optimas condiciones"
-        }
-      ]
-    },
-    {
-      "id_encuesta": "pEjEKM7e",
-      "facultad": "Facultad de Ciencias Empresariales",
-      "carrera": "Negocios Internacionales",
-      "ciclo": "NA",
-      "nps_score": 10,
-      "segmento_nps": "Promotor",
-      "satisfaccion_global": "Totalmente satisfecho",
-      "comentario_original": "Mi casa de estudios me dio todos los recursos posibles para poder terminar mi carrera!",
-      "fragmentos": [
-        {
-          "id_fragmento": "pEjEKM7e_01",
-          "texto": "Mi casa de estudios me dio todos los recursos posibles para poder terminar mi carrera"
-        }
-      ]
-    },
-    {
-      "id_encuesta": "JZC5wqVr",
-      "facultad": "Facultad de Comunicación",
-      "carrera": "Comunicación",
-      "ciclo": "NA",
-      "nps_score": 8,
-      "segmento_nps": "Pasivo",
-      "satisfaccion_global": "Satisfecho",
-      "comentario_original": "Siento que se podría mejorar la comunicación con ciertas áreas administrativas.",
-      "fragmentos": [
-        {
-          "id_fragmento": "JZC5wqVr_01",
-          "texto": "Siento que se podría mejorar la comunicación con ciertas áreas administrativas."
-        }
-      ]
-    },
-    {
-      "id_encuesta": "KNBBXijD",
-      "facultad": "Facultad de Ciencias Empresariales",
-      "carrera": "Contabilidad y Finanzas",
-      "ciclo": "NA",
-      "nps_score": 10,
-      "segmento_nps": "Promotor",
-      "satisfaccion_global": "Totalmente satisfecho",
-      "comentario_original": "Muy buena universidad en lo técnico como la infraestructura",
-      "fragmentos": [
-        {
-          "id_fragmento": "KNBBXijD_01",
-          "texto": "Muy buena universidad en lo técnico como la infraestructura"
-        }
-      ]
-    },
-    {
-      "id_encuesta": "hMt6flBH",
-      "facultad": "Facultad de Ciencias Empresariales",
-      "carrera": "Negocios Internacionales",
-      "ciclo": "NA",
-      "nps_score": 10,
-      "segmento_nps": "Promotor",
-      "satisfaccion_global": "Totalmente satisfecho",
-      "comentario_original": "Simplemente la mejor universidad",
-      "fragmentos": [
-        {
-          "id_fragmento": "hMt6flBH_01",
-          "texto": "Simplemente la mejor universidad"
-        }
-      ]
-    },
-    {
-      "id_encuesta": "NbC27Gvg",
-      "facultad": "Facultad de Comunicación",
-      "carrera": "Comunicación",
+      "carrera": "Administración",
       "ciclo": "NA",
       "nps_score": 8,
       "segmento_nps": "Pasivo",
       "satisfaccion_global": "Muy satisfecho",
-      "comentario_original": "He notado que últimamente hubo censura con algunos proyectos académicos, no creo que eso deba pasar en una institución educativa",
+      "comentario_original": "Muy buena universidad con recursos, espacio, tecnología y cursos interesantes",
       "fragmentos": [
         {
-          "id_fragmento": "NbC27Gvg_01",
-          "texto": "He notado que últimamente hubo censura con algunos proyectos académicos, no creo que eso deba pasar en una institución educativa"
-        }
-      ]
-    },
-    {
-      "id_encuesta": "UgC5V9aX",
-      "facultad": "Facultad de Ingeniería",
-      "carrera": "Ingeniería Industrial",
-      "ciclo": "NA",
-      "nps_score": 8,
-      "segmento_nps": "Pasivo",
-      "satisfaccion_global": "Satisfecho",
-      "comentario_original": "Me parece que han abierto la posibilidad a demasiadas personas, se ha vuelto muy comercial",
-      "fragmentos": [
-        {
-          "id_fragmento": "UgC5V9aX_01",
-          "texto": "Me parece que han abierto la posibilidad a demasiadas personas, se ha vuelto muy comercial"
-        }
-      ]
-    },
-    {
-      "id_encuesta": "qzBhpvce",
-      "facultad": "Facultad de Ciencias Empresariales",
-      "carrera": "Contabilidad y Finanzas",
-      "ciclo": "NA",
-      "nps_score": 10,
-      "segmento_nps": "Promotor",
-      "satisfaccion_global": "Totalmente satisfecho",
-      "comentario_original": "La universidad es un lugar acogedor para estudiar, las carreras son lo suficientemente exigentes y el nivel académico es bueno.",
-      "fragmentos": [
-        {
-          "id_fragmento": "qzBhpvce_01",
-          "texto": "La universidad es un lugar acogedor para estudiar"
+          "id_fragmento": "PczD2PF6_01",
+          "texto": "Muy buena universidad con recursos"
         },
         {
-          "id_fragmento": "qzBhpvce_02",
-          "texto": "las carreras son lo suficientemente exigentes"
+          "id_fragmento": "PczD2PF6_02",
+          "texto": "Espacio"
         },
         {
-          "id_fragmento": "qzBhpvce_03",
-          "texto": "el nivel académico es bueno"
-        }
-      ]
-    },
-    {
-      "id_encuesta": "lLC5ZJ9N",
-      "facultad": "Facultad de Comunicación",
-      "carrera": "Comunicación",
-      "ciclo": "NA",
-      "nps_score": 7,
-      "segmento_nps": "Pasivo",
-      "satisfaccion_global": "Satisfecho",
-      "comentario_original": "Tienen buenos profesores que enseñan lo idoneo para la carrera de comunicación",
-      "fragmentos": [
-        {
-          "id_fragmento": "lLC5ZJ9N_01",
-          "texto": "Tienen buenos profesores que enseñan lo idoneo para la carrera de comunicación"
-        }
-      ]
-    },
-    {
-      "id_encuesta": "ygDBZWKq",
-      "facultad": "Facultad de Ingeniería",
-      "carrera": "Ingeniería Industrial",
-      "ciclo": "NA",
-      "nps_score": 8,
-      "segmento_nps": "Pasivo",
-      "satisfaccion_global": "Satisfecho",
-      "comentario_original": "Es una universidad que invierte bastante en la infraestructura",
-      "fragmentos": [
-        {
-          "id_fragmento": "ygDBZWKq_01",
-          "texto": "Es una universidad que invierte bastante en la infraestructura"
-        }
-      ]
-    },
-    {
-      "id_encuesta": "lYCZjbuy",
-      "facultad": "Facultad de Ciencias Empresariales",
-      "carrera": "Negocios Internacionales",
-      "ciclo": "NA",
-      "nps_score": 10,
-      "segmento_nps": "Promotor",
-      "satisfaccion_global": "Muy satisfecho",
-      "comentario_original": "Una universidad muy completa",
-      "fragmentos": [
-        {
-          "id_fragmento": "lYCZjbuy_01",
-          "texto": "Una universidad muy completa"
-        }
-      ]
-    },
-    {
-      "id_encuesta": "XZBBrvgL",
-      "facultad": "Facultad de Comunicación",
-      "carrera": "Comunicación",
-      "ciclo": "NA",
-      "nps_score": 8,
-      "segmento_nps": "Pasivo",
-      "satisfaccion_global": "Satisfecho",
-      "comentario_original": "Dependería del enfoque a la carrera pero en general si",
-      "fragmentos": [
-        {
-          "id_fragmento": "XZBBrvgL_01",
-          "texto": "Dependería del enfoque a la carrera pero en general si"
-        }
-      ]
-    },
-    {
-      "id_encuesta": "vpzXI4Mt",
-      "facultad": "Facultad de Ciencias Empresariales",
-      "carrera": "Contabilidad y Finanzas",
-      "ciclo": "NA",
-      "nps_score": 10,
-      "segmento_nps": "Promotor",
-      "satisfaccion_global": "Totalmente satisfecho",
-      "comentario_original": "Muy bueno",
-      "fragmentos": [
-        {
-          "id_fragmento": "vpzXI4Mt_01",
-          "texto": "Muy bueno"
-        }
-      ]
-    },
-    {
-      "id_encuesta": "ySDFlUrt",
-      "facultad": "Facultad de Ingeniería",
-      "carrera": "Ingeniería Industrial",
-      "ciclo": "NA",
-      "nps_score": 8,
-      "segmento_nps": "Pasivo",
-      "satisfaccion_global": "Satisfecho",
-      "comentario_original": "Le falta áreas verdes",
-      "fragmentos": [
-        {
-          "id_fragmento": "ySDFlUrt_01",
-          "texto": "Le falta áreas verdes"
-        }
-      ]
-    },
-    {
-      "id_encuesta": "EOCZp7QE",
-      "facultad": "Facultad de Arquitectura",
-      "carrera": "Arquitectura",
-      "ciclo": "NA",
-      "nps_score": 10,
-      "segmento_nps": "Promotor",
-      "satisfaccion_global": "Muy satisfecho",
-      "comentario_original": "Satisfecha con mi carrera",
-      "fragmentos": [
-        {
-          "id_fragmento": "EOCZp7QE_01",
-          "texto": "Satisfecha con mi carrera"
-        }
-      ]
-    },
-    {
-      "id_encuesta": "XDzO8UYQ",
-      "facultad": "Facultad de Ingeniería",
-      "carrera": "Ingeniería de Sistemas",
-      "ciclo": "NA",
-      "nps_score": 10,
-      "segmento_nps": "Promotor",
-      "satisfaccion_global": "Totalmente satisfecho",
-      "comentario_original": "Perfecto",
-      "fragmentos": [
-        {
-          "id_fragmento": "XDzO8UYQ_01",
-          "texto": "Perfecto"
-        }
-      ]
-    },
-    {
-      "id_encuesta": "W7C2skzJ",
-      "facultad": "Facultad de Ciencias Empresariales",
-      "carrera": "Negocios Internacionales",
-      "ciclo": "NA",
-      "nps_score": 10,
-      "segmento_nps": "Promotor",
-      "satisfaccion_global": "Satisfecho",
-      "comentario_original": "Muy buena universidad",
-      "fragmentos": [
-        {
-          "id_fragmento": "W7C2skzJ_01",
-          "texto": "Muy buena universidad"
-        }
-      ]
-    },
-    {
-      "id_encuesta": "vpBBwHCY",
-      "facultad": "Facultad de Ingeniería",
-      "carrera": "Ingeniería Industrial",
-      "ciclo": "NA",
-      "nps_score": 4,
-      "segmento_nps": "Detractor",
-      "satisfaccion_global": "Satisfecho",
-      "comentario_original": "Siento que hay mucho alumnado",
-      "fragmentos": [
-        {
-          "id_fragmento": "vpBBwHCY_01",
-          "texto": "Siento que hay mucho alumnado"
-        }
-      ]
-    },
-    {
-      "id_encuesta": "KEBBoBoT",
-      "facultad": "Facultad de Ingeniería",
-      "carrera": "Ingeniería de Sistemas",
-      "ciclo": "NA",
-      "nps_score": 10,
-      "segmento_nps": "Promotor",
-      "satisfaccion_global": "Totalmente satisfecho",
-      "comentario_original": "La calidad educativa",
-      "fragmentos": [
-        {
-          "id_fragmento": "KEBBoBoT_01",
-          "texto": "La calidad educativa"
-        }
-      ]
-    },
-    {
-      "id_encuesta": "rpzFyTPL",
-      "facultad": "Facultad de Ciencias Empresariales",
-      "carrera": "Negocios Internacionales",
-      "ciclo": "NA",
-      "nps_score": 10,
-      "segmento_nps": "Promotor",
-      "satisfaccion_global": "Muy satisfecho",
-      "comentario_original": "La calidad educativa es buena.",
-      "fragmentos": [
-        {
-          "id_fragmento": "rpzFyTPL_01",
-          "texto": "La calidad educativa es buena"
-        }
-      ]
-    },
-    {
-      "id_encuesta": "WMtiv6m9",
-      "facultad": "Facultad de Ingeniería",
-      "carrera": "Ingeniería Industrial",
-      "ciclo": "NA",
-      "nps_score": 8,
-      "segmento_nps": "Pasivo",
-      "satisfaccion_global": "Satisfecho",
-      "comentario_original": "bolsa trabajo limitada",
-      "fragmentos": [
-        {
-          "id_fragmento": "WMtiv6m9_01",
-          "texto": "bolsa trabajo limitada"
-        }
-      ]
-    },
-    {
-      "id_encuesta": "QvtmaVlT",
-      "facultad": "Facultad de Comunicación",
-      "carrera": "Comunicación",
-      "ciclo": "NA",
-      "nps_score": 7,
-      "segmento_nps": "Pasivo",
-      "satisfaccion_global": "Satisfecho",
-      "comentario_original": "Si bien la enseñanza es buena, podrían haber algunos talleres extra como Excel y habilidades blandas",
-      "fragmentos": [
-        {
-          "id_fragmento": "QvtmaVlT_01",
-          "texto": "Si bien la enseñanza es buena"
+          "id_fragmento": "PczD2PF6_03",
+          "texto": "Tecnología interesantes"
         },
         {
-          "id_fragmento": "QvtmaVlT_02",
-          "texto": "podrían haber algunos talleres extra como Excel y habilidades blandas"
-        }
-      ]
-    },
-    {
-      "id_encuesta": "rjBnF9Eu",
-      "facultad": "Facultad de Ingeniería",
-      "carrera": "Ingeniería de Sistemas",
-      "ciclo": "NA",
-      "nps_score": 10,
-      "segmento_nps": "Promotor",
-      "satisfaccion_global": "Muy satisfecho",
-      "comentario_original": "Recomiendo los estudios superiores en la universidad de lima por la satisfacción general de la calidad de la",
-      "fragmentos": [
-        {
-          "id_fragmento": "rjBnF9Eu_01",
-          "texto": "Recomiendo los estudios superiores en la universidad de lima por la satisfacción general de la calidad de la"
-        }
-      ]
-    },
-    {
-      "id_encuesta": "ZpDFnc7p",
-      "facultad": "Facultad de Ciencias Empresariales",
-      "carrera": "Contabilidad y Finanzas",
-      "ciclo": "NA",
-      "nps_score": 10,
-      "segmento_nps": "Promotor",
-      "satisfaccion_global": "Totalmente satisfecho",
-      "comentario_original": "Muy buena universidad, te brinda muchas oportunidades laborales y las enseñanzas son buenas",
-      "fragmentos": [
-        {
-          "id_fragmento": "ZpDFnc7p_01",
-          "texto": "Muy buena universidad"
-        },
-        {
-          "id_fragmento": "ZpDFnc7p_02",
-          "texto": "te brinda muchas oportunidades laborales"
-        },
-        {
-          "id_fragmento": "ZpDFnc7p_03",
-          "texto": "y las enseñanzas son buenas"
-        }
-      ]
-    },
-    {
-      "id_encuesta": "5qt78Kds",
-      "facultad": "Facultad de Ingeniería",
-      "carrera": "Ingeniería Industrial",
-      "ciclo": "NA",
-      "nps_score": 7,
-      "segmento_nps": "Pasivo",
-      "satisfaccion_global": "Muy satisfecho",
-      "comentario_original": "Buena enseñanza pero a veces dejan pasar a alumnos flojos solo por su amistad o confianza",
-      "fragmentos": [
-        {
-          "id_fragmento": "5qt78Kds_01",
-          "texto": "Buena enseñanza"
-        },
-        {
-          "id_fragmento": "5qt78Kds_02",
-          "texto": "pero a veces dejan pasar a alumnos flojos solo por su amistad o confianza"
-        }
-      ]
-    },
-    {
-      "id_encuesta": "PPCZqQSJ",
-      "facultad": "Facultad de Ciencias Empresariales",
-      "carrera": "Negocios Internacionales",
-      "ciclo": "NA",
-      "nps_score": 10,
-      "segmento_nps": "Promotor",
-      "satisfaccion_global": "Totalmente satisfecho",
-      "comentario_original": "Programa de estudios muy completo y oportunidades laborales amplias.",
-      "fragmentos": [
-        {
-          "id_fragmento": "PPCZqQSJ_01",
-          "texto": "Programa de estudios muy completo"
-        },
-        {
-          "id_fragmento": "PPCZqQSJ_02",
-          "texto": "oportunidades laborales amplias"
-        }
-      ]
-    },
-    {
-      "id_encuesta": "Q8zluZKT",
-      "facultad": "Facultad de Comunicación",
-      "carrera": "Comunicación",
-      "ciclo": "NA",
-      "nps_score": 7,
-      "segmento_nps": "Pasivo",
-      "satisfaccion_global": "Satisfecho",
-      "comentario_original": "Siento que hay muchos ámbitos en los que la universidad debe mejorar desde la psicológica hacia sus alumnos hasta el tipo de profesores y su metodología de aprendizaje.",
-      "fragmentos": [
-        {
-          "id_fragmento": "Q8zluZKT_01",
-          "texto": "Siento que hay muchos ámbitos en los que la universidad debe mejorar"
-        },
-        {
-          "id_fragmento": "Q8zluZKT_02",
-          "texto": "la psicológica hacia sus alumnos"
-        },
-        {
-          "id_fragmento": "Q8zluZKT_03",
-          "texto": "el tipo de profesores y su metodología de aprendizaje"
-        }
-      ]
-    },
-    {
-      "id_encuesta": "xXBh9Ok1",
-      "facultad": "Facultad de Ingeniería",
-      "carrera": "Ingeniería de Sistemas",
-      "ciclo": "NA",
-      "nps_score": 9,
-      "segmento_nps": "Promotor",
-      "satisfaccion_global": "Muy satisfecho",
-      "comentario_original": "Existe el apoyo constante en cualquier ámbito",
-      "fragmentos": [
-        {
-          "id_fragmento": "xXBh9Ok1_01",
-          "texto": "Existe el apoyo constante en cualquier ámbito"
-        }
-      ]
-    },
-    {
-      "id_encuesta": "26toqKVx",
-      "facultad": "Facultad de Ciencias Empresariales",
-      "carrera": "Contabilidad y Finanzas",
-      "ciclo": "NA",
-      "nps_score": 10,
-      "segmento_nps": "Promotor",
-      "satisfaccion_global": "Totalmente satisfecho",
-      "comentario_original": "Calidad en todos los sentidos, gran red de negocios",
-      "fragmentos": [
-        {
-          "id_fragmento": "26toqKVx_01",
-          "texto": "Calidad en todos los sentidos"
-        },
-        {
-          "id_fragmento": "26toqKVx_02",
-          "texto": "gran red de negocios"
-        }
-      ]
-    },
-    {
-      "id_encuesta": "yhBhlIC9",
-      "facultad": "Facultad de Comunicación",
-      "carrera": "Comunicación",
-      "ciclo": "NA",
-      "nps_score": 8,
-      "segmento_nps": "Pasivo",
-      "satisfaccion_global": "Muy satisfecho",
-      "comentario_original": "Me gusta que la universidad siga creciendo pero en mi carrera aún le faltó explorar aspectos más a fondo como el guion o el sonido.",
-      "fragmentos": [
-        {
-          "id_fragmento": "yhBhlIC9_01",
-          "texto": "Me gusta que la universidad siga creciendo"
-        },
-        {
-          "id_fragmento": "yhBhlIC9_02",
-          "texto": "en mi carrera aún le faltó explorar aspectos más a fondo como el guion o el sonido"
-        }
-      ]
-    },
-    {
-      "id_encuesta": "HrC2vAZb",
-      "facultad": "Facultad de Ciencias Empresariales",
-      "carrera": "Negocios Internacionales",
-      "ciclo": "NA",
-      "nps_score": 10,
-      "segmento_nps": "Promotor",
-      "satisfaccion_global": "Totalmente satisfecho",
-      "comentario_original": "Muy contenta con la experiencia en la universidad",
-      "fragmentos": [
-        {
-          "id_fragmento": "HrC2vAZb_01",
-          "texto": "Muy contenta con la experiencia en la universidad"
+          "id_fragmento": "PczD2PF6_04",
+          "texto": "Cursos interesantes"
         }
       ]
     },
@@ -1251,178 +126,314 @@
       ]
     },
     {
-      "id_encuesta": "SDBnv1fa",
-      "facultad": "Facultad de Ciencias Empresariales",
-      "carrera": "Negocios Internacionales",
+      "id_encuesta": "Q8zluZKT",
+      "facultad": "Facultad de Comunicación",
+      "carrera": "Comunicación",
       "ciclo": "NA",
-      "nps_score": 9,
-      "segmento_nps": "Promotor",
+      "nps_score": 7,
+      "segmento_nps": "Pasivo",
       "satisfaccion_global": "Satisfecho",
-      "comentario_original": "porque es una gran universidad que apoya al alumno",
+      "comentario_original": "Siento que hay muchos ámbitos en los que la universidad debe mejorar desde la psicológica hacia sus alumnos hasta el tipo de profesores y su metodología de aprendizaje.",
       "fragmentos": [
         {
-          "id_fragmento": "SDBnv1fa_01",
-          "texto": "porque es una gran universidad que apoya al alumno"
+          "id_fragmento": "Q8zluZKT_01",
+          "texto": "Hay muchos ámbitos en los que la universidad debe mejorar desde la psicológica hacia sus alumnos hasta el tipo de profesores"
+        },
+        {
+          "id_fragmento": "Q8zluZKT_02",
+          "texto": "Hay muchos su metodología de aprendizaje"
         }
       ]
     },
     {
-      "id_encuesta": "biDFSMbv",
-      "facultad": "Facultad de Ingeniería",
-      "carrera": "Ingeniería de Sistemas",
+      "id_encuesta": "QvtmaVlT",
+      "facultad": "Facultad de Comunicación",
+      "carrera": "Comunicación",
       "ciclo": "NA",
-      "nps_score": 10,
-      "segmento_nps": "Promotor",
-      "satisfaccion_global": "Totalmente satisfecho",
-      "comentario_original": "Me sentí muy cómodo en la universidad y que aprendí bastante y esto me ayudó para mis prácticas.",
-      "fragmentos": [
-        {
-          "id_fragmento": "biDFSMbv_01",
-          "texto": "Me sentí muy cómodo en la universidad"
-        },
-        {
-          "id_fragmento": "biDFSMbv_02",
-          "texto": "y que aprendí bastante"
-        },
-        {
-          "id_fragmento": "biDFSMbv_03",
-          "texto": "y esto me ayudó para mis prácticas"
-        }
-      ]
-    },
-    {
-      "id_encuesta": "S3DFFf3e",
-      "facultad": "Facultad de Ciencias Empresariales",
-      "carrera": "Contabilidad y Finanzas",
-      "ciclo": "NA",
-      "nps_score": 10,
-      "segmento_nps": "Promotor",
-      "satisfaccion_global": "Totalmente satisfecho",
-      "comentario_original": "La Universidad de Lima brinda las herramientas necesarias para que el alumno pueda desarrollar todo su potencial. Además, cuenta con profesores con gran trayectoria y con vocación por enseñar. Todo excelente.",
-      "fragmentos": [
-        {
-          "id_fragmento": "S3DFFf3e_01",
-          "texto": "La Universidad de Lima brinda las herramientas necesarias para que el alumno pueda desarrollar todo su potencial."
-        },
-        {
-          "id_fragmento": "S3DFFf3e_02",
-          "texto": "Además, cuenta con profesores con gran trayectoria y con vocación por enseñar."
-        },
-        {
-          "id_fragmento": "S3DFFf3e_03",
-          "texto": "Todo excelente."
-        }
-      ]
-    },
-    {
-      "id_encuesta": "3rBhsAam",
-      "facultad": "Facultad de Ciencias Empresariales",
-      "carrera": "Contabilidad y Finanzas",
-      "ciclo": "NA",
-      "nps_score": 9,
-      "segmento_nps": "Promotor",
+      "nps_score": 7,
+      "segmento_nps": "Pasivo",
       "satisfaccion_global": "Satisfecho",
-      "comentario_original": "Es una universidad completa",
+      "comentario_original": "Si bien la enseñanza es buena, podrían haber algunos talleres extra como Excel y habilidades blandas",
       "fragmentos": [
         {
-          "id_fragmento": "3rBhsAam_01",
-          "texto": "Es una universidad completa"
-        }
-      ]
-    },
-    {
-      "id_encuesta": "y4BRijDc",
-      "facultad": "Facultad de Ciencias Empresariales",
-      "carrera": "Negocios Internacionales",
-      "ciclo": "NA",
-      "nps_score": 10,
-      "segmento_nps": "Promotor",
-      "satisfaccion_global": "Totalmente satisfecho",
-      "comentario_original": "Conocimiento, networking, reconocimientos",
-      "fragmentos": [
-        {
-          "id_fragmento": "y4BRijDc_01",
-          "texto": "Conocimiento"
+          "id_fragmento": "QvtmaVlT_01",
+          "texto": "Si bien la enseñanza es buena"
         },
         {
-          "id_fragmento": "y4BRijDc_02",
-          "texto": "networking"
+          "id_fragmento": "QvtmaVlT_02",
+          "texto": "Podrían haber algunos talleres extra como excel"
         },
         {
-          "id_fragmento": "y4BRijDc_03",
-          "texto": "reconocimientos"
+          "id_fragmento": "QvtmaVlT_03",
+          "texto": "Podrían haber algunos habilidades blandas"
         }
       ]
     },
     {
-      "id_encuesta": "4gBBEOQb",
-      "facultad": "Facultad de Ingeniería",
-      "carrera": "Ingeniería de Sistemas",
-      "ciclo": "NA",
-      "nps_score": 10,
-      "segmento_nps": "Promotor",
-      "satisfaccion_global": "Muy satisfecho",
-      "comentario_original": "Felicidad",
-      "fragmentos": [
-        {
-          "id_fragmento": "4gBBEOQb_01",
-          "texto": "Felicidad"
-        }
-      ]
-    },
-    {
-      "id_encuesta": "cSBRfbFN",
-      "facultad": "Facultad de Ciencias Empresariales",
-      "carrera": "Contabilidad y Finanzas",
-      "ciclo": "NA",
-      "nps_score": 10,
-      "segmento_nps": "Promotor",
-      "satisfaccion_global": "Totalmente satisfecho",
-      "comentario_original": "Pase un grato momento en mi carrera universitaria y los conocimientos que tuve fueron muy buenos y provechosos",
-      "fragmentos": [
-        {
-          "id_fragmento": "cSBRfbFN_01",
-          "texto": "Pase un grato momento en mi carrera universitaria"
-        },
-        {
-          "id_fragmento": "cSBRfbFN_02",
-          "texto": "los conocimientos que tuve fueron muy buenos y provechosos"
-        }
-      ]
-    },
-    {
-      "id_encuesta": "84t6h2O6",
-      "facultad": "Facultad de Ciencias Empresariales",
-      "carrera": "Administración",
+      "id_encuesta": "XZBBrvgL",
+      "facultad": "Facultad de Comunicación",
+      "carrera": "Comunicación",
       "ciclo": "NA",
       "nps_score": 8,
       "segmento_nps": "Pasivo",
       "satisfaccion_global": "Satisfecho",
-      "comentario_original": "Presenta muchos beneficios y material adecuado pero siento que podria actualizar mar los cursos y materiales.",
+      "comentario_original": "Dependería del enfoque a la carrera pero en general si",
       "fragmentos": [
         {
-          "id_fragmento": "84t6h2O6_01",
-          "texto": "Presenta muchos beneficios y material adecuado"
+          "id_fragmento": "XZBBrvgL_01",
+          "texto": "Dependería del enfoque a la carrera"
         },
         {
-          "id_fragmento": "84t6h2O6_02",
-          "texto": "pero siento que podria actualizar los cursos y materiales"
+          "id_fragmento": "XZBBrvgL_02",
+          "texto": "Dependería del en general si"
         }
       ]
     },
     {
-      "id_encuesta": "4SBnsw4O",
-      "facultad": "Facultad de Ciencias Empresariales",
-      "carrera": "Negocios Internacionales",
+      "id_encuesta": "lLC5ZJ9N",
+      "facultad": "Facultad de Comunicación",
+      "carrera": "Comunicación",
       "ciclo": "NA",
-      "nps_score": 10,
-      "segmento_nps": "Promotor",
-      "satisfaccion_global": "Totalmente satisfecho",
-      "comentario_original": "Sin duda me dio demasiado conocimiento, el cual aplicó y lo veo en situaciones de mi día día corporativo",
+      "nps_score": 7,
+      "segmento_nps": "Pasivo",
+      "satisfaccion_global": "Satisfecho",
+      "comentario_original": "Tienen buenos profesores que enseñan lo idoneo para la carrera de comunicación",
       "fragmentos": [
         {
-          "id_fragmento": "4SBnsw4O_01",
-          "texto": "Sin duda me dio demasiado conocimiento, el cual aplicó y lo veo en situaciones de mi día día corporativo"
+          "id_fragmento": "lLC5ZJ9N_01",
+          "texto": "Tienen buenos profesores"
+        },
+        {
+          "id_fragmento": "lLC5ZJ9N_02",
+          "texto": "Que enseñan lo idoneo para la carrera de comunicación"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "NbC27Gvg",
+      "facultad": "Facultad de Comunicación",
+      "carrera": "Comunicación",
+      "ciclo": "NA",
+      "nps_score": 8,
+      "segmento_nps": "Pasivo",
+      "satisfaccion_global": "Muy satisfecho",
+      "comentario_original": "He notado que últimamente hubo censura con algunos proyectos académicos, no creo que eso deba pasar en una institución educativa",
+      "fragmentos": [
+        {
+          "id_fragmento": "NbC27Gvg_01",
+          "texto": "He notado que últimamente hubo censura con algunos proyectos académicos"
+        },
+        {
+          "id_fragmento": "NbC27Gvg_02",
+          "texto": "No creo que eso deba pasar en una institución educativa"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "JZC5wqVr",
+      "facultad": "Facultad de Comunicación",
+      "carrera": "Comunicación",
+      "ciclo": "NA",
+      "nps_score": 8,
+      "segmento_nps": "Pasivo",
+      "satisfaccion_global": "Satisfecho",
+      "comentario_original": "Siento que se podría mejorar la comunicación con ciertas áreas administrativas.",
+      "fragmentos": [
+        {
+          "id_fragmento": "JZC5wqVr_01",
+          "texto": "Se podría mejorar la comunicación con ciertas áreas administrativas"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "HPBReUo5",
+      "facultad": "Facultad de Comunicación",
+      "carrera": "Comunicación",
+      "ciclo": "NA",
+      "nps_score": 8,
+      "segmento_nps": "Pasivo",
+      "satisfaccion_global": "Satisfecho",
+      "comentario_original": "Es un buen lugar para educación superior sin embargo siento que puede avanzar mucho más en cuanto a metodologías y temas de enseñanza",
+      "fragmentos": [
+        {
+          "id_fragmento": "HPBReUo5_01",
+          "texto": "Es un buen lugar para educación superior"
+        },
+        {
+          "id_fragmento": "HPBReUo5_02",
+          "texto": "Puede avanzar mucho más en cuanto a metodologías"
+        },
+        {
+          "id_fragmento": "HPBReUo5_03",
+          "texto": "Temas de enseñanza"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "gvz3b2jo",
+      "facultad": "Facultad de Comunicación",
+      "carrera": "Comunicación",
+      "ciclo": "NA",
+      "nps_score": 8,
+      "segmento_nps": "Pasivo",
+      "satisfaccion_global": "Satisfecho",
+      "comentario_original": "Siento que lo recomendaría para la carrera de la Comunicación",
+      "fragmentos": [
+        {
+          "id_fragmento": "gvz3b2jo_01",
+          "texto": "Lo recomendaría para la carrera de la comunicación"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "dhCZONA8",
+      "facultad": "Facultad de Comunicación",
+      "carrera": "Comunicación",
+      "ciclo": "NA",
+      "nps_score": 7,
+      "segmento_nps": "Pasivo",
+      "satisfaccion_global": "Satisfecho",
+      "comentario_original": "buena",
+      "fragmentos": [
+        {
+          "id_fragmento": "dhCZONA8_01",
+          "texto": "Buena"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "1hBBwaY0",
+      "facultad": "Facultad de Comunicación",
+      "carrera": "Comunicación",
+      "ciclo": "NA",
+      "nps_score": 8,
+      "segmento_nps": "Pasivo",
+      "satisfaccion_global": "Satisfecho",
+      "comentario_original": "No gracias",
+      "fragmentos": [
+        {
+          "id_fragmento": "1hBBwaY0_01",
+          "texto": "No gracias"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "ENC5PDoA",
+      "facultad": "Facultad de Comunicación",
+      "carrera": "Comunicación",
+      "ciclo": "NA",
+      "nps_score": 8,
+      "segmento_nps": "Pasivo",
+      "satisfaccion_global": "Satisfecho",
+      "comentario_original": "Me parece que es una buena universidad, tienes todos los recursos necesarios, pero siento que admiten a demasiados alumnos que la capacidad de la universidad está quedando pequeña para espacios comunes. Sería ver bien ese tema",
+      "fragmentos": [
+        {
+          "id_fragmento": "ENC5PDoA_01",
+          "texto": "Es una buena universidad"
+        },
+        {
+          "id_fragmento": "ENC5PDoA_02",
+          "texto": "Tienes todos los recursos necesarios"
+        },
+        {
+          "id_fragmento": "ENC5PDoA_03",
+          "texto": "Admiten a demasiados alumnos que la capacidad de la universidad está quedando pequeña para espacios comunes"
+        },
+        {
+          "id_fragmento": "ENC5PDoA_04",
+          "texto": "Sería ver bien ese tema"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "yxC5IrUf",
+      "facultad": "Facultad de Comunicación",
+      "carrera": "Comunicación",
+      "ciclo": "NA",
+      "nps_score": 7,
+      "segmento_nps": "Pasivo",
+      "satisfaccion_global": "Satisfecho",
+      "comentario_original": "Hay buenos equipos",
+      "fragmentos": [
+        {
+          "id_fragmento": "yxC5IrUf_01",
+          "texto": "Hay buenos equipos"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "muCZdRsq",
+      "facultad": "Facultad de Comunicación",
+      "carrera": "Comunicación",
+      "ciclo": "NA",
+      "nps_score": 8,
+      "segmento_nps": "Pasivo",
+      "satisfaccion_global": "Muy satisfecho",
+      "comentario_original": "Es una gran oportunidad para poder crecer como profesional y como comunicador. Estoy muy satisfecho",
+      "fragmentos": [
+        {
+          "id_fragmento": "muCZdRsq_01",
+          "texto": "Es una gran oportunidad para poder crecer como profesional"
+        },
+        {
+          "id_fragmento": "muCZdRsq_02",
+          "texto": "Es una gran como comunicador"
+        },
+        {
+          "id_fragmento": "muCZdRsq_03",
+          "texto": "Estoy muy satisfecho"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "G1zqbqaA",
+      "facultad": "Facultad de Comunicación",
+      "carrera": "Comunicación",
+      "ciclo": "NA",
+      "nps_score": 6,
+      "segmento_nps": "Detractor",
+      "satisfaccion_global": "Insatisfecho",
+      "comentario_original": "porque no les importa lo social <3",
+      "fragmentos": [
+        {
+          "id_fragmento": "G1zqbqaA_01",
+          "texto": "Porque no les importa lo social <3"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "ZNC26d7p",
+      "facultad": "Facultad de Comunicación",
+      "carrera": "Comunicación",
+      "ciclo": "NA",
+      "nps_score": 6,
+      "segmento_nps": "Detractor",
+      "satisfaccion_global": "Satisfecho",
+      "comentario_original": "Porque no toman en cuenta los problemas sociales",
+      "fragmentos": [
+        {
+          "id_fragmento": "ZNC26d7p_01",
+          "texto": "Porque no toman en cuenta"
+        },
+        {
+          "id_fragmento": "ZNC26d7p_02",
+          "texto": "Porque no toman en los problemas sociales"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "yyBBSZhX",
+      "facultad": "Facultad de Comunicación",
+      "carrera": "Comunicación",
+      "ciclo": "NA",
+      "nps_score": 6,
+      "segmento_nps": "Detractor",
+      "satisfaccion_global": "Satisfecho",
+      "comentario_original": "Pudo haber sido mejor.",
+      "fragmentos": [
+        {
+          "id_fragmento": "yyBBSZhX_01",
+          "texto": "Pudo haber sido mejor"
         }
       ]
     },
@@ -1443,198 +454,314 @@
       ]
     },
     {
-      "id_encuesta": "JCC23ccx",
+      "id_encuesta": "GnDBdSbu",
+      "facultad": "Facultad de Comunicación",
+      "carrera": "Comunicación",
+      "ciclo": "NA",
+      "nps_score": 8,
+      "segmento_nps": "Pasivo",
+      "satisfaccion_global": "Satisfecho",
+      "comentario_original": "Hay muchos alumnos y poco espacios en el campus",
+      "fragmentos": [
+        {
+          "id_fragmento": "GnDBdSbu_01",
+          "texto": "Hay muchos alumnos"
+        },
+        {
+          "id_fragmento": "GnDBdSbu_02",
+          "texto": "Hay muchos poco espacios en el campus"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "yhBhlIC9",
+      "facultad": "Facultad de Comunicación",
+      "carrera": "Comunicación",
+      "ciclo": "NA",
+      "nps_score": 8,
+      "segmento_nps": "Pasivo",
+      "satisfaccion_global": "Muy satisfecho",
+      "comentario_original": "Me gusta que la universidad siga creciendo pero en mi carrera aún le faltó explorar aspectos más a fondo como el guion o el sonido.",
+      "fragmentos": [
+        {
+          "id_fragmento": "yhBhlIC9_01",
+          "texto": "Me gusta que la universidad siga creciendo"
+        },
+        {
+          "id_fragmento": "yhBhlIC9_02",
+          "texto": "En mi carrera aún le faltó explorar aspectos más a fondo como el guion"
+        },
+        {
+          "id_fragmento": "yhBhlIC9_03",
+          "texto": "El sonido"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "WMtiv6m9",
       "facultad": "Facultad de Ingeniería",
-      "carrera": "Ingeniería de Sistemas",
+      "carrera": "Ingeniería Industrial",
+      "ciclo": "NA",
+      "nps_score": 8,
+      "segmento_nps": "Pasivo",
+      "satisfaccion_global": "Satisfecho",
+      "comentario_original": "bolsa trabajo limitada",
+      "fragmentos": [
+        {
+          "id_fragmento": "WMtiv6m9_01",
+          "texto": "Bolsa trabajo limitada"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "vpBBwHCY",
+      "facultad": "Facultad de Ingeniería",
+      "carrera": "Ingeniería Industrial",
+      "ciclo": "NA",
+      "nps_score": 4,
+      "segmento_nps": "Detractor",
+      "satisfaccion_global": "Satisfecho",
+      "comentario_original": "Siento que hay mucho alumnado",
+      "fragmentos": [
+        {
+          "id_fragmento": "vpBBwHCY_01",
+          "texto": "Hay mucho alumnado"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "ySDFlUrt",
+      "facultad": "Facultad de Ingeniería",
+      "carrera": "Ingeniería Industrial",
+      "ciclo": "NA",
+      "nps_score": 8,
+      "segmento_nps": "Pasivo",
+      "satisfaccion_global": "Satisfecho",
+      "comentario_original": "Le falta áreas verdes",
+      "fragmentos": [
+        {
+          "id_fragmento": "ySDFlUrt_01",
+          "texto": "Le falta áreas verdes"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "ygDBZWKq",
+      "facultad": "Facultad de Ingeniería",
+      "carrera": "Ingeniería Industrial",
+      "ciclo": "NA",
+      "nps_score": 8,
+      "segmento_nps": "Pasivo",
+      "satisfaccion_global": "Satisfecho",
+      "comentario_original": "Es una universidad que invierte bastante en la infraestructura",
+      "fragmentos": [
+        {
+          "id_fragmento": "ygDBZWKq_01",
+          "texto": "Es una universidad"
+        },
+        {
+          "id_fragmento": "ygDBZWKq_02",
+          "texto": "Que invierte bastante en la infraestructura"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "UgC5V9aX",
+      "facultad": "Facultad de Ingeniería",
+      "carrera": "Ingeniería Industrial",
+      "ciclo": "NA",
+      "nps_score": 8,
+      "segmento_nps": "Pasivo",
+      "satisfaccion_global": "Satisfecho",
+      "comentario_original": "Me parece que han abierto la posibilidad a demasiadas personas, se ha vuelto muy comercial",
+      "fragmentos": [
+        {
+          "id_fragmento": "UgC5V9aX_01",
+          "texto": "Han abierto la posibilidad a demasiadas personas"
+        },
+        {
+          "id_fragmento": "UgC5V9aX_02",
+          "texto": "Se ha vuelto muy comercial"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "5qt78Kds",
+      "facultad": "Facultad de Ingeniería",
+      "carrera": "Ingeniería Industrial",
+      "ciclo": "NA",
+      "nps_score": 7,
+      "segmento_nps": "Pasivo",
+      "satisfaccion_global": "Muy satisfecho",
+      "comentario_original": "Buena enseñanza pero a veces dejan pasar a alumnos flojos solo por su amistad o confianza",
+      "fragmentos": [
+        {
+          "id_fragmento": "5qt78Kds_01",
+          "texto": "Buena enseñanza"
+        },
+        {
+          "id_fragmento": "5qt78Kds_02",
+          "texto": "A veces dejan pasar a alumnos flojos solo por su amistad"
+        },
+        {
+          "id_fragmento": "5qt78Kds_03",
+          "texto": "Confianza"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "59BhegP9",
+      "facultad": "Facultad de Ciencias Empresariales",
+      "carrera": "Negocios Internacionales",
+      "ciclo": "NA",
+      "nps_score": 10,
+      "segmento_nps": "Promotor",
+      "satisfaccion_global": "Muy satisfecho",
+      "comentario_original": "Increible",
+      "fragmentos": [
+        {
+          "id_fragmento": "59BhegP9_01",
+          "texto": "Increible"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "sAtBkuyq",
+      "facultad": "Facultad de Ciencias Empresariales",
+      "carrera": "Negocios Internacionales",
+      "ciclo": "NA",
+      "nps_score": 9,
+      "segmento_nps": "Promotor",
+      "satisfaccion_global": "Muy satisfecho",
+      "comentario_original": "Es una universidad de categoría.",
+      "fragmentos": [
+        {
+          "id_fragmento": "sAtBkuyq_01",
+          "texto": "Es una universidad de categoría"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "iNC5hQan",
+      "facultad": "Facultad de Ciencias Empresariales",
+      "carrera": "Negocios Internacionales",
       "ciclo": "NA",
       "nps_score": 9,
       "segmento_nps": "Promotor",
       "satisfaccion_global": "Totalmente satisfecho",
-      "comentario_original": "Es buena u, tiene muy buenos profes, infraestructura impecable y recursos muy buenos",
+      "comentario_original": "Universidad completa, prestigio, contactos y nivel de profesionales",
       "fragmentos": [
         {
-          "id_fragmento": "JCC23ccx_01",
-          "texto": "Es buena u"
+          "id_fragmento": "iNC5hQan_01",
+          "texto": "Universidad completa"
         },
         {
-          "id_fragmento": "JCC23ccx_02",
-          "texto": "tiene muy buenos profes"
+          "id_fragmento": "iNC5hQan_02",
+          "texto": "Prestigio"
         },
         {
-          "id_fragmento": "JCC23ccx_03",
-          "texto": "infraestructura impecable"
+          "id_fragmento": "iNC5hQan_03",
+          "texto": "Contactos"
         },
         {
-          "id_fragmento": "JCC23ccx_04",
-          "texto": "y recursos muy buenos"
+          "id_fragmento": "iNC5hQan_04",
+          "texto": "Nivel de profesionales"
         }
       ]
     },
     {
-      "id_encuesta": "hbBhs7Tk",
+      "id_encuesta": "rhC2dpoJ",
       "facultad": "Facultad de Ciencias Empresariales",
       "carrera": "Negocios Internacionales",
       "ciclo": "NA",
-      "nps_score": 10,
-      "segmento_nps": "Promotor",
-      "satisfaccion_global": "Totalmente satisfecho",
-      "comentario_original": "La universidad de Lima es una ambiente muy amigable y su doctrina de enseñanza excelente, acompañado de buenos profesores que te acompañaban en el proceso. Así mismo, la infraestructura ha mejorado excelentemente",
-      "fragmentos": [
-        {
-          "id_fragmento": "hbBhs7Tk_01",
-          "texto": "La universidad de Lima es una ambiente muy amigable"
-        },
-        {
-          "id_fragmento": "hbBhs7Tk_02",
-          "texto": "y su doctrina de enseñanza excelente"
-        },
-        {
-          "id_fragmento": "hbBhs7Tk_03",
-          "texto": "acompañado de buenos profesores que te acompañaban en el proceso"
-        },
-        {
-          "id_fragmento": "hbBhs7Tk_04",
-          "texto": "Así mismo, la infraestructura ha mejorado excelentemente"
-        }
-      ]
-    },
-    {
-      "id_encuesta": "PczD2PF6",
-      "facultad": "Facultad de Ciencias Empresariales",
-      "carrera": "Administración",
-      "ciclo": "NA",
-      "nps_score": 8,
-      "segmento_nps": "Pasivo",
-      "satisfaccion_global": "Muy satisfecho",
-      "comentario_original": "Muy buena universidad con recursos, espacio, tecnología y cursos interesantes",
-      "fragmentos": [
-        {
-          "id_fragmento": "PczD2PF6_01",
-          "texto": "Muy buena universidad con recursos, espacio, tecnología y cursos interesantes"
-        }
-      ]
-    },
-    {
-      "id_encuesta": "yyBBSZhX",
-      "facultad": "Facultad de Comunicación",
-      "carrera": "Comunicación",
-      "ciclo": "NA",
-      "nps_score": 6,
-      "segmento_nps": "Detractor",
-      "satisfaccion_global": "Satisfecho",
-      "comentario_original": "Pudo haber sido mejor.",
-      "fragmentos": [
-        {
-          "id_fragmento": "yyBBSZhX_01",
-          "texto": "Pudo haber sido mejor."
-        }
-      ]
-    },
-    {
-      "id_encuesta": "ZjBBabCQ",
-      "facultad": "Facultad de Ciencias Empresariales",
-      "carrera": "Negocios Internacionales",
-      "ciclo": "NA",
-      "nps_score": 10,
+      "nps_score": 9,
       "segmento_nps": "Promotor",
       "satisfaccion_global": "Muy satisfecho",
-      "comentario_original": "La calidad del nivel educativo es muy bueno y los contactos que puedes tener aquí ayudan mucho",
+      "comentario_original": "Excelencia",
       "fragmentos": [
         {
-          "id_fragmento": "ZjBBabCQ_01",
-          "texto": "La calidad del nivel educativo es muy bueno"
-        },
-        {
-          "id_fragmento": "ZjBBabCQ_02",
-          "texto": "los contactos que puedes tener aquí ayudan mucho"
+          "id_fragmento": "rhC2dpoJ_01",
+          "texto": "Excelencia"
         }
       ]
     },
     {
-      "id_encuesta": "PpCZclKG",
-      "facultad": "Facultad de Ciencias Empresariales",
-      "carrera": "Administración",
-      "ciclo": "NA",
-      "nps_score": 8,
-      "segmento_nps": "Pasivo",
-      "satisfaccion_global": "Satisfecho",
-      "comentario_original": "En temas académicos siento que se quedan atrás de universidades como la ESAN. Infraestructura de primera, pero llena de gente.",
-      "fragmentos": [
-        {
-          "id_fragmento": "PpCZclKG_01",
-          "texto": "En temas académicos siento que se quedan atrás de universidades como la ESAN."
-        },
-        {
-          "id_fragmento": "PpCZclKG_02",
-          "texto": "Infraestructura de primera"
-        },
-        {
-          "id_fragmento": "PpCZclKG_03",
-          "texto": "pero llena de gente"
-        }
-      ]
-    },
-    {
-      "id_encuesta": "afBBfBF9",
-      "facultad": "Facultad de Ingeniería",
-      "carrera": "Ingeniería de Sistemas",
-      "ciclo": "NA",
-      "nps_score": 10,
-      "segmento_nps": "Promotor",
-      "satisfaccion_global": "Totalmente satisfecho",
-      "comentario_original": "La mejor universidad.",
-      "fragmentos": [
-        {
-          "id_fragmento": "afBBfBF9_01",
-          "texto": "La mejor universidad."
-        }
-      ]
-    },
-    {
-      "id_encuesta": "SBBhti7J",
+      "id_encuesta": "McCZt6CV",
       "facultad": "Facultad de Ciencias Empresariales",
       "carrera": "Negocios Internacionales",
       "ciclo": "NA",
-      "nps_score": 10,
+      "nps_score": 9,
       "segmento_nps": "Promotor",
-      "satisfaccion_global": "Satisfecho",
-      "comentario_original": "Es una buena universidad y prestigiosa",
+      "satisfaccion_global": "Muy satisfecho",
+      "comentario_original": "Compromiso notable con la educación",
       "fragmentos": [
         {
-          "id_fragmento": "SBBhti7J_01",
-          "texto": "Es una buena universidad y prestigiosa"
+          "id_fragmento": "McCZt6CV_01",
+          "texto": "Compromiso notable con la educación"
         }
       ]
     },
     {
-      "id_encuesta": "ESCZmmcc",
+      "id_encuesta": "REC2EDKF",
+      "facultad": "Facultad de Ciencias Empresariales",
+      "carrera": "Negocios Internacionales",
+      "ciclo": "NA",
+      "nps_score": 9,
+      "segmento_nps": "Promotor",
+      "satisfaccion_global": "Muy satisfecho",
+      "comentario_original": "Perfil completo y entorno adecuado",
+      "fragmentos": [
+        {
+          "id_fragmento": "REC2EDKF_01",
+          "texto": "Perfil completo"
+        },
+        {
+          "id_fragmento": "REC2EDKF_02",
+          "texto": "Entorno adecuado"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "2DC5bBlH",
       "facultad": "Facultad de Ciencias Empresariales",
       "carrera": "Negocios Internacionales",
       "ciclo": "NA",
       "nps_score": 10,
       "segmento_nps": "Promotor",
       "satisfaccion_global": "Totalmente satisfecho",
-      "comentario_original": "Buena malla curricular",
+      "comentario_original": "Una enseñanza con casos reales y la última tecnologia",
       "fragmentos": [
         {
-          "id_fragmento": "ESCZmmcc_01",
-          "texto": "Buena malla curricular"
+          "id_fragmento": "2DC5bBlH_01",
+          "texto": "Una enseñanza con casos reales"
+        },
+        {
+          "id_fragmento": "2DC5bBlH_02",
+          "texto": "La última tecnologia"
         }
       ]
     },
     {
-      "id_encuesta": "ZNC26d7p",
-      "facultad": "Facultad de Comunicación",
-      "carrera": "Comunicación",
+      "id_encuesta": "z2BR6EUo",
+      "facultad": "Facultad de Ciencias Empresariales",
+      "carrera": "Negocios Internacionales",
       "ciclo": "NA",
-      "nps_score": 6,
-      "segmento_nps": "Detractor",
-      "satisfaccion_global": "Satisfecho",
-      "comentario_original": "Porque no toman en cuenta los problemas sociales",
+      "nps_score": 10,
+      "segmento_nps": "Promotor",
+      "satisfaccion_global": "Totalmente satisfecho",
+      "comentario_original": "La infraestructura es excelente, siempre buscan mejorar ese aspecto, calidad de ensañanza exigencia también.",
       "fragmentos": [
         {
-          "id_fragmento": "ZNC26d7p_01",
-          "texto": "Porque no toman en cuenta los problemas sociales"
+          "id_fragmento": "z2BR6EUo_01",
+          "texto": "La infraestructura es excelente"
+        },
+        {
+          "id_fragmento": "z2BR6EUo_02",
+          "texto": "Siempre buscan mejorar ese aspecto"
+        },
+        {
+          "id_fragmento": "z2BR6EUo_03",
+          "texto": "Siempre buscan mejorar ese calidad de ensañanza exigencia también"
         }
       ]
     },
@@ -1655,186 +782,382 @@
       ]
     },
     {
-      "id_encuesta": "CmBnRrwm",
-      "facultad": "Facultad de Ciencias Empresariales",
-      "carrera": "Administración",
-      "ciclo": "NA",
-      "nps_score": 6,
-      "segmento_nps": "Detractor",
-      "satisfaccion_global": "Insatisfecho",
-      "comentario_original": "Hay mucho peso en los trabajos grupales. Y con ello existen alumnos dispuestos a no apoyar",
-      "fragmentos": [
-        {
-          "id_fragmento": "CmBnRrwm_01",
-          "texto": "Hay mucho peso en los trabajos grupales."
-        },
-        {
-          "id_fragmento": "CmBnRrwm_02",
-          "texto": "Y con ello existen alumnos dispuestos a no apoyar"
-        }
-      ]
-    },
-    {
-      "id_encuesta": "g9BBuHv3",
+      "id_encuesta": "ZjBBabCQ",
       "facultad": "Facultad de Ciencias Empresariales",
       "carrera": "Negocios Internacionales",
       "ciclo": "NA",
       "nps_score": 10,
       "segmento_nps": "Promotor",
-      "satisfaccion_global": "Totalmente satisfecho",
-      "comentario_original": "Buena estructura, cursos, profesores, infraestructura, convenios internacionales y más. Institución con prestigio.",
-      "fragmentos": [
-        {
-          "id_fragmento": "g9BBuHv3_01",
-          "texto": "Buena estructura, cursos, profesores, infraestructura, convenios internacionales y más."
-        },
-        {
-          "id_fragmento": "g9BBuHv3_02",
-          "texto": "Institución con prestigio."
-        }
-      ]
-    },
-    {
-      "id_encuesta": "yfC2EiLR",
-      "facultad": "Facultad de Arquitectura",
-      "carrera": "Arquitectura",
-      "ciclo": "NA",
-      "nps_score": 10,
-      "segmento_nps": "Promotor",
-      "satisfaccion_global": "Totalmente satisfecho",
-      "comentario_original": "Recomendaría la universidad, pero no la carrera por su exigencia, y ya somos muchos y la oferta laboral es baja",
-      "fragmentos": [
-        {
-          "id_fragmento": "yfC2EiLR_01",
-          "texto": "Recomendaría la universidad"
-        },
-        {
-          "id_fragmento": "yfC2EiLR_02",
-          "texto": "no la carrera por su exigencia"
-        },
-        {
-          "id_fragmento": "yfC2EiLR_03",
-          "texto": "ya somos muchos"
-        },
-        {
-          "id_fragmento": "yfC2EiLR_04",
-          "texto": "la oferta laboral es baja"
-        }
-      ]
-    },
-    {
-      "id_encuesta": "G1zqbqaA",
-      "facultad": "Facultad de Comunicación",
-      "carrera": "Comunicación",
-      "ciclo": "NA",
-      "nps_score": 6,
-      "segmento_nps": "Detractor",
-      "satisfaccion_global": "Insatisfecho",
-      "comentario_original": "porque no les importa lo social <3",
-      "fragmentos": [
-        {
-          "id_fragmento": "G1zqbqaA_01",
-          "texto": "porque no les importa lo social <3"
-        }
-      ]
-    },
-    {
-      "id_encuesta": "GnDBdSbu",
-      "facultad": "Facultad de Comunicación",
-      "carrera": "Comunicación",
-      "ciclo": "NA",
-      "nps_score": 8,
-      "segmento_nps": "Pasivo",
-      "satisfaccion_global": "Satisfecho",
-      "comentario_original": "Hay muchos alumnos y poco espacios en el campus",
-      "fragmentos": [
-        {
-          "id_fragmento": "GnDBdSbu_01",
-          "texto": "Hay muchos alumnos y poco espacios en el campus"
-        }
-      ]
-    },
-    {
-      "id_encuesta": "z2BR6EUo",
-      "facultad": "Facultad de Ciencias Empresariales",
-      "carrera": "Negocios Internacionales",
-      "ciclo": "NA",
-      "nps_score": 10,
-      "segmento_nps": "Promotor",
-      "satisfaccion_global": "Totalmente satisfecho",
-      "comentario_original": "La infraestructura es excelente, siempre buscan mejorar ese aspecto, calidad de ensañanza exigencia también.",
-      "fragmentos": [
-        {
-          "id_fragmento": "z2BR6EUo_01",
-          "texto": "La infraestructura es excelente"
-        },
-        {
-          "id_fragmento": "z2BR6EUo_02",
-          "texto": "siempre buscan mejorar ese aspecto"
-        },
-        {
-          "id_fragmento": "z2BR6EUo_03",
-          "texto": "calidad de ensañanza exigencia también"
-        }
-      ]
-    },
-    {
-      "id_encuesta": "xFDF55x1",
-      "facultad": "Facultad de Arquitectura",
-      "carrera": "Arquitectura",
-      "ciclo": "NA",
-      "nps_score": 8,
-      "segmento_nps": "Pasivo",
       "satisfaccion_global": "Muy satisfecho",
-      "comentario_original": "Considero que mucho aprendizaje y retroalimentación pero siento que la metodologia toco pulir pero mucho aprendizaje alrededor y evolucion de la malla",
+      "comentario_original": "La calidad del nivel educativo es muy bueno y los contactos que puedes tener aquí ayudan mucho",
       "fragmentos": [
         {
-          "id_fragmento": "xFDF55x1_01",
-          "texto": "Considero que mucho aprendizaje y retroalimentación"
+          "id_fragmento": "ZjBBabCQ_01",
+          "texto": "La calidad del nivel educativo es muy bueno y los contactos"
         },
         {
-          "id_fragmento": "xFDF55x1_02",
-          "texto": "pero siento que la metodologia toco pulir"
-        },
-        {
-          "id_fragmento": "xFDF55x1_03",
-          "texto": "pero mucho aprendizaje alrededor y evolucion de la malla"
+          "id_fragmento": "ZjBBabCQ_02",
+          "texto": "Que puedes tener aquí ayudan mucho"
         }
       ]
     },
     {
-      "id_encuesta": "HGC2Upmm",
+      "id_encuesta": "4SBnsw4O",
+      "facultad": "Facultad de Ciencias Empresariales",
+      "carrera": "Negocios Internacionales",
+      "ciclo": "NA",
+      "nps_score": 10,
+      "segmento_nps": "Promotor",
+      "satisfaccion_global": "Totalmente satisfecho",
+      "comentario_original": "Sin duda me dio demasiado conocimiento, el cual aplicó y lo veo en situaciones de mi día día corporativo",
+      "fragmentos": [
+        {
+          "id_fragmento": "4SBnsw4O_01",
+          "texto": "Sin duda"
+        },
+        {
+          "id_fragmento": "4SBnsw4O_02",
+          "texto": "Me dio demasiado conocimiento"
+        },
+        {
+          "id_fragmento": "4SBnsw4O_03",
+          "texto": "El cual aplicó"
+        },
+        {
+          "id_fragmento": "4SBnsw4O_04",
+          "texto": "Lo veo en situaciones de mi día día corporativo"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "y4BRijDc",
+      "facultad": "Facultad de Ciencias Empresariales",
+      "carrera": "Negocios Internacionales",
+      "ciclo": "NA",
+      "nps_score": 10,
+      "segmento_nps": "Promotor",
+      "satisfaccion_global": "Totalmente satisfecho",
+      "comentario_original": "Conocimiento, networking, reconocimientos",
+      "fragmentos": [
+        {
+          "id_fragmento": "y4BRijDc_01",
+          "texto": "Conocimiento"
+        },
+        {
+          "id_fragmento": "y4BRijDc_02",
+          "texto": "Networking"
+        },
+        {
+          "id_fragmento": "y4BRijDc_03",
+          "texto": "Reconocimientos"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "HrC2vAZb",
+      "facultad": "Facultad de Ciencias Empresariales",
+      "carrera": "Negocios Internacionales",
+      "ciclo": "NA",
+      "nps_score": 10,
+      "segmento_nps": "Promotor",
+      "satisfaccion_global": "Totalmente satisfecho",
+      "comentario_original": "Muy contenta con la experiencia en la universidad",
+      "fragmentos": [
+        {
+          "id_fragmento": "HrC2vAZb_01",
+          "texto": "Muy contenta con la experiencia en la universidad"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "PPCZqQSJ",
+      "facultad": "Facultad de Ciencias Empresariales",
+      "carrera": "Negocios Internacionales",
+      "ciclo": "NA",
+      "nps_score": 10,
+      "segmento_nps": "Promotor",
+      "satisfaccion_global": "Totalmente satisfecho",
+      "comentario_original": "Programa de estudios muy completo y oportunidades laborales amplias.",
+      "fragmentos": [
+        {
+          "id_fragmento": "PPCZqQSJ_01",
+          "texto": "Programa de estudios muy completo"
+        },
+        {
+          "id_fragmento": "PPCZqQSJ_02",
+          "texto": "Oportunidades laborales amplias"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "rpzFyTPL",
+      "facultad": "Facultad de Ciencias Empresariales",
+      "carrera": "Negocios Internacionales",
+      "ciclo": "NA",
+      "nps_score": 10,
+      "segmento_nps": "Promotor",
+      "satisfaccion_global": "Muy satisfecho",
+      "comentario_original": "La calidad educativa es buena.",
+      "fragmentos": [
+        {
+          "id_fragmento": "rpzFyTPL_01",
+          "texto": "La calidad educativa es buena"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "SDBnv1fa",
+      "facultad": "Facultad de Ciencias Empresariales",
+      "carrera": "Negocios Internacionales",
+      "ciclo": "NA",
+      "nps_score": 9,
+      "segmento_nps": "Promotor",
+      "satisfaccion_global": "Satisfecho",
+      "comentario_original": "porque es una gran universidad que apoya al alumno",
+      "fragmentos": [
+        {
+          "id_fragmento": "SDBnv1fa_01",
+          "texto": "Porque es una gran universidad"
+        },
+        {
+          "id_fragmento": "SDBnv1fa_02",
+          "texto": "Que apoya al alumno"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "W7C2skzJ",
       "facultad": "Facultad de Ciencias Empresariales",
       "carrera": "Negocios Internacionales",
       "ciclo": "NA",
       "nps_score": 10,
       "segmento_nps": "Promotor",
       "satisfaccion_global": "Satisfecho",
-      "comentario_original": "Buena infraestructura, profesores capacitados",
+      "comentario_original": "Muy buena universidad",
       "fragmentos": [
         {
-          "id_fragmento": "HGC2Upmm_01",
-          "texto": "Buena infraestructura"
-        },
-        {
-          "id_fragmento": "HGC2Upmm_02",
-          "texto": "profesores capacitados"
+          "id_fragmento": "W7C2skzJ_01",
+          "texto": "Muy buena universidad"
         }
       ]
     },
     {
-      "id_encuesta": "muCZdRsq",
-      "facultad": "Facultad de Comunicación",
-      "carrera": "Comunicación",
+      "id_encuesta": "9jC5asNK",
+      "facultad": "Facultad de Ciencias Empresariales",
+      "carrera": "Negocios Internacionales",
       "ciclo": "NA",
-      "nps_score": 8,
-      "segmento_nps": "Pasivo",
-      "satisfaccion_global": "Muy satisfecho",
-      "comentario_original": "Es una gran oportunidad para poder crecer como profesional y como comunicador. Estoy muy satisfecho",
+      "nps_score": 10,
+      "segmento_nps": "Promotor",
+      "satisfaccion_global": "Totalmente satisfecho",
+      "comentario_original": "N",
       "fragmentos": [
         {
-          "id_fragmento": "muCZdRsq_01",
-          "texto": "Es una gran oportunidad para poder crecer como profesional y como comunicador. Estoy muy satisfecho"
+          "id_fragmento": "9jC5asNK_01",
+          "texto": "el edificio N"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "lYCZjbuy",
+      "facultad": "Facultad de Ciencias Empresariales",
+      "carrera": "Negocios Internacionales",
+      "ciclo": "NA",
+      "nps_score": 10,
+      "segmento_nps": "Promotor",
+      "satisfaccion_global": "Muy satisfecho",
+      "comentario_original": "Una universidad muy completa",
+      "fragmentos": [
+        {
+          "id_fragmento": "lYCZjbuy_01",
+          "texto": "Una universidad muy completa"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "hMt6flBH",
+      "facultad": "Facultad de Ciencias Empresariales",
+      "carrera": "Negocios Internacionales",
+      "ciclo": "NA",
+      "nps_score": 10,
+      "segmento_nps": "Promotor",
+      "satisfaccion_global": "Totalmente satisfecho",
+      "comentario_original": "Simplemente la mejor universidad",
+      "fragmentos": [
+        {
+          "id_fragmento": "hMt6flBH_01",
+          "texto": "Simplemente la mejor universidad"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "pEjEKM7e",
+      "facultad": "Facultad de Ciencias Empresariales",
+      "carrera": "Negocios Internacionales",
+      "ciclo": "NA",
+      "nps_score": 10,
+      "segmento_nps": "Promotor",
+      "satisfaccion_global": "Totalmente satisfecho",
+      "comentario_original": "Mi casa de estudios me dio todos los recursos posibles para poder terminar mi carrera!",
+      "fragmentos": [
+        {
+          "id_fragmento": "pEjEKM7e_01",
+          "texto": "Mi casa de estudios posibles para poder terminar mi carrera!"
+        },
+        {
+          "id_fragmento": "pEjEKM7e_02",
+          "texto": "Me dio todos los recursos posibles para poder terminar mi carrera!"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "5ijOUaHH",
+      "facultad": "Facultad de Ciencias Empresariales",
+      "carrera": "Negocios Internacionales",
+      "ciclo": "NA",
+      "nps_score": 10,
+      "segmento_nps": "Promotor",
+      "satisfaccion_global": "Totalmente satisfecho",
+      "comentario_original": "Muy buenos profesores y metodología",
+      "fragmentos": [
+        {
+          "id_fragmento": "5ijOUaHH_01",
+          "texto": "Muy buenos profesores"
+        },
+        {
+          "id_fragmento": "5ijOUaHH_02",
+          "texto": "Metodología"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "ZHDFH3LT",
+      "facultad": "Facultad de Ciencias Empresariales",
+      "carrera": "Negocios Internacionales",
+      "ciclo": "NA",
+      "nps_score": 10,
+      "segmento_nps": "Promotor",
+      "satisfaccion_global": "Satisfecho",
+      "comentario_original": "Deben actuar más rápido en la incorporación de programas softwares, programas etc conforme se necesita en el mercado",
+      "fragmentos": [
+        {
+          "id_fragmento": "ZHDFH3LT_01",
+          "texto": "Deben actuar más rápido en la incorporación de programas softwares"
+        },
+        {
+          "id_fragmento": "ZHDFH3LT_02",
+          "texto": "Programas etc conforme"
+        },
+        {
+          "id_fragmento": "ZHDFH3LT_03",
+          "texto": "Se necesita en el mercado"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "DZC5THRL",
+      "facultad": "Facultad de Ciencias Empresariales",
+      "carrera": "Negocios Internacionales",
+      "ciclo": "NA",
+      "nps_score": 9,
+      "segmento_nps": "Promotor",
+      "satisfaccion_global": "Totalmente satisfecho",
+      "comentario_original": "Me encanta mi carrera y la universidad, siento que me ha preparado bien para lo que me apasiona en cuestión a la linea de carrera que quiero continuar y me siento muy orgulloso de ser egresado de la Universidad de Lima.",
+      "fragmentos": [
+        {
+          "id_fragmento": "DZC5THRL_01",
+          "texto": "Me encanta mi carrera"
+        },
+        {
+          "id_fragmento": "DZC5THRL_02",
+          "texto": "La universidad, siento que me ha preparado bien para lo que me apasiona en cuestión a la linea de carrera"
+        },
+        {
+          "id_fragmento": "DZC5THRL_03",
+          "texto": "Que quiero continuar"
+        },
+        {
+          "id_fragmento": "DZC5THRL_04",
+          "texto": "Me siento muy orgulloso de ser egresado de la universidad de lima"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "QnC2jop3",
+      "facultad": "Facultad de Ciencias Empresariales",
+      "carrera": "Negocios Internacionales",
+      "ciclo": "NA",
+      "nps_score": 10,
+      "segmento_nps": "Promotor",
+      "satisfaccion_global": "Totalmente satisfecho",
+      "comentario_original": "Universidad completa, brindando oportunidades y experiencias inolvidables",
+      "fragmentos": [
+        {
+          "id_fragmento": "QnC2jop3_01",
+          "texto": "Universidad completa, brindando oportunidades"
+        },
+        {
+          "id_fragmento": "QnC2jop3_02",
+          "texto": "Experiencias inolvidables"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "n6C2QF9z",
+      "facultad": "Facultad de Ciencias Empresariales",
+      "carrera": "Negocios Internacionales",
+      "ciclo": "NA",
+      "nps_score": 10,
+      "segmento_nps": "Promotor",
+      "satisfaccion_global": "Totalmente satisfecho",
+      "comentario_original": "Porque es una universidad que te brinda todos los conocimientos, contactos y profesores para desempeñarte en el mundo laboral de manera eficaz",
+      "fragmentos": [
+        {
+          "id_fragmento": "n6C2QF9z_01",
+          "texto": "Porque es una universidad"
+        },
+        {
+          "id_fragmento": "n6C2QF9z_02",
+          "texto": "Que te brinda todos los conocimientos"
+        },
+        {
+          "id_fragmento": "n6C2QF9z_03",
+          "texto": "Que te brinda todos los contactos"
+        },
+        {
+          "id_fragmento": "n6C2QF9z_04",
+          "texto": "Que te brinda todos los profesores para desempeñarte en el mundo laboral de manera eficaz"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "anC2Azyy",
+      "facultad": "Facultad de Ciencias Empresariales",
+      "carrera": "Negocios Internacionales",
+      "ciclo": "NA",
+      "nps_score": 10,
+      "segmento_nps": "Promotor",
+      "satisfaccion_global": "Totalmente satisfecho",
+      "comentario_original": "La mejor universidad",
+      "fragmentos": [
+        {
+          "id_fragmento": "anC2Azyy_01",
+          "texto": "La mejor universidad"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "ESCZmmcc",
+      "facultad": "Facultad de Ciencias Empresariales",
+      "carrera": "Negocios Internacionales",
+      "ciclo": "NA",
+      "nps_score": 10,
+      "segmento_nps": "Promotor",
+      "satisfaccion_global": "Totalmente satisfecho",
+      "comentario_original": "Buena malla curricular",
+      "fragmentos": [
+        {
+          "id_fragmento": "ESCZmmcc_01",
+          "texto": "Buena malla curricular"
         }
       ]
     },
@@ -1855,6 +1178,642 @@
       ]
     },
     {
+      "id_encuesta": "HGC2Upmm",
+      "facultad": "Facultad de Ciencias Empresariales",
+      "carrera": "Negocios Internacionales",
+      "ciclo": "NA",
+      "nps_score": 10,
+      "segmento_nps": "Promotor",
+      "satisfaccion_global": "Satisfecho",
+      "comentario_original": "Buena infraestructura, profesores capacitados",
+      "fragmentos": [
+        {
+          "id_fragmento": "HGC2Upmm_01",
+          "texto": "Buena infraestructura, profesores capacitados"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "g9BBuHv3",
+      "facultad": "Facultad de Ciencias Empresariales",
+      "carrera": "Negocios Internacionales",
+      "ciclo": "NA",
+      "nps_score": 10,
+      "segmento_nps": "Promotor",
+      "satisfaccion_global": "Totalmente satisfecho",
+      "comentario_original": "Buena estructura, cursos, profesores, infraestructura, convenios internacionales y más. Institución con prestigio.",
+      "fragmentos": [
+        {
+          "id_fragmento": "g9BBuHv3_01",
+          "texto": "Buena estructura"
+        },
+        {
+          "id_fragmento": "g9BBuHv3_02",
+          "texto": "Cursos"
+        },
+        {
+          "id_fragmento": "g9BBuHv3_03",
+          "texto": "Profesores"
+        },
+        {
+          "id_fragmento": "g9BBuHv3_04",
+          "texto": "Infraestructura internacionales y más"
+        },
+        {
+          "id_fragmento": "g9BBuHv3_05",
+          "texto": "Convenios internacionales y más"
+        },
+        {
+          "id_fragmento": "g9BBuHv3_06",
+          "texto": "Institución con prestigio"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "SBBhti7J",
+      "facultad": "Facultad de Ciencias Empresariales",
+      "carrera": "Negocios Internacionales",
+      "ciclo": "NA",
+      "nps_score": 10,
+      "segmento_nps": "Promotor",
+      "satisfaccion_global": "Satisfecho",
+      "comentario_original": "Es una buena universidad y prestigiosa",
+      "fragmentos": [
+        {
+          "id_fragmento": "SBBhti7J_01",
+          "texto": "Es una buena universidad"
+        },
+        {
+          "id_fragmento": "SBBhti7J_02",
+          "texto": "Es una buena prestigiosa"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "hbBhs7Tk",
+      "facultad": "Facultad de Ciencias Empresariales",
+      "carrera": "Negocios Internacionales",
+      "ciclo": "NA",
+      "nps_score": 10,
+      "segmento_nps": "Promotor",
+      "satisfaccion_global": "Totalmente satisfecho",
+      "comentario_original": "La universidad de Lima es una ambiente muy amigable y su doctrina de enseñanza excelente, acompañado de buenos profesores que te acompañaban en el proceso. Así mismo, la infraestructura ha mejorado excelentemente",
+      "fragmentos": [
+        {
+          "id_fragmento": "hbBhs7Tk_01",
+          "texto": "La universidad de lima es una ambiente muy amigable y su doctrina de enseñanza excelente, acompañado de buenos profesores"
+        },
+        {
+          "id_fragmento": "hbBhs7Tk_02",
+          "texto": "Que te acompañaban en el proceso"
+        },
+        {
+          "id_fragmento": "hbBhs7Tk_03",
+          "texto": "Así mismo, la infraestructura ha mejorado excelentemente"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "cSBRfbFN",
+      "facultad": "Facultad de Ciencias Empresariales",
+      "carrera": "Contabilidad y Finanzas",
+      "ciclo": "NA",
+      "nps_score": 10,
+      "segmento_nps": "Promotor",
+      "satisfaccion_global": "Totalmente satisfecho",
+      "comentario_original": "Pase un grato momento en mi carrera universitaria y los conocimientos que tuve fueron muy buenos y provechosos",
+      "fragmentos": [
+        {
+          "id_fragmento": "cSBRfbFN_01",
+          "texto": "Pase un grato momento en mi carrera universitaria y los conocimientos"
+        },
+        {
+          "id_fragmento": "cSBRfbFN_02",
+          "texto": "Que tuve fueron muy buenos"
+        },
+        {
+          "id_fragmento": "cSBRfbFN_03",
+          "texto": "Provechosos"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "S3DFFf3e",
+      "facultad": "Facultad de Ciencias Empresariales",
+      "carrera": "Contabilidad y Finanzas",
+      "ciclo": "NA",
+      "nps_score": 10,
+      "segmento_nps": "Promotor",
+      "satisfaccion_global": "Totalmente satisfecho",
+      "comentario_original": "La Universidad de Lima brinda las herramientas necesarias para que el alumno pueda desarrollar todo su potencial. Además, cuenta con profesores con gran trayectoria y con vocación por enseñar. Todo excelente.",
+      "fragmentos": [
+        {
+          "id_fragmento": "S3DFFf3e_01",
+          "texto": "La universidad de lima brinda las herramientas necesarias para que el alumno pueda desarrollar todo su potencial"
+        },
+        {
+          "id_fragmento": "S3DFFf3e_02",
+          "texto": "Además, cuenta con profesores con gran trayectoria"
+        },
+        {
+          "id_fragmento": "S3DFFf3e_03",
+          "texto": "Con vocación por enseñar"
+        },
+        {
+          "id_fragmento": "S3DFFf3e_04",
+          "texto": "Todo excelente"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "26toqKVx",
+      "facultad": "Facultad de Ciencias Empresariales",
+      "carrera": "Contabilidad y Finanzas",
+      "ciclo": "NA",
+      "nps_score": 10,
+      "segmento_nps": "Promotor",
+      "satisfaccion_global": "Totalmente satisfecho",
+      "comentario_original": "Calidad en todos los sentidos, gran red de negocios",
+      "fragmentos": [
+        {
+          "id_fragmento": "26toqKVx_01",
+          "texto": "Calidad en todos los sentidos gran red de negocios"
+        },
+        {
+          "id_fragmento": "26toqKVx_02",
+          "texto": "Gran red de negocios"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "ZpDFnc7p",
+      "facultad": "Facultad de Ciencias Empresariales",
+      "carrera": "Contabilidad y Finanzas",
+      "ciclo": "NA",
+      "nps_score": 10,
+      "segmento_nps": "Promotor",
+      "satisfaccion_global": "Totalmente satisfecho",
+      "comentario_original": "Muy buena universidad, te brinda muchas oportunidades laborales y las enseñanzas son buenas",
+      "fragmentos": [
+        {
+          "id_fragmento": "ZpDFnc7p_01",
+          "texto": "Muy buena universidad"
+        },
+        {
+          "id_fragmento": "ZpDFnc7p_02",
+          "texto": "Te brinda muchas oportunidades laborales y las enseñanzas son buenas"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "3rBhsAam",
+      "facultad": "Facultad de Ciencias Empresariales",
+      "carrera": "Contabilidad y Finanzas",
+      "ciclo": "NA",
+      "nps_score": 9,
+      "segmento_nps": "Promotor",
+      "satisfaccion_global": "Satisfecho",
+      "comentario_original": "Es una universidad completa",
+      "fragmentos": [
+        {
+          "id_fragmento": "3rBhsAam_01",
+          "texto": "Es una universidad completa"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "aVzKkfx2",
+      "facultad": "Facultad de Ciencias Empresariales",
+      "carrera": "Contabilidad y Finanzas",
+      "ciclo": "NA",
+      "nps_score": 9,
+      "segmento_nps": "Promotor",
+      "satisfaccion_global": "Muy satisfecho",
+      "comentario_original": "Siento que la universidad posee una infraestructura solida y los cursos están bien estructurados para salir al campo laboral",
+      "fragmentos": [
+        {
+          "id_fragmento": "aVzKkfx2_01",
+          "texto": "La universidad posee una infraestructura solida y los cursos están bien estructurados para salir al campo laboral"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "vpzXI4Mt",
+      "facultad": "Facultad de Ciencias Empresariales",
+      "carrera": "Contabilidad y Finanzas",
+      "ciclo": "NA",
+      "nps_score": 10,
+      "segmento_nps": "Promotor",
+      "satisfaccion_global": "Totalmente satisfecho",
+      "comentario_original": "Muy bueno",
+      "fragmentos": [
+        {
+          "id_fragmento": "vpzXI4Mt_01",
+          "texto": "Muy bueno"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "qzBhpvce",
+      "facultad": "Facultad de Ciencias Empresariales",
+      "carrera": "Contabilidad y Finanzas",
+      "ciclo": "NA",
+      "nps_score": 10,
+      "segmento_nps": "Promotor",
+      "satisfaccion_global": "Totalmente satisfecho",
+      "comentario_original": "La universidad es un lugar acogedor para estudiar, las carreras son lo suficientemente exigentes y el nivel académico es bueno.",
+      "fragmentos": [
+        {
+          "id_fragmento": "qzBhpvce_01",
+          "texto": "La universidad es un lugar acogedor para estudiar"
+        },
+        {
+          "id_fragmento": "qzBhpvce_02",
+          "texto": "Las carreras son lo suficientemente exigentes"
+        },
+        {
+          "id_fragmento": "qzBhpvce_03",
+          "texto": "El nivel académico es bueno"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "KNBBXijD",
+      "facultad": "Facultad de Ciencias Empresariales",
+      "carrera": "Contabilidad y Finanzas",
+      "ciclo": "NA",
+      "nps_score": 10,
+      "segmento_nps": "Promotor",
+      "satisfaccion_global": "Totalmente satisfecho",
+      "comentario_original": "Muy buena universidad en lo técnico como la infraestructura",
+      "fragmentos": [
+        {
+          "id_fragmento": "KNBBXijD_01",
+          "texto": "Muy buena universidad en lo técnico como la infraestructura"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "i5C5Q7S8",
+      "facultad": "Facultad de Ciencias Empresariales",
+      "carrera": "Contabilidad y Finanzas",
+      "ciclo": "NA",
+      "nps_score": 7,
+      "segmento_nps": "Pasivo",
+      "satisfaccion_global": "Totalmente satisfecho",
+      "comentario_original": "Porque considero que la universidad da las optimas condiciones",
+      "fragmentos": [
+        {
+          "id_fragmento": "i5C5Q7S8_01",
+          "texto": "Porque considero que la universidad da las optimas condiciones"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "g4CZwT4M",
+      "facultad": "Facultad de Ciencias Empresariales",
+      "carrera": "Negocios Internacionales",
+      "ciclo": "NA",
+      "nps_score": 4,
+      "segmento_nps": "Detractor",
+      "satisfaccion_global": "Insatisfecho",
+      "comentario_original": "No siento que exista una comunidad universitaria por más que se venda esa idea, ya que no hay un sentido de identidad dentro de este espacio",
+      "fragmentos": [
+        {
+          "id_fragmento": "g4CZwT4M_01",
+          "texto": "No siento que exista una comunidad universitaria por más que se venda esa idea, ya que no hay un sentido de identidad dentro de este espacio"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "8bCZdJWC",
+      "facultad": "Facultad de Arquitectura",
+      "carrera": "Arquitectura",
+      "ciclo": "NA",
+      "nps_score": 9,
+      "segmento_nps": "Promotor",
+      "satisfaccion_global": "Satisfecho",
+      "comentario_original": "Tuve una buena experiencia en la universidad",
+      "fragmentos": [
+        {
+          "id_fragmento": "8bCZdJWC_01",
+          "texto": "Tuve una buena experiencia en la universidad"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "uODB7EV9",
+      "facultad": "Facultad de Arquitectura",
+      "carrera": "Arquitectura",
+      "ciclo": "NA",
+      "nps_score": 10,
+      "segmento_nps": "Promotor",
+      "satisfaccion_global": "Satisfecho",
+      "comentario_original": "Muy buena enseñanza",
+      "fragmentos": [
+        {
+          "id_fragmento": "uODB7EV9_01",
+          "texto": "Muy buena enseñanza"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "CsCZLRbY",
+      "facultad": "Facultad de Arquitectura",
+      "carrera": "Arquitectura",
+      "ciclo": "NA",
+      "nps_score": 10,
+      "segmento_nps": "Promotor",
+      "satisfaccion_global": "Muy satisfecho",
+      "comentario_original": "Por el plan de estudios, el campus y las experiencias vividas",
+      "fragmentos": [
+        {
+          "id_fragmento": "CsCZLRbY_01",
+          "texto": "Por el plan de estudios"
+        },
+        {
+          "id_fragmento": "CsCZLRbY_02",
+          "texto": "El campus vividas"
+        },
+        {
+          "id_fragmento": "CsCZLRbY_03",
+          "texto": "Las experiencias vividas"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "tDCZ1mGJ",
+      "facultad": "Facultad de Arquitectura",
+      "carrera": "Arquitectura",
+      "ciclo": "NA",
+      "nps_score": 10,
+      "segmento_nps": "Promotor",
+      "satisfaccion_global": "Totalmente satisfecho",
+      "comentario_original": "La universidad en general me parece una de las mejores y los docentes fueron increíbles en toda la carrera",
+      "fragmentos": [
+        {
+          "id_fragmento": "tDCZ1mGJ_01",
+          "texto": "La universidad en general mejores y los docentes fueron increíbles en toda la carrera"
+        },
+        {
+          "id_fragmento": "tDCZ1mGJ_02",
+          "texto": "Me parece una de las mejores y los docentes fueron increíbles en toda la carrera"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "5pC2ebBN",
+      "facultad": "Facultad de Arquitectura",
+      "carrera": "Arquitectura",
+      "ciclo": "NA",
+      "nps_score": 9,
+      "segmento_nps": "Promotor",
+      "satisfaccion_global": "Satisfecho",
+      "comentario_original": "Muy buena universidad",
+      "fragmentos": [
+        {
+          "id_fragmento": "5pC2ebBN_01",
+          "texto": "Muy buena universidad"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "t6jwrtrW",
+      "facultad": "Facultad de Arquitectura",
+      "carrera": "Arquitectura",
+      "ciclo": "NA",
+      "nps_score": 10,
+      "segmento_nps": "Promotor",
+      "satisfaccion_global": "Totalmente satisfecho",
+      "comentario_original": "Buen campus universitario aunque a veces es intransitable por la cantidad de gente",
+      "fragmentos": [
+        {
+          "id_fragmento": "t6jwrtrW_01",
+          "texto": "Buen campus universitario"
+        },
+        {
+          "id_fragmento": "t6jwrtrW_02",
+          "texto": "A veces es intransitable por la cantidad de gente"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "EOCZp7QE",
+      "facultad": "Facultad de Arquitectura",
+      "carrera": "Arquitectura",
+      "ciclo": "NA",
+      "nps_score": 10,
+      "segmento_nps": "Promotor",
+      "satisfaccion_global": "Muy satisfecho",
+      "comentario_original": "Satisfecha con mi carrera",
+      "fragmentos": [
+        {
+          "id_fragmento": "EOCZp7QE_01",
+          "texto": "Satisfecha con mi carrera"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "xFDF55x1",
+      "facultad": "Facultad de Arquitectura",
+      "carrera": "Arquitectura",
+      "ciclo": "NA",
+      "nps_score": 8,
+      "segmento_nps": "Pasivo",
+      "satisfaccion_global": "Muy satisfecho",
+      "comentario_original": "Considero que mucho aprendizaje y retroalimentación pero siento que la metodologia toco pulir pero mucho aprendizaje alrededor y evolucion de la malla",
+      "fragmentos": [
+        {
+          "id_fragmento": "xFDF55x1_01",
+          "texto": "Mucho aprendizaje"
+        },
+        {
+          "id_fragmento": "xFDF55x1_02",
+          "texto": "Mucho retroalimentación"
+        },
+        {
+          "id_fragmento": "xFDF55x1_03",
+          "texto": "La metodologia toco pulir"
+        },
+        {
+          "id_fragmento": "xFDF55x1_04",
+          "texto": "La mucho aprendizaje alrededor"
+        },
+        {
+          "id_fragmento": "xFDF55x1_05",
+          "texto": "La mucho evolucion de la malla"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "yfC2EiLR",
+      "facultad": "Facultad de Arquitectura",
+      "carrera": "Arquitectura",
+      "ciclo": "NA",
+      "nps_score": 10,
+      "segmento_nps": "Promotor",
+      "satisfaccion_global": "Totalmente satisfecho",
+      "comentario_original": "Recomendaría la universidad, pero no la carrera por su exigencia, y ya somos muchos y la oferta laboral es baja",
+      "fragmentos": [
+        {
+          "id_fragmento": "yfC2EiLR_01",
+          "texto": "Recomendaría la universidad"
+        },
+        {
+          "id_fragmento": "yfC2EiLR_02",
+          "texto": "No la carrera por su exigencia, y ya somos muchos y la oferta laboral es baja"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "afBBfBF9",
+      "facultad": "Facultad de Ingeniería",
+      "carrera": "Ingeniería de Sistemas",
+      "ciclo": "NA",
+      "nps_score": 10,
+      "segmento_nps": "Promotor",
+      "satisfaccion_global": "Totalmente satisfecho",
+      "comentario_original": "La mejor universidad.",
+      "fragmentos": [
+        {
+          "id_fragmento": "afBBfBF9_01",
+          "texto": "La mejor universidad"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "JCC23ccx",
+      "facultad": "Facultad de Ingeniería",
+      "carrera": "Ingeniería de Sistemas",
+      "ciclo": "NA",
+      "nps_score": 9,
+      "segmento_nps": "Promotor",
+      "satisfaccion_global": "Totalmente satisfecho",
+      "comentario_original": "Es buena u, tiene muy buenos profes, infraestructura impecable y recursos muy buenos",
+      "fragmentos": [
+        {
+          "id_fragmento": "JCC23ccx_01",
+          "texto": "Es buena u"
+        },
+        {
+          "id_fragmento": "JCC23ccx_02",
+          "texto": "Tiene muy buenos profes"
+        },
+        {
+          "id_fragmento": "JCC23ccx_03",
+          "texto": "Tiene muy buenos infraestructura impecable"
+        },
+        {
+          "id_fragmento": "JCC23ccx_04",
+          "texto": "Tiene muy buenos recursos muy buenos"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "4gBBEOQb",
+      "facultad": "Facultad de Ingeniería",
+      "carrera": "Ingeniería de Sistemas",
+      "ciclo": "NA",
+      "nps_score": 10,
+      "segmento_nps": "Promotor",
+      "satisfaccion_global": "Muy satisfecho",
+      "comentario_original": "Felicidad",
+      "fragmentos": [
+        {
+          "id_fragmento": "4gBBEOQb_01",
+          "texto": "Felicidad"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "biDFSMbv",
+      "facultad": "Facultad de Ingeniería",
+      "carrera": "Ingeniería de Sistemas",
+      "ciclo": "NA",
+      "nps_score": 10,
+      "segmento_nps": "Promotor",
+      "satisfaccion_global": "Totalmente satisfecho",
+      "comentario_original": "Me sentí muy cómodo en la universidad y que aprendí bastante y esto me ayudó para mis prácticas.",
+      "fragmentos": [
+        {
+          "id_fragmento": "biDFSMbv_01",
+          "texto": "Me sentí muy cómodo en la universidad"
+        },
+        {
+          "id_fragmento": "biDFSMbv_02",
+          "texto": "Aprendí bastante"
+        },
+        {
+          "id_fragmento": "biDFSMbv_03",
+          "texto": "Esto me ayudó para mis prácticas"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "xXBh9Ok1",
+      "facultad": "Facultad de Ingeniería",
+      "carrera": "Ingeniería de Sistemas",
+      "ciclo": "NA",
+      "nps_score": 9,
+      "segmento_nps": "Promotor",
+      "satisfaccion_global": "Muy satisfecho",
+      "comentario_original": "Existe el apoyo constante en cualquier ámbito",
+      "fragmentos": [
+        {
+          "id_fragmento": "xXBh9Ok1_01",
+          "texto": "Existe el apoyo constante en cualquier ámbito"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "rjBnF9Eu",
+      "facultad": "Facultad de Ingeniería",
+      "carrera": "Ingeniería de Sistemas",
+      "ciclo": "NA",
+      "nps_score": 10,
+      "segmento_nps": "Promotor",
+      "satisfaccion_global": "Muy satisfecho",
+      "comentario_original": "Recomiendo los estudios superiores en la universidad de lima por la satisfacción general de la calidad de la",
+      "fragmentos": [
+        {
+          "id_fragmento": "rjBnF9Eu_01",
+          "texto": "Recomiendo los estudios superiores en la universidad de lima por la satisfacción general de la calidad de la"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "KEBBoBoT",
+      "facultad": "Facultad de Ingeniería",
+      "carrera": "Ingeniería de Sistemas",
+      "ciclo": "NA",
+      "nps_score": 10,
+      "segmento_nps": "Promotor",
+      "satisfaccion_global": "Totalmente satisfecho",
+      "comentario_original": "La calidad educativa",
+      "fragmentos": [
+        {
+          "id_fragmento": "KEBBoBoT_01",
+          "texto": "La calidad educativa"
+        }
+      ]
+    },
+    {
+      "id_encuesta": "XDzO8UYQ",
+      "facultad": "Facultad de Ingeniería",
+      "carrera": "Ingeniería de Sistemas",
+      "ciclo": "NA",
+      "nps_score": 10,
+      "segmento_nps": "Promotor",
+      "satisfaccion_global": "Totalmente satisfecho",
+      "comentario_original": "Perfecto",
+      "fragmentos": [
+        {
+          "id_fragmento": "XDzO8UYQ_01",
+          "texto": "Perfecto"
+        }
+      ]
+    },
+    {
       "id_encuesta": "4yBRjDNn",
       "facultad": "Facultad de Ingeniería",
       "carrera": "Ingeniería de Sistemas",
@@ -1866,7 +1825,11 @@
       "fragmentos": [
         {
           "id_fragmento": "4yBRjDNn_01",
-          "texto": "Ha sido una gran experiencia que me ha hecho crecer tanto como profesional como persona"
+          "texto": "Ha sido una gran experiencia"
+        },
+        {
+          "id_fragmento": "4yBRjDNn_02",
+          "texto": "Que me ha hecho crecer tanto como profesional como persona"
         }
       ]
     },
@@ -1882,7 +1845,11 @@
       "fragmentos": [
         {
           "id_fragmento": "HHzKqUs9_01",
-          "texto": "Hay una mejora continua que se nota en la universidad tanto como de infraestructura como en el tema académico"
+          "texto": "Hay una mejora continua que se nota en la universidad"
+        },
+        {
+          "id_fragmento": "HHzKqUs9_02",
+          "texto": "Hay una tanto como de infraestructura como en el tema académico"
         }
       ]
     },
@@ -1914,19 +1881,11 @@
       "fragmentos": [
         {
           "id_fragmento": "HnBhpVms_01",
-          "texto": "Es una muy buena universidad"
+          "texto": "Es una muy buena universidad con cursos actualizados buenas infraestructura"
         },
         {
           "id_fragmento": "HnBhpVms_02",
-          "texto": "con cursos actualizados"
-        },
-        {
-          "id_fragmento": "HnBhpVms_03",
-          "texto": "buenas infraestructura"
-        },
-        {
-          "id_fragmento": "HnBhpVms_04",
-          "texto": "profesores"
+          "texto": "Es una muy buena profesores"
         }
       ]
     }
