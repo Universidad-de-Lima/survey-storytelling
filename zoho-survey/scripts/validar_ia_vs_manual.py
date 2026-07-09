@@ -191,7 +191,7 @@ def metricas_intensidad(df_manual: pd.DataFrame,
     # Pearson
     try:
         pearson = float(m.corr(i))
-    except Exception:
+    except (ValueError, TypeError):
         pearson = 0.0
 
     mae = float((m - i).abs().mean())

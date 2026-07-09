@@ -365,7 +365,7 @@ def validate_period(period_dir: Path) -> Tuple[List[str], List[str]]:
         try:
             filtros_val = load_json(filtros_path)
             has_ciclo = filtros_val.get("has_ciclo", True)
-        except Exception:
+        except (ValueError, FileNotFoundError):
             pass
 
     required = dict(REQUIRED_PERIOD_FILES)

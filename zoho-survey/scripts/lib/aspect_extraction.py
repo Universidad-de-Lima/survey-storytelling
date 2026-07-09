@@ -15,7 +15,7 @@ _config_path = os.path.join(os.path.dirname(__file__), "..", "config", "stop_asp
 try:
     with open(_config_path, "r", encoding="utf-8") as f:
         _STOP_ASPECTOS = set(json.load(f))
-except Exception:
+except (FileNotFoundError, json.JSONDecodeError):
     _STOP_ASPECTOS = {"falta", "cosa", "cosas", "problema", "problemas", "mejora", "mejoras"}
 
 # Cargar spacy
@@ -53,7 +53,7 @@ def _cargar_alias_dict() -> Dict[str, list]:
             for dim, aliases in dimensiones.items():
                 plano[dim] = aliases
         return plano
-    except Exception:
+    except (FileNotFoundError, json.JSONDecodeError):
         # Fallback mínimo si el JSON no se puede cargar (evita bloquear el pipeline)
         return {}
 

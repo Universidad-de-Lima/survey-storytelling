@@ -284,7 +284,7 @@ class DeepSeekClient:
                     try:
                         err_body = e.read().decode("utf-8")
                         last_error = f"HTTP {e.code}: {err_body[:300]}"
-                    except Exception:
+                    except (UnicodeDecodeError, IOError):
                         pass
                     break  # no reintentar errores de cliente
                 # 5xx: reintentar con backoff

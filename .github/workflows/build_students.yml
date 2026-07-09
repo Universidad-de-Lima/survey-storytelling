@@ -134,12 +134,29 @@ jobs:
             if git pull --rebase origin main; then
               break
             else
-              echo "Rebase fallido, intento $i/3. Resolviendo conflictos..."
-              # Si hay conflictos en JSON generados, preferir nuestra versión
-              # (la del bot, que es la más reciente del build actual).
-              git checkout --theirs zoho-survey/ data/ 2>/dev/null || true
-              git add zoho-survey/ data/
-              git rebase --continue || break
+              echo "Rebase fallido, intento $i/3. Verificando conflictos..."
+              # Si hay conflictos en JSONs generados (raro: solo el bot los toca),
+              # preferir la versión del bot (más reciente del build actual).
+              # NOTA: conflicto en otros archivos (código, config) indica cambio
+              # manual legítimo y debe fallar para no sobrescribirlo.
+              CONFLICT_FILES=$(git diff --name-only --diff-filter=U 2>/dev/null || echo "")
+              ONLY_JSON=true
+              for f in $CONFLICT_FILES; do
+                case "$f" in
+                  zoho-survey/students/*.json|zoho-survey/students/*/json/*.json|.csv_hash) ;;
+                  *) ONLY_JSON=false ;;
+                esac
+              done
+              if $ONLY_JSON && [ -n "$CONFLICT_FILES" ]; then
+                echo "Conflictos solo en JSONs generados. Resolviendo con --theirs..."
+                git checkout --theirs $CONFLICT_FILES 2>/dev/null || true
+                git add $CONFLICT_FILES
+                git rebase --continue || break
+              else
+                echo "ERROR: Conflictos en archivos no generados. Abortando rebase."
+                git rebase --abort
+                exit 1
+              fi
             fi
             sleep 2
           done
