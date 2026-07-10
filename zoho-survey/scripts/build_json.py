@@ -165,8 +165,9 @@ def main() -> None:
                 for j in ["dashboard_data", "filtros", "dimensiones",
                           "nps_carrera", "nps_ciclo_carrera",
                           "csat_carrera", "csat_ciclo_carrera",
-                          "sentimiento", "ids", "fragmentos_nps",
-                          "dataset_cualitativo"]
+                          "sentimiento", "ids"]
+        # fragmentos_nps.json y dataset_cualitativo.json se escriben en intermediate/
+        # y no se verifican en el shortcut de idempotencia (son intermedios del ETL).
             )
             if jsons_existen:
                 logging.info(f"CSV sin cambios desde último build, saltando: {csv_file.name}")
@@ -540,12 +541,15 @@ def main() -> None:
                     },
                     "data": datos_fragmentos
                 }
-                with open(ruta_salida / "fragmentos_nps.json", "w", encoding="utf-8") as f_frag:
+                # Escribir fragmentos_nps.json en intermediate/ (no desplegado en Pages)
+                _intermediate_dir = ruta_salida.parent / "intermediate"
+                _intermediate_dir.mkdir(parents=True, exist_ok=True)
+                with open(_intermediate_dir / "fragmentos_nps.json", "w", encoding="utf-8") as f_frag:
                     json.dump(fragmentos_payload, f_frag, ensure_ascii=False, indent=2)
             
-                # Escribir dataset_cualitativo.json
+                # Escribir dataset_cualitativo.json en intermediate/
                 cualitativo_payload = {"metadata": _ia_metadata, "data": dataset_cualitativo}
-                with open(ruta_salida / "dataset_cualitativo.json", "w", encoding="utf-8") as f_cual:
+                with open(_intermediate_dir / "dataset_cualitativo.json", "w", encoding="utf-8") as f_cual:
                     json.dump(cualitativo_payload, f_cual, ensure_ascii=False, indent=2)
             
                 # Stats para compatibilidad con codigo downstream
@@ -596,7 +600,10 @@ def main() -> None:
                     },
                     "data": datos_fragmentos
                 }
-                with open(ruta_salida / "fragmentos_nps.json", "w", encoding="utf-8") as f:
+                # Escribir en intermediate/ (no desplegado en Pages)
+                _intermediate_dir = ruta_salida.parent / "intermediate"
+                _intermediate_dir.mkdir(parents=True, exist_ok=True)
+                with open(_intermediate_dir / "fragmentos_nps.json", "w", encoding="utf-8") as f:
                     json.dump(fragmentos_payload, f, ensure_ascii=False, indent=2)
 
                 # ---- GENERAR dataset_cualitativo.json ----
@@ -680,7 +687,7 @@ def main() -> None:
                     },
                     "data": dataset_cualitativo
                 }
-                with open(ruta_salida / "dataset_cualitativo.json", "w", encoding="utf-8") as f_cual:
+                with open(_intermediate_dir / "dataset_cualitativo.json", "w", encoding="utf-8") as f_cual:
                     json.dump(cualitativo_payload, f_cual, ensure_ascii=False, indent=2)
             # ------------------------------------------
             # Migración: Conectar el Motor Nuevo (dataset_cualitativo) a la UI

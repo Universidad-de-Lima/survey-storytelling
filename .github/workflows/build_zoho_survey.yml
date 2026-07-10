@@ -13,7 +13,7 @@ on:
       - 'zoho-survey/students/*/periodos.json'
       - 'zoho-survey/**/periodos.json'
       - 'requirements.txt'
-      - '.github/workflows/build_students.yml'
+      - '.github/workflows/build_zoho_survey.yml'
 
   workflow_dispatch:
 
@@ -100,14 +100,24 @@ jobs:
         run: |
           python zoho-survey/scripts/build_json.py
 
-      - name: Exclude exports/ from Pages artifact
+      - name: Validate generated JSON contracts
+        # Gate de calidad: valida los JSONs generados contra schemas Draft-07
+        # e invariantes de negocio. Si falla, el deploy se detiene.
+        # Esto evita que JSONs invalidos lleguen a GitHub Pages.
+        run: python zoho-survey/scripts/validate_generated_json.py
+
+      - name: Exclude exports/ and intermediate/ from Pages artifact
         # Los ZIPs en zoho-survey/students/*/exports/ contienen comentarios
         # completos de estudiantes con potencial PII. Se eliminan antes del
         # upload para que no se desplieguen en GitHub Pages.
-        # Los ZIPs se preservan en el repo (commiteados por el bot) para auditoria.
+        # Los JSONs en zoho-survey/students/*/intermediate/ (fragmentos_nps.json,
+        # dataset_cualitativo.json) no son consumidos por el frontend y se excluyen
+        # del deploy para reducir el tamano del artifact (~3 MB por periodo).
+        # Ambos se preservan en el repo (commiteados por el bot) para auditoria.
         run: |
           find zoho-survey/students -type d -name "exports" -exec rm -rf {} + 2>/dev/null || true
-          echo "Directorios exports/ eliminados del artifact"
+          find zoho-survey/students -type d -name "intermediate" -exec rm -rf {} + 2>/dev/null || true
+          echo "Directorios exports/ e intermediate/ eliminados del artifact"
 
       - name: Setup Pages
         uses: actions/configure-pages@v6

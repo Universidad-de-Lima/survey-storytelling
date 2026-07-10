@@ -53,6 +53,16 @@ jobs:
           pip install -r requirements.txt
           python -m spacy download es_core_news_sm
 
+      - name: Run Ruff linter (Python style)
+        # Linting Python con ruff. Configuracion en ruff.toml.
+        # Reglas: pycodestyle (E/W) + Pyflakes (F) + isort (I).
+        # Fase 2: informativo (no bloquea). Fase 3: se hara estricto
+        # tras auto-fixear las 211 violaciones existentes.
+        run: |
+          pip install ruff
+          ruff check zoho-survey/scripts/ --exit-zero || true
+          ruff format --check zoho-survey/scripts/ --exit-zero || true
+
       - name: Run Python tests (unittest)
         working-directory: zoho-survey/scripts
         run: python -m unittest discover tests/ -v
@@ -74,6 +84,13 @@ jobs:
 
       - name: Install JS dependencies (jsdom for DOM tests)
         run: npm install
+
+      - name: Run ESLint (JS style)
+        # Linting JS con ESLint. Configuracion en .eslintrc.json.
+        # Reglas: no-unused-vars, no-undef, no-alert, no-implied-eval, no-var.
+        # Fase 2: informativo (no bloquea). Fase 3: se hara estricto.
+        run: |
+          npx eslint zoho-survey/shared/js/ tests/ --no-eslintrc --config .eslintrc.json || true
 
       - name: Verify JS syntax (all modules)
         run: |

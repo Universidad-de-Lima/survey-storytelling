@@ -121,3 +121,37 @@ def guardar_hash_csv(csv_path: Path, ruta_salida: Path) -> None:
         hash_file.write_text(hash_csv(csv_path), encoding="utf-8")
     except OSError as e:
         logging.warning(f"No se pudo guardar hash de CSV: {e}")
+
+
+# -- Utilidades de redaccion PII para texto de comentarios --------------
+
+import re as _re
+
+
+def enmascarar_pii(texto: str) -> str:
+    """Detecta y enmascara informacion de identificacion personal (PII) en el texto.
+
+    Patrones redactados:
+      - Correos electronicos.
+      - Numeros telefonicos peruanos (9 digitos con o sin prefijo +51).
+      - Codigos de estudiante de 8 digitos (tipicamente inician con 20 o 19).
+
+    Reemplaza cada coincidencia con un placeholder [TIPO ENMASCARADO].
+    Si el input no es string o esta vacio, retorna string vacio.
+    """
+    if not isinstance(texto, str) or not texto.strip():
+        return ""
+
+    # 1. Enmascarar correos electronicos
+    patron_correo = r"[\w\.-]+@[\w\.-]+\.\w+"
+    t = _re.sub(patron_correo, "[CORREO ENMASCARADO]", texto)
+
+    # 2. Enmascarar numeros telefonicos (Peru, 9 digitos con o sin prefijo +51)
+    patron_telefono = r"\b(?:\+?51\s*)?9\d{2}[-\s]?\d{3}[-\s]?\d{3}\b"
+    t = _re.sub(patron_telefono, "[TELEFONO ENMASCARADO]", t)
+
+    # 3. Enmascarar codigos de estudiante de 8 digitos (inician con 20 o 19)
+    patron_codigo = r"\b(?:20|19)\d{6}\b"
+    t = _re.sub(patron_codigo, "[CODIGO ENMASCARADO]", t)
+
+    return t

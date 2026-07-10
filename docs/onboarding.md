@@ -17,15 +17,23 @@ Sistema de dashboards estáticos para visualizar encuestas de satisfacción de l
 ```
 1. Exportar CSV desde Zoho Survey
          ↓
-2. Colocar CSV en la carpeta data/ del repositorio
+2. (Opcional, recomendado) Sanitizar PII localmente:
+   python zoho-survey/scripts/sanitize_csv_pii.py --all
+   Redacta columnas Direccion IP, Agente Usuario, URL de la encuesta.
          ↓
-3. Hacer git push a main
+3. Colocar CSV en la carpeta data/ del repositorio y hacer commit
+   (data/ NO esta gitignored; los CSVs se commitean sanitizados)
          ↓
-4. GitHub Actions ejecuta el pipeline automáticamente
+4. Hacer git push a main
          ↓
-5. El dashboard se actualiza en GitHub Pages (~3-5 min)
+5. GitHub Actions ejecuta el pipeline automaticamente:   - Sanitiza PII de los CSVs (defensa en profundidad)
+   - Ejecuta build_json.py (ETL)
+   - Valida JSONs generados
+   - Despliega a GitHub Pages
          ↓
-6. Verificar en: https://universidad-de-lima.github.io/survey-storytelling/zoho-survey/
+6. El dashboard se actualiza en GitHub Pages (~3-5 min)
+         ↓
+7. Verificar en: https://universidad-de-lima.github.io/survey-storytelling/zoho-survey/
 ```
 
 ---

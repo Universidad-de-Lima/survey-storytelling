@@ -158,7 +158,7 @@ Lista de 24 stopwords para extraccion de aspectos (consumido por `aspect_extract
 - **Runtime ETL**: Python 3.11+ (fijado en CI), `pandas`, `sentence-transformers`, `scikit-learn`, `spacy`, `numpy` (transitivo).
 - **Modelos externos**: `paraphrase-multilingual-MiniLM-L12-v2` (Hugging Face), `es_core_news_sm` (spaCy).
 - **Validador**: Python 3.11+, `jsonschema` (Draft-07).
-- **CI**: GitHub Actions (`.github/workflows/build_students.yml`, `.github/workflows/validate-survey-json.yml`, `.github/workflows/tests.yml`).
+- **CI**: GitHub Actions (`.github/workflows/build_zoho_survey.yml`, `.github/workflows/validate-survey-json.yml`, `.github/workflows/tests.yml`).
 
 ## Execution
 

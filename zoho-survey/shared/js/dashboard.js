@@ -719,6 +719,8 @@ const SurveyDashboard = (() => {
         html += '<div style="color:#fff;font-size:12px;font-weight:500;text-align:center;">Top Box y Ponderado</div>';
         html += '</div>'; // close right column
         html += '</div>'; // close flex container
+        // raw=true justificado: html se construye con valores numericos (formatInteger/formatPctSimple)
+        // y labels hardcodeados. Sin interpolacion de input de usuario sin escapar.
         if (_ttp) _ttp.show(e, html, true);
       });
       barItem.querySelector('.bar-container').addEventListener('mouseleave', () => _ttp?.hide());

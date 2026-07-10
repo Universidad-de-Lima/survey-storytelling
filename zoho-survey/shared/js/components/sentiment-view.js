@@ -117,6 +117,9 @@ window.SurveySentimentView = (() => {
         html += `<tr><td colspan="2" style="border-bottom:1px solid #eee;padding:0;"></td></tr>`;
         html += `<tr><td style="padding:2px 6px;vertical-align:middle;"><strong>${item.label}</strong></td><td style="text-align:right;padding:2px 6px;vertical-align:middle;">${_fmt.formatInteger(item.value)} ideas (${_fmt.formatPctSimple(item.value, total)})</td></tr>`;
         html += '</table>';
+        // raw=true justificado en todos los tooltips de este modulo:
+        // los valores interpolados son numericos (formatInteger/formatPctSimple)
+        // o ya escapados con _san.escapeHTML(). No hay input de usuario sin escapar.
         _ttp.show(e, html, true);
       });
       barItem.addEventListener('mousemove', (e) => {

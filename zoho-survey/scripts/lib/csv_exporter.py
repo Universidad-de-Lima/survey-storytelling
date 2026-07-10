@@ -15,6 +15,7 @@ from typing import Dict
 import pandas as pd
 
 from lib.config import COLUMN_RENAME_PREGRADO, COLUMN_RENAME_GRADUADO
+from lib.io_helper import enmascarar_pii
 
 
 def _sanitizar_nombre_csv(filename: str) -> str:
@@ -26,11 +27,19 @@ def _sanitizar_nombre_csv(filename: str) -> str:
 
 
 def _csv_escape(val) -> str:
-    """Escapa un valor para CSV protegiendo contra formula injection."""
+    """Escapa un valor para CSV protegiendo contra formula injection.
+
+    Defensa en profundidad:
+      - Prefijos =, +, -, @: prepende comilla simple (formula injection).
+      - Tab y CR dentro de celdas: reemplaza con espacio (evita CSV smuggling).
+      - Comas, comillas dobles, newlines: quoting CSV estandar.
+    """
     s = str(val) if val is not None else ""
+    # Reemplazar tab y CR con espacio (defensa contra CSV smuggling)
+    s = s.replace("\t", " ").replace("\r", " ")
     if s and s[0] in ('=', '+', '-', '@'):
         s = "'" + s
-    if "," in s or '"' in s or "\n" in s or "\r" in s:
+    if "," in s or '"' in s or "\n" in s:
         return f'"{s.replace(chr(34), chr(34)+chr(34))}"'
     return s
 
@@ -65,6 +74,9 @@ def generar_csvs_y_zip(
     ]
     csv1_rows = []
     for c in comentarios_detallados:
+        # Redactar PII en campos de texto libre (comentarios) antes de exportar.
+        # Defensa en profundidad: los ZIPs ya no se despliegan en GitHub Pages,
+        # pero los CSVs pueden descargarse localmente para auditoria.
         csv1_rows.append([
             (c.get("comentario_id_original", "") or "").rsplit("_", 1)[0] if "_" in (c.get("comentario_id_original", "") or "") else (c.get("comentario_id_original", "") or ""),
             c.get("id", ""),
@@ -76,8 +88,8 @@ def generar_csvs_y_zip(
             c.get("intensidad", ""),
             c.get("aspecto_normalizado", ""),
             c.get("categoria_padre", ""),
-            c.get("comentario_original", ""),
-            c.get("fragmento_mostrar", ""),
+            enmascarar_pii(c.get("comentario_original", "")),
+            enmascarar_pii(c.get("fragmento_mostrar", "")),
         ])
     csv1_name = f"analisis_cualitativo_{nombre_base}.csv"
 
@@ -121,7 +133,7 @@ def generar_csvs_y_zip(
         r.append(row.get("La carrera", ""))
         r.append(row.get(csat_col, ""))
         r.append(row.get(nps_col, ""))
-        r.append(row.get(comentario_col, ""))
+        r.append(enmascarar_pii(row.get(comentario_col, "")))
         csv2_rows.append(r)
 
     csv2_name = f"{nombre_base}.csv"

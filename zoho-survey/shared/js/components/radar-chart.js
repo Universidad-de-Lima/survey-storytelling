@@ -480,6 +480,8 @@ window.SurveyRadarChart = (() => {
           html += '<div style="color:#fff;font-size:12px;font-weight:500;text-align:center;">Top Box y Ponderado</div>';
           html += '</div>'; // close right column
           html += '</div>'; // close flex container
+          // raw=true justificado: html se construye con valores numericos (formatDecimal/formatPctDecimal)
+          // y labels hardcodeados. Sin interpolacion de input de usuario sin escapar.
           _ttp.show(e, html, true);
         });
         el.addEventListener('mouseleave', () => _ttp.hide());

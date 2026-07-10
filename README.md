@@ -1,6 +1,6 @@
 # survey-storytelling v3.1.0
 
-[![Build and Deploy](https://github.com/Universidad-de-Lima/survey-storytelling/actions/workflows/build_students.yml/badge.svg)](https://github.com/Universidad-de-Lima/survey-storytelling/actions/workflows/build_students.yml)
+[![Build and Deploy](https://github.com/Universidad-de-Lima/survey-storytelling/actions/workflows/build_zoho_survey.yml/badge.svg)](https://github.com/Universidad-de-Lima/survey-storytelling/actions/workflows/build_zoho_survey.yml)
 [![Tests](https://github.com/Universidad-de-Lima/survey-storytelling/actions/workflows/tests.yml/badge.svg)](https://github.com/Universidad-de-Lima/survey-storytelling/actions/workflows/tests.yml)
 [![Validate JSON](https://github.com/Universidad-de-Lima/survey-storytelling/actions/workflows/validate-survey-json.yml/badge.svg)](https://github.com/Universidad-de-Lima/survey-storytelling/actions/workflows/validate-survey-json.yml)
 

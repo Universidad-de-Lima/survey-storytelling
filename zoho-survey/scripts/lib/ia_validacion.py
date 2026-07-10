@@ -10,6 +10,7 @@ import logging
 from typing import Any, Dict, List, Optional, Tuple
 
 from .ia_filtro_ruido import SENTIMIENTOS_VALIDOS, MOTIVOS_INVALIDEZ_VALIDOS
+from .io_helper import enmascarar_pii
 
 logger = logging.getLogger(__name__)
 
@@ -107,6 +108,12 @@ def validar_respuesta_ia(respuesta: dict,
             logger.debug(f"Unidad {i} inválida ({err}), descartando")
             continue
         unidad["orden"] = len(unidades_validas) + 1
+        # Redactar PII en campos de texto para evitar exposicion publica.
+        # Aplica a texto del fragmento y justificacion del sentimiento.
+        if "texto" in unidad and isinstance(unidad["texto"], str):
+            unidad["texto"] = enmascarar_pii(unidad["texto"])
+        if "justificacion_sentimiento" in unidad and isinstance(unidad["justificacion_sentimiento"], str):
+            unidad["justificacion_sentimiento"] = enmascarar_pii(unidad["justificacion_sentimiento"])
         unidades_validas.append(unidad)
 
     if not unidades_validas:
