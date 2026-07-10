@@ -329,24 +329,15 @@ SENTIMENT_CONFIDENCE_THRESHOLD: float = 0.4
 
 
 # ============================================================
-# 8. MOTOR CUALITATIVO — Configuración de motores IA vs Legacy
+# 8. MOTOR CUALITATIVO — Configuración (motor legacy eliminado en v3.2.0)
 # ============================================================
 
-# Configuración del motor cualitativo:
-# - Activar IA: definir DEEPSEEK_API_KEY en entorno.
-# - Forzar legacy: IA_CUALITATIVO_FALLBACK=1
-# - Desactivar caché IA: IA_CUALITATIVO_CACHE=0
-
-# Calibración de sentimiento legacy (Fase 7, 2026-06-24):
-# - Ajustar si el modelo SentenceTransformer cambia.
-# - Ajustar si se observan falsos positivos/negativos en validación manual.
-# - Umbral actual (0.4): selectivo, reclasifica ~2.7% de unidades a neutro
-#   cuando la confianza del softmax es baja y no hay señal léxica fuerte.
-IA_LEGACY_CONFIDENCE_THRESHOLD: float = SENTIMENT_CONFIDENCE_THRESHOLD  # alias semántico
-
-# Umbrales de cosine similarity para matching de aspectos (modo legacy):
-# - >0.55: match de alta confianza
-# - >0.45: match de baja confianza (solo para fragmentos cortos ≤4 palabras)
-IA_LEGACY_ASPECT_THRESHOLD_HIGH: float = 0.55
-IA_LEGACY_ASPECT_THRESHOLD_LOW: float = 0.45
-
+# El motor legacy (spaCy + sentence-transformers) fue eliminado en v3.2.0.
+# El motor IA (DeepSeek) es el unico motor cualitativo desde v3.2.0.
+# DEEPSEEK_API_KEY es obligatoria para ejecutar el ETL.
+# Variables de entorno del motor IA:
+# - DEEPSEEK_API_KEY: obligatoria (sin fallback legacy).
+# - IA_CUALITATIVO_CACHE=0: desactiva caché IA (default: activado).
+# - IA_CUALITATIVO_WORKERS: workers concurrentes (default: 15).
+# - IA_CUALITATIVO_MAX_RPM: rate limit global (default: 60).
+# - IA_CUALITATIVO_TIMEOUT: timeout por llamada (default: 60s).

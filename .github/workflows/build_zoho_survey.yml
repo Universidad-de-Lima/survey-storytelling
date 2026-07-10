@@ -47,18 +47,21 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Verify DEEPSEEK_API_KEY
+        # Gate temprano: falla antes de instalar dependencias si la key falta.
+        # El motor legacy fue eliminado en v3.2.0, la key es obligatoria.
+        run: |
+          if [ -z "${{ secrets.DEEPSEEK_API_KEY }}" ]; then
+            echo "ERROR: DEEPSEEK_API_KEY no esta configurada en GitHub Secrets."
+            echo "El motor legacy fue eliminado en v3.2.0. La key es obligatoria."
+            exit 1
+          fi
+          echo "OK: DEEPSEEK_API_KEY configurada."
+
       - name: Set up Python
         uses: actions/setup-python@v6
         with:
           python-version: '3.11'
-
-      - name: Cache Hugging Face models
-        uses: actions/cache@v4
-        with:
-          path: ~/.cache/huggingface
-          key: ${{ runner.os }}-hf-models-${{ hashFiles('zoho-survey/scripts/lib/nlp.py', 'zoho-survey/scripts/lib/aspect_extraction.py', 'zoho-survey/scripts/lib/sentiment_engine.py') }}
-          restore-keys: |
-            ${{ runner.os }}-hf-models-
 
       - name: Cache IA Cualitativo (DeepSeek)
         # Caché persistente de resultados IA por hash(comentario + contexto).
@@ -71,10 +74,10 @@ jobs:
             ia-cache-
 
       - name: Install dependencies
+        # Sin spaCy/HuggingFace desde v3.2.0 (motor legacy eliminado).
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-          python -m spacy download es_core_news_sm
 
       - name: Sanitize CSV PII (IP, User Agent, URL)
         # Redacta columnas PII en todos los CSVs de data/ antes del procesamiento ETL.

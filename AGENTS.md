@@ -20,17 +20,20 @@ Antes de tocar codigo, comprender la arquitectura real (no la documentacion prev
 ### ETL Python (`zoho-survey/scripts/`)
 
 - **`build_json.py`** (~820 lineas): orquestador del pipeline CSV → JSON.
-- **`lib/`** contiene **10 modulos activos** (no 4 como en documentacion previa a v3.0):
+- **`lib/`** contiene **13 modulos activos** (motor legacy eliminado en v3.2.0):
   - `config.py` — mapeos de columnas y catalogos de negocio.
   - `metrics.py` — `calc_nps`, `calc_csat` (funciones puras).
-  - `io_helper.py` — `load_json`, `read_csv_robust`, `normalize_dates`.
-  - `nlp.py` — `sanitizar_comentario` (activo).
-  - `segmentacion_nps.py` — fragmentacion NPS con spaCy (Meaning Units).
-  - `aspect_extraction.py` — extraccion de aspectos con spaCy + embeddings. Carga alias desde `config/alias_aspectos.json`.
-  - `sentiment_engine.py` — clasificacion hibrida sentimiento + intensidad.
-  - `ia_cualitativo.py` — motor IA con DeepSeek (opcional, requiere `DEEPSEEK_API_KEY`). Cache en `ia_cache.json`.
+  - `io_helper.py` — I/O seguro, hash para idempotencia, `enmascarar_pii` (redaccion PII).
+  - `csv_exporter.py` — exportacion de CSVs/ZIPs con proteccion formula injection y redaccion PII.
+  - `dashboard_builder.py` — ensamblado de `dashboard_data.json`.
+  - `periodos_updater.py` — actualizacion de `periodos.json`.
+  - `ia_cualitativo.py` — motor IA con DeepSeek (unico motor desde v3.2.0, requiere `DEEPSEEK_API_KEY`).
   - `prompts_cualitativo.py` — prompts Bardin/Braun&Clarke para DeepSeek. Versionados con `PROMPT_VERSION`.
-  - `insights_generator.py` — sintesis determinista de insights (sin LLM, Fase 8).
+  - `ia_cache.py` — cache persistente con contador de hits thread-safe.
+  - `ia_client.py` — cliente HTTP DeepSeek (urllib stdlib) con reintentos.
+  - `ia_filtro_ruido.py` — pre-filtro de comentarios ruidosos (15 criterios regex).
+  - `ia_validacion.py` — validacion de respuestas DeepSeek + redaccion PII post-LLM.
+  - `insights_generator.py` — sintesis determinista de insights (sin LLM).
 - **`schemas/`** contiene **7 JSON Schemas Draft-07** que son la fuente formal de tipos.
 
 ### Frontend JS (`zoho-survey/shared/js/`)
@@ -128,7 +131,6 @@ Los siguientes archivos son single points of failure. Modificarlos requiere actu
 | --- | --- |
 | `zoho-survey/scripts/build_json.py` | ETL completo falla. |
 | `zoho-survey/scripts/lib/config.py` | Mapeos de columnas y catalogos de negocio. Cambios requieren CSV fuente compatible. |
-| `zoho-survey/scripts/lib/aspect_extraction.py` | `ALIAS_DICT_MANUAL` define normalizacion de aspectos. Cambios requieren actualizar `config/alias_aspectos.json` (fuente canonica desde Fase 1). |
 | `zoho-survey/scripts/validate_generated_json.py` | Validacion de contratos. Cambios deben sincronizarse con schemas. |
 | `zoho-survey/scripts/schemas/*.schema.json` | Fuente formal de tipos. Cambios deben propagarse a ETL, validador y CONTRACTS.md. |
 | `zoho-survey/template/index.html` | IDs HTML son contratos publicos con `dashboard.js` y `filter-controller.js`. |
@@ -167,9 +169,9 @@ Si se modifica la estructura de cualquier JSON generado:
 
 1. **No confiar en `scripts/README.md` previo a v3.0**: describia keyword matching, ya obsoleto. La version actual esta actualizada.
 2. **No confiar en `shared/README.md` previo a v3.0**: decia `window.showTooltip/hideTooltip` (incorrecto, es `window.SurveyTooltip.show/hide`).
-3. **`lib/nlp.py` código muerto**: `segmentar_comentario()`, `corregir_slang()`, `enmascarar_pii()`, y `normalizar_texto()` son funciones sin callers confirmados (no se invocan desde `build_json.py`). El motor cualitativo moderno usa `segmentacion_nps.fragmentar_comentario_nps()` + `aspect_extraction` + `sentiment_engine`.
+3. **Motor legacy eliminado** (v3.2.0): los modulos `nlp.py`, `segmentacion_nps.py`, `aspect_extraction.py`, `sentiment_engine.py` fueron eliminados. `enmascarar_pii` se reubico a `io_helper.py`. `DEEPSEEK_API_KEY` es obligatoria.
 4. **`lib/config.py` constantes legacy**: ~~`TOPICOS` y `STOPWORDS` no se usan en modulos activos.~~ **ELIMINADO**.
-5. **Auto-download de spaCy**: ~~`aspect_extraction.py` y `sentiment_engine.py` llamaban `spacy.cli.download("es_core_news_sm")` si el modelo no estaba.~~ **ELIMINADO en Fase 6**: ahora fallan explícitamente con `OSError`. El modelo debe instalarse en CI/requirements.txt.
+5. **Sin spaCy desde v3.2.0**: el motor legacy (spaCy + sentence-transformers) fue eliminado. `requirements.txt` ya no incluye `spacy`, `sentence-transformers`, ni `scikit-learn`.
 6. **`fragmentos_nps.json` y `dataset_cualitativo.json` no tienen schema formal**: son archivos intermedios del ETL, no contratos publicos. El frontend no los consume.
 7. **Trabajo sin commitear**: el repositorio puede tener cambios pendientes. Revisar `git status` antes de modificar.
 8. **`periodos.json` por nivel**: debe tener exactamente un item con `isNew: true`. El validador falla si no se cumple.

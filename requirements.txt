@@ -1,20 +1,20 @@
-sentence-transformers>=2.2.2
 pandas>=1.5.0
-scikit-learn>=1.0.0
-spacy>=3.5.0
 jsonschema>=4.0.0
 openpyxl>=3.0.0  # requerido por validar_ia_vs_manual.py (pd.read_excel)
-# El modelo de spaCy debe instalarse explícitamente con:
-#   python -m spacy download es_core_news_sm
-# No se descarga automáticamente en runtime (Fase 6: eliminación de dependencias no determinísticas).
 
 # ============================================================
-# Fase IA — Análisis Cualitativo con DeepSeek
+# Motor Cualitativo IA (DeepSeek) — único motor desde v3.2.0
 # ============================================================
+# El motor legacy (spaCy + sentence-transformers) fue eliminado en v3.2.0.
 # El cliente DeepSeek usa urllib (stdlib), NO requiere dependencias extra.
-# Para activar el modo IA, definir la variable de entorno:
-#   DEEPSEEK_API_KEY=sk-...   (en GitHub Actions Secrets)
-# Si la key no está, el pipeline cae automáticamente al modo legacy
-# (spaCy + sentence-transformers) sin cambios.
-# Opcional: IA_CUALITATIVO_FALLBACK=1 fuerza el modo legacy incluso con key.
-# Opcional: IA_CUALITATIVO_CACHE=0 desactiva el caché (default: activado).
+#
+# DEEPSEEK_API_KEY es OBLIGATORIA para ejecutar el ETL.
+# Configurar en:
+#   - GitHub Actions Secrets (para CI)
+#   - .env local (para desarrollo)
+#
+# Variables opcionales del motor IA:
+#   IA_CUALITATIVO_CACHE=0       desactiva caché (default: activado)
+#   IA_CUALITATIVO_WORKERS=15    workers concurrentes
+#   IA_CUALITATIVO_MAX_RPM=60    rate limit global
+#   IA_CUALITATIVO_TIMEOUT=60    timeout por llamada (segundos)

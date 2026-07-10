@@ -16,23 +16,14 @@ graph TD
     DASH --> HTML
     CSV --> |hash| CACHE[.csv_hash<br/>detección de cambios]
 
-    subgraph ETL Cualitativo IA [Motor IA — DeepSeek (opcional)]
+    subgraph ETL Cualitativo IA [Motor IA — DeepSeek (unico motor desde v3.2.0)]
         IA[lib/ia_cualitativo.py] --> |cache| IACACHE[ia_cache.json]
         IAPROMPT[lib/prompts_cualitativo.py] --> IA
         IA --> |genera| DC2[dataset_cualitativo.json]
         DC2 --> ST2[sentimiento.json v3.0]
         IAGEN[lib/insights_generator.py] --> |síntesis determinista| ST2
     end
-
-    subgraph ETL Cualitativo Legacy [Motor Legacy — spaCy + embeddings]
-        SAN[lib/nlp.py sanitizar_comentario] --> SEG[lib/segmentacion_nps.py fragmentar_comentario_nps]
-        SEG --> |por fragmento| ASP[lib/aspect_extraction.py procesar_opinion_unit]
-        ASP --> SEN[lib/sentiment_engine.py analizar_sentimiento_intensidad]
-        SEN --> DC[dataset_cualitativo.json]
-        DC --> ST[sentimiento.json v3.0]
-    end
-    ETL --> |sin DEEPSEEK_API_KEY| SAN
-    ETL --> |con DEEPSEEK_API_KEY| IA
+    ETL --> |DEEPSEEK_API_KEY obligatoria| IA
 ```
 
 ## Estructura De Directorios
@@ -89,20 +80,26 @@ Para mayor detalle de responsabilidades:
 | --- | --- | --- | --- |
 | `lib/config.py` | 352 | Mapeos de columnas, catalogos de negocio y umbral de confianza. | Activo. |
 | `lib/metrics.py` | 57 | Funciones puras de calculo de NPS (`calc_nps`) y CSAT (`calc_csat`). | Activo. |
-| `lib/io_helper.py` | 81 | I/O seguro con encodings alternativos y formateo de fechas. | Activo. |
-| `lib/nlp.py` | 170 | Clasificacion semantica de comentarios (SentenceTransformer + sklearn). | **Parcialmente obsoleto**: se usan `sanitizar_comentario` y `normalizar_texto`. |
-| `lib/segmentacion_nps.py` | 305 | Fragmentacion de comentarios NPS en Meaning Units usando spaCy. | Activo (modo legacy). |
-| `lib/aspect_extraction.py` | 223 | Extraccion del aspecto literal de cada Opinion Unit (spaCy noun chunks) y normalizacion via alias (cargados desde `config/alias_aspectos.json`) o embeddings. | Activo (modo legacy). |
-| `lib/sentiment_engine.py` | 164 | Clasificacion hibrida de sentimiento (positivo/negativo/neutro) e intensidad (1-5) usando embeddings + reglas lexicas. | Activo (modo legacy). |
-| `lib/ia_cualitativo.py` | 1,115 | Motor de analisis cualitativo basado en DeepSeek. Reemplaza los 3 modulos legacy por una unica llamada API con prompts calibrados (Bardin + Braun&Clarke). Incluye CacheManager con hash de comentario + contexto y rate limiting (60 RPM). | Activo (Fase IA, opcional — requiere `DEEPSEEK_API_KEY`). |
+| `lib/io_helper.py` | ~160 | I/O seguro con encodings alternativos, formateo de fechas, hash para idempotencia, y redaccion PII (`enmascarar_pii`). | Activo. |
+| `lib/ia_cualitativo.py` | ~415 | Motor de analisis cualitativo basado en DeepSeek. **Unico motor desde v3.2.0** (motor legacy eliminado). CacheManager con contador de hits thread-safe. | Activo (requiere `DEEPSEEK_API_KEY` obligatoria). |
 | `lib/prompts_cualitativo.py` | 561 | Prompts exactos para DeepSeek (system + user). Fuente de verdad de los prompts usados tanto en el ETL como en el playground Next.js. Versionado con `PROMPT_VERSION` para invalidacion automatica del cache IA. | Activo (Fase IA). |
-| `lib/insights_generator.py` | 262 | Generador de insights deterministas (sin LLM). Produce `insights_ia.global` y `insights_ia.por_categoria_padre` a partir de datos ya procesados. | Activo (Fase 8). |
+| `lib/insights_generator.py` | 262 | Generador de insights deterministas (sin LLM). Produce `insights_ia.global` y `insights_ia.por_categoria_padre` a partir de datos ya procesados. | Activo. |
+| `lib/csv_exporter.py` | ~155 | Exportacion de CSVs y ZIPs con proteccion formula injection y redaccion PII. ZIPs se guardan en `exports/` (no desplegados en Pages). | Activo. |
+| `lib/dashboard_builder.py` | 57 | Ensamblado de `dashboard_data.json` desde metricas pre-calculadas. | Activo. |
+| `lib/periodos_updater.py` | 58 | Actualizacion de `periodos.json` por nivel, marcando `isNew: true` en el mas reciente. | Activo. |
+| `lib/ia_cache.py` | ~130 | Cache persistente JSON con clave SHA-256(comentario + contexto). Contador de hits thread-safe (fix CC-02). | Activo. |
+| `lib/ia_client.py` | 187 | Cliente HTTP DeepSeek (urllib stdlib) con reintentos, backoff exponencial y rate limiting. | Activo. |
+| `lib/ia_filtro_ruido.py` | 147 | Pre-filtro de comentarios ruidosos (15 criterios regex) antes de llamar a DeepSeek. | Activo. |
+| `lib/ia_validacion.py` | ~135 | Validacion y correccion de respuestas DeepSeek. Redaccion PII post-LLM (SEG-01). | Activo. |
 
-### Flujo cualitativo moderno (v3.0) — Doble motor
+**Modulos eliminados en v3.2.0** (motor legacy): `lib/nlp.py`, `lib/segmentacion_nps.py`, `lib/aspect_extraction.py`, `lib/sentiment_engine.py`, `lib/sentimiento_builder.py`.
 
-El ETL soporta dos motores cualitativos, seleccionados automáticamente por variable de entorno:
+### Flujo cualitativo (v3.2.0) — Motor unico IA
 
-**Motor IA (DeepSeek)** — activo si `DEEPSEEK_API_KEY` está configurada:
+Desde v3.2.0, el ETL usa un unico motor cualitativo (DeepSeek IA). El motor legacy
+(spaCy + sentence-transformers) fue eliminado. `DEEPSEEK_API_KEY` es obligatoria.
+
+**Motor IA (DeepSeek)** — unico motor desde v3.2.0:
 ```
 Comentario NPS (CSV)
     |  una única llamada a DeepSeek (15 workers concurrentes, rate limit 60 RPM)
@@ -120,10 +117,6 @@ dataset_cualitativo.json + ia_cache.json (hash de comentario + contexto)
     v
 sentimiento.json v3.0 + insights_ia (vía insights_generator.py)
 ```
-
-**Motor Legacy (spaCy + embeddings)** — fallback automático si no hay `DEEPSEEK_API_KEY`:
-
-(Sigue el flujo documentado en la sección anterior: sanitizar → fragmentar → aspecto → sentimiento)
 
 ### Optimización: detección de cambios por hash
 
@@ -277,14 +270,9 @@ El orden de carga en `template/index.html` (12 scripts) es critico y debe respet
 ## Deuda Tecnica Vigente
 
 - La logica de ciclos esta externalizada en `SURVEY_CONFIG`, pero todavia no es dinamica por periodo.
-- `nps_carrera.json` y `csat_carrera.json` son legacy; el frontend usa las versiones `_ciclo_carrera` para encuestas segmentadas por ciclos (`has_ciclo=true`), pero conserva ambos archivos como origen obligatorio de carga para encuestas sin ciclo (`has_ciclo=false`), como la de Graduados.
+- `nps_carrera.json` y `csat_carrera.json` son legacy; el frontend los usa como fallback para encuestas sin ciclo (`has_ciclo=false`, ej. Graduados).
 - `posgraduate/` existe como placeholder sin datos procesados.
 - El template `zoho-survey/template/index.html` no tiene version de contrato propia.
-- `lib/nlp.py` contiene codigo de `agrupar_comentarios_por_topico` (ELIMINADO en limpieza post-Fase 1).
-- `lib/config.py` define `TOPICOS` y `STOPWORDS` (ELIMINADOS en limpieza post-Fase 1).
-- `lib/segmentacion_nps.py:181` contiene un `print()` de depuracion activo.
-- Coexistencia de dos motores cualitativos (legacy + IA) — evaluar deprecacion del legacy si la validacion empirica en Fase 3 muestra accuracy IA >80% en sentimiento y >60% en taxonomia.
-- `ALIAS_DICT_MANUAL` extraido a `config/alias_aspectos.json` (Fase 1). Mantener sincronizados ambos si se añaden nuevas dimensiones.
 
 ## Convenciones
 

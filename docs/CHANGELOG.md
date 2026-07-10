@@ -2,6 +2,85 @@
 
 Historial de cambios significativos del proyecto. Basado en [Keep a Changelog](https://keepachangelog.com/).
 
+## [3.2.0] — 2026-07-10
+
+### Fase 1 — Estabilizacion y Quick Wins
+
+#### Added
+- `zoho-survey/scripts/sanitize_csv_pii.py`: ampliado para redactar 3 columnas PII (Direccion IP, Agente Usuario, URL de la encuesta). Movido desde `scripts/` raiz.
+- `docs/investigacion-2025-2.md`: documento de investigacion del bug CC-01 (causa raiz identificada).
+- Step `Sanitize CSV PII` en workflow `build_zoho_survey.yml` (sanitizacion automatica en CI).
+- Step `Exclude exports/ from Pages artifact` en workflow (ZIPs no se despliegan en Pages).
+
+#### Changed
+- `.gitignore`: eliminada linea `data/`. Los CSVs se commitean sanitizados.
+- `requirements.txt`: anadido `openpyxl>=3.0.0`.
+- `zoho-survey/scripts/lib/csv_exporter.py`: ZIPs se guardan en `exports/` (no en `json/`).
+- `zoho-survey/shared/js/components/sentiment-view.js`: `alert()` reemplazado por modal estilizado.
+- HTMLs: `lang="es"` unificado a `lang="es-PE"`.
+
+#### Fixed
+- **CC-02**: bug `cache_hits` siempre 0 en `ia_cache.py`/`ia_cualitativo.py`. Contador thread-safe anadido.
+- `sanitizer.js`: comentario de whitelist corregido (9 tags, no 5).
+- `developer-guide.md`: constante fantasma `CATEGORIAS_ASPECTOS` corregida a `CATEGORIA_DIMENSION_PREGRADO`.
+- `developer-guide.md` y `CHANGELOG.md`: constante fantasma `IA_CUALITATIVO_MODE` aclarada como no implementada.
+
+#### Removed
+- `docs/zoho-api-integration.md` (Zoho no tiene API).
+- `docs/MIGRACION_IA_CUALITATIVO.md` (historico, migracion completada).
+- `zoho-survey/scripts/lib/sentimiento_builder.py` (modulo huerfano).
+- `zoho-survey/shared/css/dashboard.css` (CSS muerto).
+- 5 tests JS huerfanos con bug `assert.true`.
+- 3 `<link rel="preload">` a `shared/json/` inexistente en templates.
+- Imports sin uso en `build_json.py` y `csv_exporter.py`.
+
+### Fase 2 — Seguridad, Testing y DevOps
+
+#### Added
+- `enmascarar_pii` reubicada en `io_helper.py` (redaccion PII en comentarios).
+- Redaccion PII en `ia_validacion.py` (texto + justificacion_sentimiento).
+- Redaccion PII en `csv_exporter.py` (CSV1 + CSV2).
+- Step `Run Ruff linter` en `tests.yml` (informativo).
+- Step `Run ESLint` en `tests.yml` (informativo).
+- Step `Validate generated JSON contracts` en `build_zoho_survey.yml` (gate post-build).
+- `eslint` anadido como devDependency en `package.json`.
+
+#### Changed
+- `.github/workflows/build_students.yml` renombrado a `build_zoho_survey.yml`.
+- `_csv_escape` ampliado para escapar tab y CR (defensa CSV smuggling).
+- `tests/README.md` reescrito (143 tests, 9 archivos JS).
+- JSONs orphaned (`fragmentos_nps.json`, `dataset_cualitativo.json`) movidos de `json/` a `intermediate/`.
+- Comentarios justificativos en 8 callsites `raw=true` de tooltips.
+
+#### Removed
+- `playwright.config.js` y `tests/e2e/` (no se ejecutaban en CI).
+
+### Fase 3 — Eliminacion Legacy + Sincronizacion Documental
+
+#### Added
+- `test_ia_cache.py`: 14 tests para CacheManager (incluye thread-safety y hit counter).
+- `test_ia_filtro_ruido.py`: 12 tests para pre-filtro de ruido.
+- `test_ia_validacion.py`: 10 tests para validacion IA (incluye redaccion PII).
+- Step `Verify DEEPSEEK_API_KEY` en workflow (gate temprano).
+
+#### Changed
+- `DEEPSEEK_API_KEY` ahora obligatoria (sin fallback legacy).
+- `requirements.txt` reducido a 3 deps (pandas, jsonschema, openpyxl).
+- Workflows: eliminados caches spaCy/HuggingFace y step `spacy download`.
+- `ARCHITECTURE.md`: diagrama, tabla de modulos y deuda tecnica actualizados.
+- `AGENTS.md`: seccion lib/, advertencias y modulos criticos actualizados.
+- `docs/onboarding.md`: prerrequisitos actualizados (DEEPSEEK_API_KEY obligatoria).
+- `build_json.py`: import inline redundante eliminado.
+
+#### Removed
+- **Motor legacy completo**: `lib/nlp.py`, `lib/segmentacion_nps.py`, `lib/aspect_extraction.py`, `lib/sentiment_engine.py`.
+- 5 tests Python legacy: `test_segmentacion.py`, `test_aspect_extraction.py`, `test_sentiment_engine.py`, `test_alias_aspectos.py`, `test_calibracion.py`.
+- `config/stop_aspectos.json` y `config/alias_aspectos.json` (solo usados por legacy).
+- Constantes legacy en `config.py`: `IA_LEGACY_CONFIDENCE_THRESHOLD`, `IA_LEGACY_ASPECT_THRESHOLD_HIGH/LOW`.
+- 5 items de deuda tecnica resueltos en `ARCHITECTURE.md`.
+
+---
+
 ## [3.1.0] — 2026-07-03
 
 ### Added

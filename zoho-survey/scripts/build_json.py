@@ -7,6 +7,7 @@ clasifica tópicos cualitativos y genera archivos JSON de contratos de datos.
 
 import pandas as pd
 import json
+import os
 import re
 import logging
 import time
@@ -29,8 +30,6 @@ from lib.config import (
     EMPLEABILIDAD_CATEGORIAS
 )
 from lib.metrics import calc_nps, calc_csat, calc_promedio_ponderado, calc_nps_carrera, calc_csat_carrera
-from lib.nlp import sanitizar_comentario
-from lib.segmentacion_nps import fragmentar_comentario_nps
 from lib.io_helper import read_csv_robust, normalize_dates, hash_csv, csv_cambiado, guardar_hash_csv
 from lib.csv_exporter import generar_csvs_y_zip, _sanitizar_nombre_csv
 from lib.dashboard_builder import construir_dashboard_data
@@ -498,198 +497,63 @@ def main() -> None:
             df_sent = df_sent.dropna(subset=["nps_score"])
 
             # ================================================================
-            # ANALISIS CUALITATIVO CON IA (DeepSeek) - Fase IA
-            # Controlado por env vars:
-            # - DEEPSEEK_API_KEY: activa motor IA
-            # - IA_CUALITATIVO_FALLBACK=1: fuerza motor legacy
-            # - IA_CUALITATIVO_CACHE=0: desactiva caché
-            # Fallback automático al pipeline legacy si la key no está.
+            # ANALISIS CUALITATIVO CON IA (DeepSeek) - Motor unico desde v3.2.0
+            # El motor legacy (spaCy + sentence-transformers) fue eliminado.
+            # DEEPSEEK_API_KEY es obligatoria. Si no esta configurada, el ETL falla.
             # ================================================================
-            import os as _os
-            _use_ia_cualitativo = bool(_os.environ.get("DEEPSEEK_API_KEY", "")) and _os.environ.get("IA_CUALITATIVO_FALLBACK", "0") != "1"
-            
-            if _use_ia_cualitativo:
-                logging.info("Modo IA Cualitativo ACTIVADO (DeepSeek). Pipeline legacy omitido.")
-                from lib.config import CATEGORIA_DIMENSION_PREGRADO as _TAX, DIMENSIONES_SIN_CSAT
-                from lib.ia_cualitativo import generar_salidas_cualitativas_ia
+            if not os.environ.get("DEEPSEEK_API_KEY", ""):
+                raise RuntimeError(
+                    "DEEPSEEK_API_KEY no configurada. El motor legacy fue eliminado en v3.2.0. "
+                    "Configure la key en environment variables o en .env local."
+                )
+            logging.info("Modo IA Cualitativo ACTIVADO (DeepSeek).")
+            from lib.config import DIMENSIONES_SIN_CSAT
+            from lib.ia_cualitativo import generar_salidas_cualitativas_ia
             
                 # Merge columnas CSAT por dimension en df_sent (para cross-reference)
-                _dimension_cols = [d for d in _TAX.keys()
-                                   if d in df.columns and d not in DIMENSIONES_SIN_CSAT]
-                for _dc in _dimension_cols:
-                    if _dc not in df_sent.columns:
-                        df_sent[_dc] = df[_dc]
-                _csat_cols_map = {d: d for d in _dimension_cols}
+            _dimension_cols = [d for d in CATEGORIA_DIMENSION_PREGRADO.keys()
+                               if d in df.columns and d not in DIMENSIONES_SIN_CSAT]
+            for _dc in _dimension_cols:
+                if _dc not in df_sent.columns:
+                    df_sent[_dc] = df[_dc]
+            _csat_cols_map = {d: d for d in _dimension_cols}
             
-                _cache_path = BASE_DIR / "ia_cache.json"
-                datos_fragmentos, dataset_cualitativo, _ia_metadata = (
-                    generar_salidas_cualitativas_ia(
-                        df_sent=df_sent,
-                        taxonomia=_TAX,
-                        csat_columns_map=_csat_cols_map,
-                        cache_path=_cache_path,
-                    )
+            _cache_path = BASE_DIR / "ia_cache.json"
+            datos_fragmentos, dataset_cualitativo, _ia_metadata = (
+                generar_salidas_cualitativas_ia(
+                    df_sent=df_sent,
+                    taxonomia=CATEGORIA_DIMENSION_PREGRADO,
+                    csat_columns_map=_csat_cols_map,
+                    cache_path=_cache_path,
                 )
+            )
             
-                # Escribir fragmentos_nps.json (formato compatible con el legado)
-                fragmentos_payload = {
-                    "metadata": {
-                        "version": "2.0",
-                        "motor": "deepseek",
-                        "total_encuestas": len(datos_fragmentos),
-                        "total_fragmentos": sum(len(d["fragmentos"]) for d in datos_fragmentos)
-                    },
-                    "data": datos_fragmentos
-                }
-                # Escribir fragmentos_nps.json en intermediate/ (no desplegado en Pages)
-                _intermediate_dir = ruta_salida.parent / "intermediate"
-                _intermediate_dir.mkdir(parents=True, exist_ok=True)
-                with open(_intermediate_dir / "fragmentos_nps.json", "w", encoding="utf-8") as f_frag:
-                    json.dump(fragmentos_payload, f_frag, ensure_ascii=False, indent=2)
+            # Escribir fragmentos_nps.json (formato compatible con el legado)
+            fragmentos_payload = {
+                "metadata": {
+                    "version": "2.0",
+                    "motor": "deepseek",
+                    "total_encuestas": len(datos_fragmentos),
+                    "total_fragmentos": sum(len(d["fragmentos"]) for d in datos_fragmentos)
+                },
+                "data": datos_fragmentos
+            }
+            # Escribir fragmentos_nps.json en intermediate/ (no desplegado en Pages)
+            _intermediate_dir = ruta_salida.parent / "intermediate"
+            _intermediate_dir.mkdir(parents=True, exist_ok=True)
+            with open(_intermediate_dir / "fragmentos_nps.json", "w", encoding="utf-8") as f_frag:
+                json.dump(fragmentos_payload, f_frag, ensure_ascii=False, indent=2)
             
-                # Escribir dataset_cualitativo.json en intermediate/
-                cualitativo_payload = {"metadata": _ia_metadata, "data": dataset_cualitativo}
-                with open(_intermediate_dir / "dataset_cualitativo.json", "w", encoding="utf-8") as f_cual:
-                    json.dump(cualitativo_payload, f_cual, ensure_ascii=False, indent=2)
+            # Escribir dataset_cualitativo.json en intermediate/
+            cualitativo_payload = {"metadata": _ia_metadata, "data": dataset_cualitativo}
+            with open(_intermediate_dir / "dataset_cualitativo.json", "w", encoding="utf-8") as f_cual:
+                json.dump(cualitativo_payload, f_cual, ensure_ascii=False, indent=2)
             
-                # Stats para compatibilidad con codigo downstream
-                stats_sentimiento = _ia_metadata["stats_sentimiento"]
-                _ia_msg = f"IA Cualitativo: {_ia_metadata['total_encuestas']} encuestas, {_ia_metadata['total_fragmentos']} unidades, {_ia_metadata['cache_hits']} cache hits, {_ia_metadata['usage']['total_tokens']} tokens."
-                logging.info(_ia_msg)
+            # Stats para compatibilidad con codigo downstream
+            stats_sentimiento = _ia_metadata["stats_sentimiento"]
+            _ia_msg = f"IA Cualitativo: {_ia_metadata['total_encuestas']} encuestas, {_ia_metadata['total_fragmentos']} unidades, {_ia_metadata['cache_hits']} cache hits, {_ia_metadata['usage']['total_tokens']} tokens."
+            logging.info(_ia_msg)
             
-            if not _use_ia_cualitativo:
-                # ---- GENERAR fragmentos_nps.json ----
-                logging.info("Generando fragmentos_nps.json con modelo híbrido...")
-                datos_fragmentos = []
-                for idx_f, row_f in df_sent.iterrows():
-                    comentario_orig = str(row_f["comentario"])
-                    if not comentario_orig.strip():
-                        continue
-                
-                    nps = int(row_f["nps_score"])
-                    seg_nps = "Promotor" if nps >= 9 else ("Pasivo" if nps >= 7 else "Detractor")
-                    res_id = str(row_f.get("ID", f"R_{idx_f}"))
-                
-                    lista_frags = fragmentar_comentario_nps(comentario_orig, sanitizar_func=sanitizar_comentario)
-                
-                    if lista_frags:
-                        fragmentos_objetos = []
-                        for i_f, fr in enumerate(lista_frags):
-                            fragmentos_objetos.append({
-                                "id_fragmento": f"{res_id}_{i_f+1:02d}",
-                                "texto": fr
-                            })
-                        
-                        datos_fragmentos.append({
-                            "id_encuesta": res_id,
-                            "facultad": str(row_f.get("facultad", "")),
-                            "carrera": str(row_f.get("carrera", "")),
-                            "ciclo": str(row_f.get("ciclo", "")),
-                            "nps_score": nps,
-                            "segmento_nps": seg_nps,
-                            "satisfaccion_global": str(row_f.get("satisfaccion_global", "No respondido")),
-                            "comentario_original": comentario_orig,
-                            "fragmentos": fragmentos_objetos
-                        })
-            
-                fragmentos_payload = {
-                    "metadata": {
-                        "version": "1.0",
-                        "total_encuestas": len(datos_fragmentos),
-                        "total_fragmentos": sum(len(d["fragmentos"]) for d in datos_fragmentos)
-                    },
-                    "data": datos_fragmentos
-                }
-                # Escribir en intermediate/ (no desplegado en Pages)
-                _intermediate_dir = ruta_salida.parent / "intermediate"
-                _intermediate_dir.mkdir(parents=True, exist_ok=True)
-                with open(_intermediate_dir / "fragmentos_nps.json", "w", encoding="utf-8") as f:
-                    json.dump(fragmentos_payload, f, ensure_ascii=False, indent=2)
-
-                # ---- GENERAR dataset_cualitativo.json ----
-                logging.info("Generando dataset_cualitativo.json con extracción y normalización de aspectos...")
-                from lib.aspect_extraction import procesar_opinion_unit
-                from lib.sentiment_engine import analizar_sentimiento_intensidad
-            
-                dataset_cualitativo = []
-            
-                # Recolectar metricas empiricas
-                stats_aspectos = {
-                    "alias": 0,
-                    "embedding": 0,
-                    "embedding_fallback": 0,
-                    "fallback": 0,
-                    "ninguno": 0,
-                    "total": 0
-                }
-                stats_sentimiento = {
-                    "total_opinion_units": 0,
-                    "positivos": 0,
-                    "negativos": 0,
-                    "neutros": 0,
-                    "confianza_promedio": 0.0,
-                    "intensidad_promedio": 0.0
-                }
-                suma_confianza = 0.0
-                suma_intensidad = 0.0
-            
-                for d in datos_fragmentos:
-                    for f in d["fragmentos"]:
-                        res = procesar_opinion_unit(f["texto"])
-                        stats_aspectos[res["metodo"]] += 1
-                        stats_aspectos["total"] += 1
-                    
-                        sent_res = analizar_sentimiento_intensidad(f["texto"])
-                    
-                        stats_sentimiento["total_opinion_units"] += 1
-                        sent_val = sent_res["sentimiento"]
-                        if sent_val == "positivo": stats_sentimiento["positivos"] += 1
-                        elif sent_val == "negativo": stats_sentimiento["negativos"] += 1
-                        else: stats_sentimiento["neutros"] += 1
-                    
-                        suma_confianza += sent_res["confianza_sentimiento"]
-                        suma_intensidad += sent_res["intensidad"]
-                    
-                        dataset_cualitativo.append({
-                            "id_encuesta": d["id_encuesta"],
-                            "id_fragmento": f["id_fragmento"],
-                            "facultad": d["facultad"],
-                            "carrera": d["carrera"],
-                            "ciclo": d["ciclo"],
-                            "nps_score": d["nps_score"],
-                            "segmento_nps": d["segmento_nps"],
-                            "satisfaccion_global": d["satisfaccion_global"],
-                            "texto": f["texto"],
-                            "aspecto_detectado": res["aspecto_detectado"],
-                            "aspecto_normalizado": res["aspecto_normalizado"],
-                            "categoria_padre": res["categoria_padre"],
-                            "sub_aspectos": res.get("sub_aspectos", []),
-                            "sentimiento": sent_res["sentimiento"],
-                            "intensidad": sent_res["intensidad"],
-                            "confianza_sentimiento": sent_res["confianza_sentimiento"],
-                            "comentario_original": d["comentario_original"]
-                        })
-                    
-                if stats_sentimiento["total_opinion_units"] > 0:
-                    stats_sentimiento["confianza_promedio"] = round(suma_confianza / stats_sentimiento["total_opinion_units"], 4)
-                    stats_sentimiento["intensidad_promedio"] = round(suma_intensidad / stats_sentimiento["total_opinion_units"], 2)
-                    
-                logging.info(f"Metricas de normalizacion: Alias {stats_aspectos['alias']}, Embedding {stats_aspectos['embedding']}, Embedding Fallback {stats_aspectos['embedding_fallback']}, Fallback {stats_aspectos['fallback']}")
-                logging.info(f"Metricas sentimiento: POS {stats_sentimiento['positivos']}, NEG {stats_sentimiento['negativos']}, NEU {stats_sentimiento['neutros']}")
-            
-                cualitativo_payload = {
-                    "metadata": {
-                        "version": "1.0",
-                        "total_encuestas": len(datos_fragmentos),
-                        "total_fragmentos": len(dataset_cualitativo),
-                        "stats_normalizacion": stats_aspectos,
-                        "stats_sentimiento": stats_sentimiento
-                    },
-                    "data": dataset_cualitativo
-                }
-                with open(_intermediate_dir / "dataset_cualitativo.json", "w", encoding="utf-8") as f_cual:
-                    json.dump(cualitativo_payload, f_cual, ensure_ascii=False, indent=2)
-            # ------------------------------------------
             # Migración: Conectar el Motor Nuevo (dataset_cualitativo) a la UI
             # Fase IA v3: filtrar unidades inválidas (es_valido=false) para que
             # NO se muestren en el dashboard. Solo se incluyen en dataset_cualitativo.json

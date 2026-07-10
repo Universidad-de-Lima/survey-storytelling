@@ -8,7 +8,9 @@ Guía para nuevos desarrolladores o analistas que necesitan entender y operar el
 
 Sistema de dashboards estáticos para visualizar encuestas de satisfacción de la **Universidad de Lima**. Toma archivos CSV exportados de Zoho Survey y los convierte en dashboards web interactivos, sin backend ni base de datos. Todo se despliega gratuitamente en GitHub Pages.
 
-**No necesitas instalar nada en tu computadora.** Todo el procesamiento ocurre en GitHub Actions.
+**Para desarrollo local** se requiere Python 3.11+, Node.js 18+, y `DEEPSEEK_API_KEY` (obligatoria desde v3.2.0).
+El procesamiento de CSVs ocurre automáticamente en GitHub Actions, pero para ejecutar
+el ETL localmente necesitas las dependencias instaladas.
 
 ---
 
