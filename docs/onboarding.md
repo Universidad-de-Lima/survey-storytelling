@@ -83,6 +83,14 @@ Sistema de dashboards estáticos para visualizar encuestas de satisfacción de l
 
 **Solución**: Ver sección "Rollback de Emergencia" en `docs/developer-guide.md`.
 
+### 6. "La sección Cualitativo aparece vacía o con 0 comentarios"
+
+**Causa probable**: La pregunta abierta NPS es **opcional**. No todos los encuestados responden.
+**Solución**: Esto es comportamiento esperado cuando ning��n encuestado dejó comentario.
+El dashboard debe ocultar la sección Cualitativo en lugar de mostrar "0 comentarios analizados".
+Si la sección aparece con error, verificar que `sentimiento.json` existe y que
+`total_con_comentario > 0` en el resumen.
+
 ---
 
 ## Comandos útiles (solo para referencia — todo corre en CI)

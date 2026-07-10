@@ -29,6 +29,14 @@ test-results/
 .idea/
 *.sublime-*
 
+# Datos fuente: los CSVs se commitean al repo (sanitizados automaticamente
+# por zoho-survey/scripts/sanitize_csv_pii.py antes del procesamiento ETL).
+# Las columnas PII (Direccion IP, Agente Usuario, URL de la encuesta) se
+# redactan in-place, por lo que los CSVs en data/ no contienen PII.
+
+# Artefactos binarios generados por ETL
+*.zip
+
 # Caché y logging de IA
 ia_cache.json
 .csv_hash

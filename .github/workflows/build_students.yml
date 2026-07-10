@@ -76,6 +76,13 @@ jobs:
           pip install -r requirements.txt
           python -m spacy download es_core_news_sm
 
+      - name: Sanitize CSV PII (IP, User Agent, URL)
+        # Redacta columnas PII en todos los CSVs de data/ antes del procesamiento ETL.
+        # Idempotente: si el CSV ya esta sanitizado, no hace nada.
+        # Columnas redactadas: Direccion IP, Agente Usuario, URL de la encuesta.
+        # Esto garantiza que ningun CSV con PII llegue al repositorio publico.
+        run: python zoho-survey/scripts/sanitize_csv_pii.py --all
+
       - name: Run build_json.py
         # DEEPSEEK_API_KEY se inyecta desde GitHub Secrets.
         # Si no está definida, el pipeline cae automáticamente al modo legacy
@@ -92,6 +99,15 @@ jobs:
           IA_CUALITATIVO_TIMEOUT: "60"
         run: |
           python zoho-survey/scripts/build_json.py
+
+      - name: Exclude exports/ from Pages artifact
+        # Los ZIPs en zoho-survey/students/*/exports/ contienen comentarios
+        # completos de estudiantes con potencial PII. Se eliminan antes del
+        # upload para que no se desplieguen en GitHub Pages.
+        # Los ZIPs se preservan en el repo (commiteados por el bot) para auditoria.
+        run: |
+          find zoho-survey/students -type d -name "exports" -exec rm -rf {} + 2>/dev/null || true
+          echo "Directorios exports/ eliminados del artifact"
 
       - name: Setup Pages
         uses: actions/configure-pages@v6

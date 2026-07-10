@@ -39,5 +39,4 @@ Este repositorio sigue una estructura de documentación modularizada con respons
 * **Pruebas de Unidad:** [tests/README.md](tests/README.md) detalla cómo ejecutar y extender los tests unitarios.
 * **Changelog:** [docs/CHANGELOG.md](docs/CHANGELOG.md) contiene el historial de cambios del proyecto.
 * **Onboarding:** [docs/onboarding.md](docs/onboarding.md) es la guía de inicio para nuevos desarrolladores y analistas.
-* **Integración Zoho API:** [docs/zoho-api-integration.md](docs/zoho-api-integration.md) analiza la viabilidad de automatizar la descarga de CSVs.
 * **Health Check:** [zoho-survey/health.html](zoho-survey/health.html) verifica la integridad de todos los dashboards y JSONs.

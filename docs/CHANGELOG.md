@@ -11,7 +11,7 @@ Historial de cambios significativos del proyecto. Basado en [Keep a Changelog](h
 - Nuevos tests unitarios JS: `test-sentiment-view.js` (8 tests), `test-filter-controller.js` (14 tests), `test-loader.js` (13 tests). Cobertura JS sube de 3/13 a 6/13 módulos.
 - Extensión de `test_pipeline_integration.py` con 16 nuevos casos: NPS/CSAT edge cases, detección de nivel/periodo, hash de CSV.
 - Extensión de `validate_period_html()` en `validate_generated_json.py`: ahora valida IDs de filtros en cascada (5 secciones × 4 IDs) e IDs de sección cualitativa (7 IDs).
-- Constante `IA_CUALITATIVO_MODE` en `lib/config.py` — centraliza la configuración de motores cualitativos (antes dispersa en `build_json.py`).
+- ~~Constante `IA_CUALITATIVO_MODE` en `lib/config.py`~~ — **NOTA: esta constante fue planificada pero NO implementada**. La configuración de motores cualitativos se controla via variables de entorno (`DEEPSEEK_API_KEY`, `IA_CUALITATIVO_FALLBACK`), no via constante en config.py.
 - Documentación del motor IA en `ARCHITECTURE.md`: diagrama Mermaid con doble motor (IA + Legacy), tabla de 10 módulos ETL, sección de optimización `.csv_hash`.
 - Integración documentada de la skill `qualitative_research_synthesis` en `docs/developer-guide.md` como herramienta complementaria de validación humana.
 

@@ -709,23 +709,74 @@ window.SurveySentimentView = (() => {
     }
   }
 
-  // Export: descarga el ZIP pre-generado por el ETL
+  // Export: descarga el ZIP pre-generado por el ETL.
+  // Los ZIPs se guardan en ./exports/ (no en ./json/) para evitar
+  // que se desplieguen en GitHub Pages. Si el ZIP no está disponible,
+  // se muestra un modal estilizado en lugar de alert() nativo.
   function exportCSV() {
     const exp = state.exportConfig;
     if (!exp || !exp.nombre_encuesta || !exp.fecha_generacion) {
-      // Fallback: si no hay config, intentar descarga directa del ZIP estático
-      alert('La exportación ZIP no está disponible para este período.');
+      _showExportModal('La exportación ZIP no está disponible para este período.');
       return;
     }
     const zipName = `data_${exp.nombre_encuesta}_${exp.fecha_generacion}.zip`;
-    const zipUrl = `./json/${zipName}`;
-    const link = document.createElement('a');
-    link.setAttribute('href', zipUrl);
-    link.setAttribute('download', zipName);
-    link.style.visibility = 'hidden';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    const zipUrl = `./exports/${zipName}`;
+    // Verificar disponibilidad del ZIP antes de iniciar descarga.
+    // Si el ZIP no se despliega en GitHub Pages, mostrar modal informativo.
+    fetch(zipUrl, { method: 'HEAD' })
+      .then(resp => {
+        if (resp.ok) {
+          const link = document.createElement('a');
+          link.setAttribute('href', zipUrl);
+          link.setAttribute('download', zipName);
+          link.style.visibility = 'hidden';
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        } else {
+          _showExportModal('La exportación ZIP no está disponible para este período.');
+        }
+      })
+      .catch(() => {
+        _showExportModal('La exportación ZIP no está disponible para este período.');
+      });
+  }
+
+  // Modal estilizado para mensajes de exportación (reemplaza alert() nativo).
+  // Cumple la regla ESLint no-alert y mejora la UX.
+  function _showExportModal(message) {
+    // Reutilizar overlay existente si ya está en el DOM
+    let overlay = document.getElementById('export-modal-overlay');
+    if (!overlay) {
+      overlay = document.createElement('div');
+      overlay.id = 'export-modal-overlay';
+      overlay.setAttribute('role', 'dialog');
+      overlay.setAttribute('aria-modal', 'true');
+      overlay.setAttribute('aria-labelledby', 'export-modal-title');
+      overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:9999;';
+      const modal = document.createElement('div');
+      modal.style.cssText = 'background:#fff;border-radius:8px;padding:24px;max-width:400px;box-shadow:0 4px 12px rgba(0,0,0,0.15);font-family:Roboto,sans-serif;';
+      const title = document.createElement('h3');
+      title.id = 'export-modal-title';
+      title.textContent = 'Exportación no disponible';
+      title.style.cssText = 'margin:0 0 12px 0;font-size:16px;color:#111827;';
+      const body = document.createElement('p');
+      body.textContent = message;
+      body.style.cssText = 'margin:0 0 20px 0;font-size:14px;color:#6B7280;line-height:1.5;';
+      const closeBtn = document.createElement('button');
+      closeBtn.textContent = 'Cerrar';
+      closeBtn.setAttribute('type', 'button');
+      closeBtn.style.cssText = 'background:#FF5117;color:#fff;border:none;border-radius:4px;padding:8px 16px;font-size:14px;cursor:pointer;font-family:Roboto,sans-serif;';
+      closeBtn.addEventListener('click', () => overlay.remove());
+      overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.remove(); });
+      modal.appendChild(title);
+      modal.appendChild(body);
+      modal.appendChild(closeBtn);
+      overlay.appendChild(modal);
+      document.body.appendChild(overlay);
+      // Focus inicial en el boton para accesibilidad por teclado
+      closeBtn.focus();
+    }
   }
 
   // Set up event listeners

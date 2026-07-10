@@ -52,7 +52,7 @@ Antes de realizar cambios, familiarízate con los siguientes documentos según t
 
 ### 2. Agregar un Aspecto Semántico para NPS
 1. Agrega el nuevo aspecto y sus alias en [zoho-survey/scripts/config/alias_aspectos.json](zoho-survey/scripts/config/alias_aspectos.json).
-2. Si el aspecto corresponde a una nueva categoría, agregala en [zoho-survey/scripts/lib/config.py](zoho-survey/scripts/lib/config.py) en `CATEGORIAS_ASPECTOS`.
+2. Si el aspecto corresponde a una nueva categoría, agregala en [zoho-survey/scripts/lib/config.py](zoho-survey/scripts/lib/config.py) en `CATEGORIA_DIMENSION_PREGRADO` (o `CATEGORIA_DIMENSION_GRADUADO` segun el nivel).
 3. Regenera los JSONs ejecutando `npm run build:json`.
 4. Valida la estructura ejecutando `npm run validate:json`.
 
@@ -107,7 +107,7 @@ El sistema soporta dos motores de análisis cualitativo, controlados desde `lib/
 Para forzar el motor legacy en el próximo build (incluso con API key):
 1. Ve a GitHub → Actions → `Build and Deploy Survey` → Run workflow.
 2. En el campo "environment variables", escribe: `IA_CUALITATIVO_FALLBACK=1`.
-3. O alternativamente, configura `IA_CUALITATIVO_MODE = "legacy"` en `lib/config.py` antes del push.
+3. Nota: La constante `IA_CUALITATIVO_MODE` fue planificada pero NO implementada. El motor legacy se controla únicamente via variables de entorno.
 
 ---
 

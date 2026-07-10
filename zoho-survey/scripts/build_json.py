@@ -10,8 +10,6 @@ import json
 import re
 import logging
 import time
-import zipfile
-import csv as csv_mod
 from pathlib import Path
 from shutil import copyfile
 from collections import defaultdict
@@ -551,7 +549,6 @@ def main() -> None:
                     json.dump(cualitativo_payload, f_cual, ensure_ascii=False, indent=2)
             
                 # Stats para compatibilidad con codigo downstream
-                stats_aspectos = {"alias": 0, "embedding": 0, "embedding_fallback": 0, "fallback": 0, "ninguno": 0, "total": len(dataset_cualitativo)}
                 stats_sentimiento = _ia_metadata["stats_sentimiento"]
                 _ia_msg = f"IA Cualitativo: {_ia_metadata['total_encuestas']} encuestas, {_ia_metadata['total_fragmentos']} unidades, {_ia_metadata['cache_hits']} cache hits, {_ia_metadata['usage']['total_tokens']} tokens."
                 logging.info(_ia_msg)

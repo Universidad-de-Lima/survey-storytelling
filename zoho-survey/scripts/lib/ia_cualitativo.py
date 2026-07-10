@@ -143,6 +143,8 @@ def analizar_dataset_cualitativo(
     client = DeepSeekClient(api_key=api_key)
     cache = (CacheManager(cache_path, prompt_version=PROMPT_VERSION)
              if cache_path else None)
+    if cache is not None:
+        cache.reset_hit_count()
     categorias_padre = sorted(set(taxonomia.values()))
 
     # Cleaning defensivo
@@ -273,6 +275,8 @@ def analizar_dataset_cualitativo(
     _elapsed = time.perf_counter() - _start_batch
     if cache:
         cache.flush()
+
+    cache_hits = cache.get_hit_count() if cache is not None else 0
 
     metadata = {
         "total_encuestas": total_comentarios,

@@ -42,7 +42,8 @@ window.SurveySanitizer = (() => {
 
   /**
    * Sanitiza HTML permitiendo solo una whitelist mínima de tags sin atributos.
-   * Tags permitidos: <br>, <strong>, <em>, <i>, <span>.
+   * Tags permitidos (9): <br>, <strong>, <em>, <i>, <span>,
+   *                    <table>, <tr>, <td>, <th>.
    * Cualquier atributo (incluidos on*) se elimina silenciosamente.
    * @param {string} html - HTML potencialmente inseguro
    * @returns {string} HTML sanitizado

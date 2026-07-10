@@ -127,6 +127,16 @@ Ejemplo real (undergraduate 2026-1):
 - `hallazgos.tendencia`: `disminuye`, `aumenta`, `se mantiene` (comparando NPS Inicial vs Avanzado).
 - `resumen.empleabilidad`: solo aparece cuando la encuesta lo soporta (graduados). Requiere `score`, `empleados`, `total`.
 - `resumen.año`: entero (ej. `2026`), **no** string.
+
+> **Nota sobre la pregunta abierta NPS**: La pregunta "Explica con tus palabras, las razones de la calificación"
+> es **opcional**. No todos los encuestados responden. Por ello:
+> - `total_respuestas` = total de filas en el CSV (todas las respuestas recibidas).
+> - `total_con_comentario` = filas donde la columna de comentario tiene texto no vacío (puede ser < `total_respuestas`).
+> - `total_analizados` = comentarios que pasaron el filtro de ruido y fueron procesados por la IA.
+> - `comentarios_invalidos` = comentarios con texto que la IA marcó como inválidos.
+>
+> Cuando `total_con_comentario = 0`, la sección Cualitativo del dashboard debe ocultarse
+> (no mostrar "0 comentarios analizados").
 - `resumen.periodo`: string identificador del periodo (`"2026-1"` o `"2026"`).
 - `resumen.csat.t2b` / `t2b_pct` / `ponderado`: indicadores extendidos de satisfacción (Top 2 Box y Promedio Ponderado). **Opcionales** por compatibilidad con periodos generados antes de su incorporación; los nuevos periodos siempre los incluyen. El frontend deriva ambos desde la distribución `csat` top-level como fallback vía `utils/metrics.js` (gemelo JS de `lib/metrics.py`). `t2b_pct` se redondea a 2 decimales (mismo patrón que `score`); `ponderado` se almacena sin redondear (precisión interna, redondeo solo al mostrar). Invariante: `t2b ≤ t3b ≤ total`. Pesos Likert: `[5,4,3,2,1]` alineados a `RESPUESTAS_TEXTO[:5]` (definidos en `lib/config.py` y `config/constants.js`).
 

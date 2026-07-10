@@ -30,6 +30,7 @@ class CacheManager:
         self._save_counter = 0
         self._save_every = save_every
         self._prompt_version = prompt_version
+        self._hit_count = 0
         self._load()
 
     def _load(self) -> None:
@@ -82,11 +83,23 @@ class CacheManager:
         key = self._make_key(comentario, nps_score, csat_ratings, self._prompt_version)
         with self._lock:
             entry = self._cache.get(key)
+            if entry is not None and isinstance(entry, dict) and "unidades" in entry:
+                self._hit_count += 1
         if entry is None:
             return None
         if not isinstance(entry, dict) or "unidades" not in entry:
             return None
         return entry
+
+    def get_hit_count(self) -> int:
+        """Retorna el numero de cache hits desde el ultimo reset."""
+        with self._lock:
+            return self._hit_count
+
+    def reset_hit_count(self) -> None:
+        """Resetea el contador de cache hits a 0."""
+        with self._lock:
+            self._hit_count = 0
 
     def set(self, comentario: str, nps_score: int,
             csat_ratings: Dict[str, str], result: Dict[str, Any]) -> None:

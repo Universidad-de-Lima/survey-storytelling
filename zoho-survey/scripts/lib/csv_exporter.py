@@ -48,8 +48,6 @@ def generar_csvs_y_zip(
 ) -> None:
     """Genera dos CSVs (analisis_cualitativo + respuestas_dimensiones)
     y los empaqueta en un ZIP dentro del directorio de salida."""
-    import os as _os
-
     nombre_base = _sanitizar_nombre_csv(csv_file.name)
     fecha = pd.Timestamp.now().strftime("%Y-%m-%d")
 
@@ -130,7 +128,12 @@ def generar_csvs_y_zip(
     zip_name = f"data_{nombre_base}.zip"
 
     # ── Escribir ZIP ──
-    zip_path = ruta_salida / zip_name
+    # Los ZIPs se guardan en directorio "exports/" (hermano de "json/")
+    # para evitar que se desplieguen en GitHub Pages con PII potencial.
+    # El directorio exports/ se excluye del artifact de Pages.
+    exports_dir = ruta_salida.parent / "exports"
+    exports_dir.mkdir(parents=True, exist_ok=True)
+    zip_path = exports_dir / zip_name
     try:
         with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as zf:
             csv1_content = "\ufeff" + ",".join(csv1_headers) + "\n"
