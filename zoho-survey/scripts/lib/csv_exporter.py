@@ -164,5 +164,6 @@ def generar_csvs_y_zip(
             f"ZIP generado: {zip_name} ({len(csv1_rows)} comentarios, "
             f"{len(csv2_rows)} encuestados)"
         )
-    except Exception as exc:
+    except (OSError, zipfile.BadZipFile, Exception) as exc:
+        # CAL-03: restringido a excepciones de I/O y ZIP.
         logging.warning(f"No se pudo generar ZIP {zip_name}: {exc}")

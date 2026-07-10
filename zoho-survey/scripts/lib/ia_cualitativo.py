@@ -276,6 +276,11 @@ def analizar_dataset_cualitativo(
     if cache:
         cache.flush()
 
+    # REND-02: Ordenar dataset para garantizar idempotencia.
+    # as_completed produce resultados en orden de finalizacion (no determinista).
+    # Ordenar por id_encuesta + id_fragmento asegura que mismo CSV -> mismo JSON.
+    dataset_cualitativo.sort(key=lambda x: (x.get("id_encuesta", ""), x.get("id_fragmento", "")))
+
     cache_hits = cache.get_hit_count() if cache is not None else 0
 
     metadata = {

@@ -345,6 +345,10 @@ window.SurveyRadarChart = (() => {
         const pct = el.getAttribute('data-pct');
         const t2b = el.getAttribute('data-t2b');
         const pond = el.getAttribute('data-pond');
+        // Accesibilidad por teclado (UX-04): focuseable con Tab
+        el.setAttribute('tabindex', '0');
+        el.setAttribute('role', 'img');
+        el.setAttribute('aria-label', dim + ' (satisfaccion: ' + pct + '%)');
         el.addEventListener('mousemove', (e) => {
           // Build tooltip: exploded pie chart (satisfacción) + horizontal bar chart (T3B, T2B, Ponderado)
           const d = allDims.find(x => _fmt.formatDimensionNameForAttr(x.dim) === dim);
@@ -485,6 +489,18 @@ window.SurveyRadarChart = (() => {
           _ttp.show(e, html, true);
         });
         el.addEventListener('mouseleave', () => _ttp.hide());
+        // Focus/blur para navegacion por teclado (UX-04)
+        el.addEventListener('focus', (e) => {
+          const dim = el.getAttribute('data-dim');
+          const d = allDims.find(x => _fmt.formatDimensionNameForAttr(x.dim) === dim);
+          if (d) {
+            // Reutilizar el mismo tooltip del mousemove simulando un evento
+            const fakeEvent = { clientX: el.getBoundingClientRect().left + 20, clientY: el.getBoundingClientRect().top };
+            const pct = el.getAttribute('data-pct');
+            _ttp.show(fakeEvent, dim + ': ' + pct + '% de satisfaccion', false);
+          }
+        });
+        el.addEventListener('blur', () => _ttp.hide());
       });
     }
 

@@ -184,7 +184,8 @@
         <button class="filter-reset" id="reset-preguntas" type="button">Limpiar</button>
       </div>
       <div class="table-scroll">
-      <table class="survey-table" id="tabla-preguntas">
+      <table class="survey-table" id="tabla-preguntas" role="region" aria-label="Satisfaccion por pregunta">
+          <caption class="sr-only">Detalle de satisfaccion por pregunta y dimension</caption>
         <thead>
           <tr>
             <th scope="col" style="width: 25%;">DIMENSIÓN</th>
@@ -229,7 +230,8 @@
         <button class="filter-reset" id="reset-detalle" type="button">Limpiar</button>
       </div>
       <div class="table-scroll">
-      <table class="survey-table" id="tabla-detalle">
+      <table class="survey-table" id="tabla-detalle" role="region" aria-label="NPS y CSAT por carrera">
+          <caption class="sr-only">Detalle de NPS y CSAT por carrera</caption>
         <thead>
           <tr>
             <th scope="col" style="width: 15%;">CARRERA</th>
@@ -262,7 +264,8 @@
         <button class="filter-reset" id="reset-visibilidad" type="button">Limpiar</button>
       </div>
       <div class="table-scroll">
-      <table class="survey-table" id="tabla-visibilidad">
+      <table class="survey-table" id="tabla-visibilidad" role="region" aria-label="Visibilidad de servicios">
+          <caption class="sr-only">Visibilidad de servicios por carrera</caption>
         <thead>
           <tr>
             <th scope="col" style="width: 35%;">DIMENSIÓN</th>
@@ -344,7 +347,8 @@
 
 
       <div class="table-scroll" style="margin-bottom: 24px;">
-        <table class="survey-table" id="tabla-nps-carrera">
+        <table class="survey-table" id="tabla-nps-carrera" role="region" aria-label="Distribucion NPS por carrera">
+          <caption class="sr-only">Distribucion NPS completa por carrera</caption>
           <thead>
             <tr>
               <th scope="col" style="width: 20%;">CARRERA</th>
@@ -395,7 +399,8 @@
 
       <!-- Tabla Exploradora -->
       <div class="table-scroll" style="margin-bottom: 12px;">
-        <table class="survey-table" id="tabla-explorador-comentarios">
+        <table class="survey-table" id="tabla-explorador-comentarios" role="region" aria-label="Explorador de comentarios cualitativos">
+          <caption class="sr-only">Explorador de comentarios con filtros de sentimiento y tema</caption>
           <thead>
             <tr>
               <th scope="col" style="width: 16%; text-align: left;">Carrera</th>
@@ -451,18 +456,18 @@
     <div class="mt-2" id="footer-periodo">Periodo: Cargando... · Dirección de Planificación y Acreditación</div>
   </footer>
   </div>
-  <script src="{{SHARED_PATH}}/js/config/constants.js"></script>
-  <script src="{{SHARED_PATH}}/js/utils/formatters.js"></script>
-  <script src="{{SHARED_PATH}}/js/utils/metrics.js"></script>
-  <script src="{{SHARED_PATH}}/js/utils/sanitizer.js"></script>
-  <script src="{{SHARED_PATH}}/js/utils/dom-helpers.js"></script>
-  <script src="{{SHARED_PATH}}/js/components/tooltip.js"></script>
-  <script src="{{SHARED_PATH}}/js/components/progress-bar.js"></script>
-  <script src="{{SHARED_PATH}}/js/components/custom-select.js"></script>
-  <script src="{{SHARED_PATH}}/js/components/multiselect.js"></script>
-  <script src="{{SHARED_PATH}}/js/components/filter-controller.js"></script>
-  <script src="{{SHARED_PATH}}/js/components/radar-chart.js"></script>
-  <script src="{{SHARED_PATH}}/js/components/sentiment-view.js"></script>
-  <script src="{{SHARED_PATH}}/js/dashboard.js"></script>
+  <script src="{{SHARED_PATH}}/js/config/constants.js" defer></script>
+  <script src="{{SHARED_PATH}}/js/utils/formatters.js" defer></script>
+  <script src="{{SHARED_PATH}}/js/utils/metrics.js" defer></script>
+  <script src="{{SHARED_PATH}}/js/utils/sanitizer.js" defer></script>
+  <script src="{{SHARED_PATH}}/js/utils/dom-helpers.js" defer></script>
+  <script src="{{SHARED_PATH}}/js/components/tooltip.js" defer></script>
+  <script src="{{SHARED_PATH}}/js/components/progress-bar.js" defer></script>
+  <script src="{{SHARED_PATH}}/js/components/custom-select.js" defer></script>
+  <script src="{{SHARED_PATH}}/js/components/multiselect.js" defer></script>
+  <script src="{{SHARED_PATH}}/js/components/filter-controller.js" defer></script>
+  <script src="{{SHARED_PATH}}/js/components/radar-chart.js" defer></script>
+  <script src="{{SHARED_PATH}}/js/components/sentiment-view.js" defer></script>
+  <script src="{{SHARED_PATH}}/js/dashboard.js" defer></script>
 </body>
 </html>

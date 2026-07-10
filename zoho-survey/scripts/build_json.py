@@ -186,7 +186,8 @@ def main() -> None:
         # Lectura robusta de CSV
         try:
             df = read_csv_robust(csv_file)
-        except Exception as exc:
+        except (FileNotFoundError, UnicodeDecodeError, OSError, Exception) as exc:
+            # CAL-03: restringido a excepciones de I/O y parsing de CSV.
             logging.error(f"Error crítico al leer {csv_file.name}: {exc}")
             continue
 

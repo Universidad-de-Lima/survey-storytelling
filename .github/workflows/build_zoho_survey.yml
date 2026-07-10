@@ -134,6 +134,23 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v5
 
+      - name: Health check post-deploy (DEV-05)
+        # Verifica que las URLs clave respondan 200 tras el deploy.
+        # No bloquea el workflow (informativo), pero registra fallos en logs.
+        if: success()
+        run: |
+          BASE_URL="${{ steps.deployment.outputs.page_url }}"
+          echo "Health check contra: $BASE_URL"
+          sleep 10  # Delay para propagacion de GitHub Pages
+          for path in "zoho-survey/" "zoho-survey/health.html" "zoho-survey/students/undergraduate/2026-1/json/dashboard_data.json"; do
+            STATUS=$(curl -s -o /dev/null -w "%{http_code}" "$BASE_URL$path" || echo "000")
+            if [ "$STATUS" = "200" ]; then
+              echo "\xe2\x9c\x93 $path -> $STATUS"
+            else
+              echo "\xe2\x9c\x97 $path -> $STATUS (WARNING)"
+            fi
+          done
+
       - name: Commit generated JSON
         # Commit robusto: integra cambios remotos con rebase antes de push.
         # [skip ci] evita que el commit del bot dispare un nuevo run del workflow

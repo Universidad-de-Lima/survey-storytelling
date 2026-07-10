@@ -164,13 +164,24 @@ window.SurveySentimentView = (() => {
     let promotores = 0, pasivos = 0, detractores = 0;
     const npsLegend = document.getElementById('nps-legend');
     if (npsLegend) {
-      const text = npsLegend.textContent || '';
-      const matchProm = text.match(/Promotores:\s*([\d,]+)/);
-      const matchPas = text.match(/Pasivos:\s*([\d,]+)/);
-      const matchDet = text.match(/Detractores:\s*([\d,]+)/);
-      if (matchProm) promotores = parseInt(matchProm[1].replace(/,/g, ''), 10);
-      if (matchPas) pasivos = parseInt(matchPas[1].replace(/,/g, ''), 10);
-      if (matchDet) detractores = parseInt(matchDet[1].replace(/,/g, ''), 10);
+      // CAL-04: preferir data attributes sobre parseo regex de textContent.
+      // Fallback a regex para compatibilidad con periodos generados antes del fix.
+      const dp = npsLegend.getAttribute('data-promotores');
+      const dpa = npsLegend.getAttribute('data-pasivos');
+      const dd = npsLegend.getAttribute('data-detractores');
+      if (dp !== null) promotores = parseInt(dp, 10) || 0;
+      if (dpa !== null) pasivos = parseInt(dpa, 10) || 0;
+      if (dd !== null) detractores = parseInt(dd, 10) || 0;
+      if (dp === null) {
+        // Fallback: parseo regex del textContent (compatibilidad backward)
+        const text = npsLegend.textContent || '';
+        const matchProm = text.match(/Promotores:\s*([\d,]+)/);
+        const matchPas = text.match(/Pasivos:\s*([\d,]+)/);
+        const matchDet = text.match(/Detractores:\s*([\d,]+)/);
+        if (matchProm) promotores = parseInt(matchProm[1].replace(/,/g, ''), 10);
+        if (matchPas) pasivos = parseInt(matchPas[1].replace(/,/g, ''), 10);
+        if (matchDet) detractores = parseInt(matchDet[1].replace(/,/g, ''), 10);
+      }
     }
 
     const intensidadProm = ideas > 0 ? (sumInt / ideas) : 0; 

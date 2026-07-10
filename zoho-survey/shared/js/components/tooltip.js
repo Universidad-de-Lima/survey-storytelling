@@ -116,5 +116,26 @@ window.SurveyTooltip = (() => {
     });
   }
 
-  return { show, move, hide, bindToSegments };
+  /**
+   * Hace un elemento accesible por teclado con tooltip.
+   * Anade tabindex="0", role="img" (si no tiene role), y listeners
+   * focus/blur para mostrar/ocultar el tooltip al navegar con Tab.
+   * No modifica los listeners mouseenter/mouseleave existentes.
+   * @param {HTMLElement} el - Elemento a hacer accesible
+   * @param {function} getContent - Funcion que retorna el contenido del tooltip
+   * @param {boolean} [raw=false] - Si true, no sanitiza
+   */
+  function makeAccessible(el, getContent, raw = false) {
+    if (!el) return;
+    el.setAttribute('tabindex', '0');
+    if (!el.getAttribute('role')) {
+      el.setAttribute('role', 'img');
+    }
+    el.addEventListener('focus', (e) => {
+      show(e, getContent(), raw);
+    });
+    el.addEventListener('blur', hide);
+  }
+
+  return { show, move, hide, bindToSegments, makeAccessible };
 })();

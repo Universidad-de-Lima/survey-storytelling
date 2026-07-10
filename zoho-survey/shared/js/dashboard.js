@@ -283,6 +283,10 @@ const SurveyDashboard = (() => {
       <div class="legend-item" data-label="Pasivos (7-8)"><div class="legend-dot" style="background:var(--gray-400);"></div>Pasivos: ${_fmt.formatInteger(pas)}</div>
       <div class="legend-item" data-label="Detractores (0-6)"><div class="legend-dot" style="background:var(--ulima-orange);"></div>Detractores: ${_fmt.formatInteger(det)}</div>
     `;
+    // Data attributes para acceso programatico sin parseo regex (CAL-04)
+    DOM.npsLegend.setAttribute('data-promotores', prom);
+    DOM.npsLegend.setAttribute('data-pasivos', pas);
+    DOM.npsLegend.setAttribute('data-detractores', det);
     adjustSegmentLabels('#nps-bar');
     // Hover highlight: agranda la leyenda al pasar sobre un segmento
     document.querySelectorAll('#nps-bar .csat-segment').forEach(function(seg) {
