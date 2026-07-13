@@ -135,7 +135,7 @@ const SurveyDashboard = (() => {
       // 1. Cargar endpoints críticos (fallan globalmente ante error)
       const criticalKeys = Object.keys(criticalEndpoints);
       const criticalPromises = criticalKeys.map((key) =>
-        fetch(`${BASE_URL}/${criticalEndpoints[key]}.json`).then((r) => {
+        fetch(`${BASE_URL}/${criticalEndpoints[key]}.json`, { cache: 'no-store' }).then((r) => {
           if (!r.ok) throw new Error(`Archivo crítico no disponible: ${criticalEndpoints[key]}`);
           return r.json();
         })
@@ -148,7 +148,7 @@ const SurveyDashboard = (() => {
       // 2. Cargar endpoints opcionales de forma segura (tolerante a fallos de red/períodos vacíos)
       const optionalKeys = Object.keys(optionalEndpoints);
       const optionalPromises = optionalKeys.map((key) =>
-        fetch(`${BASE_URL}/${optionalEndpoints[key]}.json`)
+        fetch(`${BASE_URL}/${optionalEndpoints[key]}.json`, { cache: 'no-store' })
           .then((r) => (r.ok ? r.json() : null))
           .catch((err) => {
             console.warn(`JSON opcional no cargado [${optionalEndpoints[key]}]:`, err);

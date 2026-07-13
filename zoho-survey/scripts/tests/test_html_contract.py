@@ -46,7 +46,7 @@ def _extract_scripts(html_path: Path) -> list:
     """Extrae la lista de rutas de scripts (relativas a shared/js/) desde un HTML."""
     content = html_path.read_text(encoding="utf-8")
     # Capturar src="...js" (maneja {{SHARED_PATH}} como wildcard)
-    pattern = re.compile(r'<script[^>]+src="[^"]*?([^"/]*\.js)"')
+    pattern = re.compile(r'<script[^>]+src="[^"]*?([^"/]*\.js)(?:\?[^"]*)?"')
     scripts = []
     for match in pattern.finditer(content):
         full_src = match.group(1)

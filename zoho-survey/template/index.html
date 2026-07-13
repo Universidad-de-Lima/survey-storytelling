@@ -3,6 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
   <meta name="description" content="ENCUESTA DE SATISFACCIÓN ULIMA - Dashboard interactivo con análisis ejecutivo, operativo, detallado y cualitativo.">
   <meta name="theme-color" content="#FF5117">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -11,11 +14,11 @@
   <link rel="preload" href="./json/dashboard_data.json" as="fetch" crossorigin="anonymous">
   <link rel="preload" href="./json/filtros.json" as="fetch" crossorigin="anonymous">
   <link rel="preload" href="./json/dimensiones.json" as="fetch" crossorigin="anonymous">
-  <link rel="stylesheet" href="{{SHARED_PATH}}/css/tokens.css">
-  <link rel="stylesheet" href="{{SHARED_PATH}}/css/reset.css">
-  <link rel="stylesheet" href="{{SHARED_PATH}}/css/layout.css">
-  <link rel="stylesheet" href="{{SHARED_PATH}}/css/components.css">
-  <link rel="stylesheet" href="{{SHARED_PATH}}/css/sections.css">
+  <link rel="stylesheet" href="{{SHARED_PATH}}/css/tokens.css?v={{BUILD_VERSION}}">
+  <link rel="stylesheet" href="{{SHARED_PATH}}/css/reset.css?v={{BUILD_VERSION}}">
+  <link rel="stylesheet" href="{{SHARED_PATH}}/css/layout.css?v={{BUILD_VERSION}}">
+  <link rel="stylesheet" href="{{SHARED_PATH}}/css/components.css?v={{BUILD_VERSION}}">
+  <link rel="stylesheet" href="{{SHARED_PATH}}/css/sections.css?v={{BUILD_VERSION}}">
 </head>
 <body>
   <div class="main-wrapper visible">
@@ -456,18 +459,18 @@
     <div class="mt-2" id="footer-periodo">Periodo: Cargando... · Dirección de Planificación y Acreditación</div>
   </footer>
   </div>
-  <script src="{{SHARED_PATH}}/js/config/constants.js" defer></script>
-  <script src="{{SHARED_PATH}}/js/utils/formatters.js" defer></script>
-  <script src="{{SHARED_PATH}}/js/utils/metrics.js" defer></script>
-  <script src="{{SHARED_PATH}}/js/utils/sanitizer.js" defer></script>
-  <script src="{{SHARED_PATH}}/js/utils/dom-helpers.js" defer></script>
-  <script src="{{SHARED_PATH}}/js/components/tooltip.js" defer></script>
-  <script src="{{SHARED_PATH}}/js/components/progress-bar.js" defer></script>
-  <script src="{{SHARED_PATH}}/js/components/custom-select.js" defer></script>
-  <script src="{{SHARED_PATH}}/js/components/multiselect.js" defer></script>
-  <script src="{{SHARED_PATH}}/js/components/filter-controller.js" defer></script>
-  <script src="{{SHARED_PATH}}/js/components/radar-chart.js" defer></script>
-  <script src="{{SHARED_PATH}}/js/components/sentiment-view.js" defer></script>
-  <script src="{{SHARED_PATH}}/js/dashboard.js" defer></script>
+  <script src="{{SHARED_PATH}}/js/config/constants.js?v={{BUILD_VERSION}}" defer></script>
+  <script src="{{SHARED_PATH}}/js/utils/formatters.js?v={{BUILD_VERSION}}" defer></script>
+  <script src="{{SHARED_PATH}}/js/utils/metrics.js?v={{BUILD_VERSION}}" defer></script>
+  <script src="{{SHARED_PATH}}/js/utils/sanitizer.js?v={{BUILD_VERSION}}" defer></script>
+  <script src="{{SHARED_PATH}}/js/utils/dom-helpers.js?v={{BUILD_VERSION}}" defer></script>
+  <script src="{{SHARED_PATH}}/js/components/tooltip.js?v={{BUILD_VERSION}}" defer></script>
+  <script src="{{SHARED_PATH}}/js/components/progress-bar.js?v={{BUILD_VERSION}}" defer></script>
+  <script src="{{SHARED_PATH}}/js/components/custom-select.js?v={{BUILD_VERSION}}" defer></script>
+  <script src="{{SHARED_PATH}}/js/components/multiselect.js?v={{BUILD_VERSION}}" defer></script>
+  <script src="{{SHARED_PATH}}/js/components/filter-controller.js?v={{BUILD_VERSION}}" defer></script>
+  <script src="{{SHARED_PATH}}/js/components/radar-chart.js?v={{BUILD_VERSION}}" defer></script>
+  <script src="{{SHARED_PATH}}/js/components/sentiment-view.js?v={{BUILD_VERSION}}" defer></script>
+  <script src="{{SHARED_PATH}}/js/dashboard.js?v={{BUILD_VERSION}}" defer></script>
 </body>
 </html>

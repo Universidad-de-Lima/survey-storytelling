@@ -99,6 +99,10 @@ def _inyectar_html(template_index: Path, index_file: Path, periodo_dir: Path, zo
         
         html_content = template_index.read_text(encoding="utf-8")
         html_content = html_content.replace("{{SHARED_PATH}}", shared_path)
+        # Cache-busting: inject build version (timestamp) for JS/CSS assets.
+        # This ensures browsers fetch fresh assets on every build, avoiding
+        # stale pages after deploys to GitHub Pages.
+        html_content = html_content.replace("{{BUILD_VERSION}}", str(int(time.time())))
         index_file.write_text(html_content, encoding="utf-8")
         logging.info(f"Plantilla HTML copiada e inyectada con shared_path '{shared_path}' para {periodo_dir.relative_to(zoho_dir)}")
         return True

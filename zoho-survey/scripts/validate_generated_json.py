@@ -447,7 +447,13 @@ def main() -> int:
             continue
 
         for period_id in period_ids:
-            errors, warnings = validate_period(level_dir / period_id)
+            period_dir = level_dir / period_id
+            # Skip placeholder periods (e.g., "proximamente" pointing to
+            # underconstruction.html) that don't have a real folder with JSONs.
+            # These are valid entries in periodos.json but have no data to validate.
+            if not period_dir.is_dir():
+                continue
+            errors, warnings = validate_period(period_dir)
             all_errors.extend(errors)
             all_warnings.extend(warnings)
 
