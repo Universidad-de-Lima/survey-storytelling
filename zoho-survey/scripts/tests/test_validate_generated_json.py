@@ -259,6 +259,42 @@ class TestReadPeriods(unittest.TestCase):
                 vj.read_periods(Path(tmpdir))
 
 
+
+class TestValidatePeriodHtml(unittest.TestCase):
+    """Tests para validate_period_html(period_dir)."""
+
+    def test_current_qualitative_ids_do_not_warn(self):
+        """El contrato HTML cualitativo debe coincidir con sentiment-view.js actual."""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            period_dir = Path(tmpdir)
+            filters = []
+            for suffix in ["top3", "radar", "preguntas", "detalle", "visibilidad"]:
+                filters.append(f'<div id="filter-facultad-{suffix}"></div>')
+                if suffix != "detalle":
+                    filters.append(f'<div id="filter-carrera-{suffix}"></div>')
+                filters.append(f'<div id="filter-ciclo-{suffix}"></div>')
+                filters.append(f'<button id="reset-{suffix}"></button>')
+
+            html = """
+<a href="#cualitativo">Cualitativo</a>
+<section id="cualitativo" aria-labelledby="cualitativo-heading">
+  <h2 id="cualitativo-heading">ANÁLISIS CUALITATIVO</h2>
+  <div id="sentiment-kpis"></div>
+  <div id="sentimiento-bar-chart"></div>
+  <input id="explorador-search">
+  <select id="explorador-sentimiento"></select>
+  <table id="tabla-explorador-comentarios"></table>
+  <p id="insight-cualitativo"></p>
+  <div id="insight-cualitativo-categorias"></div>
+</section>
+""" + "\n".join(filters)
+            (period_dir / "index.html").write_text(html, encoding="utf-8")
+
+            errors, warnings = vj.validate_period_html(period_dir)
+
+        self.assertEqual([], errors)
+        self.assertEqual([], warnings)
+
 class TestLoadSchema(unittest.TestCase):
     """Tests para load_schema(schema_filename)."""
 

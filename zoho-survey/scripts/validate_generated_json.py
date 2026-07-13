@@ -285,7 +285,7 @@ def validate_json_file(json_dir: Path, filename: str, spec: Dict[str, any]) -> T
 # ---------------------------------------------------------------------------
 # Validacion del HTML del periodo (sin cambios funcionales)
 # ---------------------------------------------------------------------------
-def validate_period_html(period_dir: Path) -> List[str]:
+def validate_period_html(period_dir: Path) -> Tuple[List[str], List[str]]:
     """Verifica que el index.html del periodo contenga los enlaces y contenedores del modulo cualitativo."""
     path = period_dir / "index.html"
     if not path.exists():
@@ -327,14 +327,18 @@ def validate_period_html(period_dir: Path) -> List[str]:
             errors.append(f"{path}: falta ID de filtro: reset-{suffix}")
 
     # ── Validación de sección cualitativa (warnings, no errores) ──
-    # Estos IDs son del template actual pero pueden no existir en periodos
-    # generados antes de Fase 2. Se reportan como advertencia para no bloquear
-    # el pipeline si los HTMLs no se han regenerado.
+    # Estos IDs son del template actual y del contrato publico de
+    # components/sentiment-view.js. Se reportan como advertencia para no
+    # bloquear el pipeline si los HTMLs no se han regenerado.
     warnings = []
     sentimiento_ids = [
-        'id="sentimiento"', 'id="sentiment-kpis"', 'id="sentimiento-bar-chart"',
-        'id="explorador-search"', 'id="explorador-sentimiento"',
-        'id="explorador-tema"', 'id="explorador-carrera"',
+        'id="sentiment-kpis"',
+        'id="sentimiento-bar-chart"',
+        'id="explorador-search"',
+        'id="explorador-sentimiento"',
+        'id="tabla-explorador-comentarios"',
+        'id="insight-cualitativo"',
+        'id="insight-cualitativo-categorias"',
     ]
     for sid in sentimiento_ids:
         if sid not in html:
