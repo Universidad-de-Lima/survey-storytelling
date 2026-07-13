@@ -7,8 +7,8 @@ The following data types are handled:
 
 | Type | Example | Status |
 |---|---|---|
-| **PII directa** | IP address, User Agent | 🟢 Sanitized (CRIT-01, 2026-07-09) |
-| **PII cuasi-identificadora** | Free-text comments | 🟢 Managed via CI cache (`ia_cache.json`) |
+| **PII directa** | IP address, User Agent | 🟡 Sanitizada en CI (defensa en profundidad, CRIT-01). Política de ingesta requiere sanitización **pre-commit** (ver `docs/onboarding.md`): la sanitización en CI ocurre tras el push, por lo que un CSV no sanitizado podría quedar en el historial Git. |
+| **PII cuasi-identificadora** | Free-text comments (comentarios NPS abiertos) | 🔴 En revisión. Los comentarios se envían a DeepSeek y `sentimiento.json` puede conservar `comentario_original`/`fragmento_original`. La caché IA (`ia_cache.json`) NO es un control de privacidad. Ver roadmap de mejora (IM-001/IM-002). |
 | **Aggregated metrics** | NPS, CSAT scores | 🟢 No PII exposure |
 
 ## Reporting a Vulnerability

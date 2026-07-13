@@ -87,9 +87,10 @@ jobs:
         run: python zoho-survey/scripts/sanitize_csv_pii.py --all
 
       - name: Run build_json.py
-        # DEEPSEEK_API_KEY se inyecta desde GitHub Secrets.
-        # Si no está definida, el pipeline cae automáticamente al modo legacy
-        # (spaCy + sentence-transformers) sin fallo.
+        # DEEPSEEK_API_KEY se inyecta desde GitHub Secrets (verificada en el gate anterior).
+        # Es OBLIGATORIA desde v3.2.0: el motor legacy (spaCy + sentence-transformers)
+        # fue eliminado y no existe fallback. Si la key falta, el workflow falla antes
+        # de llegar a este step (ver "Verify DEEPSEEK_API_KEY").
         #
         # Variables IA_CUALITATIVO_* controlan el comportamiento del motor IA:
         #   WORKERS=15    → 15 llamadas concurrentes a DeepSeek (speedup ~15x)

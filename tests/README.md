@@ -89,26 +89,39 @@ Usar el patrón de `tests/unit/test-dom.js` con su propio runner inline (`test()
 
 ## Cobertura Actual
 
-### Tests con TestFramework (110 tests)
+> **Estado del snapshot (auditoría URAF v5.0, 2026-07-10):** El snapshot del repositorio
+> entregado **no incluye el directorio `zoho-survey/`**, por lo que los módulos bajo test
+> (`shared/js/**`) no están disponibles y los tests no pueden ejecutarse localmente sobre
+> este snapshot. Las cifras siguientes reflejan los tests **declarados** en cada archivo.
+> Adicionalmente, `test-sanitizer.js` está **vacío (0 bytes)** y `test-sentiment-view.js`
+> **no está presente** en el snapshot (ver `AGENTS.md` y `CHANGELOG.md` para el estado del
+> repositorio completo). Esta es una deuda de consistencia pendiente (IM-005, URAF v5.0).
 
-| Archivo | Tests | Módulo bajo prueba |
+### Tests con TestFramework (declarados)
+
+| Archivo | Tests declarados | Estado en snapshot |
 | --- | --- | --- |
-| `test-config.js` | 9 | `SURVEY_CONFIG` |
-| `test-formatters.js` | 26 | `SurveyFormatters` |
-| `test-metrics.js` | 10 | `SurveyMetrics` |
-| `test-sanitizer.js` | 20 | `SurveySanitizer` |
-| `test-sentiment-view.js` | 9 | `SurveySentimentView` (API surface) |
-| `test-filter-controller.js` | 16 | `SurveyFilterController` |
-| `test-loader.js` | 16 | Loader logic (replicada) |
-| `test-insights-ia.js` | 4 | Insights IA |
+| `test-config.js` | 9 | presente (9 tests) |
+| `test-formatters.js` | 26 | presente (26 tests) |
+| `test-metrics.js` | 10 | presente (10 tests) |
+| `test-sanitizer.js` | 20 | **vacío (0 bytes, 0 tests reales)** — pendiente de implementar |
+| `test-sentiment-view.js` | 9 | **ausente del snapshot** — pendiente de restaurar |
+| `test-filter-controller.js` | 16 | presente (16 tests) |
+| `test-loader.js` | 16 | presente (16 tests) |
+| `test-insights-ia.js` | 4 | presente (4 tests) |
 
-### Tests con jsdom (33 tests)
+### Tests con jsdom (declarados)
 
-| Archivo | Tests | Módulo bajo prueba |
+| Archivo | Tests declarados | Módulo bajo prueba |
 | --- | --- | --- |
 | `test-dom.js` | 33 | `SurveyFormatters`, `SurveySanitizer`, `SurveyDomHelpers`, `SurveyTooltip` (con DOM real) |
 
-### Total: 143 tests
+### Total declarado: 143 tests — Total real en snapshot: 113 tests
+
+La diferencia (30 tests) corresponde a `test-sanitizer.js` vacío (20) + `test-sentiment-view.js`
+ausente (9) + 1 discrepancia menor en `test-dom.js`. **Los 3 runners de tests** (`package.json
+`test:js`, `tests.yml` inline, `tests/run-tests.html`) han sido alineados (IM-005) para
+referenciar el mismo conjunto canónico de 8 archivos de tests TestFramework.
 
 ## Tests Python
 

@@ -30,7 +30,7 @@ graph TD
 
 ```text
 survey-storytelling/
-├── .github/workflows/       # Workflows de CI/CD (build_zoho_survey.yml, validate-survey-json.yml, tests.yml).
+├── .github/workflows/       # Workflows de CI/CD (build_zoho_survey.yml, tests.yml).
 ├── data/                    # CSVs fuente exportados desde Zoho Survey.
 ├── docs/                    # Documentacion y guias del proyecto.
 ├── tests/                   # Mini-framework de pruebas unitarias en navegador.

@@ -676,7 +676,7 @@ def main() -> None:
             sentimiento = {
                 "version": "3.0",
                 "resumen": {
-                    "total_respuestas": total_con_com,
+                    "total_respuestas": int(len(df)),
                     "total_con_comentario": total_con_com,
                     "total_analizados": total_analizados,
                     "comentarios_invalidos": total_invalidos,
@@ -696,7 +696,7 @@ def main() -> None:
             sentimiento = {
                 "version": "3.0",
                 "resumen": {
-                    "total_respuestas": 0,
+                    "total_respuestas": int(len(df)),
                     "total_con_comentario": 0,
                     "total_analizados": 0,
                     "comentarios_invalidos": 0,

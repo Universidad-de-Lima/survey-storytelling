@@ -19,9 +19,12 @@ el ETL localmente necesitas las dependencias instaladas.
 ```
 1. Exportar CSV desde Zoho Survey
          ↓
-2. (Opcional, recomendado) Sanitizar PII localmente:
+2. (OBLIGATORIO antes del commit) Sanitizar PII localmente:
    python zoho-survey/scripts/sanitize_csv_pii.py --all
    Redacta columnas Direccion IP, Agente Usuario, URL de la encuesta.
+   La sanitizacion en CI (GitHub Actions) es DEFENSA EN PROFUNDIDAD, no control
+   primario: un CSV no sanitizado podria quedar en el historial Git antes de que
+   CI lo redacte. Siempre sanitiza ANTES de commitear.
          ↓
 3. Colocar CSV en la carpeta data/ del repositorio y hacer commit
    (data/ NO esta gitignored; los CSVs se commitean sanitizados)

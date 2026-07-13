@@ -2,7 +2,6 @@
 
 [![Build and Deploy](https://github.com/Universidad-de-Lima/survey-storytelling/actions/workflows/build_zoho_survey.yml/badge.svg)](https://github.com/Universidad-de-Lima/survey-storytelling/actions/workflows/build_zoho_survey.yml)
 [![Tests](https://github.com/Universidad-de-Lima/survey-storytelling/actions/workflows/tests.yml/badge.svg)](https://github.com/Universidad-de-Lima/survey-storytelling/actions/workflows/tests.yml)
-[![Validate JSON](https://github.com/Universidad-de-Lima/survey-storytelling/actions/workflows/validate-survey-json.yml/badge.svg)](https://github.com/Universidad-de-Lima/survey-storytelling/actions/workflows/validate-survey-json.yml)
 
 Sistema estático de visualización de encuestas de satisfacción para la Universidad de Lima. Convierte CSV exportados desde Zoho Survey en dashboards interactivos, sin backend ni base de datos, desplegables en GitHub Pages.
 

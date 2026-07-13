@@ -80,34 +80,32 @@ Para detalles de adición y ejecución de pruebas unitarias, consulta [tests/REA
 
 ## Configuración del Motor Cualitativo
 
-El sistema soporta dos motores de análisis cualitativo, controlados desde `lib/config.py`:
+Desde v3.2.0 el sistema usa **un único motor** de análisis cualitativo: **DeepSeek IA**.
+El motor legacy (spaCy + sentence-transformers) fue **eliminado**; `DEEPSEEK_API_KEY` es obligatoria.
 
 | Variable | Valores | Efecto |
 |---|---|---|
-| `DEEPSEEK_API_KEY` | API key string | Activa motor IA (DeepSeek). Si no está definida, usa motor Legacy |
-| `IA_CUALITATIVO_FALLBACK=1` | env var | Fuerza modo legacy incluso con API key |
+| `DEEPSEEK_API_KEY` | API key string | **Obligatoria**. Activa el motor IA (DeepSeek). Sin ella el ETL cualitativo falla (no hay fallback). |
 | `IA_CUALITATIVO_CACHE=0` | env var | Desactiva caché IA (`ia_cache.json`) |
 | `IA_CUALITATIVO_WORKERS` | entero (default 15) | Workers concurrentes para IA |
 | `IA_CUALITATIVO_MAX_RPM` | entero (default 60) | Rate limit de API |
 | `IA_CUALITATIVO_TIMEOUT` | entero (default 60s) | Timeout por llamada |
 
-**Motor IA (DeepSeek)** — activo en producción desde Fase IA:
+> **Nota histórica:** las variables `IA_CUALITATIVO_FALLBACK` y la constante `IA_CUALITATIVO_MODE`
+> fueron planificadas pero **NO implementadas** (ver `CHANGELOG.md` v3.1.0/v3.2.0). El motor legacy
+> ya no existe, por lo que no hay nada a lo que caer. No usar estas variables.
+
+**Motor IA (DeepSeek)** — único motor desde v3.2.0:
 - Una sola llamada API ejecuta 5 tareas: segmentación → sentimiento con reglas NPS → intensidad → clasificación taxonómica → cross-reference CSAT.
 - Caché persistente en `ia_cache.json` (hash SHA256 de comentario + contexto + prompt version).
 - Rate limit: 60 RPM, 15 workers concurrentes. Timeout: 60s por llamada.
 - Costo estimado: ~$0.50 por build completo, ~$0.05 con caché.
 
-**Motor Legacy (spaCy + embeddings)** — fallback automático:
-- 3 módulos encadenados: `segmentacion_nps.py` → `aspect_extraction.py` → `sentiment_engine.py`.
-- Precisión vs ground truth humano: sentimiento 59.7%, taxonomía 32.6%.
-- Mantenido como respaldo si DeepSeek API no está disponible.
+### Ejecutar el motor IA
 
-### Alternar entre motores
-
-Para forzar el motor legacy en el próximo build (incluso con API key):
-1. Ve a GitHub → Actions → `Build and Deploy Survey` → Run workflow.
-2. En el campo "environment variables", escribe: `IA_CUALITATIVO_FALLBACK=1`.
-3. Nota: La constante `IA_CUALITATIVO_MODE` fue planificada pero NO implementada. El motor legacy se controla únicamente via variables de entorno.
+El motor IA se ejecuta automáticamente en el workflow `Build and Deploy Survey` (GitHub Actions)
+siempre que `DEEPSEEK_API_KEY` esté configurada en GitHub Secrets. El gate `Verify DEEPSEEK_API_KEY`
+falla el workflow antes de instalar dependencias si la key falta.
 
 ---
 
