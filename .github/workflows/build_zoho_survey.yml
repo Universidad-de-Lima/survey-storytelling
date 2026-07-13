@@ -164,7 +164,10 @@ jobs:
           git config --global user.email "survey-bot@users.noreply.github.com"
 
           git add zoho-survey/
-          git add data/
+          # data/ puede estar vacío en la base inicial (sin CSVs todavía).
+          # git add falla con "pathspec did not match" si no hay archivos.
+          # Silenciamos el error; el check de "no changes" de abajo maneja el caso.
+          git add data/ 2>/dev/null || true
 
           # Salir limpio si no hay cambios (evita commit vacío)
           if git diff --cached --quiet; then
