@@ -27,15 +27,13 @@ Mejorar la calidad analítica del dashboard cualitativo mediante:
 **NO usar para:**
 - Reemplazar el pipeline ETL automático (`build_json.py`).
 - Re-clasificar comentarios que el ETL ya clasificó correctamente.
-- Modificar sentimiento o intensidad asignados por `sentiment_engine.py`.
+- Modificar sentimiento o intensidad asignados por el motor IA (`ia_cualitativo.py` desde v3.2.0).
 - Crear categorías paralelas a la taxonomía oficial.
 
 ## ETL como fuente de verdad
 
 El pipeline ETL (`zoho-survey/scripts/`) es la **única fuente de verdad** para:
-- Segmentación de comentarios en Meaning Units → `lib/segmentacion_nps.py`
-- Clasificación temática (Tema Padre + Tema) → `lib/aspect_extraction.py`
-- Análisis de sentimiento e intensidad → `lib/sentiment_engine.py`
+- Análisis cualitativo completo (segmentación + clasificación temática + sentimiento) → `lib/ia_cualitativo.py` (motor único DeepSeek desde v3.2.0)
 - Generación de JSONs (`sentimiento.json`, `dataset_cualitativo.json`) → `build_json.py`
 - Generación de insights automáticos → `lib/insights_generator.py` (Fase 8)
 
@@ -83,7 +81,7 @@ Toda clasificación temática debe usar las dimensiones definidas en `CATEGORIA_
 Si un comentario no encaja en ninguna dimensión oficial, clasificar como `Pendiente de Clasificación` (igual que el ETL). No inventar categorías paralelas.
 
 ### Regla 3: No reinterpretar sentimiento
-El sentimiento (positivo/negativo/neutro) y la intensidad (1-5) son asignados por `sentiment_engine.py` con calibración Fase 7 (`SENTIMENT_CONFIDENCE_THRESHOLD = 0.4`). La Skill no debe reasignar sentimiento. Si hay desacuerdo, documentar como `Revisar` en la tabla de validación.
+El sentimiento (positivo/negativo/neutro) y la intensidad (1-5) son asignados por el motor IA (`lib/ia_cualitativo.py` desde v3.2.0). La Skill no debe reasignar sentimiento. Si hay desacuerdo, documentar como `Revisar` en la tabla de validación.
 
 ### Regla 4: Chunking con 4 heurísticas
 Para análisis ad-hoc de comentarios sueltos, aplicar las 4 reglas de fragmentación:

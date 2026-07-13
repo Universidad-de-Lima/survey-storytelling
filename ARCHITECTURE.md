@@ -42,10 +42,11 @@ survey-storytelling/
 │   │   └── js/              # Modulos JS IIFE expuestos en window.Survey*.
 │   ├── template/            # Plantilla HTML para nuevos periodos de encuesta.
 │   ├── scripts/             # ETL en Python, validacion de contratos y schemas JSON.
-│   │   ├── lib/             # Biblioteca modularizada del ETL (10 modulos:
-│   │   │                    # config, metrics, nlp, io_helper, segmentacion_nps,
-│   │   │                    # aspect_extraction, sentiment_engine,
-│   │   │                    # ia_cualitativo, prompts_cualitativo, insights_generator).
+│   │   ├── lib/             # Biblioteca modularizada del ETL (13 modulos:
+│   │   │                    # config, metrics, io_helper, ia_cualitativo,
+│   │   │                    # prompts_cualitativo, insights_generator, csv_exporter,
+│   │   │                    # dashboard_builder, periodos_updater, ia_cache,
+│   │   │                    # ia_client, ia_filtro_ruido, ia_validacion).
 │   │   ├── schemas/         # JSON Schemas Draft-07 (7 schemas formales).
 │   │   ├── config/          # Configuracion estatica (stop_aspectos.json, alias_aspectos.json).
 │   │   └── tests/           # Tests Python (10 modulos incluyendo test_html_contract, test_alias_aspectos).
@@ -215,7 +216,7 @@ La aplicacion es una SPA estatica en Vanilla JS, sin backend ni dependencias run
 ### Dashboard
 
 - `zoho-survey/template/index.html`: estructura HTML base de cada periodo.
-- `zoho-survey/shared/js/dashboard.js`: orquestador principal (1.015 lineas).
+- `zoho-survey/shared/js/dashboard.js`: orquestador principal (1.270 lineas).
 - `zoho-survey/shared/js/config/constants.js`: metas, ciclos y constantes compartidas.
 - `zoho-survey/shared/js/utils/formatters.js`: funciones de formateo (es-PE).
 - `zoho-survey/shared/js/utils/sanitizer.js`: `escapeHTML` y `sanitizeHTML` (whitelist: `br, strong, em, i, span`).

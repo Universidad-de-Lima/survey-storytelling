@@ -24,7 +24,7 @@ from typing import Dict, List, Optional
 # incrementa este número. El CacheManager lo incluye en la clave hash,
 # así que las entradas cacheadas con versión anterior se ignoran
 # automáticamente (no se sirven resultados viejos con prompt viejo).
-PROMPT_VERSION = "v7-2026-07-07"
+PROMPT_VERSION = "v8-2026-07-13-redaccion-pre-llm"  # FM-002: invalida cache IA, fuerza re-procesamiento con redaccion pre-LLM
 
 
 # ============================================================

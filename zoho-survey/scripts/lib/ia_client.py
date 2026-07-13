@@ -38,12 +38,16 @@ class DeepSeekClient:
                  model: str = DEFAULT_MODEL,
                  max_rpm: int = DEFAULT_MAX_RPM,
                  timeout: int = DEFAULT_TIMEOUT,
-                 max_retries: int = DEFAULT_MAX_RETRIES):
+                 max_retries: int = DEFAULT_MAX_RETRIES,
+                 http_client=None):  # FM-009: inyectable para tests
         self.api_key = api_key
         self.model = model
         self.max_rpm = max_rpm
         self.timeout = timeout
         self.max_retries = max_retries
+        # FM-009: http_client inyectable (default: urllib.request del módulo).
+        # Permite inyectar un mock en tests sin parchear urllib globalmente.
+        self._http_client = http_client if http_client is not None else urllib_request
         self._min_interval = 60.0 / max_rpm if max_rpm > 0 else 0
         self._last_call_ts = 0.0
         self._total_input_tokens = 0
@@ -96,7 +100,8 @@ class DeepSeekClient:
                 DEEPSEEK_API_URL, data=body, headers=headers, method="POST"
             )
             try:
-                with urllib_request.urlopen(req, timeout=self.timeout) as resp:
+                # FM-009: usar self._http_client (urllib_request por default, mock en tests)
+                with self._http_client.urlopen(req, timeout=self.timeout) as resp:
                     raw = resp.read().decode("utf-8")
                     data = json.loads(raw)
                     usage = data.get("usage", {})

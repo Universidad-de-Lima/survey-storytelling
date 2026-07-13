@@ -1,4 +1,4 @@
-# survey-storytelling v3.1.0
+# survey-storytelling v3.2.0
 
 [![Build and Deploy](https://github.com/Universidad-de-Lima/survey-storytelling/actions/workflows/build_zoho_survey.yml/badge.svg)](https://github.com/Universidad-de-Lima/survey-storytelling/actions/workflows/build_zoho_survey.yml)
 [![Tests](https://github.com/Universidad-de-Lima/survey-storytelling/actions/workflows/tests.yml/badge.svg)](https://github.com/Universidad-de-Lima/survey-storytelling/actions/workflows/tests.yml)

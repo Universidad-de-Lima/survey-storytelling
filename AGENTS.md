@@ -39,7 +39,7 @@ Antes de tocar codigo, comprender la arquitectura real (no la documentacion prev
 ### Frontend JS (`zoho-survey/shared/js/`)
 
 - **13 modulos IIFE** expuestos via `window.Survey*`.
-- **`dashboard.js`** (1015 lineas): orquestador principal.
+- **`dashboard.js`** (1270 lineas): orquestador principal.
 - **Orden de carga critico**: ver `shared/README.md`. `dom-helpers.js` debe cargarse antes que `custom-select.js`.
 - Las funciones globales son `window.SurveyTooltip.show/hide` (NO `window.showTooltip/hideTooltip`).
 
@@ -176,5 +176,5 @@ Si se modifica la estructura de cualquier JSON generado:
 7. **Trabajo sin commitear**: el repositorio puede tener cambios pendientes. Revisar `git status` antes de modificar.
 8. **`periodos.json` por nivel**: debe tener exactamente un item con `isNew: true`. El validador falla si no se cumple.
 9. **Tests Python no ejecutados en CI**: ~~los tests en `scripts/tests/` solo corren manualmente.~~ **Fase 6**: workflow `tests.yml` creado, ejecuta unittest + JS tests + sintaxis en cada PR.
-10. **Tests JS**: la suite pasó por una reparación en Fase 6 (91/91 tests en su momento) y fue ampliada en v3.2.0 Fase 2. El conteo actual y el estado por archivo se documenta en `tests/README.md` (fuente canónica de cobertura). **Nota (snapshot URAF v5.0, 2026-07-10):** en el snapshot auditado `test-sanitizer.js` está vacío y `test-sentiment-view.js` está ausente; la cifra exacta de tests depende del repositorio completo. Cobertura declarada: ~6/13 módulos con tests directos.
+10. **Tests JS**: la suite pasó por una reparación en Fase 6 (91/91 tests en su momento) y fue ampliada en v3.2.0 Fase 2. El conteo actual y el estado por archivo se documenta en `tests/README.md` (fuente canónica de cobertura). **Nota (actualizado URAF v5.0 Fase 1, 2026-07-13):** `test-sanitizer.js` y `test-sentiment-view.js` **sí existen** (92 y 90 LOC respectivamente) — la afirmación anterior del snapshot URAF era incorrecta. Cobertura declarada: ~6/13 módulos con tests directos.
 11. **Calibración del motor de sentimiento (Fase 7)**: `lib/config.py` define `SENTIMENT_CONFIDENCE_THRESHOLD = 0.4`. Cuando la confianza del softmax cae bajo el umbral Y no hay `es_evento_negativo`, el sentimiento se fuerza a 'neutro'. Ajustar este valor requiere recalibrar contra datos reales y regenerar JSONs en CI.

@@ -30,7 +30,7 @@ from lib.config import (
     EMPLEABILIDAD_CATEGORIAS
 )
 from lib.metrics import calc_nps, calc_csat, calc_promedio_ponderado, calc_nps_carrera, calc_csat_carrera
-from lib.io_helper import read_csv_robust, normalize_dates, hash_csv, csv_cambiado, guardar_hash_csv
+from lib.io_helper import read_csv_robust, normalize_dates, hash_csv, csv_cambiado, guardar_hash_csv, ETL_BUILD_DATE, enmascarar_pii
 from lib.csv_exporter import generar_csvs_y_zip, _sanitizar_nombre_csv
 from lib.dashboard_builder import construir_dashboard_data
 from lib.periodos_updater import actualizar_periodos
@@ -229,9 +229,9 @@ def main() -> None:
         inicio = df["Inicio"].min()
         fin = max(df["Inicio"].max(), df["Fin"].max())
         if pd.isnull(inicio):
-            inicio = pd.Timestamp.now()
+            inicio = pd.Timestamp(ETL_BUILD_DATE)  # FM-011: fallback determinista para CSVs con Inicio null
         if pd.isnull(fin):
-            fin = pd.Timestamp.now()
+            fin = pd.Timestamp(ETL_BUILD_DATE)  # FM-011: fallback determinista para CSVs con Fin null
 
         anio = df["Inicio"].dt.year.mode()[0] if not df["Inicio"].empty else inicio.year
         fechas_unicas = df["Inicio"].dt.date.nunique() if not df["Inicio"].empty else 1
@@ -447,7 +447,7 @@ def main() -> None:
         # Nombre sanitizado del CSV fuente para exportaciones
         dashboard_data["_export"] = {
             "nombre_encuesta": _sanitizar_nombre_csv(csv_file.name),
-            "fecha_generacion": pd.Timestamp.now().strftime("%Y-%m-%d")
+            "fecha_generacion": ETL_BUILD_DATE
         }
         with open(ruta_salida / "dashboard_data.json", "w", encoding="utf-8") as f:
             json.dump(dashboard_data, f, ensure_ascii=False, indent=2)
@@ -583,11 +583,11 @@ def main() -> None:
                     "intensidad": item["intensidad"],
                     "categoria": item["aspecto_normalizado"],
                     "categoria_padre": item["categoria_padre"],
-                    "fragmento_original": item["texto"],
-                    "fragmento_mostrar": item["texto"],
+                    # FM-001: PII exposure close — fragmento_original y comentario_original eliminados del artifact publico.
+                    # fragmento_mostrar se redacta con enmascarar_pii (defensa en profundidad sobre PII estructurada).
+                    "fragmento_mostrar": enmascarar_pii(item["texto"]),
                     "es_valido": True,
                     "motivo_invalidez": None,
-                    "comentario_original": item.get("comentario_original", ""),
                     "comentario_id_original": item["id_encuesta"],
                     "fragmento_secuencia": frag_sec,
                     "es_fragmento": True,
