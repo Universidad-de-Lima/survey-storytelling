@@ -311,9 +311,10 @@
     renderPeriods();
     if (periodOverflow) periodOverflow.schedule();
 
-    // Load saved period or fallback to latest
+    // Load saved period or fallback to the period marked as newest.
     const savedPeriod = localStorage.getItem('ulima_selected_period_' + survey.id);
-    const targetPeriod = savedPeriod && PERIODS.some(p => p.id === savedPeriod) ? savedPeriod : (PERIODS[0]?.id || null);
+    const latestPeriod = PERIODS.find(p => p.isNew) || PERIODS[0] || null;
+    const targetPeriod = savedPeriod && PERIODS.some(p => p.id === savedPeriod) ? savedPeriod : (latestPeriod?.id || null);
     if (targetPeriod) loadPeriod(targetPeriod);
   }
 

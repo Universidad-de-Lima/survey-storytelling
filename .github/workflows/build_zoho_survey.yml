@@ -143,7 +143,7 @@ jobs:
           BASE_URL="${{ steps.deployment.outputs.page_url }}"
           echo "Health check contra: $BASE_URL"
           sleep 10  # Delay para propagacion de GitHub Pages
-          for path in "zoho-survey/" "zoho-survey/health.html" "zoho-survey/students/undergraduate/2026-1/json/dashboard_data.json"; do
+          for path in "" "health.html" "students/undergraduate/periodos.json"; do
             STATUS=$(curl -s -o /dev/null -w "%{http_code}" "$BASE_URL$path" || echo "000")
             if [ "$STATUS" = "200" ]; then
               echo "\xe2\x9c\x93 $path -> $STATUS"
@@ -151,6 +151,17 @@ jobs:
               echo "\xe2\x9c\x97 $path -> $STATUS (WARNING)"
             fi
           done
+
+      - name: Remove uploaded CSVs before bot commit
+        # Los CSVs subidos a data/ son insumo transitorio: después del build,
+        # validación y deploy, se eliminan del estado final de main. El bot
+        # commitea los JSON/HTML generados y las eliminaciones de CSV juntas.
+        if: success()
+        run: |
+          if [ -d data ]; then
+            find data -maxdepth 1 -type f -iname "*.csv" -delete
+            echo "CSVs subidos a data/ eliminados del workspace antes del commit del bot"
+          fi
 
       - name: Commit generated JSON
         # Commit robusto: integra cambios remotos con rebase antes de push.
@@ -164,10 +175,9 @@ jobs:
           git config --global user.email "survey-bot@users.noreply.github.com"
 
           git add zoho-survey/
-          # data/ puede estar vacío en la base inicial (sin CSVs todavía).
-          # git add falla con "pathspec did not match" si no hay archivos.
-          # Silenciamos el error; el check de "no changes" de abajo maneja el caso.
-          git add data/ 2>/dev/null || true
+          # Stagear altas/modificaciones/eliminaciones en data/. Esto permite
+          # que los CSVs subidos por web se borren de main en el commit del bot.
+          git add -A data/ 2>/dev/null || true
 
           # Salir limpio si no hay cambios (evita commit vacío)
           if git diff --cached --quiet; then
