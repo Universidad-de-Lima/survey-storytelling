@@ -34,6 +34,11 @@ tests/snapshots/
 # Artefactos binarios generados por ETL
 *.zip
 
+# Artefactos intermedios del ETL (se regeneran en cada build, no se commitean)
+# IM-025: evita el ruido en Git (el bot hacia commit del borrado en cada build)
+zoho-survey/students/*/intermediate/
+zoho-survey/students/*/exports/
+
 # Caché y logging de IA
 ia_cache.json
 .csv_hash
