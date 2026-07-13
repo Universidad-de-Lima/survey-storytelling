@@ -87,6 +87,8 @@ def normalize_dates(df: "pd.DataFrame", columns: List[str]) -> "pd.DataFrame":
 # ── Utilidades de hash para detección de cambios ─────────────────
 
 
+ETL_OUTPUT_VERSION = "ia-validation-normalize-v1"
+
 def hash_csv(csv_path: Path) -> str:
     """Calcula el hash SHA256 del contenido del CSV para detección de cambios."""
     h = hashlib.sha256()
@@ -96,15 +98,20 @@ def hash_csv(csv_path: Path) -> str:
     return h.hexdigest()
 
 
-def csv_cambiado(csv_path: Path, ruta_salida: Path) -> bool:
-    """Detecta si un CSV cambió desde el último build comparando su hash.
+def hash_csv_versionado(csv_path: Path) -> str:
+    """Calcula la huella de build: versión interna del ETL + hash puro del CSV."""
+    return f"{ETL_OUTPUT_VERSION}:{hash_csv(csv_path)}"
 
-    El hash se guarda en `<ruta_salida>/.csv_hash`. Si el archivo no existe
-    (primer build) o el hash difiere, retorna True (procesar).
-    Si el hash coincide, retorna False (saltar, los JSON ya están actualizados).
+
+def csv_cambiado(csv_path: Path, ruta_salida: Path) -> bool:
+    """Detecta si un CSV o la versión interna del ETL cambiaron.
+
+    `hash_csv()` permanece como hash puro del CSV. `.csv_hash` guarda una huella
+    versionada para forzar un reproceso controlado cuando cambian reglas internas
+    que afectan los JSON generados.
     """
     hash_file = ruta_salida / ".csv_hash"
-    current_hash = hash_csv(csv_path)
+    current_hash = hash_csv_versionado(csv_path)
     if not hash_file.exists():
         return True
     try:
@@ -115,10 +122,10 @@ def csv_cambiado(csv_path: Path, ruta_salida: Path) -> bool:
 
 
 def guardar_hash_csv(csv_path: Path, ruta_salida: Path) -> None:
-    """Guarda el hash del CSV para comparación en el próximo build."""
+    """Guarda la huella versionada del CSV para comparación en el próximo build."""
     hash_file = ruta_salida / ".csv_hash"
     try:
-        hash_file.write_text(hash_csv(csv_path), encoding="utf-8")
+        hash_file.write_text(hash_csv_versionado(csv_path), encoding="utf-8")
     except OSError as e:
         logging.warning(f"No se pudo guardar hash de CSV: {e}")
 

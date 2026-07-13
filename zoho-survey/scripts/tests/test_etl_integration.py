@@ -21,7 +21,7 @@ if str(SCRIPTS_DIR) not in sys.path:
     sys.path.insert(0, str(SCRIPTS_DIR))
 
 from lib.metrics import calc_nps, calc_csat, calc_promedio_ponderado
-from lib.io_helper import hash_csv, csv_cambiado, enmascarar_pii
+from lib.io_helper import hash_csv, csv_cambiado, enmascarar_pii, guardar_hash_csv, hash_csv_versionado
 from lib.insights_generator import generar_insights_ia
 
 
@@ -81,12 +81,32 @@ class TestETLIntegrationIdempotency(unittest.TestCase):
         self.assertTrue(csv_cambiado(self.csv_path, self.output_dir))
 
     def test_csv_no_cambiado(self):
-        """CSV sin cambios: csv_cambiado retorna False."""
+        """CSV sin cambios y hash versionado: csv_cambiado retorna False."""
         self.csv_path.write_text("col1,col2\nval1,val2\n", encoding="utf-8")
-        # Guardar hash
-        from lib.io_helper import guardar_hash_csv
         guardar_hash_csv(self.csv_path, self.output_dir)
         self.assertFalse(csv_cambiado(self.csv_path, self.output_dir))
+
+    def test_csv_hash_antiguo_sin_version_reprocesa(self):
+        """Un .csv_hash legacy sin versión fuerza reproceso controlado."""
+        self.csv_path.write_text("col1,col2\nval1,val2\n", encoding="utf-8")
+        (self.output_dir / ".csv_hash").write_text(hash_csv(self.csv_path), encoding="utf-8")
+        self.assertTrue(csv_cambiado(self.csv_path, self.output_dir))
+
+    def test_hash_versionado_no_cambia_hash_csv_puro(self):
+        """hash_csv sigue siendo SHA256 puro y la huella versionada agrega prefijo."""
+        self.csv_path.write_text("col1,col2\nval1,val2\n", encoding="utf-8")
+        pure_hash = hash_csv(self.csv_path)
+        versioned_hash = hash_csv_versionado(self.csv_path)
+        self.assertEqual(len(pure_hash), 64)
+        self.assertTrue(versioned_hash.endswith(pure_hash))
+        self.assertNotEqual(pure_hash, versioned_hash)
+
+    def test_csv_modificado_con_hash_versionado_reprocesa(self):
+        """Si el CSV cambia tras guardar huella versionada, se reprocesa."""
+        self.csv_path.write_text("col1,col2\nval1,val2\n", encoding="utf-8")
+        guardar_hash_csv(self.csv_path, self.output_dir)
+        self.csv_path.write_text("col1,col2\nval1,val3\n", encoding="utf-8")
+        self.assertTrue(csv_cambiado(self.csv_path, self.output_dir))
 
 
 class TestETLIntegrationPIIRedaction(unittest.TestCase):

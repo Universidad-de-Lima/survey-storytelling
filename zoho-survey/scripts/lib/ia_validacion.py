@@ -7,12 +7,77 @@ coherencia entre dimensiones y categorías padre.
 """
 
 import logging
+import unicodedata
+from collections import Counter
 from typing import Any, Dict, List, Optional, Tuple
 
 from .ia_filtro_ruido import SENTIMIENTOS_VALIDOS, MOTIVOS_INVALIDEZ_VALIDOS
 from .io_helper import enmascarar_pii
 
 logger = logging.getLogger(__name__)
+
+PENDIENTE_CLASIFICACION = "Pendiente de Clasificación"
+_DIMENSIONES_ESPECIALES = {PENDIENTE_CLASIFICACION, "none"}
+
+
+def _normalizar_texto_clave(value: Any) -> str:
+    """Normaliza texto para comparar variantes seguras sin cambiar el valor final."""
+    if not isinstance(value, str):
+        return ""
+    text = unicodedata.normalize("NFKD", value.strip())
+    text = "".join(ch for ch in text if not unicodedata.combining(ch))
+    return " ".join(text.lower().split())
+
+
+def _normalizar_sentimiento(value: Any) -> Any:
+    """Acepta variantes seguras de capitalización del set canónico."""
+    if not isinstance(value, str):
+        return value
+    key = _normalizar_texto_clave(value)
+    if key in SENTIMIENTOS_VALIDOS:
+        return key
+    return value
+
+
+def _normalizar_intensidad(value: Any) -> Any:
+    """Convierte números enviados como texto, sin corregir rangos inválidos."""
+    if not isinstance(value, str):
+        return value
+    try:
+        parsed = float(value.strip())
+    except ValueError:
+        return value
+    if parsed.is_integer():
+        return int(parsed)
+    return parsed
+
+
+def _normalizar_pendiente(value: Any) -> Any:
+    """Canonicaliza solo la pseudo-categoría Pendiente de Clasificación."""
+    if _normalizar_texto_clave(value) == "pendiente de clasificacion":
+        return PENDIENTE_CLASIFICACION
+    return value
+
+
+def _normalizar_unidad(unidad: dict) -> dict:
+    """Normaliza variaciones de formato de DeepSeek antes de validar."""
+    unidad["sentimiento"] = _normalizar_sentimiento(unidad.get("sentimiento"))
+    if "intensidad" in unidad:
+        unidad["intensidad"] = _normalizar_intensidad(unidad.get("intensidad"))
+    unidad["dimension"] = _normalizar_pendiente(unidad.get("dimension", ""))
+    unidad["categoria_padre"] = _normalizar_pendiente(unidad.get("categoria_padre", ""))
+    return unidad
+
+
+def _resumen_errores(errores: List[str]) -> str:
+    """Resume errores de validación sin incluir texto libre de encuestados."""
+    if not errores:
+        return "Todas las unidades son inválidas"
+    total = len(errores)
+    counter = Counter(errores)
+    muestras = [f"{count}x {msg}" for msg, count in counter.most_common(3)]
+    unidad = "unidad descartada" if total == 1 else "unidades descartadas"
+    return f"Todas las unidades son inválidas ({total} {unidad}: {'; '.join(muestras)})"
 
 
 def validar_unidad(unidad: dict, taxonomia: Dict[str, str]) -> Optional[str]:
@@ -25,7 +90,7 @@ def validar_unidad(unidad: dict, taxonomia: Dict[str, str]) -> Optional[str]:
         return "Unidad no es un dict"
 
     required = ["orden", "texto", "sentimiento", "intensidad", "dimension",
-                 "categoria_padre"]
+                "categoria_padre"]
     for field in required:
         if field not in unidad:
             return f"Campo requerido '{field}' no encontrado"
@@ -43,6 +108,14 @@ def validar_unidad(unidad: dict, taxonomia: Dict[str, str]) -> Optional[str]:
     # Validar coherencia dimensión → categoria_padre
     dimension = unidad.get("dimension", "")
     cat_padre = unidad.get("categoria_padre", "")
+    if dimension not in taxonomia and dimension not in _DIMENSIONES_ESPECIALES:
+        return f"Dimensión desconocida: {dimension}"
+
+    if dimension in _DIMENSIONES_ESPECIALES:
+        if cat_padre != dimension:
+            return f"Categoría padre incoherente: {cat_padre}"
+        return None
+
     if dimension and dimension in taxonomia and cat_padre:
         expected_cat = taxonomia[dimension]
         if cat_padre == "none" and expected_cat != "none":
@@ -61,10 +134,11 @@ def validar_unidad(unidad: dict, taxonomia: Dict[str, str]) -> Optional[str]:
 def corregir_unidad(unidad: dict) -> dict:
     """Corrige defensivamente una unidad individual.
 
-    Asegura: categoria_padre coherente, es_valido/motivo_invalidez sincronizados,
-    intensidad en 1-5, sub_aspectos normalizados (max 5, lowercase, 50 chars).
+    Asegura: variantes canónicas de campos, es_valido/motivo_invalidez
+    sincronizados, sub_aspectos normalizados (max 5, lowercase, 50 chars).
+    No corrige intensidades fuera de rango: esas deben fallar validación.
     """
-    unidad["intensidad"] = max(1, min(5, int(unidad.get("intensidad", 3))))
+    unidad = _normalizar_unidad(unidad)
 
     if "es_valido" not in unidad:
         unidad["es_valido"] = True
@@ -101,10 +175,17 @@ def validar_respuesta_ia(respuesta: dict,
         return None, "Campo 'unidades' ausente o no es lista"
 
     unidades_validas = []
+    errores_unidades: List[str] = []
     for i, unidad in enumerate(respuesta["unidades"]):
+        if not isinstance(unidad, dict):
+            err = "Unidad no es un dict"
+            errores_unidades.append(err)
+            logger.debug(f"Unidad {i} inválida ({err}), descartando")
+            continue
         unidad = corregir_unidad(unidad)
         err = validar_unidad(unidad, taxonomia)
         if err:
+            errores_unidades.append(err)
             logger.debug(f"Unidad {i} inválida ({err}), descartando")
             continue
         unidad["orden"] = len(unidades_validas) + 1
@@ -117,7 +198,7 @@ def validar_respuesta_ia(respuesta: dict,
         unidades_validas.append(unidad)
 
     if not unidades_validas:
-        return None, "Todas las unidades son inválidas"
+        return None, _resumen_errores(errores_unidades)
 
     return {
         "unidades": unidades_validas,
