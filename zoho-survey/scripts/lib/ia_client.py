@@ -103,8 +103,24 @@ class DeepSeekClient:
                     with self._usage_lock:
                         self._total_input_tokens += usage.get("prompt_tokens", 0)
                         self._total_output_tokens += usage.get("completion_tokens", 0)
-                    content = data["choices"][0]["message"]["content"]
+                    msg = data["choices"][0]["message"]
+                    content = msg.get("content", "") or ""
+                    # Fallback: si content está vacío, DeepSeek a veces pone
+                    # la respuesta en 'reasoning_content' (su razonamiento interno).
+                    # Extraer el JSON de ahí antes de fallar.
                     if not content or not content.strip():
+                        reasoning = msg.get("reasoning_content", "") or ""
+                        if reasoning and reasoning.strip():
+                            logger.warning(
+                                "Content vacío, intentando extraer JSON de "
+                                "reasoning_content"
+                            )
+                            _match_rc = re.search(r'(\{.*\})', reasoning, re.DOTALL)
+                            if _match_rc:
+                                try:
+                                    return json.loads(_match_rc.group(1))
+                                except json.JSONDecodeError:
+                                    pass
                         logger.error(
                             f"Contenido vacío de DeepSeek. Raw: {raw[:300]!r}"
                         )
@@ -118,6 +134,19 @@ class DeepSeekClient:
                                 return json.loads(_match.group(1))
                             except json.JSONDecodeError:
                                 pass
+                        # Último recurso: intentar extraer de reasoning_content
+                        reasoning = msg.get("reasoning_content", "") or ""
+                        if reasoning and reasoning.strip():
+                            logger.warning(
+                                "JSON inválido en content, intentando "
+                                "reasoning_content"
+                            )
+                            _match_rc = re.search(r'(\{.*\})', reasoning, re.DOTALL)
+                            if _match_rc:
+                                try:
+                                    return json.loads(_match_rc.group(1))
+                                except json.JSONDecodeError:
+                                    pass
                         logger.error(
                             f"JSON inválido de DeepSeek. Content: {content[:500]!r}"
                         )

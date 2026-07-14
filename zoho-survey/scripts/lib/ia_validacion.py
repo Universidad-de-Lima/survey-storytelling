@@ -19,6 +19,54 @@ logger = logging.getLogger(__name__)
 PENDIENTE_CLASIFICACION = "Pendiente de Clasificación"
 _DIMENSIONES_ESPECIALES = {PENDIENTE_CLASIFICACION, "none"}
 
+# Caché de taxonomía normalizada → dimensión canónica.
+# Se construye la primera vez que se valida con una taxonomía dada.
+# Permite matching flexible: "Satisfaccion estudiantil" (sin acento)
+# → "Satisfacción estudiantil" (canónico).
+_taxonomia_norm_cache: Dict[str, Dict[str, str]] = {}
+
+
+def _construir_cache_taxonomia(taxonomia: Dict[str, str]) -> Dict[str, str]:
+    """Construye un dict {dim_normalizada: dim_canonica} para matching flexible.
+
+    Normaliza quitando acentos, lowercase y colapsando espacios.
+    Así 'Satisfaccion estudiantil' (sin acento) matchea con
+    'Satisfacción estudiantil' (canónico).
+    """
+    cache_id = id(taxonomia)
+    if cache_id in _taxonomia_norm_cache:
+        return _taxonomia_norm_cache[cache_id]
+    norm_map = {}
+    for dim_canonica in taxonomia:
+        norm = _normalizar_texto_clave(dim_canonica)
+        norm_map[norm] = dim_canonica
+    # También normalizar las dimensiones especiales
+    for esp in _DIMENSIONES_ESPECIALES:
+        norm = _normalizar_texto_clave(esp)
+        norm_map[norm] = esp
+    _taxonomia_norm_cache[cache_id] = norm_map
+    return norm_map
+
+
+def _resolver_dimension(dimension: str, taxonomia: Dict[str, str]) -> Optional[str]:
+    """Resuelve una dimensión a su forma canónica usando matching flexible.
+
+    1. Match exacto (caso normal).
+    2. Match normalizado (sin acentos, lowercase) — corrige 'Satisfaccion' → 'Satisfacción'.
+    3. Returns None si no se encuentra.
+    """
+    if not dimension:
+        return None
+    # 1. Match exacto
+    if dimension in taxonomia or dimension in _DIMENSIONES_ESPECIALES:
+        return dimension
+    # 2. Match normalizado
+    norm_map = _construir_cache_taxonomia(taxonomia)
+    norm = _normalizar_texto_clave(dimension)
+    if norm in norm_map:
+        return norm_map[norm]
+    return None
+
 
 def _normalizar_texto_clave(value: Any) -> str:
     """Normaliza texto para comparar variantes seguras sin cambiar el valor final."""
@@ -106,13 +154,22 @@ def validar_unidad(unidad: dict, taxonomia: Dict[str, str]) -> Optional[str]:
         return f"Intensidad fuera de rango 1-5: {intensidad}"
 
     # Validar coherencia dimensión → categoria_padre
+    # Matching flexible: corrige acentos/variaciones antes de validar.
     dimension = unidad.get("dimension", "")
     cat_padre = unidad.get("categoria_padre", "")
-    if dimension not in taxonomia and dimension not in _DIMENSIONES_ESPECIALES:
+    dimension_resuelta = _resolver_dimension(dimension, taxonomia)
+    if dimension_resuelta is None:
         return f"Dimensión desconocida: {dimension}"
+    # Corregir la dimensión al valor canónico (ej: 'Satisfaccion' → 'Satisfacción')
+    if dimension_resuelta != dimension:
+        logger.debug(
+            f"Corrigiendo dimensión '{dimension}' → '{dimension_resuelta}'"
+        )
+        unidad["dimension"] = dimension_resuelta
+        dimension = dimension_resuelta
 
     if dimension in _DIMENSIONES_ESPECIALES:
-        if cat_padre != dimension:
+        if cat_padre != dimension and _normalizar_texto_clave(cat_padre) != _normalizar_texto_clave(dimension):
             return f"Categoría padre incoherente: {cat_padre}"
         return None
 
