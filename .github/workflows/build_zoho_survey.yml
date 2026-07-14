@@ -63,16 +63,6 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Cache IA Cualitativo (DeepSeek)
-        # Caché persistente de resultados IA por hash(comentario + contexto).
-        # Evita re-llamar a la API en builds subsiguientes si el CSV no cambió.
-        uses: actions/cache@v4
-        with:
-          path: zoho-survey/scripts/ia_cache.json
-          key: ia-cache-${{ hashFiles('data/**', 'zoho-survey/scripts/lib/prompts_cualitativo.py') }}
-          restore-keys: |
-            ia-cache-
-
       - name: Install dependencies
         # Sin spaCy/HuggingFace desde v3.2.0 (motor legacy eliminado).
         run: |

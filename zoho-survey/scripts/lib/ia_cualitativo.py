@@ -2,7 +2,7 @@
 IA CUALITATIVO — Orquestador del analisis cualitativo basado en DeepSeek.
 
 Este modulo es la capa de integracion entre build_json.py y los 4 submodulos
-especializados: ia_cache (cache persistente), ia_client (cliente DeepSeek),
+especializados: ia_client (cliente DeepSeek), ia_validacion (validacion),
 ia_filtro_ruido (pre-filtrado), e ia_validacion (validacion de respuestas).
 
 Reemplaza a los 3 modulos locales (segmentacion_nps.py, aspect_extraction.py,
@@ -12,14 +12,14 @@ en conjunto, con coherencia de contexto y reglas de sesgo NPS aplicadas.
 Uso principal (integrado en build_json.py):
   from lib.ia_cualitativo import generar_salidas_cualitativas_ia
   datos_fragmentos, dataset, metadata = generar_salidas_cualitativas_ia(
-      df_sent=df_sent, taxonomia=..., csat_columns_map=..., cache_path=...
+      df_sent=df_sent, taxonomia=..., csat_columns_map=...
   )
 
 Variables de entorno:
   - DEEPSEEK_API_KEY (obligatorio para modo IA).
   - IA_CUALITATIVO_MODEL (opcional, default "deepseek-v4-flash").
   - IA_CUALITATIVO_MAX_RPM (opcional, default 60).
-  - IA_CUALITATIVO_CACHE (opcional, "1" para habilitar, "0" para deshabilitar).
+  - (caché IA eliminado — la verificación por ID reemplaza al caché)
 """
 
 import logging
@@ -29,7 +29,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
-from .ia_cache import CacheManager
+# CacheManager eliminado — verificación por ID en build_json.py
 from .ia_client import DeepSeekClient, DEFAULT_WORKERS
 from .ia_filtro_ruido import es_ruido_pre_filtro, generar_unidad_ruido
 from .ia_validacion import validar_respuesta_ia
@@ -58,18 +58,11 @@ def analizar_comentario(comentario: str,
                         taxonomia: Dict[str, str],
                         categorias_padre: List[str],
                         client: DeepSeekClient,
-                        cache: Optional[CacheManager] = None,
                         id_encuesta: str = "") -> Dict[str, Any]:
     """Analiza un comentario completo y devuelve {unidades: [...]}.
 
-    Usa cache si esta disponible. Si la API falla, devuelve
-    una unidad placeholder no valida.
+    Si la API falla, devuelve una unidad placeholder no valida.
     """
-    if cache is not None:
-        cached = cache.get(comentario, nps_score, csat_ratings)
-        if cached is not None:
-            return cached
-
     system_prompt = build_system_prompt(taxonomia, categorias_padre)
     user_prompt = build_user_prompt(comentario, nps_score, csat_ratings, id_encuesta)
 
@@ -90,9 +83,6 @@ def analizar_comentario(comentario: str,
         logger.warning(f"Respuesta IA invalida para {id_encuesta}: {err}")
         return _placeholder(comentario, f"Validacion fallo: {err}",
                            "Respuesta IA invalida")
-
-    if cache is not None:
-        cache.set(comentario, nps_score, csat_ratings, sanada)
 
     return sanada
 
@@ -127,7 +117,6 @@ def analizar_dataset_cualitativo(
     df_sent,
     taxonomia: Dict[str, str],
     csat_columns_map: Dict[str, str],
-    cache_path: Optional[Path] = None,
     progress_every: int = 25,
 ) -> Tuple[List[Dict[str, Any]], Dict[str, Any]]:
     """Analiza cualitativamente todo el dataset de comentarios NPS.
@@ -141,10 +130,6 @@ def analizar_dataset_cualitativo(
         raise RuntimeError("DEEPSEEK_API_KEY no configurada.")
 
     client = DeepSeekClient(api_key=api_key)
-    cache = (CacheManager(cache_path, prompt_version=PROMPT_VERSION)
-             if cache_path else None)
-    if cache is not None:
-        cache.reset_hit_count()
     categorias_padre = sorted(set(taxonomia.values()))
 
     # Cleaning defensivo
@@ -230,7 +215,7 @@ def analizar_dataset_cualitativo(
 
             future = executor.submit(
                 _analizar_un_comentario, comentario, nps, csat_ratings,
-                taxonomia, categorias_padre, client, cache, res_id,
+                taxonomia, categorias_padre, client, res_id,
                 facultad, carrera, ciclo, satisfaccion_global
             )
             fut_map[future] = (res_id, facultad, carrera, ciclo,
@@ -273,15 +258,13 @@ def analizar_dataset_cualitativo(
                 )
 
     _elapsed = time.perf_counter() - _start_batch
-    if cache:
-        cache.flush()
 
     # REND-02: Ordenar dataset para garantizar idempotencia.
     # as_completed produce resultados en orden de finalizacion (no determinista).
     # Ordenar por id_encuesta + id_fragmento asegura que mismo CSV -> mismo JSON.
     dataset_cualitativo.sort(key=lambda x: (x.get("id_encuesta", ""), x.get("id_fragmento", "")))
 
-    cache_hits = cache.get_hit_count() if cache is not None else 0
+    cache_hits = 0  # sin cache
 
     metadata = {
         "total_encuestas": total_comentarios,
@@ -346,7 +329,7 @@ def _build_item(res_id, ord_id, facultad, carrera, ciclo, nps,
 
 
 def _analizar_un_comentario(comentario, nps, csat_ratings, taxonomia,
-                            categorias_padre, client, cache, res_id,
+                            categorias_padre, client, res_id,
                             facultad, carrera, ciclo, satisfaccion_global):
     """Helper para ejecutar en ThreadPoolExecutor."""
     return analizar_comentario(
@@ -356,7 +339,6 @@ def _analizar_un_comentario(comentario, nps, csat_ratings, taxonomia,
         taxonomia=taxonomia,
         categorias_padre=categorias_padre,
         client=client,
-        cache=cache,
         id_encuesta=res_id,
     )
 
@@ -369,7 +351,6 @@ def generar_salidas_cualitativas_ia(
     df_sent,
     taxonomia: Dict[str, str],
     csat_columns_map: Dict[str, str],
-    cache_path: Optional[Path] = None,
 ) -> Tuple[List[Dict[str, Any]], List[Dict[str, Any]], Dict[str, Any]]:
     """Capa de integracion con build_json.py.
 
@@ -380,7 +361,6 @@ def generar_salidas_cualitativas_ia(
         df_sent=df_sent,
         taxonomia=taxonomia,
         csat_columns_map=csat_columns_map,
-        cache_path=cache_path,
     )
 
     from collections import defaultdict

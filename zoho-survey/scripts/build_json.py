@@ -523,15 +523,105 @@ def main() -> None:
                     df_sent[_dc] = df[_dc]
             _csat_cols_map = {d: d for d in _dimension_cols}
             
-            _cache_path = BASE_DIR / "ia_cache.json"
-            datos_fragmentos, dataset_cualitativo, _ia_metadata = (
-                generar_salidas_cualitativas_ia(
-                    df_sent=df_sent,
-                    taxonomia=CATEGORIA_DIMENSION_PREGRADO,
-                    csat_columns_map=_csat_cols_map,
-                    cache_path=_cache_path,
-                )
+            # ============================================================
+            # VERIFICACIÓN POR ID — SIN CACHÉ IA
+            # ============================================================
+            # En lugar de un caché oculto (ia_cache.json), usamos el propio
+            # sentimiento.json como fuente de verdad: si un comentario ya fue
+            # procesado (su ID está en el JSON existente), se salta. Solo se
+            # envían a DeepSeek los comentarios NUEVOS.
+            #
+            # Para forzar reprocesamiento (ej: cambiaste el prompt y quieres
+            # ver los cambios reflejados): borra el sentimiento.json del
+            # periodo y vuelve a ejecutar el ETL.
+            # ============================================================
+            _sentimiento_path = ruta_salida / "sentimiento.json"
+            _dataset_existente = []
+            _ids_procesados = set()
+
+            if _sentimiento_path.exists():
+                try:
+                    _sent_previo = json.load(
+                        open(_sentimiento_path, "r", encoding="utf-8-sig")
+                    )
+                    for _com in _sent_previo.get("comentarios", []):
+                        _rid = _com.get("comentario_id_original", "")
+                        if _rid and _rid not in _ids_procesados:
+                            _ids_procesados.add(_rid)
+                            _nps_val = _com.get("nps_score", 0)
+                            _dataset_existente.append({
+                                "id_encuesta": _rid,
+                                "id_fragmento": _com.get("id", ""),
+                                "facultad": _com.get("facultad", ""),
+                                "carrera": _com.get("carrera", ""),
+                                "ciclo": _com.get("ciclo", ""),
+                                "nps_score": _nps_val,
+                                "segmento_nps": (
+                                    "Promotor" if _nps_val >= 9
+                                    else "Pasivo" if _nps_val >= 7
+                                    else "Detractor"
+                                ),
+                                "satisfaccion_global": "",
+                                "texto": _com.get("fragmento_original",
+                                                   _com.get("fragmento_mostrar", "")),
+                                "aspecto_detectado": "",
+                                "aspecto_normalizado": _com.get("aspecto_normalizado",
+                                                                 _com.get("categoria", "")),
+                                "categoria_padre": _com.get("categoria_padre", ""),
+                                "sub_aspectos": [],
+                                "sentimiento": _com.get("sentimiento", "neutro"),
+                                "intensidad": _com.get("intensidad", 3),
+                                "confianza_sentimiento": 1.0,
+                                "comentario_original": _com.get("comentario_original", ""),
+                                "es_valido": _com.get("es_valido", True),
+                                "motivo_invalidez": _com.get("motivo_invalidez", ""),
+                                "motor": "deepseek",
+                            })
+                    logging.info(
+                        f"JSON existente cargado: {len(_ids_procesados)} "
+                        f"comentarios ya procesados en {_sentimiento_path.name}"
+                    )
+                except (json.JSONDecodeError, OSError) as _e:
+                    logging.warning(
+                        f"No se pudo cargar sentimiento.json existente "
+                        f"({_e}). Se procesará todo desde cero."
+                    )
+
+            # Filtrar: solo comentarios cuyo ID NO esté ya procesado
+            _total_antes = len(df_sent)
+            _mask_nuevos = ~df_sent["ID"].astype(str).isin(_ids_procesados)
+            _df_nuevos = df_sent[_mask_nuevos].copy()
+            _total_nuevos = len(_df_nuevos)
+            _total_saltados = _total_antes - _total_nuevos
+
+            logging.info(
+                f"Comentarios a procesar: {_total_nuevos} nuevos + "
+                f"{_total_saltados} ya existentes (saltados) = {_total_antes} total"
             )
+
+            if _total_nuevos > 0:
+                _datos_fragmentos_nuevos, _dataset_nuevo, _ia_metadata = (
+                    generar_salidas_cualitativas_ia(
+                        df_sent=_df_nuevos,
+                        taxonomia=CATEGORIA_DIMENSION_PREGRADO,
+                        csat_columns_map=_csat_cols_map,
+                    )
+                )
+            else:
+                logging.info("No hay comentarios nuevos. Se reutilizan los datos existentes.")
+                _datos_fragmentos_nuevos, _dataset_nuevo, _ia_metadata = [], [], {
+                    "total_encuestas": 0,
+                    "total_fragmentos": 0,
+                    "errores": 0,
+                    "ruido_filtrado": 0,
+                    "cache_hits": 0,
+                    "tiempo_segundos": 0,
+                    "stats_sentimiento": {},
+                    "modelo_ia": "deepseek (sin novedades este run)",
+                }
+
+            dataset_cualitativo = _dataset_existente + _dataset_nuevo
+            datos_fragmentos = _datos_fragmentos_nuevos
             
             # Escribir fragmentos_nps.json (formato compatible con el legado)
             fragmentos_payload = {
