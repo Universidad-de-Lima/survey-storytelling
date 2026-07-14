@@ -163,32 +163,36 @@ def _build_contexto_institucional(ctx: dict) -> str:
         # Metodologías
         met = rce.get("metodologias", {})
         if met:
-            lineas.append(f"### '{met.get("dimension_correcta", "Metodologías")}' ({met.get("categoria_padre", "Docencia")})")
+            met_dim = met.get("dimension_correcta", "Metodologías")
+            met_padre = met.get("categoria_padre", "Docencia")
+            lineas.append("### '{}' ({})".format(met_dim, met_padre))
             pks = met.get("palabras_clave", [])
             if pks:
-                lineas.append(f"Palabras clave: {', '.join(pks)}")
+                lineas.append("Palabras clave: " + ", ".join(pks))
             no_en = met.get("no_clasificar_en", [])
             if no_en:
-                lineas.append(f"NO clasificar en: {', '.join(no_en)}")
+                lineas.append("NO clasificar en: " + ", ".join(no_en))
             for ej in met.get("ejemplos", []):
-                lineas.append(f"  Ej: {ej}")
+                lineas.append("  Ej: " + ej)
             lineas.append("")
 
         # Disponibilidad para asesorías
         asesor = rce.get("disponibilidad_para_asesorias", {})
         if asesor:
-            lineas.append(f"### '{asesor.get("dimension_correcta", "Disponibilidad para asesorías")}' ({asesor.get("categoria_padre", "Docencia")})")
+            as_dim = asesor.get("dimension_correcta", "Disponibilidad para asesorías")
+            as_padre = asesor.get("categoria_padre", "Docencia")
+            lineas.append("### '{}' ({})".format(as_dim, as_padre))
             pks = asesor.get("palabras_clave", [])
             if pks:
-                lineas.append(f"Palabras clave: {', '.join(pks)}")
+                lineas.append("Palabras clave: " + ", ".join(pks))
             no_en = asesor.get("no_clasificar_en", [])
             if no_en:
-                lineas.append(f"NO clasificar en: {', '.join(no_en)}")
+                lineas.append("NO clasificar en: " + ", ".join(no_en))
             for ej in asesor.get("ejemplos", []):
-                lineas.append(f"  Ej: {ej}")
+                lineas.append("  Ej: " + ej)
             nota = asesor.get("_nota_categoria_padre", "")
             if nota:
-                lineas.append(f"  **{nota}**")
+                lineas.append("  **" + nota + "**")
             lineas.append("")
 
         # Distinción Empleabilidad vs Perspectivas
@@ -198,19 +202,25 @@ def _build_contexto_institucional(ctx: dict) -> str:
             emp = dist.get("empleabilidad_vinculacion_y_alumni", {})
             per = dist.get("mejora_en_perspectivas_de_empleo", {})
             if emp:
-                lineas.append(f"'{emp.get("dimension", "")}' ({emp.get("categoria_padre", "")})")
-                lineas.append(f"  Qué es: {emp.get("que_es", "")}")
+                emp_dim = emp.get("dimension", "")
+                emp_padre = emp.get("categoria_padre", "")
+                emp_que = emp.get("que_es", "")
+                lineas.append("'{}' ({})".format(emp_dim, emp_padre))
+                lineas.append("  Qué es: " + emp_que)
                 pks = emp.get("palabras_clave_servicio", [])
                 if pks:
-                    lineas.append(f"  Palabras clave (servicio): {', '.join(pks)}")
+                    lineas.append("  Palabras clave (servicio): " + ", ".join(pks))
             if per:
-                lineas.append(f"'{per.get("dimension", "")}' ({per.get("categoria_padre", "")})")
-                lineas.append(f"  Qué es: {per.get("que_es", "")}")
+                per_dim = per.get("dimension", "")
+                per_padre = per.get("categoria_padre", "")
+                per_que = per.get("que_es", "")
+                lineas.append("'{}' ({})".format(per_dim, per_padre))
+                lineas.append("  Qué es: " + per_que)
                 pks = per.get("palabras_clave_percepcion", [])
                 if pks:
-                    lineas.append(f"  Palabras clave (percepción): {', '.join(pks)}")
+                    lineas.append("  Palabras clave (percepción): " + ", ".join(pks))
             for ej in dist.get("ejemplos", []):
-                lineas.append(f"  Ej: {ej}")
+                lineas.append("  Ej: " + ej)
             lineas.append("")
 
         # Categorías padre Docencia
@@ -218,10 +228,12 @@ def _build_contexto_institucional(ctx: dict) -> str:
         if catd:
             dims_d = catd.get("dimensiones_docencia", [])
             if dims_d:
-                lineas.append(f"### REGLA HARD: dimensiones de '{catd.get("categoria_padre_correcta", "Docencia")}'")
-                lineas.append(f"Estas dimensiones SIEMPRE son '{catd.get("categoria_padre_correcta", "Docencia")}', NUNCA '{catd.get("categoria_padre_incorrecta", "Académico")}'")
+                cat_correcta = catd.get("categoria_padre_correcta", "Docencia")
+                cat_incorrecta = catd.get("categoria_padre_incorrecta", "Académico")
+                lineas.append("### REGLA HARD: dimensiones de '{}'".format(cat_correcta))
+                lineas.append("Estas dimensiones SIEMPRE son '{}', NUNCA '{}'".format(cat_correcta, cat_incorrecta))
                 for d in dims_d:
-                    lineas.append(f"  - {d}")
+                    lineas.append("  - " + d)
             lineas.append("")
 
     return "\n".join(lineas)
