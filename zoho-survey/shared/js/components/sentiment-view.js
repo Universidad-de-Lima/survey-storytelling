@@ -513,7 +513,7 @@ window.SurveySentimentView = (() => {
         };
       }
       carStats[car].totalIdeas++;
-      const commentId = c.comentario_id_original || c.id;  // FM-001: comentario_original eliminado del artifact publico
+      const commentId = c.comentario_id_original || c.id || c.comentario_original;
       if (commentId) {
         if (!carStats[car].uniqueComments.has(commentId)) {
           carStats[car].uniqueComments.add(commentId);
@@ -609,7 +609,7 @@ window.SurveySentimentView = (() => {
       if (sentVal && c.sentimiento !== sentVal) return false;
 
       if (searchVal) {
-        const inOrig = c.fragmento_mostrar?.toLowerCase().includes(searchVal);  // FM-001: fragmento_original eliminado, buscar en fragmento_mostrar (redactado)
+        const inOrig = c.fragmento_original?.toLowerCase().includes(searchVal);
         const inCorregido = c.fragmento_mostrar?.toLowerCase().includes(searchVal);
         const inCarrera = c.carrera?.toLowerCase().includes(searchVal);
         const inCat = itemParent?.toLowerCase().includes(searchVal);
@@ -679,10 +679,10 @@ window.SurveySentimentView = (() => {
         safeCiclo = _fmt.formatCicloText(c.ciclo).replace(/\s*ciclo\s*/i, '');
       }
 
-      const textoAbiertoText = c.fragmento_mostrar;  // FM-001: comentario_original y fragmento_original eliminados del artifact publico
+      const textoAbiertoText = c.comentario_original || c.fragmento_original;
       const textoAbierto = _san.escapeHTML(textoAbiertoText);
 
-      const ideaAnalizadaText = c.fragmento_mostrar;  // FM-001: fragmento_original eliminado
+      const ideaAnalizadaText = c.fragmento_mostrar || c.fragmento_original;
       const displayIdeaAnalizada = c.es_valido 
         ? _san.escapeHTML(ideaAnalizadaText) 
         : `<span style="color:var(--gray-400); font-style:italic;">[Invalidado: ${c.motivo_invalidez}]</span> "${_san.escapeHTML(ideaAnalizadaText)}"`;

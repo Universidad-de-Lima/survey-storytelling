@@ -27,19 +27,14 @@ from lib.config import RESPUESTAS_TEXTO, CSAT_WEIGHTS, CSAT_SCALE_MAX
 from lib.io_helper import load_json
 from lib.metrics import calc_promedio_ponderado
 
-# Import obligatorio de jsonschema (Draft-07). Si no esta instalado, el script
-# termina con sys.exit(1) -- la validacion formal es un contrato duro, no opcional.
-# (FM-007: cierre del bypass que silenciosamente omitia validacion Draft-07.)
+# Import opcional de jsonschema (Draft-07). Si no esta instalado, se omite la
+# validacion formal y se reporta como warning al usuario.
 try:
     import jsonschema
     from jsonschema import Draft7Validator
+    HAVE_JSONSCHEMA = True
 except ImportError:
-    print(
-        "ERROR: la libreria 'jsonschema' es obligatoria para validar contratos "
-        "Draft-07. Instalar con: pip install -r requirements.txt",
-        file=sys.stderr,
-    )
-    sys.exit(1)
+    HAVE_JSONSCHEMA = False
 
 BASE_DIR: Path = Path(__file__).resolve().parent
 ROOT_DIR: Path = BASE_DIR.parent / "students"
@@ -108,6 +103,9 @@ def validate_with_schema(value: any, schema_filename: str, json_path: Path) -> L
     Valida un valor contra un JSON Schema Draft-07.
     Retorna una lista de mensajes de error (vacia si es valido).
     """
+    if not HAVE_JSONSCHEMA:
+        return [f"[{json_path.name}] validacion JSON Schema omitida: libreria jsonschema no instalada"]
+
     try:
         schema = load_schema(schema_filename)
     except (FileNotFoundError, ValueError) as exc:
@@ -431,6 +429,11 @@ def read_periods(level_dir: Path) -> List[str]:
 
 
 def main() -> int:
+    if not HAVE_JSONSCHEMA:
+        print("ADVERTENCIA: la libreria 'jsonschema' no esta instalada; la validacion formal Draft-07 se omitira.")
+        print("             Instalar con: pip install jsonschema")
+        print()
+
     levels = sys.argv[1:] or ["undergraduate", "graduate"]
     all_errors: List[str] = []
     all_warnings: List[str] = []

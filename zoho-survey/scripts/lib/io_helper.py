@@ -89,10 +89,6 @@ def normalize_dates(df: "pd.DataFrame", columns: List[str]) -> "pd.DataFrame":
 
 ETL_OUTPUT_VERSION = "ia-validation-normalize-v1"
 
-# FM-011: fecha de build determinista (reemplaza pd.Timestamp.now() en build_json).
-# Mismo valor en cada ejecucion => JSONs reproducibles bit-a-bit.
-# Bump solo en releases publicos (no en cada commit).
-ETL_BUILD_DATE = "2026-07-10"
 def hash_csv(csv_path: Path) -> str:
     """Calcula el hash SHA256 del contenido del CSV para detección de cambios."""
     h = hashlib.sha256()

@@ -14,11 +14,6 @@ build/
 venv/
 env/
 
-# Secrets (R21 -- FM-016): el archivo .env contiene DEEPSEEK_API_KEY
-# y nunca debe commitearse. Patron exacto `.env` (no `.env*` ni `*.env`)
-# para no ignorar `.env.example`, que si se commitea como documentacion.
-.env
-
 # OS
 .DS_Store
 Thumbs.db

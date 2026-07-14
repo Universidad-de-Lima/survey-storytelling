@@ -39,11 +39,6 @@ from .prompts_cualitativo import (
     RATING_TO_SCORE,
     PROMPT_VERSION,
 )
-# FM-002: redaccion pre-LLM — enmascarar_pii se aplica al comentario ANTES de construir
-# el user_prompt, como defensa en profundidad. La capa post-LLM (validar_respuesta_ia)
-# se mantiene como cinturon adicional. El cache-key usa el comentario ORIGINAL (no el
-# redactado) para preservar backward-compat con caché existente.
-from .io_helper import enmascarar_pii
 
 try:
     import pandas as _pd
@@ -76,10 +71,7 @@ def analizar_comentario(comentario: str,
             return cached
 
     system_prompt = build_system_prompt(taxonomia, categorias_padre)
-    # FM-002: redactar PII estructurada (emails, telefonos, codigos) ANTES de enviar a DeepSeek.
-    # El cache-key (arriba) usa `comentario` original para preservar hits existentes.
-    comentario_redactado = enmascarar_pii(comentario)
-    user_prompt = build_user_prompt(comentario_redactado, nps_score, csat_ratings, id_encuesta)
+    user_prompt = build_user_prompt(comentario, nps_score, csat_ratings, id_encuesta)
 
     try:
         raw_resp = client.chat_completion(
