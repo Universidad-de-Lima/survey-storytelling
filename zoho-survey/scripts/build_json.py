@@ -22,6 +22,7 @@ from lib.config import (
     COLUMN_RENAME_GRADUADO,
     CARRERA_FACULTAD,
     CATEGORIA_DIMENSION_PREGRADO,
+    CATEGORIA_DIMENSION_UNIFICADA,
     CATEGORIA_DIMENSION_GRADUADO,
     RESPUESTAS_TEXTO,
     CSAT_WEIGHTS,
@@ -603,7 +604,7 @@ def main() -> None:
                 _datos_fragmentos_nuevos, _dataset_nuevo, _ia_metadata = (
                     generar_salidas_cualitativas_ia(
                         df_sent=_df_nuevos,
-                        taxonomia=CATEGORIA_DIMENSION_PREGRADO,
+                        taxonomia=CATEGORIA_DIMENSION_UNIFICADA,
                         csat_columns_map=_csat_cols_map,
                     )
                 )

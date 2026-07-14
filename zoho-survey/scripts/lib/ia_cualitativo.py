@@ -58,13 +58,16 @@ def analizar_comentario(comentario: str,
                         taxonomia: Dict[str, str],
                         categorias_padre: List[str],
                         client: DeepSeekClient,
-                        id_encuesta: str = "") -> Dict[str, Any]:
+                        id_encuesta: str = "",
+                        carrera: str = "",
+                        ciclo: str = "",
+                        facultad: str = "") -> Dict[str, Any]:
     """Analiza un comentario completo y devuelve {unidades: [...]}.
 
     Si la API falla, devuelve una unidad placeholder no valida.
     """
     system_prompt = build_system_prompt(taxonomia, categorias_padre)
-    user_prompt = build_user_prompt(comentario, nps_score, csat_ratings, id_encuesta)
+    user_prompt = build_user_prompt(comentario, nps_score, csat_ratings, id_encuesta, carrera, ciclo, facultad)
 
     try:
         raw_resp = client.chat_completion(
@@ -340,6 +343,9 @@ def _analizar_un_comentario(comentario, nps, csat_ratings, taxonomia,
         categorias_padre=categorias_padre,
         client=client,
         id_encuesta=res_id,
+        carrera=carrera,
+        ciclo=ciclo,
+        facultad=facultad,
     )
 
 

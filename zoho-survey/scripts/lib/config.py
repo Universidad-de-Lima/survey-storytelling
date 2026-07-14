@@ -239,6 +239,26 @@ CATEGORIA_DIMENSION_GRADUADO: Dict[str, str] = {
     "Soporte técnico del sistema informático": "Tecnología",
 }
 
+
+# ============================================================
+# 3a-bis. TAXONOMÍA UNIFICADA (pregrado + graduado)
+# ============================================================
+# Unión de CATEGORIA_DIMENSION_PREGRADO + CATEGORIA_DIMENSION_GRADUADO.
+# Se pasa al system_prompt de DeepSeek para que la IA tenga TODAS las
+# dimensiones disponibles al clasificar comentarios de cualquier nivel.
+#
+# Esto resuelve el bug por el cual comentarios de pregrado sobre
+# "metodologías", "asesorías" o "perspectivas de empleo" se clasificaban
+# en dimensiones incorrectas (porque esas dimensiones solo existían en
+# la taxonomía de graduado y la IA no las conocía al analizar pregrado).
+#
+# Si una dimensión aparece en ambos mapas con la misma categoría padre,
+# se incluye una sola vez. Si tuviera categorías padre distintas (no debería),
+# gana la de graduado (más específica).
+CATEGORIA_DIMENSION_UNIFICADA: Dict[str, str] = {}
+CATEGORIA_DIMENSION_UNIFICADA.update(CATEGORIA_DIMENSION_PREGRADO)
+CATEGORIA_DIMENSION_UNIFICADA.update(CATEGORIA_DIMENSION_GRADUADO)
+
 # ============================================================
 # 3b. DIMENSIONES SIN PREGUNTA CSAT DIRECTA (catch-all)
 # ============================================================

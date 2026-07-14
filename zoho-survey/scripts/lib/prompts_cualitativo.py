@@ -14,6 +14,8 @@ Metodología base:
 Compatibilidad: DeepSeek API (OpenAI-compatible), modelos `deepseek-v4-flash`.
 """
 
+import json
+from pathlib import Path
 from typing import Dict, List, Optional
 
 
@@ -30,6 +32,200 @@ PROMPT_VERSION = "v7-2026-07-07"
 # ============================================================
 # CONSTRUCCIÓN DEL SYSTEM PROMPT
 # ============================================================
+
+# ============================================================
+# CONTEXTO INSTITUCIONAL (cargado desde config/contexto_universidad.json)
+# ============================================================
+_CONTEXTO_PATH = Path(__file__).resolve().parent.parent / "config" / "contexto_universidad.json"
+
+
+def _cargar_contexto_universidad() -> dict:
+    """Carga el contexto institucional desde config/contexto_universidad.json.
+
+    Si el archivo no existe o está corrupto, retorna un dict vacío
+    (el análisis continúa sin contexto institucional, pero con la taxonomía).
+    """
+    try:
+        with open(_CONTEXTO_PATH, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except (OSError, json.JSONDecodeError):
+        return {}
+
+
+def _build_contexto_institucional(ctx: dict) -> str:
+    """Construye el bloque de texto con el contexto institucional para el system prompt."""
+    if not ctx:
+        return ""
+
+    lineas = ["\n# CONTEXTO INSTITUCIONAL DE LA UNIVERSIDAD DE LIMA",
+              "(Reglas HARD: NO clasifiques en dimensiones que el estudiante NO evalúa)\n"]
+
+    # Sedes
+    sedes = ctx.get("sedes", {})
+    if sedes:
+        lineas.append("## Sedes")
+        for k, v in sedes.items():
+            if not k.startswith("_"):
+                lineas.append(f"- {v}")
+        lineas.append("")
+
+    # Edificios
+    edif = ctx.get("edificios", {})
+    if edif:
+        lineas.append("## Edificios del campus (informativo)")
+        lista_edif = edif.get("lista", [])
+        if lista_edif:
+            lineas.append(f"Edificios: {', '.join(lista_edif)}")
+        especiales = edif.get("edificios_especiales", {})
+        if especiales:
+            lineas.append("Edificios especiales:")
+            for cod, desc in especiales.items():
+                lineas.append(f"  - {cod}: {desc}")
+        en_impl = edif.get("espacios_en_implementacion", [])
+        if en_impl:
+            lineas.append(f"Espacios en implementación: {', '.join(en_impl)}")
+        nota = edif.get("_nota", "")
+        if nota:
+            lineas.append(f"Nota: {nota}")
+        lineas.append("")
+
+    # Restricciones por ciclo
+    rc = ctx.get("restricciones_por_ciclo", {})
+    if rc:
+        lineas.append("## Restricciones por ciclo (REGLA HARD)")
+        # Ciclos 1 y 2
+        c12 = rc.get("ciclos_1_y_2_estudios_generales", {})
+        dims_no = c12.get("dimensiones_no_evaluan", [])
+        if dims_no:
+            lineas.append("Estudiantes de 1° y 2° ciclo (Estudios Generales) NO evalúan:")
+            for d in dims_no:
+                lineas.append(f"  - {d}")
+            redir = c12.get("redireccion_sugerida", "")
+            if redir:
+                lineas.append(f"  → {redir}")
+        # Ciclos 7+
+        c7 = rc.get("ciclos_7_en_adelante", {})
+        dims_si = c7.get("dimensiones_aplican", [])
+        if dims_si:
+            lineas.append("Estudiantes de 7° ciclo en adelante SÍ evalúan:")
+            for d in dims_si:
+                lineas.append(f"  - {d}")
+            redir = c7.get("redireccion_sugerida", "")
+            if redir:
+                lineas.append(f"  → {redir}")
+        lineas.append("")
+
+    # Restricciones por carrera
+    rca = ctx.get("restricciones_por_carrera", {})
+    if rca:
+        lineas.append("## Restricciones por carrera (REGLA HARD)")
+        for carrera, info in rca.items():
+            if carrera.startswith("_"):
+                continue
+            dims_no = info.get("dimensiones_no_evalua", [])
+            if dims_no:
+                lineas.append(f"Carrera '{carrera}' NO evalúa:")
+                for d in dims_no:
+                    lineas.append(f"  - {d}")
+            redir = info.get("redireccion_sugerida", "")
+            if redir:
+                lineas.append(f"  → {redir}")
+            nota = info.get("_nota", "")
+            if nota and not dims_no:
+                lineas.append(f"  Nota: {nota}")
+        lineas.append("")
+
+    # Alias de carreras
+    alias = ctx.get("alias_carreras", {})
+    if alias:
+        lineas.append("## Alias de carreras (mapeo coloquial → oficial)")
+        for coloq, oficial in alias.items():
+            if not coloq.startswith("_"):
+                lineas.append(f"- '{coloq}' → {oficial}")
+        lineas.append("")
+
+    # Reglas adicionales
+    reglas = ctx.get("reglas_negocio_adicionales", {})
+    if reglas:
+        lineas.append("## Reglas de negocio adicionales")
+        for k, v in reglas.items():
+            if not k.startswith("_"):
+                lineas.append(f"- {v}")
+        lineas.append("")
+
+    # Reglas de clasificación específicas (PRIORIDAD ALTA)
+    rce = ctx.get("reglas_clasificacion_especificas", {})
+    if rce:
+        lineas.append("## REGLAS DE CLASIFICACIÓN ESPECÍFICAS (PRIORIDAD ALTA)")
+        lineas.append("Estas reglas tienen PRIORIDAD sobre la heurística general. Si un comentario")
+        lineas.append("menciona las palabras clave, clasificar SIEMPRE en la dimensión indicada.\n")
+
+        # Metodologías
+        met = rce.get("metodologias", {})
+        if met:
+            lineas.append(f"### '{met.get("dimension_correcta", "Metodologías")}' ({met.get("categoria_padre", "Docencia")})")
+            pks = met.get("palabras_clave", [])
+            if pks:
+                lineas.append(f"Palabras clave: {', '.join(pks)}")
+            no_en = met.get("no_clasificar_en", [])
+            if no_en:
+                lineas.append(f"NO clasificar en: {', '.join(no_en)}")
+            for ej in met.get("ejemplos", []):
+                lineas.append(f"  Ej: {ej}")
+            lineas.append("")
+
+        # Disponibilidad para asesorías
+        asesor = rce.get("disponibilidad_para_asesorias", {})
+        if asesor:
+            lineas.append(f"### '{asesor.get("dimension_correcta", "Disponibilidad para asesorías")}' ({asesor.get("categoria_padre", "Docencia")})")
+            pks = asesor.get("palabras_clave", [])
+            if pks:
+                lineas.append(f"Palabras clave: {', '.join(pks)}")
+            no_en = asesor.get("no_clasificar_en", [])
+            if no_en:
+                lineas.append(f"NO clasificar en: {', '.join(no_en)}")
+            for ej in asesor.get("ejemplos", []):
+                lineas.append(f"  Ej: {ej}")
+            nota = asesor.get("_nota_categoria_padre", "")
+            if nota:
+                lineas.append(f"  **{nota}**")
+            lineas.append("")
+
+        # Distinción Empleabilidad vs Perspectivas
+        dist = rce.get("distincion_empleabilidad_vs_perspectivas", {})
+        if dist:
+            lineas.append("### DISTINCIÓN CRÍTICA: Empleabilidad vs Perspectivas de empleo")
+            emp = dist.get("empleabilidad_vinculacion_y_alumni", {})
+            per = dist.get("mejora_en_perspectivas_de_empleo", {})
+            if emp:
+                lineas.append(f"'{emp.get("dimension", "")}' ({emp.get("categoria_padre", "")})")
+                lineas.append(f"  Qué es: {emp.get("que_es", "")}")
+                pks = emp.get("palabras_clave_servicio", [])
+                if pks:
+                    lineas.append(f"  Palabras clave (servicio): {', '.join(pks)}")
+            if per:
+                lineas.append(f"'{per.get("dimension", "")}' ({per.get("categoria_padre", "")})")
+                lineas.append(f"  Qué es: {per.get("que_es", "")}")
+                pks = per.get("palabras_clave_percepcion", [])
+                if pks:
+                    lineas.append(f"  Palabras clave (percepción): {', '.join(pks)}")
+            for ej in dist.get("ejemplos", []):
+                lineas.append(f"  Ej: {ej}")
+            lineas.append("")
+
+        # Categorías padre Docencia
+        catd = rce.get("categorias_padre_docencia", {})
+        if catd:
+            dims_d = catd.get("dimensiones_docencia", [])
+            if dims_d:
+                lineas.append(f"### REGLA HARD: dimensiones de '{catd.get("categoria_padre_correcta", "Docencia")}'")
+                lineas.append(f"Estas dimensiones SIEMPRE son '{catd.get("categoria_padre_correcta", "Docencia")}', NUNCA '{catd.get("categoria_padre_incorrecta", "Académico")}'")
+                for d in dims_d:
+                    lineas.append(f"  - {d}")
+            lineas.append("")
+
+    return "\n".join(lineas)
+
 
 def build_system_prompt(taxonomia_oficial: Dict[str, str],
                        categorias_padre: List[str]) -> str:
@@ -57,6 +253,10 @@ def build_system_prompt(taxonomia_oficial: Dict[str, str],
     lineas_tax.append("- Espacios comunes (referencia genérica a espacios del campus sin especificar aulas/laboratorios/biblioteca)")
     lineas_tax.append("- Pendiente de Clasificación (NO se puede identificar la dimensión con confianza razonable)")
     taxonomia_str = "\n".join(lineas_tax)
+
+    # Cargar contexto institucional desde config/contexto_universidad.json
+    _ctx = _cargar_contexto_universidad()
+    _contexto_str = _build_contexto_institucional(_ctx)
 
     return f"""Eres un analista cualitativo senior especializado en Análisis de Contenido (Bardin, 2011) y Análisis Temático (Braun & Clarke, 2006), con experiencia en encuestas de satisfacción estudiantil universitaria en Perú. Analizas comentarios abiertos del NPS de la Universidad de Lima.
 
@@ -441,6 +641,8 @@ Salida:
 - NUNCA ignores la regla de contexto NPS: si clasificas un Promotor con mayoría Negativa sin justificación muy fuerte, estás cometiendo un error.
 - Si el comentario está vacío o es solo espacios, devuelve una unidad no válida con motivo "Respuesta vacía".
 - Conserva el texto original del estudiante tal cual (errores ortográficos incluidos) en el campo `texto`.
+
+{_contexto_str}
 """
 
 
@@ -451,7 +653,10 @@ Salida:
 def build_user_prompt(comentario: str,
                       nps_score: int,
                       csat_ratings: Dict[str, str],
-                      id_encuesta: str = "") -> str:
+                      id_encuesta: str = "",
+                      carrera: str = "",
+                      ciclo: str = "",
+                      facultad: str = "") -> str:
     """Construye el user prompt para un comentario específico.
 
     Args:
@@ -460,6 +665,12 @@ def build_user_prompt(comentario: str,
         csat_ratings: dict {dimension: rating_textual} que el estudiante calificó.
                       Solo incluye dimensiones con respuesta válida (excluye vacíos).
         id_encuesta: ID de la respuesta (para trazabilidad, opcional).
+        carrera: carrera del estudiante (ej: "Ingeniería de Sistemas"). Da contexto
+                 para clasificar comentarios ambiguos (ej: "periodismo" → Comunicación).
+        ciclo: ciclo del estudiante (ej: "7° Ciclo"). Determina qué dimensiones
+               evalúa (ver reglas HARD en el system prompt).
+        facultad: facultad del estudiante (ej: "Facultad de Ingeniería"). Da contexto
+                  para comentarios que hablan de la facultad en general, no de la carrera.
 
     Returns:
         User prompt listo para enviar a DeepSeek.
@@ -481,11 +692,19 @@ def build_user_prompt(comentario: str,
     return f"""Analiza el siguiente comentario del estudiante.
 
 ID encuesta: {id_encuesta or "(sin id)"}
+Facultad: {facultad or "(no especificada)"}
+Carrera: {carrera or "(no especificada)"}
+Ciclo: {ciclo or "(no especificado)"}
 NPS: {nps_score} → Segmento: {segmento}
 CSAT por dimensión (lo que el estudiante calificó):
 {csat_str}
 
 Comentario: "{comentario_esc}"
+
+IMPORTANTE: Aplica las REGLAS HARD del contexto institucional (system prompt):
+- Si el ciclo del estudiante NO evalúa una dimensión, NO clasifiques ahí.
+- Si la carrera del estudiante NO evalúa una dimensión, NO clasifiques ahí.
+- Mapea alias coloquiales a carreras oficiales (ej: "periodismo" → Comunicación).
 
 Devuelve el JSON con la lista de unidades de significado."""
 
